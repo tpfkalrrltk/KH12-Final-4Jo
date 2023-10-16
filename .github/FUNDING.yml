@@ -1,3 +1,6 @@
 # These are supported funding model platforms
 
 github: [tpfkalrrltk, Jelo777, seungseok2, user7198548, yejishin95]
+patreon: octocat
+tidelift: npm/octo-package
+custom: ["https://www.paypal.me/octocat", octocat.com]
