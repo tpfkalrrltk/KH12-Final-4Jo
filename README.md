@@ -2,13 +2,15 @@
 
 
 
-# KH12-Final-4Jo
+# EVERY FIT
 
-<h2>EVERY FIT 이라는 운동 모임을 만들기위한 웹사이트 제작중입니다.</h2>
+<h2> 운동 모임 웹사이트 제작중입니다.</h2>
 <hr>
 <br>
-여러 운동의 모임을 회원이 찾으면서 직접 참여하도록 합니다.
-
+회원에게 맞는 운동 모임을 제공함 으로써 운동을 자주 할수 있도록 참여하고 만들고자 합니다.
+============================================================================
+<br>
+##조원 깃허브 정보
 <br>
 <img src="https://github-readme-stats.vercel.app/api?username=tpfkalrrltk&show_icons=true&bg_color=00000000">
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=tpfkalrrltk&hide_progress=true">
