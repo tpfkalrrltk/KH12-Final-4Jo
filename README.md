@@ -10,7 +10,9 @@
 회원에게 맞는 운동 모임을 제공함 으로써 운동을 자주 할수 있도록 참여하고 만들고자 합니다.
 
 <br>
-##조원 깃허브 정보
+<hr>
+조원 깃허브 정보
+<hr>
 <br>
 <img src="https://github-readme-stats.vercel.app/api?username=tpfkalrrltk&show_icons=true&bg_color=00000000">
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=tpfkalrrltk&hide_progress=true">
