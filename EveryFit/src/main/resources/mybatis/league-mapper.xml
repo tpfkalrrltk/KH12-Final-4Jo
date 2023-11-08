@@ -8,7 +8,7 @@
 	<!-- /////////////리그관련//////////////////////// -->
 	
 	<select id="seqLeague" resultType="int">
-		select league_seq.next from dual
+		select league_seq.nextval from dual
 	</select>
 	
 	<!-- 리그등록 -->
@@ -32,31 +32,31 @@
 		UPDATE league
     	<set>
        		<if test="leagueDto.eventNo!=null">
-       			event_no = #{eventNo},
+       			event_no = #{leagueDto.eventNo},
        		</if>
        		<if test="leagueDto.leagueManager!=null">
-       			league_manager = #{leagueManager},
+       			league_manager = #{leagueDto.leagueManager},
        		</if>
        		<if test="leagueDto.leagueTitle!=null">
-       			league_title = #{leagueTitle},
+       			league_title = #{leagueDto.leagueTitle},
        		</if>
        		<if test="leagueDto.leagueDetail!=null">
-       			league_detail = #{leagueDetail},
+       			league_detail = #{leagueDto.leagueDetail},
        		</if>
        		<if test="leagueDto.leagueEntryFee!=null">
-       			league_entery_fee = #{leagueEntryFee},
+       			league_entery_fee = #{leagueDto.leagueEntryFee},
        		</if>
        		<if test="leagueDto.leagueStart!=null">
-       			league_start = #{leagueStart},
+       			league_start = #{leagueDto.leagueStart},
        		</if>
        		<if test="leagueDto.leagueEnd!=null">
-       			league_end = #{leagueEnd},
+       			league_end = #{leagueDto.leagueEnd},
        		</if>
        		<if test="leagueDto.leagueStatus!=null">
-       			league_status = #{leagueStatus},
+       			league_status = #{leagueDto.leagueStatus},
        		</if>
        		<if test="leagueDto.chatRoomNo!=null">
-       			chat_room_no = #{chatRoomNo},
+       			chat_room_no = #{leagueDto.chatRoomNo},
        		</if>
        </set>
         WHERE league_no = #{leagueNo}
