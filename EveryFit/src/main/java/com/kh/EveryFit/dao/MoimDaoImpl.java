@@ -17,7 +17,7 @@ public class MoimDaoImpl implements MoimDao {
 	
 	@Override
 	public MoimDto selectOne(int moimNo) {
-		return sqlSession.selectOne("moim.findAll", moimNo);
+		return sqlSession.selectOne("moim.findMoim", moimNo);
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class MoimDaoImpl implements MoimDao {
 
 	@Override
 	public void insert(MoimDto moimDto) {
-		sqlSession.insert("moim.create", moimDto);
+		sqlSession.insert("moim.createMoim", moimDto);
 	}
 	
 	@Override

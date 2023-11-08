@@ -18,7 +18,10 @@
 		${moimMemberDto.moimMemberStatus}
 	</c:forEach>
 	<hr>
+	<h1>정모등록(modal로 구현 예정)</h1>
+	<hr>
 	<h1>정모 List</h1>
 	<hr>
+	
 </body>
 </html>

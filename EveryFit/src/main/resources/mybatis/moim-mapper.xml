@@ -4,12 +4,13 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="moim">
-
+	<!-- 모임CRUD -->
+	
 	<select id="sequence" resultType="int">
 		select moim_seq.nextval from dual
 	</select>
 
-	<insert id="create">
+	<insert id="createMoim">
 		insert into moim(
 		moim_no,
 		location_no,
@@ -32,7 +33,8 @@
 		)
 	</insert>
 
-	<update id="edit">
+	<!-- 모임 수정 -->
+	<update id="editMoim">
 		update moim
 		<set>
 			<if test="MoimDto.locationNo != null">
@@ -57,12 +59,12 @@
 		where moim_no=#{moimNo}
 	</update>
 
-	<select id="list" resultType="MoimDto">
+	<select id="moimList" resultType="MoimDto">
 		select * from moim order by moim_no asc 
 		<!-- 나중에 복합검색 구현하기 -->
 	</select>
 
-	<select id="findAll" resultType="MoimDto">
+	<select id="findMoim" resultType="MoimDto">
 		select * from moim where moim_no
 		= #{moimNo}
 	</select>
@@ -71,7 +73,7 @@
 		select * from moim_member where moim_no = #{moimNo}
 	</select>
 	
-	<!-- 모임 회원 count -->
+	<!-- 모임 회원 count(모임 상세에서 찍어주려고) -->
 	<select id="moimMemberCount" resultType="int">
 		select count(*) from moim_member where moim_no = #{moimNo}
 	</select>
@@ -115,10 +117,82 @@
 	        values(#{memberEmail}, #{moimNo}, '일반', '승인')
 	    </if>
 	</insert>
+	<!-- 회원이 모임 등록할 때 이미 등록되어있는지 조회하기 -->
+	<!-- 
+		회원이 모임 등록할 때 회원등급을 조회해서 
+		이미 등록된 모임개수확인 후 초과하지않았으면 등록 아니면 반려 
+	-->
+
+	<!-- 정모CRUD -->
+	<!-- 정모 등록 -->
+	<insert id="createJungmo">
+	    insert into jungmo (
+	        jungmo_no,
+	        moim_no,
+	        jungmo_title,
+	        jungmo_addr,
+	        jungmo_addr_link,
+	        jungmo_capacity,
+	        jungmo_price,
+	        jungmo_schedule,
+	        chat_room_no
+	    )
+	    values (
+	        #{jungmoNo},
+	        #{moimNo},
+	        #{jungmoTitle},
+	        #{jungmoAddr},
+	        #{jungmoAddrLink},
+	        #{jungmoCapacity},
+	        #{jungmoPrice},
+	        #{jungmoSchedule},
+	        #{chatRoomNo}
+	    )
+	</insert>
 	
+	<!-- 정모 수정 -->
+	<update id="editJungmo">
+	    update jungmo
+	    <set>
+	        <if test="jungmoTitle != null">
+	            jungmo_title = #{jungmoTitle},
+	        </if>
+	        <if test="jungmoAddr != null">
+	            jungmo_addr = #{jungmoAddr},
+	        </if>
+	        <if test="jungmoAddrLink != null">
+	            jungmo_addr_link = #{jungmoAddrLink},
+	        </if>
+	        <if test="jungmoCapacity != 0">
+	            jungmo_capacity = #{jungmoCapacity},
+	        </if>
+	        <if test="jungmoPrice != 0">
+	            jungmo_price = #{jungmoPrice},
+	        </if>
+	        <if test="jungmoSchedule != null">
+	            jungmo_schedule = #{jungmoSchedule},
+	        </if>
+	    </set>
+	    where jungmo_no = #{jungmoNo}
+	</update>
 	
-
-
-
-
+	<!-- 정모 목록 -->
+	<select id="jungmoList" resultType="JungmoDto">
+		select * from jungmo order by jungmo_schedule desc;
+	</select>
+	
+	<!-- 정모 취소(삭제) -->
+	<delete id="deleteJungmo">
+		delete from jungmo where jungmo_no = #{jungmoNo} 
+	</delete>
+	
+	<!-- 정모에 회원 등록 -->
+	<insert id="insertJungmoMember">
+		insert into (
+			jungmo_no,
+			member_email
+		)
+		values(#{jungmoNo}, #{memberEmail})
+	</insert>
+	
 </mapper>
