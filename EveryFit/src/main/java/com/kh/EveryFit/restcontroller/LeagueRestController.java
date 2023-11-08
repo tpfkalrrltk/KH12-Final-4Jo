@@ -1,4 +1,4 @@
-package com.kh.EveryFit.rest;
+package com.kh.EveryFit.restcontroller;
 
 import java.util.List;
 
