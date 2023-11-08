@@ -9,49 +9,46 @@
 	<!-- 등록  -->
 	<insert id="save">
 		insert into member(
-			member_id,
-			member_pw,
-			member_nickname,
+			location_no,
 			member_email,
+			member_pw,
+			member_name,
+			member_nick,
+			member_gender,
 			member_contact,
-			member_birth,
-			member_post,
-			member_addr1,
-			member_addr2,
-			member_level,
-			member_point
+			member_birth
+			
 		)
-		value(
-		member.seq.nextval,
-		#{memberPw},
-		#{memberNickName},
+		values(
+		#{locationNo},
 		#{memberEmail},
+		#{memberPw},
+		#{memberName},
+		#{memberNick},
+		#{memberGender},
 		#{memberContact},
-		#{memberBirth},
-		#{memberPost},
-		#{memberAddr1},
-		#{memberAddr2},
-		#{memberLevel},
-		#{memberPoint}
+		#{memberBirth}
+		
 		)
 	</insert>
 	
 		
 	<!-- 전체조회  -->
-	<select id="findAll">
+	<select id="findAll" resultType="memberDto">
 		select * from member order by member_email asc
 	</select>
 		
 	
 	<!-- 일부조회  -->
-	<select id="findByMemberEmail">
+	<select id="findByMemberEmail" resultType="memberDto">
 		select * from member where member_email = #{memberEmail}
 	</select>
 	
 	
+
 	
 	<!-- 닉네임 검색  -->
-	<select id="findByMemberNick">
+	<select id="findByMemberNick" resultType="memberDto">
 		select * from member where instr(member_nick,#{memberNick}) > 0
 	</select>
 	
@@ -77,7 +74,7 @@
 				member_contact = #{memberDto.memberContact},
 			</if>
 		</set>
-		where member_email = #{memberEmal}
+		where member_email = #{memberEmail}
 	</update>
 	
 	<!-- 페이징 목록  -->
