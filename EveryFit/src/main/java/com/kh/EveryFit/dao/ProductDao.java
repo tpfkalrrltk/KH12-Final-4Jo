@@ -11,4 +11,5 @@ public interface ProductDao {
 	ProductDto oneOfList(int productNo);
 	boolean update(ProductDto productDto);
 	boolean delete(int productNo);
+	
 }
