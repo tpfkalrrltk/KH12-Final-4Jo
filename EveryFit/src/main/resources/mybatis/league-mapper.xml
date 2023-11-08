@@ -6,6 +6,11 @@
 <mapper namespace="league">
 	
 	<!-- /////////////리그관련//////////////////////// -->
+	
+	<select id="seqLeague" resultType="int">
+		select league_seq.next from dual
+	</select>
+	
 	<!-- 리그등록 -->
 	<insert id="insertLeague">
         INSERT INTO league (league_no, event_no, league_manager, league_title, league_detail, league_entery_fee, league_start, league_end, league_status, chat_room_no)
