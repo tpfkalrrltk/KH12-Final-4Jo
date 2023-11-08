@@ -20,4 +20,6 @@ public interface MemberDao {
 
 	List<MemberDto> selectListByPage(int page, int size);
 	
+	
+	
 }

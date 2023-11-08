@@ -41,13 +41,14 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void insert(MemberDto memberDto) {
 		sqlSession.insert("member.save",memberDto);
+		log.debug("ss=${}",memberDto);
 	}
 	
 	@Override
 	public void edit(String memberEmail, MemberDto memberDto) {
 		Map<String,Object> param = Map.of("memberEmail", memberEmail,"memberDto",memberDto);
 		int result = sqlSession.update("member.change",param);
-		if(result == 0) throw new NoTargetException();
+		log.debug("param={}",param);
 	}
 	
 	@Override
