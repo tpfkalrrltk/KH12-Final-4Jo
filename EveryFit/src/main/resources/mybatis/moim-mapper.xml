@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="moim">
+
+	<insert id="creat">
+		insert into moim(
+			moim_no,
+			location_no,
+			event_no,
+			moim_title,
+			moim_content,
+			moim_time,
+			moim_upgrade,
+			moim_state,
+			moim_member_count,
+			moim_gender_check,
+			chat_room_no
+		)
+		values(
+			 #{moimNo},
+			 #{locationNo},
+			 #{eventNo},
+			 #{moimTitle},
+			 #{moimContent},
+			 #{moimTime},
+			 #{moimUpgrade},
+			 #{moimState},
+			 #{moimMemberCount},
+			 #{moimGenderCheck},
+			 #{chatRoomNo}
+		)
+	</insert>    
+
+	<update id="edit">
+		update moim 
+		<set>
+			<if test="MoimDto.locationNo != null">
+				location_no=#{locationNo},
+			</if>
+			<if test="MoimDto.eventNo != null">
+				event_no=#{eventNo},
+			</if>
+			<if test="MoimDto.moimTitle != null">
+				moim_title=#{moimTitle},
+			</if>
+			<if test="MoimDto.moimContent != null">
+				moim_content=#{moimContent},
+			</if>
+			<if test="MoimDto.moimState != null">
+				moim_state#{moimState},
+			</if>
+			<if test="MoimDto.moimGenderCheck != null">
+				moim_gender_check=#{moimGenderCheck}
+			</if>
+		</set>
+			where moim_no=#{moimNo}
+	</update>
+	
+	<select id="list"  resultType="MoimDto">
+		select * from moim
+	</select>
+	
+	
+
+
+</mapper>
