@@ -19,7 +19,7 @@
 	
 	<!-- 조회  -->
 	<select id="list" resultType="ProductDto">
-	select * from product order by produc_no asc
+	select * from product order by product_no asc
 	</select>
 	
 	<!-- 상세조회  -->
