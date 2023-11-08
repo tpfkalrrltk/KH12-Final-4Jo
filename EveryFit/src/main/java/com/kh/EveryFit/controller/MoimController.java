@@ -53,4 +53,6 @@ public class MoimController {
 		
 		return "moim/detail";
 	}
+	
+	
 }

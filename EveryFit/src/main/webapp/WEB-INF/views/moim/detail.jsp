@@ -18,7 +18,31 @@
 		${moimMemberDto.moimMemberStatus}
 	</c:forEach>
 	<hr>
-	<h1>정모등록(modal로 구현 예정)</h1>
+	<h1>정모등록(modal로 구현 예정)-비동기</h1>
+	<div>
+		정모번호는 어떻게 넣음?
+		정모명<input type="text" name="jungmoTitle">
+		<input type="text" name="jungmoAddr">
+		<input type="text" name="jungmoAddrLink">
+		<input type="text" name="jungmoCapacity">
+		<input type="number" name="jungmoPrice">
+		<input type="datetime-local" name="jungmoSchedule">
+		<input type="text" name="jungmoStatus">
+		채팅방번호는 어떻게 넣음?
+	</div>
+	<h1>정모수정(modal로 구현 예정)-비동기</h1>
+	<div>
+		<input type="text" name="jungmoNo">
+		<input type="text" name="jungmoTitle">
+		<input type="text" name="jungmoAddr">
+		<input type="text" name="jungmoAddrLink">
+		<input type="text" name="jungmoCapacity">
+		<input type="number" name="jungmoPrice">
+		<input type="datetime-local" name="jungmoSchedule">
+		<input type="text" name="jungmoStatus">
+		<a href="#">xx채팅방으로 보내기</a>
+	</div>
+	
 	<hr>
 	<h1>정모 List</h1>
 	<hr>
