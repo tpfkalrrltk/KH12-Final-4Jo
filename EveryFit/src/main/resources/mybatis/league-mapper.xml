@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="league">
+	
+	<!-- /////////////리그관련//////////////////////// -->
+	<!-- 리그등록 -->
+	<insert id="insertLeague">
+        INSERT INTO league (league_no, event_no, league_manager, league_title, league_detail, league_entery_fee, league_start, league_end, league_status, chat_room_no)
+        VALUES (#{leagueNo}, #{eventNo}, #{leagueManager}, #{leagueTitle}, #{leagueDetail}, #{leagueEntryFee}, #{leagueStart}, #{leagueEnd}, #{leagueStatus}, #{chatRoomNo})
+    </insert>
+    
+    <!-- 리그조회 -->
+    <select id="listLeague" resultType="LeagueDto">
+    	select * from league order by league_no desc
+    </select>
+    
+    <!-- 리그 상세 조회 -->
+    <select id="findLeague" resultType="LeagueDto">
+    	SELECT * FROM league WHERE league_no = #{leagueNo}
+    </select>
+    
+    <!-- 리그 수정 -->
+    <update id="updateLeague">
+		UPDATE league
+    	<set>
+       		<if test="leagueDto.eventNo!=null">
+       			event_no = #{eventNo},
+       		</if>
+       		<if test="leagueDto.leagueManager!=null">
+       			league_manager = #{leagueManager},
+       		</if>
+       		<if test="leagueDto.leagueTitle!=null">
+       			league_title = #{leagueTitle},
+       		</if>
+       		<if test="leagueDto.leagueDetail!=null">
+       			league_detail = #{leagueDetail},
+       		</if>
+       		<if test="leagueDto.leagueEntryFee!=null">
+       			league_entery_fee = #{leagueEntryFee},
+       		</if>
+       		<if test="leagueDto.leagueStart!=null">
+       			league_start = #{leagueStart},
+       		</if>
+       		<if test="leagueDto.leagueEnd!=null">
+       			league_end = #{leagueEnd},
+       		</if>
+       		<if test="leagueDto.leagueStatus!=null">
+       			league_status = #{leagueStatus},
+       		</if>
+       		<if test="leagueDto.chatRoomNo!=null">
+       			chat_room_no = #{chatRoomNo},
+       		</if>
+       </set>
+        WHERE league_no = #{leagueNo}
+    </update>
+    
+    <!-- 리그 삭제 -->
+    <delete id="deleteLeague">
+        DELETE FROM league WHERE league_no = #{leagueNo}
+    </delete>
+    
+    <!-- 리그팀 관련 -->
+    <!-- 리그팀 추가 -->
+    <insert id="insertLeagueTeam">
+        INSERT INTO league_team (league_team_no, league_no, moim_no)
+        VALUES (#{leagueTeamNo}, #{leagueNo}, #{moimNo})
+    </insert>
+    
+    <!-- 리그팀 조회 -->
+    <select id="findLeagueTeam" resultType="LeagueTeamDto">
+        SELECT * FROM league_team WHERE league_team_no = #{leagueTeamNo}
+    </select>
+    
+    <!-- 리그팀 전체 -->
+    <select id="listLeagueTeam" resultType="LeagueTeamDto">
+        SELECT * FROM league_team order by league_team_no asc
+    </select>
+    
+    <!-- 리그팀 업데이트 -->
+    <update id="updateLeagueTeam">
+        UPDATE league_team
+        <set>
+            <if test="leagueTeamMatchCount != null">
+                league_team_match_count = #{leagueTeamMatchCount},
+            </if>
+            <if test="leagueTeamWin != null">
+                league_team_win = #{leagueTeamWin},
+            </if>
+            <if test="leagueTeamLose != null">
+                league_team_lose = #{leagueTeamLose},
+            </if>
+            <if test="leagueTeamDraw != null">
+                league_team_draw = #{leagueTeamDraw},
+            </if>
+            <if test="leagueTeamG != null">
+                league_team_g = #{leagueTeamG},
+            </if>
+            <if test="leagueTeamD != null">
+                league_team_d = #{leagueTeamD},
+            </if>
+            <if test="leagueTeamGD != null">
+                league_team_gd = #{leagueTeamGD},
+            </if>
+        </set>
+        WHERE league_team_no = #{leagueTeamNo}
+    </update>
+    
+     <!-- 리그팀 삭제 -->
+    <delete id="deleteLeagueTeam">
+        DELETE FROM league_team WHERE league_team_no = #{leagueTeamNo}
+    </delete>
+	
+	<!-- 리그접수 관련 -->
+    <!-- 리그접수 생성 -->
+    <insert id="insertLeagueApplication">
+        INSERT INTO league_application (league_application_no, league_no, league_application_start, league_application_end)
+        VALUES (#{leagueApplicationNo}, #{leagueNo}, #{leagueApplicationStart}, #{leagueApplicationEnd})
+    </insert>
+    
+    <!-- 리그 접수 상세 -->
+    <select id="findLeagueApplication" resultType="LeagueApplicationDto">
+        SELECT * FROM league_application WHERE league_application_no = #{leagueApplicationNo}
+    </select>
+    
+    <!-- 리그 접수 전체 -->
+    <select id="listLeagueApplication" resultType="LeagueApplicationDto">
+        SELECT * FROM league_application order by league_application_no desc
+    </select>
+    
+    <!-- 리그접수 업데이트 -->
+    <update id="updateLeagueApplication">
+        UPDATE league_application
+        <set>
+            <if test="leagueNo != null">
+                league_no = #{leagueNo},
+            </if>
+            <if test="leagueApplicationStart != null">
+                league_application_start = #{leagueApplicationStart},
+            </if>
+            <if test="leagueApplicationEnd != null">
+                league_application_end = #{leagueApplicationEnd},
+            </if>
+        </set>
+        WHERE league_application_no = #{leagueApplicationNo}
+    </update>
+    
+    <!-- 리그접수 삭제 -->
+    <delete id="deleteLeagueApplication">
+        DELETE FROM league_application WHERE league_application_no = #{leagueApplicationNo}
+    </delete>
+    
+    <!-- ////////////////////////////////리그경기관련//////////////// -->
+    <!-- 리그경기 생성 -->
+    <insert id="insertLeagueMatch">
+        INSERT INTO league_match (league_match_no, league_no, league_match_home, league_match_away, league_match_date, league_match_location)
+        VALUES (#{leagueMatchNo}, #{leagueNo}, #{leagueMatchHome}, #{leagueMatchAway}, #{leagueMatchDate}, #{leagueMatchLocation})
+    </insert>
+    
+    <!-- 리그경기 조회 -->
+    <select id="findLeagueMatch" resultType="LeagueMatchDto">
+        SELECT * FROM league_match WHERE league_match_no = #{leagueMatchNo}
+    </select>
+    
+    <!-- 리그경기 리스트 조회 -->
+    <select id="listLeagueMatch" resultType="LeagueMatchDto">
+        SELECT * FROM league_match order by league_match_no desc
+    </select>
+    
+    <!-- 리그경기 업데이트 -->
+    <update id="updateLeagueMatch">
+        UPDATE league_match
+        <set>
+            <if test="leagueMatchHome != null">
+                league_match_home = #{leagueMatchHome},
+            </if>
+            <if test="leagueMatchAway != null">
+                league_match_away = #{leagueMatchAway},
+            </if>
+            <if test="leagueMatchDate != null">
+                league_match_date = #{leagueMatchDate},
+            </if>
+            <if test="leagueMatchHomeScore != null">
+                league_match_home_score = #{leagueMatchHomeScore},
+            </if>
+            <if test="leagueMatchAwayScore != null">
+                league_match_away_score = #{leagueMatchAwayScore},
+            </if>
+            <if test="leagueMatchLocation != null">
+                league_match_location = #{leagueMatchLocation},
+            </if>
+        </set>
+        WHERE league_match_no = #{leagueMatchNo}
+    </update>
+    
+    <!-- 리그경기 삭제 -->
+    <delete id="deleteLeagueMatch">
+        DELETE FROM league_match WHERE league_match_no = #{leagueMatchNo}
+    </delete>
+    
+    <!-- //////////////////////////////////////리그 로스터 -->
+    <!-- 리그로스터 생성 -->
+    <insert id="insertLeagueRoster">
+        INSERT INTO league_team_roaster (league_team_roaster_no, league_no, league_team_no, member_email)
+        VALUES (#{leagueTeamRosterNo}, #{leagueNo}, #{leagueTeamNo}, #{memberEmail})
+    </insert>
+    
+    <!-- 리그로스터 조회 -->
+    <select id="findLeagueRoster" resultType="LeagueTeamRosterDto">
+        SELECT * FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRosterNo}
+    </select>
+    
+    <!-- 리그로스터 리스트 조회 -->
+    <select id="listLeagueRoster" resultType="LeagueTeamRosterDto">
+    	select * from league_team_roaster order by league_team_roaster_no desc
+    </select>
+    
+    <!-- 리그로스터 업데이트 -->
+    <update id="updateLeagueRoster">
+        UPDATE league_team_roaster
+        <set>
+            <if test="leagueNo != null">
+                league_no = #{leagueNo},
+            </if>
+            <if test="leagueTeamNo != null">
+                league_team_no = #{leagueTeamNo},
+            </if>
+            <if test="memberEmail != null">
+                member_email = #{memberEmail},
+            </if>
+        </set>
+        WHERE league_team_roaster_no = #{leagueTeamRosterNo}
+    </update>
+    
+    <!-- 리그 로스터 삭제 -->
+    <delete id="deleteLeagueRoster">
+        DELETE FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRosterNo}
+    </delete>
+    
+</mapper>    
