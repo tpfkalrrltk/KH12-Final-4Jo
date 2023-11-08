@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class LeagueDto {
 	private int leagueNo;
-	private int eventNo;
+	private Integer eventNo;
 	private String leagueManager;
 	private String leagueTitle;
 	private String leagueDetail;
@@ -18,5 +18,5 @@ public class LeagueDto {
 	private Date leagueStart;
 	private Date leagueEnd;
 	private String leagueStatus;
-	private int chatRoomNo;
+	private Integer chatRoomNo;
 }

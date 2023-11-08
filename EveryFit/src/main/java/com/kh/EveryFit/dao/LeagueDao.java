@@ -9,5 +9,8 @@ public interface LeagueDao {
 	int leagueSequence();
 	List<LeagueDto> selectLeagueList();
 	void insertLeague(LeagueDto leagueDto);
+	void updateLeague(int leagueNo, LeagueDto leagueDto);
+	LeagueDto selectOneLeague(int leagueNo);
+	void deleteLeague(int leagueNo);
 
 }
