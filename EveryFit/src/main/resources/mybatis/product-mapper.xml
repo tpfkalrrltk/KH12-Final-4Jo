@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <!-- 등록  -->
+<mapper namespace="product">
+	<select id="sequence" resultType="int">
+	select product_seq.nextval from dual
+	</select>
+	
+	<insert id="add">
+	insert into product(
+		product_no, product_name, product_price
+	) 
+	values(
+		#{productNo}, #{productName}, #{productPrice}
+	)
+	</insert>
+	
+	<!-- 조회  -->
+	<select id="list" resultType="ProductDto">
+	select * from product order by produc_no asc
+	</select>
+	
+	<!-- 상세조회  -->
+	<select id="oneOfList" resultType="ProductDto">
+	select * from product where product_no = #{productNo}
+	</select>
+	
+	<!-- 수정 -->
+	<update id="edit">
+	update product set product_name=#{productName}, product_price=#{productPrice} where product_no=#{productNo}
+	</update>
+	
+	<!-- 삭제  -->
+	<delete id="delete">
+	delete product where product_no=#{productNo}
+	</delete>
+	
+</mapper>
