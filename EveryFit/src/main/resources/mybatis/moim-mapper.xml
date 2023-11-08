@@ -2,40 +2,38 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="moim">
 
-	<insert id="creat">
+	<select id="sequence" resultType="int">
+		select moim_seq.nextval from dual
+	</select>
+
+	<insert id="create">
 		insert into moim(
-			moim_no,
-			location_no,
-			event_no,
-			moim_title,
-			moim_content,
-			moim_time,
-			moim_upgrade,
-			moim_state,
-			moim_member_count,
-			moim_gender_check,
-			chat_room_no
+		moim_no,
+		location_no,
+		event_no,
+		moim_title,
+		moim_content,
+		moim_member_count,
+		moim_gender_check,
+		chat_room_no
 		)
 		values(
-			 #{moimNo},
-			 #{locationNo},
-			 #{eventNo},
-			 #{moimTitle},
-			 #{moimContent},
-			 #{moimTime},
-			 #{moimUpgrade},
-			 #{moimState},
-			 #{moimMemberCount},
-			 #{moimGenderCheck},
-			 #{chatRoomNo}
+		#{moimNo},
+		#{locationNo},
+		#{eventNo},
+		#{moimTitle},
+		#{moimContent},
+		#{moimMemberCount},
+		#{moimGenderCheck},
+		#{chatRoomNo}
 		)
-	</insert>    
+	</insert>
 
 	<update id="edit">
-		update moim 
+		update moim
 		<set>
 			<if test="MoimDto.locationNo != null">
 				location_no=#{locationNo},
@@ -56,14 +54,71 @@
 				moim_gender_check=#{moimGenderCheck}
 			</if>
 		</set>
-			where moim_no=#{moimNo}
+		where moim_no=#{moimNo}
 	</update>
-	
-	<select id="list"  resultType="MoimDto">
-		select * from moim
+
+	<select id="list" resultType="MoimDto">
+		select * from moim order by moim_no asc 
+		<!-- 나중에 복합검색 구현하기 -->
+	</select>
+
+	<select id="findAll" resultType="MoimDto">
+		select * from moim where moim_no
+		= #{moimNo}
 	</select>
 	
+	<select id="moimMemberList" resultType="MoimMemberDto">
+		select * from moim_member where moim_no = #{moimNo}
+	</select>
 	
+	<!-- 모임 회원 count -->
+	<select id="moimMemberCount" resultType="int">
+		select count(*) from moim_member where moim_no = #{moimNo}
+	</select>
+	
+	<!-- 모임 등록할 때 모임장 등록 -->
+	<insert id="insertMoimJang">
+       	insert into moim_member(
+       		member_email, 
+       		moim_no, 
+       		moim_member_level,
+       		moim_member_status
+       		)
+        values(#{memberEmail}, #{moimNo}, '모임장', '승인')
+	</insert>
+	
+	<!-- 모임 가입할 때 멤버 등록 -->
+	<insert id="insertMoimMember">
+	    <selectKey keyProperty="GenderCheck" resultType="String" order="BEFORE">
+	        select moim_gender_check from moim WHERE moim_no = #{moimNo}
+	    </selectKey>
+	
+	    <if test="GenderCheck == 'Y'">
+	        <!-- 젠더체크를 할 경우 상태 미승인 -->
+	       	insert into moim_member(
+	       		member_email, 
+	       		moim_no, 
+	       		moim_member_level,
+	       		moim_member_status
+	       		)
+	        values(#{memberEmail}, #{moimNo}, '일반', '미승인')
+	    </if>
+	
+	    <if test="GenderCheck == 'N'">
+	        <!-- 젠더체크를 안 할 경우 상태 승인 -->
+	        insert into moim_member(
+	        	member_email, 
+	        	moim_no, 
+	        	moim_member_level,
+	        	moim_member_status
+	        	)
+	        values(#{memberEmail}, #{moimNo}, '일반', '승인')
+	    </if>
+	</insert>
+	
+	
+
+
 
 
 </mapper>
