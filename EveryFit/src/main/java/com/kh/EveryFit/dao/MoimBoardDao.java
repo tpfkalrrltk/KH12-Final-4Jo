@@ -10,4 +10,6 @@ public interface MoimBoardDao {
 	void add(MoimBoardDto moimBoardDto);
 	void edit(MoimBoardDto moimBoardDto, int moimBoardNo);
 	void delete(int moimBoardNo);
+	int sequence();
+	MoimBoardDto selelctOne(int moimBoardNo);
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FAQ">
+
+	<select id="list" resultType="FaqDto">
+		select * from faq order by faq_no
+		asc
+	</select>
+
+	<insert id="add">
+		insert into(
+		faq_no,
+		member_email,
+		faq_title,
+		faq_detail,
+		faq_category
+		)
+		values(
+		#{faqNo},
+		#{memberEmail},
+		#{faqTitle},
+		#{faqDetail},
+		#{faqCategory}
+		)
+	</insert>
+
+	<select id="sequence" resultType="int">
+		select faq_seq.nextval from
+		dual
+	</select>
+
+	<update id="edit">
+		update faq set faq_title=#{faqDto.faqTitle},
+		faq_detail=#{faqDto.faqDetail},
+		faq_category =#{faqDto.faqCategory}
+		where faq_no ={no}
+	</update>
+
+	<delete id="delete">
+		delete * from faq where faq_no = #{faqNo}
+	</delete>
+
+	<select id="selectOne" resultType="FaqDto">
+		select * from faq where faq_no = #{faqNo}
+	</select>
+	
+</mapper>

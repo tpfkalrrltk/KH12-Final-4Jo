@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MoimBoardDto {
-	int moimBoardNo, moimNo;
-	String memberEmail, moimBoardTitle, moimBoardContent,moimBoardCategory;
-
+public class FreeBoardDto {
+int freeBoardNo;
+String freeBoardTitle, freeBoardContent, freeBoardCategory;
+	
 }
