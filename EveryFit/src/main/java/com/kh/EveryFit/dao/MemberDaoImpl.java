@@ -41,14 +41,14 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void insert(MemberDto memberDto) {
 		sqlSession.insert("member.save",memberDto);
-		log.debug("ss=${}",memberDto);
+//		log.debug("ss=${}",memberDto);
 	}
 	
 	@Override
 	public void edit(String memberEmail, MemberDto memberDto) {
 		Map<String,Object> param = Map.of("memberEmail", memberEmail,"memberDto",memberDto);
 		int result = sqlSession.update("member.change",param);
-		log.debug("param={}",param);
+//		log.debug("param={}",param);
 	}
 	
 	@Override
@@ -64,4 +64,5 @@ public class MemberDaoImpl implements MemberDao{
 		Map params = Map.of("begin",begin, "end",end);
 		return sqlSession.selectList("member.selectListByPage",params);
 	}
+
 }

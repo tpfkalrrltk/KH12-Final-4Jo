@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
-
+	
 	private String memberEmail;
 	private int locationNo;
 	private String memberPw;
