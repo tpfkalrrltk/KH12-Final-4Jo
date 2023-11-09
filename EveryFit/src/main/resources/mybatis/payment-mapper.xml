@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+	<select id="sequence" resultType="int">
+		select payment_seq.nextval from dual
+	</select>
+<!-- 		private int paymentNo;
+	private String paymentTid;//PG사 결제 거래번호
+	private String paymentName;//PG사 결제 상품명 KakaoPayApproveResponseVO.itemName
+	private int paymentPrice;//PG사 결제 가격 KakaoPayApproveResponseVO.amount.gettotal
+	private Date paymentTime;//결제시간
+	private int paymentProduct;//구매상품번호 KakaoPayApproveResponseVO.itemCode
+	private String paymentMember; -->
+	<insert id="save">
+	insert into payment(
+		payment_no, payment_member,payment_tid,
+		payment_name, payment_price, payment_product
+	) 
+	values(
+		#{paymentNo}, #{paymentMember}, #{paymentTid},
+		#{paymentName}, #{paymentPrice}, #{paymentProduct}
+	)
+	</insert>
+	
+	<select id="list" resultType="paymentDto">
+		select * from payment order by payment_no asc
+	</select>
+</mapper>

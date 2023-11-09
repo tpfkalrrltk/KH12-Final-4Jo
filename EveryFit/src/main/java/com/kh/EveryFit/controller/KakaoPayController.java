@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dao.ProductDao;
+import com.kh.EveryFit.dto.PaymentDto;
 import com.kh.EveryFit.dto.ProductDto;
 import com.kh.EveryFit.service.KakaoPayService;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
 import com.kh.EveryFit.vo.KakaoPayApproveResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +33,9 @@ public class KakaoPayController {
 	
 	@Autowired
 	private ProductDao productDao;
+	
+	@Autowired
+	private PaymentDao paymentDao;
 	
 	@GetMapping("/pay")
 	public String premium1(Model model, @RequestParam int productNo) {
@@ -85,16 +89,15 @@ public class KakaoPayController {
 					KakaoPayApproveResponseVO response = kakaoPayService.approve(request);
 					log.debug("response={}", response.getSid());
 					//결제 승인이 완료되었다면 DB에 결제 정보를 저장
-//					int paymentNo = paymentDao.sequence();
-//					paymentDao.insert(PaymentDto.builder()
-//							.paymentNo(paymentNo)
-//							.paymentMember(response.getPartnerUserId())
-//							//.paymentProduct(productNo)
-//							.paymentTid(response.getTid())
-//							.paymentName(response.getItemName())
-//							.paymentPrice(response.getAmount().getTotal())
-//							.paymentRemain(response.getAmount().getTotal())//추가하면 돌아감
-//							.build());
+					int paymentNo = paymentDao.sequence();
+					paymentDao.insert(PaymentDto.builder()
+							.paymentNo(paymentNo)
+							.paymentMember(response.getPartnerUserId())
+							.paymentProduct(productNo)
+							.paymentTid(response.getTid())
+							.paymentName(response.getItemName())
+							.paymentPrice(response.getAmount().getTotal())
+							.build());
 					
 					return "redirect:successResult";
 		}
@@ -154,11 +157,10 @@ public class KakaoPayController {
 //						paymentDao.insert(PaymentDto.builder()
 //								.paymentNo(paymentNo)
 //								.paymentMember(response.getPartnerUserId())
-//								//.paymentProduct(productNo)
+//								.paymentProduct(productNo)
 //								.paymentTid(response.getTid())
 //								.paymentName(response.getItemName())
 //								.paymentPrice(response.getAmount().getTotal())
-//								.paymentRemain(response.getAmount().getTotal())//추가하면 돌아감
 //								.build());
 						
 						return "redirect:successResult";
