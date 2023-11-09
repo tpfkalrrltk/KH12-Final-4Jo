@@ -9,7 +9,7 @@
 	<!-- 등록  -->
 	<insert id="save">
 		insert into member(
-			location_no,
+			<!-- location_no, -->
 			member_email,
 			member_pw,
 			member_name,
@@ -20,7 +20,7 @@
 			
 		)
 		values(
-		#{locationNo},
+		<!-- #{locationNo}, -->
 		#{memberEmail},
 		#{memberPw},
 		#{memberName},
@@ -74,6 +74,12 @@
 				member_contact = #{memberDto.memberContact},
 			</if>
 		</set>
+		where member_email = #{memberEmail}
+	</update>
+	
+	<update id="updateMemberLogin">
+		update member set 
+		member_login = sysdate 
 		where member_email = #{memberEmail}
 	</update>
 	
