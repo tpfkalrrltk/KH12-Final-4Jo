@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kh.EveryFit.dao.FreeBoardDao;
 import com.kh.EveryFit.dto.FreeBoardDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/freeBoard")
+@Slf4j
 public class FreeBoardRestController {
 
 	@Autowired
@@ -31,11 +34,13 @@ public class FreeBoardRestController {
 
 	@PostMapping("/")
 	public void add(@RequestBody FreeBoardDto freeBoardDto) {
+		freeBoardDto.setFreeBoardNo(freeBoardDao.sequence());
 		freeBoardDao.add(freeBoardDto);
+
 	}
 
 	@PutMapping("/{freeBoardNo}")
-	public void edit(@PathVariable int freeBoardNo, @PathVariable FreeBoardDto freeBoardDto) {
+	public void edit(@PathVariable int freeBoardNo, @RequestBody FreeBoardDto freeBoardDto) {
 		freeBoardDao.edit(freeBoardDto, freeBoardNo);
 	}
 

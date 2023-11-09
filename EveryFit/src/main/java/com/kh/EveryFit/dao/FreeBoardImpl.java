@@ -10,7 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.FreeBoardDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class FreeBoardImpl implements FreeBoardDao {
 
 	@Autowired
@@ -18,14 +21,15 @@ public class FreeBoardImpl implements FreeBoardDao {
 
 	@Override
 	public List<FreeBoardDto> list() {
-		
+
 		return sqlSession.selectList("freeBoard.list");
 	}
 
 	@Override
 	public void add(FreeBoardDto freeBoardDto) {
-		sqlSession.insert("freeBoard.add");
-		
+		sqlSession.insert("freeBoard.add", freeBoardDto);
+		log.debug("확인={}", freeBoardDto);
+
 	}
 
 	@Override
@@ -33,27 +37,27 @@ public class FreeBoardImpl implements FreeBoardDao {
 		Map<String, Object> params = new HashMap<>();
 		params.put("freeBoardDto", freeBoardDto);
 		params.put("no", freeBoardNo);
-	sqlSession.update("freeBoard.edit",params);
-		
+		sqlSession.update("freeBoard.edit", params);
+		log.debug("확인={}", params);
+
 	}
 
 	@Override
 	public void delete(int freeBoardNo) {
-		sqlSession.delete("freeBoard.delete",freeBoardNo);
-		
+		sqlSession.delete("freeBoard.delete", freeBoardNo);
+
 	}
 
 	@Override
 	public int sequence() {
-	
+
 		return sqlSession.selectOne("freeBoard.sequence");
 	}
 
 	@Override
 	public FreeBoardDto selectOne(int freeBoardNo) {
-	
-		return sqlSession.selectOne("freeBoard.selectOne",freeBoardNo);
+
+		return sqlSession.selectOne("freeBoard.selectOne", freeBoardNo);
 	}
-	
-	
+
 }
