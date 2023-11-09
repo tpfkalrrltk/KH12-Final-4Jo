@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="freeBoard">
+
+	<select id="list" resultType="FreeBoardDto">
+		select * from free_board order by
+		free_board_no asc
+	</select>
+
+	<insert id="add">
+		insert into free_board(
+		free_board_no,
+		free_board_title,
+		free_board_content,
+		free_board_category
+		)
+		values
+		(
+		#{freeBoardNo},
+		#{freeBoardTitle},
+		#{freeBoardContent},
+		#{freeBoardCategory}
+		)
+	</insert>
+
+	<select id="sequence" resultType="int">
+		select free_board_seq.nextval
+		from dual
+	</select>
+
+	<update id="edit">
+		update from free_board set
+		free_board_title =
+		#{freeBoardDto.freeBoardTitle},
+		free_board_content =
+		#{freeBoardDto.freeBoardContent},
+		free_board_category =
+		#{freeBoardDto.freeBoardCategory}
+		where free_board_no = #{no}
+	</update>
+	
+	<delete id="delete">
+		delete * from free_board where free_board_no=
+		#{freeBoardNo}
+	</delete>
+
+	<select id="slelctOne" resultType="FreeBoardDto">
+		select * from free_board where free_board_no = #{freeBoardNo}
+	</select>
+	
+</mapper>

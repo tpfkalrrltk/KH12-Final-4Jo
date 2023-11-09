@@ -42,4 +42,14 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 		sqlSession.delete("MoimBoard.delete", moimBoardNo);
 
 	}
+
+	@Override
+	public int sequence() {
+		 return  sqlSession.selectOne("MoimBoard.sequence");
+	}
+
+	@Override
+	public MoimBoardDto selelctOne(int moimBoardNo) {
+		return sqlSession.selectOne("MoimBoard.selectOne",moimBoardNo);
+	}
 }

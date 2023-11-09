@@ -32,6 +32,8 @@ public class moimBoardRestController {
 
 	@PostMapping("/")
 	public void add(@RequestBody MoimBoardDto moimBoardDto) {
+		int moimBoardNo = moimBoardDao.sequence();
+		moimBoardDto.setMoimBoardNo(moimBoardNo);
 		moimBoardDao.add(moimBoardDto);
 	}
 
@@ -42,5 +44,9 @@ public class moimBoardRestController {
 	@DeleteMapping("/{moimBoardNo}")
 	public void delete(@PathVariable int moimBoardNo) {
 		moimBoardDao.delete(moimBoardNo);
+	}
+	@GetMapping("/{moimBoardNo}")
+	public MoimBoardDto selectOne(@PathVariable int moimBoardNo){
+		return moimBoardDao.selelctOne(moimBoardNo);
 	}
 }
