@@ -3,6 +3,8 @@ package com.kh.EveryFit.dao;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -63,6 +65,13 @@ public class MemberDaoImpl implements MemberDao{
 		int begin = end - (size-1);
 		Map params = Map.of("begin",begin, "end",end);
 		return sqlSession.selectList("member.selectListByPage",params);
+	}
+	
+//	mypage
+	@Override
+	public MemberDto selectOne(String memberEmail) {
+		
+		return sqlSession.selectOne("member.findByMemberEmail",memberEmail);
 	}
 
 }
