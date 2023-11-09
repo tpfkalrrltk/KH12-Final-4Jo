@@ -19,4 +19,5 @@ public class LeagueDto {
 	private Date leagueEnd;
 	private String leagueStatus;
 	private Integer chatRoomNo;
+	private Integer locationNo;
 }

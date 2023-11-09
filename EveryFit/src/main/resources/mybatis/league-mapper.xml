@@ -13,8 +13,13 @@
 	
 	<!-- 리그등록 -->
 	<insert id="insertLeague">
-        INSERT INTO league (league_no, event_no, league_manager, league_title, league_detail, league_entery_fee, league_start, league_end, league_status, chat_room_no)
-        VALUES (#{leagueNo}, #{eventNo}, #{leagueManager}, #{leagueTitle}, #{leagueDetail}, #{leagueEntryFee}, #{leagueStart}, #{leagueEnd}, #{leagueStatus}, #{chatRoomNo})
+        INSERT INTO league (
+        	league_no, event_no, league_manager, league_title, league_detail, league_entery_fee,
+        	league_start, league_end, league_status, chat_room_no, location_no
+        	)
+        VALUES (
+        	#{leagueNo}, #{eventNo}, #{leagueManager}, #{leagueTitle}, #{leagueDetail}, #{leagueEntryFee}, 
+        	#{leagueStart}, #{leagueEnd}, #{leagueStatus}, #{chatRoomNo}, #{locationNo})
     </insert>
     
     <!-- 리그조회 -->
@@ -58,6 +63,9 @@
        		<if test="leagueDto.chatRoomNo!=null">
        			chat_room_no = #{leagueDto.chatRoomNo},
        		</if>
+       		<if test="leagueDto.locationNo!=null">
+       			location_no = #{leagueDto.locationNo},
+       		</if>
        </set>
         WHERE league_no = #{leagueNo}
     </update>
@@ -67,7 +75,12 @@
         DELETE FROM league WHERE league_no = #{leagueNo}
     </delete>
     
-    <!-- 리그팀 관련 -->
+    <!-- 리그팀 관련//////////////////////////////////////////////////// -->
+    <!-- 시퀀스 -->
+    <select id="seqLeagueTeam" resultType="int">
+		select league_team_seq.nextval from dual
+	</select>
+    
     <!-- 리그팀 추가 -->
     <insert id="insertLeagueTeam">
         INSERT INTO league_team (league_team_no, league_no, moim_no)
@@ -88,30 +101,31 @@
     <update id="updateLeagueTeam">
         UPDATE league_team
         <set>
-            <if test="leagueTeamMatchCount != null">
-                league_team_match_count = #{leagueTeamMatchCount},
+            <if test="leagueTeamDto.leagueTeamMatchCount != null">
+                league_team_match_count = #{leagueTeamDto.leagueTeamMatchCount},
             </if>
-            <if test="leagueTeamWin != null">
-                league_team_win = #{leagueTeamWin},
+            <if test="leagueTeamDto.leagueTeamWin != null">
+                league_team_win = #{leagueTeamDto.leagueTeamWin},
             </if>
-            <if test="leagueTeamLose != null">
-                league_team_lose = #{leagueTeamLose},
+            <if test="leagueTeamDto.leagueTeamLose != null">
+                league_team_lose = #{leagueTeamDto.leagueTeamLose},
             </if>
-            <if test="leagueTeamDraw != null">
-                league_team_draw = #{leagueTeamDraw},
+            <if test="leagueTeamDto.leagueTeamDraw != null">
+                league_team_draw = #{leagueTeamDto.leagueTeamDraw},
             </if>
-            <if test="leagueTeamG != null">
-                league_team_g = #{leagueTeamG},
+            <if test="leagueTeamDto.leagueTeamG != null">
+                league_team_g = #{leagueTeamDto.leagueTeamG},
             </if>
-            <if test="leagueTeamD != null">
-                league_team_d = #{leagueTeamD},
+            <if test="leagueTeamDto.leagueTeamD != null">
+                league_team_d = #{leagueTeamDto.leagueTeamD},
             </if>
-            <if test="leagueTeamGD != null">
-                league_team_gd = #{leagueTeamGD},
+            <if test="leagueTeamDto.leagueTeamGD != null">
+                league_team_gd = #{leagueTeamDto.leagueTeamGD},
             </if>
         </set>
         WHERE league_team_no = #{leagueTeamNo}
     </update>
+   
     
      <!-- 리그팀 삭제 -->
     <delete id="deleteLeagueTeam">
@@ -119,6 +133,11 @@
     </delete>
 	
 	<!-- 리그접수 관련 -->
+	<!-- 리그접수 시퀀스 -->
+	<select id="seqLeagueApplication" resultType="int">
+		select league_application_seq.nextval from dual
+	</select>
+	
     <!-- 리그접수 생성 -->
     <insert id="insertLeagueApplication">
         INSERT INTO league_application (league_application_no, league_no, league_application_start, league_application_end)
@@ -139,14 +158,14 @@
     <update id="updateLeagueApplication">
         UPDATE league_application
         <set>
-            <if test="leagueNo != null">
-                league_no = #{leagueNo},
+            <if test="leagueApplicationDto.leagueNo != null">
+                league_no = #{leagueApplicationDto.leagueNo},
             </if>
-            <if test="leagueApplicationStart != null">
-                league_application_start = #{leagueApplicationStart},
+            <if test="leagueApplicationDto.leagueApplicationStart != null">
+                league_application_start = #{leagueApplicationDto.leagueApplicationStart},
             </if>
-            <if test="leagueApplicationEnd != null">
-                league_application_end = #{leagueApplicationEnd},
+            <if test="leagueApplicationDto.leagueApplicationEnd != null">
+                league_application_end = #{leagueApplicationDto.leagueApplicationEnd},
             </if>
         </set>
         WHERE league_application_no = #{leagueApplicationNo}
@@ -158,6 +177,11 @@
     </delete>
     
     <!-- ////////////////////////////////리그경기관련//////////////// -->
+    <!-- 리그 경기 시퀀스 -->
+    <select id="seqLeagueMatch" resultType="int">
+		select league_match_seq.nextval from dual
+	</select>
+	
     <!-- 리그경기 생성 -->
     <insert id="insertLeagueMatch">
         INSERT INTO league_match (league_match_no, league_no, league_match_home, league_match_away, league_match_date, league_match_location)
@@ -178,23 +202,23 @@
     <update id="updateLeagueMatch">
         UPDATE league_match
         <set>
-            <if test="leagueMatchHome != null">
-                league_match_home = #{leagueMatchHome},
+            <if test="leagueMatchDto.leagueMatchHome != null">
+                league_match_home = #{leagueMatchDto.leagueMatchHome},
             </if>
-            <if test="leagueMatchAway != null">
-                league_match_away = #{leagueMatchAway},
+            <if test="leagueMatchDto.leagueMatchAway != null">
+                league_match_away = #{leagueMatchDto.leagueMatchAway},
             </if>
-            <if test="leagueMatchDate != null">
-                league_match_date = #{leagueMatchDate},
+            <if test="leagueMatchDto.leagueMatchDate != null">
+                league_match_date = #{leagueMatchDto.leagueMatchDate},
             </if>
-            <if test="leagueMatchHomeScore != null">
-                league_match_home_score = #{leagueMatchHomeScore},
+            <if test="leagueMatchDto.leagueMatchHomeScore != null">
+                league_match_home_score = #{leagueMatchDto.leagueMatchHomeScore},
             </if>
-            <if test="leagueMatchAwayScore != null">
-                league_match_away_score = #{leagueMatchAwayScore},
+            <if test="leagueMatchDto.leagueMatchAwayScore != null">
+                league_match_away_score = #{leagueMatchDto.leagueMatchAwayScore},
             </if>
-            <if test="leagueMatchLocation != null">
-                league_match_location = #{leagueMatchLocation},
+            <if test="leagueMatchDto.leagueMatchLocation != null">
+                league_match_location = #{leagueMatchDto.leagueMatchLocation},
             </if>
         </set>
         WHERE league_match_no = #{leagueMatchNo}
@@ -206,42 +230,48 @@
     </delete>
     
     <!-- //////////////////////////////////////리그 로스터 -->
+    
+    <!-- 리그로스터 시퀀스 -->
+    <select id="seqLeagueTeamRoaster" resultType="int">
+    	select league_team_roaster_seq.nextval from dual
+    </select>
+    
     <!-- 리그로스터 생성 -->
-    <insert id="insertLeagueRoster">
+    <insert id="insertLeagueRoaster">
         INSERT INTO league_team_roaster (league_team_roaster_no, league_no, league_team_no, member_email)
-        VALUES (#{leagueTeamRosterNo}, #{leagueNo}, #{leagueTeamNo}, #{memberEmail})
+        VALUES (#{leagueTeamRoasterNo}, #{leagueNo}, #{leagueTeamNo}, #{memberEmail})
     </insert>
     
     <!-- 리그로스터 조회 -->
-    <select id="findLeagueRoster" resultType="LeagueTeamRosterDto">
-        SELECT * FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRosterNo}
+    <select id="findLeagueRoaster" resultType="LeagueTeamRoasterDto">
+        SELECT * FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRoasterNo}
     </select>
     
     <!-- 리그로스터 리스트 조회 -->
-    <select id="listLeagueRoster" resultType="LeagueTeamRosterDto">
+    <select id="listLeagueRoaster" resultType="LeagueTeamRoasterDto">
     	select * from league_team_roaster order by league_team_roaster_no desc
     </select>
     
     <!-- 리그로스터 업데이트 -->
-    <update id="updateLeagueRoster">
+    <update id="updateLeagueRoaster">
         UPDATE league_team_roaster
         <set>
-            <if test="leagueNo != null">
-                league_no = #{leagueNo},
+            <if test="leagueTeamRoasterDto.leagueNo != null">
+                league_no = #{leagueTeamRoasterDto.leagueNo},
             </if>
-            <if test="leagueTeamNo != null">
-                league_team_no = #{leagueTeamNo},
+            <if test="leagueTeamRoasterDto.leagueTeamNo != null">
+                league_team_no = #{leagueTeamRoasterDto.leagueTeamNo},
             </if>
-            <if test="memberEmail != null">
-                member_email = #{memberEmail},
+            <if test="leagueTeamRoasterDto.memberEmail != null">
+                member_email = #{leagueTeamRoasterDto.memberEmail},
             </if>
         </set>
-        WHERE league_team_roaster_no = #{leagueTeamRosterNo}
+        WHERE league_team_roaster_no = #{leagueTeamRoasterNo}
     </update>
     
     <!-- 리그 로스터 삭제 -->
-    <delete id="deleteLeagueRoster">
-        DELETE FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRosterNo}
+    <delete id="deleteLeagueRoaster">
+        DELETE FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRoasterNo}
     </delete>
     
 </mapper>    

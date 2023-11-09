@@ -52,4 +52,6 @@ public class LeagueRestController {
 	public void delete(@PathVariable int leagueNo) {
 		leagueDao.deleteLeague(leagueNo);
 	}
+		
+	
 }
