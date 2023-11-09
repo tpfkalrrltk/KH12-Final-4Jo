@@ -21,7 +21,7 @@
 		#{moimBoardContent},
 		#{moimBoardCategory})
 	</insert>
-	
+
 	<select id="sequence" resultType="int">
 		select moim_board_seq.nextval
 		from dual
@@ -31,25 +31,34 @@
 		select * from moim_board order by
 		moim_board_no asc
 	</select>
-	
+
 	<update id="edit">
-		update moim_board set
-		moim_board_title =
-		#{moimBoardDto.moimBoardTitle}
-		moim_board_content =
-		#{moimBoardDto.moimBoardContent},
-		moim_board_category =
-		#{moimBoardDto.moimBoardCategory}
-		where
-		moim_board_no = #{no}
+		update moim_board
+		<set>
+			<if test="moimBoardDto.moimBoardTitle != null">
+				moim_board_title =
+				#{moimBoardDto.moimBoardTitle},
+			</if>
+			<if test="moimBoardDto.moimBoardContent != null">
+				moim_board_content =
+				#{moimBoardDto.moimBoardContent},
+			</if>
+			<if test="moimBoardDto.moimBoardCategory != null">
+				moim_board_category =
+				#{moimBoardDto.moimBoardCategory},
+			</if>
+
+		</set>
+		where moim_board_no = #{no}
 	</update>
-	
+
 	<delete id="delete">
 		delete * from where moim_board_no = #{moimBoardNo}
 	</delete>
-	
+
 	<select id="selectOne" resultType="MoimBoardDto">
-		select * from where moim_board_no = #{moimBoardNo}
+		select * from where
+		moim_board_no = #{moimBoardNo}
 	</select>
 
 </mapper>

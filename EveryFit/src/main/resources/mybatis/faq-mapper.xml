@@ -32,10 +32,22 @@
 	</select>
 
 	<update id="edit">
-		update faq set faq_title=#{faqDto.faqTitle},
-		faq_detail=#{faqDto.faqDetail},
-		faq_category =#{faqDto.faqCategory}
-		where faq_no ={no}
+		update faq
+		<set>
+			<if test="faqDto.faqTitle != null">
+				faq_title=#{faqDto.faqTitle},
+			</if>
+			<if test="faqDto.faqDetail != null">
+				faq_detail=#{faqDto.faqDetail},
+			</if>
+			<if test="faqDto.faqCategory != null">
+				faq_category =#{faqDto.faqCategory},
+			</if>
+		</set>
+	where faq_no ={no}
+
+	
+	
 	</update>
 
 	<delete id="delete">
@@ -43,7 +55,8 @@
 	</delete>
 
 	<select id="selectOne" resultType="FaqDto">
-		select * from faq where faq_no = #{faqNo}
+		select * from faq where faq_no
+		= #{faqNo}
 	</select>
-	
+
 </mapper>
