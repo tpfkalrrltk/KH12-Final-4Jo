@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class LeagueApplicationDto {
-	private int leagueApplicationNo;
-    private int leagueNo;
+	private Integer leagueApplicationNo;
+    private Integer leagueNo;
     private Date leagueApplicationStart;
     private Date leagueApplicationEnd;
 }
