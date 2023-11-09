@@ -6,6 +6,8 @@ import com.kh.EveryFit.dto.MemberDto;
 
 public interface MemberDao {
 
+	
+	
 	List<MemberDto> selectList();
 
 	MemberDto slelctOne(String memberEmail);
@@ -19,6 +21,8 @@ public interface MemberDao {
 	void delete(String memberEmail);
 
 	List<MemberDto> selectListByPage(int page, int size);
+
+
 	
 	
 	
