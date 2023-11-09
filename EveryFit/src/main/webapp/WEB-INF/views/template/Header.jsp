@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	
 
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,9 +110,27 @@ p {
 				        </div>
 				      </div>							
 				
-				
-				
-
+				<!-- 로그인버튼 --> 
+					<div>
+						<c:choose>
+							<c:when test="${sessionScope.name != null }">
+								<a class="left" href="/member/logout">로그아웃</a>	
+									
+								<div>
+									<a class="left" href="/member/mypage">마이페이지</a>
+								</div>
+								
+							</c:when>
+						
+						<c:otherwise>
+							
+							<div>
+								<a href="/member/login">로그인</a>
+								<a class="left" href="/member/join">회원가입</a>
+							</div>	
+						</c:otherwise>
+						</c:choose>
+						</div>
 
 
 				</div></li>

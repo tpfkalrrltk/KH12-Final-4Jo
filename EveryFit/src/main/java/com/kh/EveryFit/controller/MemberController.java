@@ -93,5 +93,14 @@ public class MemberController {
 		return "/member/mypage";
 	}
 		
+	
+	//회원 로그아웃 페이지
+		@RequestMapping("/logout")
+		public String logout(HttpSession session) {
+			session.removeAttribute("name");
+			session.removeAttribute("level");//확인받아야
+			return "redirect:/";
+		}
+		
 	}
 	
