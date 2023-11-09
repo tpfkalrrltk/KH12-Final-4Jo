@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,6 +79,19 @@ public class MemberController {
 	         return "redirect:login?error";
 	      }
 	   }
+	
+	//마이페이지 
+	@RequestMapping("/mypage")
+	public String mypage(HttpSession session, Model model) {
+		//세션에서 사용자의 아이디를 꺼낸다 
+		// - 세션은 값을 Object로 저장한다 
+		String memberEmail = (String) session.getAttribute("name");
+		// 가져온 아이디로 회원정보를 조회한다 
+		MemberDto memberDto = memberDao.selectOne(memberEmail);
+		// 조회한 정보를 모델에 첨부한다 
+		model.addAttribute("memberDto",memberDto);
+		return "/member/mypage";
+	}
 		
 	}
 	
