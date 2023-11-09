@@ -63,10 +63,10 @@
 		select * from moim order by moim_no asc 
 		<!-- 나중에 복합검색 구현하기 -->
 	</select>
-
+	
+	
 	<select id="findMoim" resultType="MoimDto">
-		select * from moim where moim_no
-		= #{moimNo}
+		select * from moim where moim_no = #{moimNo}
 	</select>
 	
 	<select id="moimMemberList" resultType="MoimMemberDto">
@@ -176,9 +176,13 @@
 	    where jungmo_no = #{jungmoNo}
 	</update>
 	
-	<!-- 정모 목록 -->
+	<!-- 정모 목록(수정해야함) -->
 	<select id="jungmoList" resultType="JungmoDto">
-		select * from jungmo order by jungmo_schedule desc;
+		select j.*, m.member_nick from jungmo j left outer join jungmo_member jm
+		on j.jungmo_no = jm.jungmo_no 
+		inner join member m 
+		on jm.member_email = m.member_email
+		order by jungmo_schedule desc
 	</select>
 	
 	<!-- 정모 취소(삭제) -->
