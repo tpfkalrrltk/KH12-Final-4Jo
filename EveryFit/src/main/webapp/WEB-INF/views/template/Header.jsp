@@ -3,12 +3,18 @@
 
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
-	rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" >
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap" rel="stylesheet">
+<style>
 
-
+ @font-face {
+            font-family: NotoSansKR;
+            src: url("./fonts/NotoSansKR-VariableFont_wght.ttf");
+        }
+p {
+            font-family: NotoSansKR;
+        }
+</style>
 <!--     부트 스트랩 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -60,7 +66,7 @@
 		<ul class="navbar-nav  row">
 
 			<li class="nav-item me-1  col-3  ">
-				<a 
+				<a href="/member/join"
 					class=" btn btn-outline-primary text-light border-light mt-2">
 					<h3>
 						<i class="fa-regular fa-id-card mt-2"></i>
@@ -69,7 +75,8 @@
 			</li>
 
 			<li class="nav-item me-4 col-3 ">
-				<a class=" btn btn-light text-primary mt-2">
+				<a href="/member/login"
+				class=" btn btn-light text-primary mt-2">
 					<h3>
 						<i class="fa-solid fa-right-to-bracket mt-2" ></i>
 					</h3>
@@ -90,7 +97,7 @@
 				aria-expanded="false">
 				<h3><i class="fa-solid fa-list"></i></h3></a>
 					<div class="custom-service  rounded">
-									<a class="left"  href="#">모임 목록</a>
+									<a class="left"  href="moim/create">모임 만들기</a>
 									<a class="left" href="#">리그 목록</a>
 									<a class="left " href="#">여성전용 모임</a>
 									<a class="left " href="#">자유게시판</a>					
