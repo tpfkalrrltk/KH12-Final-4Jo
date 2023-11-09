@@ -4,19 +4,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap"
 	rel="stylesheet">
 
 
 <style>
+@media screen and (max-width:993px) {
+	nav {
+		display: none
+	}
+}
 
-   
-    @media screen and (max-width:993px) {
-        nav {
-            display: none
-        }
+@font-face {
+	font-family: NotoSansKR;
+	src: url("./fonts/NotoSansKR-VariableFont_wght.ttf");
+}
 
-
+p {
+	font-family: NotoSansKR;
+}
 </style>
 
 
