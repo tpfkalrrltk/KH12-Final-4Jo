@@ -24,7 +24,50 @@
 	)
 	</insert>
 	
-	<select id="list" resultType="paymentDto">
+	<insert id="periodPaymentSave">
+	insert into period_payment(
+		period_payment_no, period_payment_sid
+	) 
+	values(
+		#{periodPaymentNo}, #{periodPaymentSid}
+	)
+	</insert>
+	
+	<select id="list" resultType="PaymentDto">
 		select * from payment order by payment_no asc
 	</select>
+	
+	<select id="periodPaymentList" resultType="PeriodPaymentDto">
+		select * from period_payment order by period_payment_no asc
+	</select>
+	
+	<select id="listAll" resultType="PaymentListAllVO">
+        <![CDATA[
+            SELECT 
+                p.payment_no,
+                p.payment_tid,
+                p.payment_name,
+                p.payment_price,
+                p.payment_time,
+                p.payment_product,
+                p.payment_member,
+                pp.period_payment_no,
+                pp.period_payment_sid 
+            FROM 
+                payment p
+            INNER JOIN
+                period_payment pp
+            ON 
+                p.payment_no = pp.period_payment_no
+            WHERE 
+                TRUNC(p.payment_time) = TRUNC(SYSDATE)
+        ]]>
+	</select>
+	
+
+	
 </mapper>
+
+
+
+

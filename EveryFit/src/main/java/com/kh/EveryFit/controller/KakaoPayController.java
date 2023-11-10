@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dao.ProductDao;
 import com.kh.EveryFit.dto.PaymentDto;
+import com.kh.EveryFit.dto.PeriodPaymentDto;
 import com.kh.EveryFit.dto.ProductDto;
 import com.kh.EveryFit.service.KakaoPayService;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
@@ -36,6 +37,7 @@ public class KakaoPayController {
 	
 	@Autowired
 	private PaymentDao paymentDao;
+	
 	
 	@GetMapping("/pay")
 	public String premium1(Model model, @RequestParam int productNo) {
@@ -117,10 +119,10 @@ public class KakaoPayController {
 							.itemName(productDto.getProductName())
 							.itemPrice(productDto.getProductPrice())
 							.partnerOrderId(UUID.randomUUID().toString())
-							.partnerUserId("testuser1")
+							.partnerUserId("testuser3")
 							.build();
 					
-					KakaoPayReadyResponseVO response = kakaoPayService.ready(request);
+					KakaoPayReadyResponseVO response = kakaoPayService.periodReady(request);
 					
 					log.debug("response = {}",response.getNextRedirectPcUrl());
 					//session에 flash value를 저장(잠시 쓰고 지우는 데이터)
@@ -150,18 +152,23 @@ public class KakaoPayController {
 						request.setPgToken(pg_token);//토큰 추가
 						
 						//결제 승인 요청
-						KakaoPayApproveResponseVO response = kakaoPayService.approve(request);
-						log.debug("response={}", response.getSid());
+						KakaoPayApproveResponseVO response = kakaoPayService.periodApprove(request);
+						log.debug("response(SID)={}", response.getSid());
 						//결제 승인이 완료되었다면 DB에 결제 정보를 저장
-//						int paymentNo = paymentDao.sequence();
-//						paymentDao.insert(PaymentDto.builder()
-//								.paymentNo(paymentNo)
-//								.paymentMember(response.getPartnerUserId())
-//								.paymentProduct(productNo)
-//								.paymentTid(response.getTid())
-//								.paymentName(response.getItemName())
-//								.paymentPrice(response.getAmount().getTotal())
-//								.build());
+						int paymentNo = paymentDao.sequence();
+						paymentDao.insert(PaymentDto.builder()
+								.paymentNo(paymentNo)
+								.paymentMember(response.getPartnerUserId())
+								.paymentProduct(productNo)
+								.paymentTid(response.getTid())
+								.paymentName(response.getItemName())
+								.paymentPrice(response.getAmount().getTotal())
+								.build());
+		
+						paymentDao.insertToPeriodPayment(PeriodPaymentDto.builder()
+								.periodPaymentNo(paymentNo)
+								.periodPaymentSid(response.getSid())
+								.build());
 						
 						return "redirect:successResult";
 			}

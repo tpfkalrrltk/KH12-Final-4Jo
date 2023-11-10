@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.PaymentDto;
+import com.kh.EveryFit.dto.PeriodPaymentDto;
+import com.kh.EveryFit.vo.PaymentListAllVO;
 
 @Repository
 public class PaymentDaoImpl implements PaymentDao{
@@ -30,4 +32,23 @@ public class PaymentDaoImpl implements PaymentDao{
 		return sqlSession.selectList("payment.list");
 	}
 
+	@Override
+	public void insertToPeriodPayment(PeriodPaymentDto periodPaymentDto) {
+		sqlSession.insert("payment.periodPaymentSave", periodPaymentDto);
+		
+	}
+
+	@Override
+	public List<PeriodPaymentDto> selectListOfPeriodPayment() {
+		return sqlSession.selectList("payment.periodPaymentList");
+	}
+
+	@Override
+	public List<PaymentListAllVO> selectListAll() {
+		return sqlSession.selectList("payment.listAll");
+	}
+
 }
+
+
+
