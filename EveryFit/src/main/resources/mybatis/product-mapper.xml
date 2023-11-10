@@ -10,10 +10,10 @@
 	
 	<insert id="add">
 	insert into product(
-		product_no, product_name, product_price
+		product_no, product_name, product_price, product_type
 	) 
 	values(
-		#{productNo}, #{productName}, #{productPrice}
+		#{productNo}, #{productName}, #{productPrice}, #{productType}
 	)
 	</insert>
 	
@@ -29,7 +29,7 @@
 	
 	<!-- 수정 -->
 	<update id="edit">
-	update product set product_name=#{productName}, product_price=#{productPrice} where product_no=#{productNo}
+	update product set product_name=#{productName}, product_price=#{productPrice}, product_type=#{productType} where product_no=#{productNo}
 	</update>
 	
 	<!-- 삭제  -->

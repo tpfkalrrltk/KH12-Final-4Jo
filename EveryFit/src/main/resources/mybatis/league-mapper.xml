@@ -23,8 +23,37 @@
     </insert>
     
     <!-- 리그조회 -->
-    <select id="listLeague" resultType="LeagueDto">
-    	select * from league order by league_no desc
+    <select id="listLeague" resultType="LeagueListDto">
+    	select * from league_list_view order by league_no desc
+    </select>
+    
+    <!-- 리그 메인 조회 -->
+    <select id="listLeagueSearch" resultType="LeagueListDto">
+    	select * from league_list_view
+    	<where>
+    		<if test="leagueNo>0">
+			 	and league_no = #{leagueNo}    		
+    		</if>
+    		<if test="leagueManager.length>0">
+				and instr(league_manager, #{leagueManager})>0    		
+    		</if>
+    		<if test="leagueTitle.length>0">
+				and instr(league_title, #{leagueTitle})>0	
+    		</if>
+    		<if test="leagueStatus.length>0">
+				and league_status = #{leagueStatus}	
+    		</if>
+    		<if test="eventName.length>0">
+				and instr(event_name, #{eventName})>0
+    		</if>
+    		<if test="locationDepth1.length>0">
+				and location_depth1 = #{locationDepth1}
+    		</if>
+    		<if test="locationDepth2.length>0">
+    			and instr(location_depth2, #{locationDepth2})>0
+    		</if>
+    	</where>
+    	order by league_no desc
     </select>
     
     <!-- 리그 상세 조회 -->

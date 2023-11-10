@@ -35,8 +35,15 @@
             </div>
             
            <div class="row">
-                <div class="col text-center">
-                    <a href="pay/purchase?productNo=${productDto.productNo}">구매하기</a>
+                <div class="col text-center"> 
+                	<c:choose>
+					    <c:when test="${productDto.productType == '단건'}">
+					        <a href="pay/purchase?productNo=${productDto.productNo}">구매하기</a>
+					    </c:when>
+					    <c:otherwise>
+					        <a href="pay/periodPurchase?productNo=${productDto.productNo}">구매하기</a>
+					    </c:otherwise>
+					</c:choose>
                 </div>
             </div>
 

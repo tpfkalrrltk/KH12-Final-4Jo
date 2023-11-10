@@ -2,6 +2,8 @@ package com.kh.EveryFit.restcontroller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +35,9 @@ public class FreeBoardRestController {
 	}
 
 	@PostMapping("/")
-	public void add(@RequestBody FreeBoardDto freeBoardDto) {
+	public void add(@RequestBody FreeBoardDto freeBoardDto, HttpSession session) {
+		String memberEmail = (String) session.getAttribute("memberEmail");
+		freeBoardDto.setMemberEmail(memberEmail);
 		freeBoardDto.setFreeBoardNo(freeBoardDao.sequence());
 		freeBoardDao.add(freeBoardDto);
 

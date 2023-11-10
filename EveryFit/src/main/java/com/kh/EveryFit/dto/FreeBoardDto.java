@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class FreeBoardDto {
 int freeBoardNo;
 String freeBoardTitle, freeBoardContent, freeBoardCategory;
+String memberEmail, memberNick;
 	
 }

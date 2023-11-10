@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="payment">
+	<select id="sequence" resultType="int">
+		select payment_seq.nextval from dual
+	</select>
+<!-- 		private int paymentNo;
+	private String paymentTid;//PG사 결제 거래번호
+	private String paymentName;//PG사 결제 상품명 KakaoPayApproveResponseVO.itemName
+	private int paymentPrice;//PG사 결제 가격 KakaoPayApproveResponseVO.amount.gettotal
+	private Date paymentTime;//결제시간
+	private int paymentProduct;//구매상품번호 KakaoPayApproveResponseVO.itemCode
+	private String paymentMember; -->
+	<insert id="save">
+	insert into payment(
+		payment_no, payment_member,payment_tid,
+		payment_name, payment_price, payment_product
+	) 
+	values(
+		#{paymentNo}, #{paymentMember}, #{paymentTid},
+		#{paymentName}, #{paymentPrice}, #{paymentProduct}
+	)
+	</insert>
+	
+	<insert id="periodPaymentSave">
+	insert into period_payment(
+		period_payment_no, period_payment_sid
+	) 
+	values(
+		#{periodPaymentNo}, #{periodPaymentSid}
+	)
+	</insert>
+	
+	<select id="list" resultType="PaymentDto">
+		select * from payment order by payment_no asc
+	</select>
+	
+	<select id="periodPaymentList" resultType="PeriodPaymentDto">
+		select * from period_payment order by period_payment_no asc
+	</select>
+	
+	<select id="listAll" resultType="PaymentListAllVO">
+        <![CDATA[
+            SELECT 
+                p.payment_no,
+                p.payment_tid,
+                p.payment_name,
+                p.payment_price,
+                p.payment_time,
+                p.payment_product,
+                p.payment_member,
+                pp.period_payment_no,
+                pp.period_payment_sid,
+                pp.period_payment_start,
+                pp.period_payment_end,
+                pp.period_payment_status
+            FROM 
+                payment p
+            INNER JOIN
+                period_payment pp
+            ON 
+                p.payment_no = pp.period_payment_no
+            WHERE 
+                TRUNC(pp.period_payment_start) = TRUNC(SYSDATE) 
+                AND pp.period_payment_status = 'Y'
+        ]]>
+	</select>
+	
+
+	
+</mapper>
+
+
+
+
