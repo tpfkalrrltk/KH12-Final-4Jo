@@ -16,6 +16,11 @@
 	border: 1px solid black;
 	border-radius: 14px;
 }
+
+a{
+	text-decoration: none;
+	color:white;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -88,14 +93,18 @@
 					<div class="col align-self-center">
 
 						<div>${memberDto.memberNick}</div>
-						<div>${moimDto.moimNo }</div>
 					</div>
 					<div class="col align-self-end">
 						<div>
-							<button class="btn btn-success">프리미엄 회원권</button>
+							<button class="btn btn-success"><a href="#">프리미엄 회원권</a></button>
 						</div>
+						
 						<div>
-							<!-- Button trigger modal -->
+							<button class="btn btn-info mt-2"><a href="/member/change">프로필 등록 수정</a></button>
+						</div>
+						
+							<%--<div>
+						 <!-- Button trigger modal -->
 							<button type="button" class="btn btn-info mt-2"
 								data-bs-toggle="modal" data-bs-target="#exampleModal">
 								프로필 등록/수정</button>
@@ -129,9 +138,9 @@
 												nick<input value="${memberDto.memberNick}" disabled>
 											</div>
 
-											<%-- <div>
+											<div>
 												gender<input  value="${memberDto.membergender}">
-											</div> --%>
+											</div>
 
 											<div>
 												contact<input value="${memberDto.memberContact}" disabled>
@@ -152,8 +161,8 @@
 									<button type="button" class="btn btn-primary">Save
 										changes</button>
 								</div>
-							</div>
-						</div>
+							</div> 
+						</div>--%>
 					</div>
 				</div>
 			</div>
