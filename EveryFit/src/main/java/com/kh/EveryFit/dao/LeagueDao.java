@@ -4,15 +4,18 @@ import java.util.List;
 
 import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
+import com.kh.EveryFit.dto.LeagueListDto;
 import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
+import com.kh.EveryFit.vo.LeagueListVO;
 
 public interface LeagueDao {
 
 	//리그관련
 	int leagueSequence();
-	List<LeagueDto> selectLeagueList();
+	List<LeagueListDto> selectLeagueList();
+	List<LeagueListDto> selectLeagueListSearch(LeagueListVO vo);
 	void insertLeague(LeagueDto leagueDto);
 	void updateLeague(int leagueNo, LeagueDto leagueDto);
 	LeagueDto selectOneLeague(int leagueNo);
