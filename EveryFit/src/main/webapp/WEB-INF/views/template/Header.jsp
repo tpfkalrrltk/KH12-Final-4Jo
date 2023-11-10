@@ -68,6 +68,8 @@ p {
 	<div class="">
 		<ul class="navbar-nav  row">
 
+
+				<!-- 회원가입  -->
 			<li class="nav-item me-1  col-3  ">
 				<a href="/member/join"
 					class=" btn btn-outline-primary text-light border-light mt-2">
@@ -76,7 +78,7 @@ p {
 					</h3>
 				</a>
 			</li>
-
+					<!-- 로그인  -->
 			<li class="nav-item me-4 col-3 ">
 				<a href="/member/login"
 				class=" btn btn-light text-primary mt-2">
@@ -110,27 +112,7 @@ p {
 				        </div>
 				      </div>							
 				
-				<!-- 로그인버튼 --> 
-					<div>
-						<c:choose>
-							<c:when test="${sessionScope.name != null }">
-								<a class="left" href="/member/logout">로그아웃</a>	
-									
-								<div>
-									<a class="left" href="/member/mypage">마이페이지</a>
-								</div>
-								
-							</c:when>
-						
-						<c:otherwise>
-							
-							<div>
-								<a href="/member/login">로그인</a>
-								<a class="left" href="/member/join">회원가입</a>
-							</div>	
-						</c:otherwise>
-						</c:choose>
-						</div>
+			
 
 
 				</div></li>
