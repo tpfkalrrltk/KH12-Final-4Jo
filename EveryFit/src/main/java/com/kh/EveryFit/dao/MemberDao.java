@@ -2,6 +2,8 @@ package com.kh.EveryFit.dao;
 
 import java.util.List;
 
+import com.kh.EveryFit.dto.EventDto;
+import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
 
 public interface MemberDao {
@@ -24,7 +26,13 @@ public interface MemberDao {
 
 	MemberDto selectOne(String memberEmail);
 
+	//지역 조회(목록/상세)
+	List<LocationDto> selectLocationList();
+	LocationDto selectOneByLocationNo(int locationNo);
 
+	//종목 조회(목록/상세)
+	List<EventDto> selectEventList();	
+	EventDto selectOneByEventNo(int eventNo);
 	
 	
 	

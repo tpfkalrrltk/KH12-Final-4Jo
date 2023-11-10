@@ -92,5 +92,22 @@
 		)where rn between #{begin} and #{end}
 	</select>	
 	
+	<!-- location 목록 조회 -->
+	<select id="locationList" resultType="LocationDto">
+		select * from location order by location_no asc
+	</select>
 	
+	<!-- location 상세 조회 -->
+	<select id="locationFind" resultType="LocationDto">
+		select * from location where location_no = #{locationNo}
+	</select>
+	
+	<!-- event 목록 조회 -->
+	<select id="eventList" resultType="EventDto">
+		select * from event order by event_no asc
+	</select>
+	<!-- event 상세 조회 -->
+	<select id="eventFind" resultType="EventDto">
+		select * from event where event_no = #{eventNo}
+	</select>
 	</mapper>

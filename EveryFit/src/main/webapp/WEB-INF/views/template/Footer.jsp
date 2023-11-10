@@ -29,7 +29,7 @@ p {
 
 <nav class="fixed-bottom bg-primary p-0">
 
-	<div class="container p-0">
+	<div class="container p-4">
 		<div class='row ms-5'>
 			<div class=' col-6 '>
 				<p class=" text-light">
