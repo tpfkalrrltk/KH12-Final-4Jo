@@ -23,8 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/attach")
@@ -38,6 +42,9 @@ public class AttachRestController {
 	@Autowired
 	private FileUploadProperties props;
 
+	@Autowired
+	private MoimDao moimDao;
+	
 	private File dir;
 	
 	//모든 로딩이 끝나면 자동으로 실행되는 메소드
@@ -48,8 +55,8 @@ public class AttachRestController {
 	}
 	
 	@PostMapping("/upload")
-	public Map<String, Object> upload(HttpSession session,
-				@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+	public Map<String, Object> upload(HttpSession session, @RequestParam int moimNo,
+				@RequestParam MultipartFile attach)throws IllegalStateException, IOException {
 		
 		int attachNo = attachDao.sequence();
 		
@@ -63,7 +70,9 @@ public class AttachRestController {
 		attachDto.setAttachType(attach.getContentType());
 		attachDao.insert(attachDto);
 		
-		String memberId = (String)session.getAttribute("name");
+		moimDao.insertMoimProfile(moimNo, attachDto.getAttachNo());
+		
+		log.debug("moimNo = {}", moimNo);
 		
 		return Map.of("attachNo", attachNo);
 	}
@@ -94,6 +103,10 @@ public class AttachRestController {
 				.body(resource);
 	}
 	
+	@PostMapping("/delete")
+	public void delete(HttpSession session, @RequestParam int moimNo) {
+		moimDao.deleteMoimProfile(moimNo);
+	}
 	
 
 	

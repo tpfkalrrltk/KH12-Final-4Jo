@@ -13,4 +13,9 @@ public interface MoimDao {
 	
 	//모임회원
 	List<MoimMemberDto> selectAllMoimMembers(int moimNo);
+	
+	//프로필 관련 기능
+	void insertMoimProfile(int moimNo, int attachNo);
+	boolean deleteMoimProfile(int moimNo);
+	Integer findMoimProfile(int moimNo);
 }
