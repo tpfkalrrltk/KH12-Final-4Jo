@@ -14,4 +14,6 @@ public interface PaymentDao {
 	void insertToPeriodPayment(PeriodPaymentDto periodPaymentDto);
 	List<PeriodPaymentDto> selectListOfPeriodPayment();
 	List<PaymentListAllVO> selectListAll();
+	boolean update(PeriodPaymentDto periodPaymentDto);
+	PeriodPaymentDto selectOne(int periodPaymentNo);
 }

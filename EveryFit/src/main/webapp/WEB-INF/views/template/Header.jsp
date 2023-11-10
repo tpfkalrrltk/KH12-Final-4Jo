@@ -108,7 +108,9 @@ p {
 									<a class="left" href="#">리그 목록</a>
 									<a class="left " href="#">여성전용 모임</a>
 									<a class="left " href="#">자유게시판</a>					
-										<a class="left " href="#">특별 기능</a>	
+									<a class="left " href="#">특별 기능</a>
+									<a class="left"  href="${pageContext.request.contextPath}/pay?productNo=1">프리미엄회원권(테스트용)</a>	
+									<a class="left"  href="${pageContext.request.contextPath}/pay?productNo=2">프리미엄모임권(테스트용)</a>	
 
 					</div>
 				        </div>
