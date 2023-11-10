@@ -63,15 +63,24 @@
             ON 
                 p.payment_no = pp.period_payment_no
             WHERE 
-                TRUNC(pp.period_payment_start) = TRUNC(SYSDATE) 
+                TRUNC(pp.period_payment_END) = TRUNC(SYSDATE) 
                 AND pp.period_payment_status = 'Y'
         ]]>
 	</select>
 	
-
-	
+	<!-- 수정 -->
+	<update id="updateEndDate">
+    <![CDATA[
+        UPDATE period_payment 
+        SET period_payment_end = ADD_MONTHS(#{periodPaymentEnd}, 1) 
+        WHERE period_payment_no = #{periodPaymentNo}
+    ]]>
+</update>
+	<!-- 상세조회  -->
+	<select id="periodPaymentdetail" resultType="periodPaymentDto">
+	select * from period_payment where period_payment_no = #{periodPaymentNo}
+	</select>
 </mapper>
-
 
 
 

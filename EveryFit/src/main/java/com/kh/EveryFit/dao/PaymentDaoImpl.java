@@ -48,6 +48,18 @@ public class PaymentDaoImpl implements PaymentDao{
 		return sqlSession.selectList("payment.listAll");
 	}
 
+	@Override
+	public boolean update(PeriodPaymentDto periodPaymentDto) {
+		return sqlSession.update("payment.updateEndDate", periodPaymentDto)>0;
+	}
+
+	@Override
+	public PeriodPaymentDto selectOne(int periodPaymentNo) {
+		return sqlSession.selectOne("payment.periodPaymentdetail", periodPaymentNo);
+	}
+
+
+
 }
 
 
