@@ -71,7 +71,7 @@ public class MemberController {
 	      //[3] 비밀번호가 일치하면 메인페이지로 이동
 	      if(isCorrectPw) {
 	    	  session.setAttribute("memberEmail",inputDto.getMemberEmail());
-
+	       	  session.setAttribute("memberNick",inputDto.getMemberNick());
 	         //메인페이지로 이동
 	         return "redirect:/";
 	      }
