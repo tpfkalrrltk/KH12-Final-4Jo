@@ -34,22 +34,22 @@
     		<if test="leagueNo>0">
 			 	and league_no = #{leagueNo}    		
     		</if>
-    		<if test="leagueManager.length>0">
+    		<if test="leagueManager!=null and !leagueManager.equals('')">
 				and instr(league_manager, #{leagueManager})>0    		
     		</if>
-    		<if test="leagueTitle.length>0">
+    		<if test="leagueTitle!=null and !leagueTitle.equals('')">
 				and instr(league_title, #{leagueTitle})>0	
     		</if>
-    		<if test="leagueStatus.length>0">
+    		<if test="leagueStatus!=null and !leagueStatus.equals('')">
 				and league_status = #{leagueStatus}	
     		</if>
-    		<if test="eventName.length>0">
+    		<if test="eventName!=null and !eventName.equals('')">
 				and instr(event_name, #{eventName})>0
     		</if>
-    		<if test="locationDepth1.length>0">
+    		<if test="locationDepth1!=null and !locationDepth1.equals('')">
 				and location_depth1 = #{locationDepth1}
     		</if>
-    		<if test="locationDepth2.length>0">
+    		<if test="locationDepth2!=null and !locationDepth2.equals('')">
     			and instr(location_depth2, #{locationDepth2})>0
     		</if>
     	</where>
