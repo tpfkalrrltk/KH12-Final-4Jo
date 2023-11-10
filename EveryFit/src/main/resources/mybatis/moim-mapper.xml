@@ -124,6 +124,10 @@
 	-->
 
 	<!-- 정모CRUD -->
+	
+	<select id="jungmoSequence" resultType="int">
+		select jungmo_seq.nextval from dual
+	</select>
 	<!-- 정모 등록 -->
 	<insert id="createJungmo">
 	    insert into jungmo (
@@ -177,12 +181,14 @@
 	</update>
 	
 	<!-- 정모 목록(수정해야함) -->
-	<select id="jungmoList" resultType="JungmoDto">
-		select j.*, m.member_nick from jungmo j left outer join jungmo_member jm
+	<select id="jungmoList" resultType="JungmoListByMoimNoVO">
+		select j.*, m.member_nick from jungmo j 
+		left outer join jungmo_member jm 
 		on j.jungmo_no = jm.jungmo_no 
 		inner join member m 
-		on jm.member_email = m.member_email
-		order by jungmo_schedule desc
+		on jm.member_email = m.member_email 
+		where moim_no = #{moimNo} 
+		order by jungmo_schedule desc 
 	</select>
 	
 	<!-- 정모 취소(삭제) -->

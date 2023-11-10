@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
+import com.kh.EveryFit.dto.EventDto;
+import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
-import com.kh.EveryFit.dto.MoimMemberDto;
 
 @Controller
 @RequestMapping("/moim")
@@ -22,12 +24,15 @@ public class MoimController {
 	@Autowired
 	private MoimDao moimDao;
 	
+	@Autowired
+	private MemberDao memberDao;
+	
 	@GetMapping("/create")
 	public String create(Model model) {
-//		List<LocationDto> locationList = LocationDao.selectList(); //지역조회
-//		model.addAttribute("locationList", locationList);
-//		List<EventDto> eventList = EventDao.selectList(); //종목조회
-//		model.addAttribute("eventList", eventList);
+		List<LocationDto> locationList = memberDao.selectLocationList(); //지역조회
+		model.addAttribute("locationList", locationList);
+		List<EventDto> eventList = memberDao.selectEventList(); //종목조회
+		model.addAttribute("eventList", eventList);
 		return "moim/create";
 	}
 	@PostMapping("/create")
@@ -50,8 +55,14 @@ public class MoimController {
 		model.addAttribute("moimDto", moimDto);
 		//회원목록(moim_member)
 		model.addAttribute("memberList", moimDao.selectAllMoimMembers(moimNo));
-		
+		//모임지역
+		LocationDto locationDto = memberDao.selectOneByLocationNo(moimDto.getLocationNo());
+		model.addAttribute("locationDto", locationDto);
+		//모임종목
+		EventDto eventDto = memberDao.selectOneByEventNo(moimDto.getEventNo());
+		model.addAttribute("eventDto", eventDto);
 		return "moim/detail";
+		
 	}
 	
 	
