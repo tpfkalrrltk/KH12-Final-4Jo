@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
+import com.kh.EveryFit.dto.LeagueListDto;
 import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.error.NoTargetException;
+import com.kh.EveryFit.vo.LeagueListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +31,14 @@ public class LeagueDaoImpl implements LeagueDao{
 	}
 	
 	@Override
-	public List<LeagueDto> selectLeagueList() {
+	public List<LeagueListDto> selectLeagueList() {
 		return sqlSession.selectList("league.listLeague");
+	}
+	
+	@Override
+	public List<LeagueListDto> selectLeagueListSearch(LeagueListVO vo) {
+		log.debug("vo={}", vo);
+		return sqlSession.selectList("league.listLeagueSearch", vo);
 	}
 	
 	@Override
