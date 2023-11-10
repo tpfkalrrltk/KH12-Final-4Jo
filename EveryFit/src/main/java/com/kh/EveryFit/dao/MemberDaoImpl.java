@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.EveryFit.dto.EventDto;
+import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.error.NoTargetException;
 
@@ -74,4 +76,23 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.findByMemberEmail",memberEmail);
 	}
 
+	//지역조회
+	@Override
+	public List<LocationDto> selectLocationList() {
+		return sqlSession.selectList("member.locationList");
+	}
+	@Override
+	public LocationDto selectOneByLocationNo(int locationNo) {
+		return sqlSession.selectOne("member.locationFind", locationNo);
+	}
+	
+	//종목조회
+	@Override
+	public List<EventDto> selectEventList() {
+		return sqlSession.selectList("member.eventList");
+	}
+	@Override
+	public EventDto selectOneByEventNo(int eventNo) {
+		return sqlSession.selectOne("member.eventFind", eventNo);
+	}
 }
