@@ -28,4 +28,5 @@ public class JungmoListByMoimNoVO {
     private String jungmoStatus;
     private int chatRoomNo;
     private String memberNick;
+    private Integer attachNo;
 }

@@ -92,7 +92,7 @@
 	<!-- 모임 가입할 때 멤버 등록 -->
 	<insert id="insertMoimMember">
 	    <selectKey keyProperty="GenderCheck" resultType="String" order="BEFORE">
-	        select moim_gender_check from moim WHERE moim_no = #{moimNo}
+	        select moim_gender_check from moim where moim_no = #{moimNo}
 	    </selectKey>
 	
 	    <if test="GenderCheck == 'Y'">
@@ -180,13 +180,15 @@
 	    where jungmo_no = #{jungmoNo}
 	</update>
 	
-	<!-- 정모 목록(수정해야함) -->
+	<!-- 정모 목록(이미지번호랑 같이 조회) -->
 	<select id="jungmoList" resultType="JungmoListByMoimNoVO">
-		select j.* from jungmo j 
-		left outer join jungmo_member jm 
-		on j.jungmo_no = jm.jungmo_no 
-		where moim_no = #{moimNo} 
-		order by jungmo_schedule desc 
+		select j.*, ji.attach_no from jungmo j 
+		left outer join jungmo_image ji 
+		on j.jungmo_no = ji.jungmo_no
+		<where>
+		moim_no = #{moimNo} 
+		</where> 
+		order by j.jungmo_schedule desc 
 	</select>
 	
 	<!-- 정모 취소(삭제) -->
@@ -205,15 +207,30 @@
 	
 	<!-- 프로필사진 등록 -->
 	<insert id="insertMoimProfile">
-		insert into moim_image values(#{moimNo}, #{attachNo})
+		insert into moim_image
+		(moim_no, attach_no)
+		values(#{moimNo}, #{attachNo})
+	</insert>
+	<insert id="insertJungmoProfile">
+		insert into jungmo_image
+		(jungmo_no, attach_no) 
+		values(#{jungmoNo}, #{attachNo})
 	</insert>
 	<!-- 프로필사진 삭제 -->
 	<delete id="deleteMoimProfile">
 		delete moim_image where moim_no = #{moimNo}
 	</delete>
+	<delete id="deleteJungMoProfile">
+		delete jungmo_image where jungmo_no = #{jungmoNo}
+	</delete>
 	<!-- 프로필 사진 검색 -->
 	<select id="findMoimProfile" resultType="Integer">
 		select attach_no from moim_image where moim_no = #{moimNo}
 	</select>
+	<select id="findJungmoProfile" resultType="Integer">
+		select attach_no from jungmo_image where jungmo_no = #{jungmoNo}
+	</select>
+	
+	
 	
 </mapper>

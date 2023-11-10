@@ -1,80 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
 <title>모임 상세페이지</title>
 
-<div class="m-5 p-5">
 
-  <div class="jumbotron mt-5">
-                <h1 class="display-4 bg-primary rounded text-light p-3">모임상세</h1>
-                <p class="lead">모임상세/정모등록 페이지입니다</p>
-                <hr class="my-4" />
-                <p>구현중입니다</p>
-            </div>
+<div class="container-fluid mb-5 pb-5">
+	<div class="row">
+		<div class="col-md-10 offset-md-1">
+			<div class="jumbotron mt-5">
+				<h1 class="display-4 bg-primary rounded text-light p-3">모임상세</h1>
+				<p class="lead">모임상세/정모등록 페이지입니다</p>
+				<hr class="my-4" />
+				<p>구현중입니다</p>
+			</div>
 
 
-<div class="card border-primary mb-3" style="max-width: 20rem;">
+			<div class="card border-primary mb-3" style="max-width: 20rem;">
 
-  <div class="card-body">
+				<div class="card-body">
 
-	<div class="row mt-4">
-		<c:choose>
-			<c:when test="${profile == null}">
-				<img src="/images/user.png" width="150" height="150"
-					class="image image-circle image-border profile-image">
-			</c:when>
-			<c:otherwise>
-				<img src="/rest/attach/download?attachNo=${profile}" width="150" height="150"
-				class="image image-circle image-border profile-image">
-			</c:otherwise>
-		</c:choose>
-		
-		<!--  라벨을 만들고 파일선택창을 숨김 -->
-		<label>
-		<input type="file" class="profile-chooser" accept="image/*">
+					<div class="row mt-4">
+						<c:choose>
+							<c:when test="${profile == null}">
+								<img src="/images/user.png" class="rounded profile-image">
+							</c:when>
+							<c:otherwise>
+								<img src="/rest/attach/download?attachNo=${profile}"
+									class="rounded profile-image">
+							</c:otherwise>
+						</c:choose>
 
-		<i class="fa-solid fa-user fa-2x"></i>
-		</label>
-		<i class="fa-solid fa-trash-can fa-2x profile-delete"></i>
-		<br>
-	</div>
-  </div>
-</div>
+						<!--  라벨을 만들고 파일선택창을 숨김 -->
+						<label> <input type="file" class="profile-chooser"
+							accept="image/*"> <i class="fa-solid fa-user fa-2x"></i>
+						</label> <i class="fa-solid fa-trash-can fa-2x profile-delete"></i> <br>
+					</div>
+				</div>
+			</div>
 
-	${profile}
-	<h1>모임 상세(사진, 모임명, 설명)</h1>
-	${moimDto.moimNo}
-	${locationDto.locationDepth1}
-	${locationDto.locationDepth2}
-	${eventDto.eventName}
-	<h1>회원목록</h1>
-	<c:forEach var="moimMemberDto" items="${memberList}" >
+			${profile}
+			<h1>모임 상세(사진, 모임명, 설명)</h1>
+			${moimDto.moimNo} ${locationDto.locationDepth1}
+			${locationDto.locationDepth2} ${eventDto.eventName}
+			<h1>회원목록</h1>
+			<c:forEach var="moimMemberDto" items="${memberList}">
 		${moimMemberDto.memberEmail}
 		${moimMemberDto.moimMemberLevel}
 		${moimMemberDto.moimMemberStatus}
 	</c:forEach>
-	<hr>
-	<button type="button">
-	<a href="jungmo/create?moimNo=${moimDto.moimNo}">
-	정모등록
-	</a>
-	</button>
-	
-	<hr>
-	<h1>정모 List</h1>
-	<button type="button" class="load-list">목록불러오기</button>
-	<div class="jungmoContainer">
-	
+			<hr>
+			<button type="button">
+				<a href="jungmo/create?moimNo=${moimDto.moimNo}"> 정모등록 </a>
+			</button>
+
+			<hr>
+			<h1>정모 List</h1>
+			<button type="button" class="load-list">목록불러오기</button>
+			<div class="jungmoContainer"></div>
+		</div>
 	</div>
-	<hr>
-	
-	</div>
+</div>
+
 
 <script>
+
+	$(document).ready(function () {
+	    loadJungmoList();
+	});
 
 	var moimNo = "${moimDto.moimNo}";
 	$(".profile-chooser").change(function(){
@@ -85,7 +81,7 @@
 		//ajax로 multipart 업로드
 		var form = new FormData();
 		form.append("attach", input.files[0]);
-		form.append("moimNo", urlParams);
+		form.append("moimNo", moimNo);
 		
 		$.ajax({
 			url:"http://localhost:8080/rest/attach/upload",
@@ -144,6 +140,7 @@
 					$(".jungmoContainer").append(data.jungmo_price + " ");
 					$(".jungmoContainer").append(data.jungmo_schedule + " ");
 					$(".jungmoContainer").append(data.jungmo_status + " ");
+					$(".jungmoContainer").append(data.attach_no + " ");
 				});
             },
             error: function () {
@@ -155,7 +152,7 @@
     // 페이지에 Jungmo 목록을 표시하는 함수
 //     function displayJungmoList(jungmoList) {
 //         var container = $('.jungmoContainer');
-//         container.empty(); // 새 항목을 추가하기 전에 컨테이너를 지웁니다
+//         container.empty(); 
 
 //         var ul = $('<ul>');
 
@@ -175,4 +172,3 @@
 	
 </script>
 
-	

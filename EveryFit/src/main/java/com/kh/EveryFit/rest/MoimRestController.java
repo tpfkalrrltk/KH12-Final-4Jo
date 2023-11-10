@@ -14,6 +14,9 @@ import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.vo.JungmoListByMoimNoVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/moim")

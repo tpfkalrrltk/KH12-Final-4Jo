@@ -51,10 +51,35 @@ public class MoimDaoImpl implements MoimDao {
 	}
 	
 	@Override
-	public Integer findMoimProfile(int moimNo) {
+	public Integer findMoimProfile(Integer moimNo) {
 		try {
 			//queryForObject는 1개의 결과가 나오지 않으면 예외가 발생
 			return sqlSession.selectOne("moim.findMoimProfile", moimNo);
+		}
+		catch(Exception e) {
+			//예외 발생 시 null로 대체하여 반환
+			return null;
+		}
+	}
+	
+	@Override
+	public void insertJungmoProfile(int jungmoNo, int attachNo) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("jungmoNo", jungmoNo);
+	    params.put("attachNo", attachNo);
+		sqlSession.insert("moim.insertJungmoProfile", params);
+	}
+	
+	@Override
+	public boolean deleteJungmoProfile(int jungmoNo) {
+		return sqlSession.delete("moim.deleteJungMoProfile", jungmoNo) > 0;
+	}
+	 
+	@Override
+	public Integer findJungmoProfile(Integer jungmoNo) {
+		try {
+			//queryForObject는 1개의 결과가 나오지 않으면 예외가 발생
+			return sqlSession.selectOne("findJungmoProfile", jungmoNo);
 		}
 		catch(Exception e) {
 			//예외 발생 시 null로 대체하여 반환
