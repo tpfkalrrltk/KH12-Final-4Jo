@@ -1,6 +1,6 @@
 package com.kh.EveryFit.dto;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +16,12 @@ public class JungmoDto {
     private String jungmoAddrLink;
     private int jungmoCapacity;
     private int jungmoPrice;
-    private Date jungmoSchedule;
+    private Timestamp jungmoSchedule;
     private String jungmoStatus;
     private int chatRoomNo;
     private String memberNick;
+    
+    public void setJungmoSchedule(java.sql.Timestamp timestamp) {
+        this.jungmoSchedule = timestamp;
+    }
 }

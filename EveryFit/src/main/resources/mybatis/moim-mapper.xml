@@ -182,11 +182,9 @@
 	
 	<!-- 정모 목록(수정해야함) -->
 	<select id="jungmoList" resultType="JungmoListByMoimNoVO">
-		select j.*, m.member_nick from jungmo j 
+		select j.* from jungmo j 
 		left outer join jungmo_member jm 
 		on j.jungmo_no = jm.jungmo_no 
-		inner join member m 
-		on jm.member_email = m.member_email 
 		where moim_no = #{moimNo} 
 		order by jungmo_schedule desc 
 	</select>
@@ -204,5 +202,18 @@
 		)
 		values(#{jungmoNo}, #{memberEmail})
 	</insert>
+	
+	<!-- 프로필사진 등록 -->
+	<insert id="insertMoimProfile">
+		insert into moim_image values(#{moimNo}, #{attachNo})
+	</insert>
+	<!-- 프로필사진 삭제 -->
+	<delete id="deleteMoimProfile">
+		delete moim_image where moim_no = #{moimNo}
+	</delete>
+	<!-- 프로필 사진 검색 -->
+	<select id="findMoimProfile" resultType="Integer">
+		select attach_no from moim_image where moim_no = #{moimNo}
+	</select>
 	
 </mapper>

@@ -1,6 +1,8 @@
 package com.kh.EveryFit.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,29 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.selectList("moim.moimMemberList", moimNo);
 	}
 	
+	@Override
+	public void insertMoimProfile(int moimNo, int attachNo) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("moimNo", moimNo);
+	    params.put("attachNo", attachNo);
+		sqlSession.insert("moim.insertMoimProfile", params);
+	}
 	
+	@Override
+	public boolean deleteMoimProfile(int moimNo) {
+		return sqlSession.delete("moim.deleteMoimProfile", moimNo) > 0;
+	}
+	
+	@Override
+	public Integer findMoimProfile(int moimNo) {
+		try {
+			//queryForObject는 1개의 결과가 나오지 않으면 예외가 발생
+			return sqlSession.selectOne("moim.findMoimProfile", moimNo);
+		}
+		catch(Exception e) {
+			//예외 발생 시 null로 대체하여 반환
+			return null;
+		}
+	}
 	
 }
