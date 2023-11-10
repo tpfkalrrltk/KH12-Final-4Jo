@@ -81,6 +81,11 @@ public class MemberDaoImpl implements MemberDao {
 	public List<LocationDto> selectLocationList() {
 		return sqlSession.selectList("member.locationList");
 	}
+	// 시/도별 지역 조회
+	@Override
+	public List<LocationDto> selectLocationListByDepth1(String locationDepth1) {
+		return sqlSession.selectList("member.locationListByDepth1", locationDepth1);
+	}
 
 	@Override
 	public LocationDto selectOneByLocationNo(int locationNo) {

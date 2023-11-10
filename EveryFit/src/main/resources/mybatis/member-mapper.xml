@@ -92,9 +92,15 @@
 		)where rn between #{begin} and #{end}
 	</select>	
 	
-	<!-- location 목록 조회 -->
+	<!-- location 전체조회 -->
 	<select id="locationList" resultType="LocationDto">
 		select * from location order by location_no asc
+	</select>
+	
+	<!-- location 시/도 목록 조회 -->
+	<select id="locationListByDepth1" resultType="LocationDto">
+		select * from location where location_depth1 = #{locationDepth1}
+		order by location_no asc
 	</select>
 	
 	<!-- location 상세 조회 -->
