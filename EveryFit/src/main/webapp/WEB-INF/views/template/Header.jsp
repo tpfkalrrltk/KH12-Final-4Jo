@@ -29,6 +29,7 @@ p {
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <!--     전용 CDN -->
 <link rel="stylesheet" type="text/css" href="/css/EveryFit-layout.css">
@@ -97,7 +98,8 @@ p {
 				aria-expanded="false">
 				<h3><i class="fa-solid fa-list"></i></h3></a>
 					<div class="custom-service  rounded">
-									<a class="left"  href="moim/create">모임 만들기</a>
+									<a class="left"  href="${pageContext.request.contextPath}/moim/create">모임 만들기</a>
+									<a class="left"  href="${pageContext.request.contextPath}/moim/detail?moimNo=5">모임 상세(테스트용)</a>
 									<a class="left" href="#">리그 목록</a>
 									<a class="left " href="#">여성전용 모임</a>
 									<a class="left " href="#">자유게시판</a>					
