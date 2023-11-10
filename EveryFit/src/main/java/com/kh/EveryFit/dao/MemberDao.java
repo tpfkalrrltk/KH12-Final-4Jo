@@ -33,6 +33,12 @@ public interface MemberDao {
 	//종목 조회(목록/상세)
 	List<EventDto> selectEventList();	
 	EventDto selectOneByEventNo(int eventNo);
+
+	//회원 개인정보변경 
+	void updateMemberInfo(MemberDto inputDto);
+	
+//	로그인 시간 갱신 
+//	void updateMemberLogin(String memberEmail);
 	
 	
 	

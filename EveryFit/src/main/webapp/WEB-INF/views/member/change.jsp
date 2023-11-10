@@ -24,15 +24,14 @@
 
 						<div class="col-md-4 offset-md-4 text-center">
 							<label>이메일</label> <input type="email" name="memberEmail"
-								class="form-control" value="${memberDto.memberEmail}"
-								placeholder="testuser@kh.com">
+								class="form-control" value="${memberDto.memberEmail}" disabled>
 						</div>
 
 						<div class="col-md-4 offset-md-4 text-center">
-							<label>비밀번호</label><input type="text" class="form-control"
-								placeholder="Default input" name="memberPw">
+							<label>비밀번호</label><input type="text" class="form-control"name="memberPw">
+							<button class="btn btn-danger">변경하기</button>
 						</div>
-
+						
 						<div class="col-md-4 offset-md-4 text-center">
 							<label> 닉네임 <i class="fa-solid fa-asterisk red"></i>
 							</label> <input type="text" name="memberNick" class="form-control"
@@ -41,12 +40,11 @@
 
 						<div class="col-md-4 offset-md-4 text-center">
 							<label>연락처</label> <input type="tel" name="memberContact"
-								class="form-control" value="${memberDto.memberContact}"
-								placeholder="- 제외하고 입력">
+								class="form-control" value="${memberDto.memberContact}">
 						</div>
 						<div class="col-md-4 offset-md-4 text-center">
 							<label>생년월일</label> <input type="date" name="memberBirth"
-								class="form-control" value="${memberDto.memberBirth}">
+								class="form-control" value="${memberDto.memberBirth}" disabled>
 						</div>
 						<%-- <div class="col-md-4 offset-md-4 text-center">
 								<label class="mb-10" style="display: block;">주소</label> <input
@@ -60,11 +58,14 @@
 									class="form-control mt-10" name="memberAddr2"
 									placeholder="상세주소" value="${memberDto.memberAddr2}">
 							</div> --%>
-						<div class="col-md-4 offset-md-4 text-center">
+						
+						
+							<div class="col-md-4 offset-md-4 text-center">
 							<label> 비밀번호 확인 <i class="fa-solid fa-asterisk red"></i>
-							</label> <input type="password" name="memberPw" required
+							</label> <input type="password" name="memberPwRe" required
 								class="form-control">
 						</div>
+						
 						<div class="col-md-4 offset-md-4 text-center">
 							<button type="submit" class="btn btn-info mt-4 btn-lg">정보변경</button>
 						</div> 
