@@ -26,8 +26,9 @@ public interface MemberDao {
 
 	MemberDto selectOne(String memberEmail);
 
-	//지역 조회(목록/상세)
+	//지역 조회(목록/시도별 목록/상세)
 	List<LocationDto> selectLocationList();
+	List<LocationDto> selectLocationListByDepth1(String locationDepth1);
 	LocationDto selectOneByLocationNo(int locationNo);
 
 	//종목 조회(목록/상세)
@@ -36,6 +37,8 @@ public interface MemberDao {
 
 	//회원 개인정보변경 
 	void updateMemberInfo(MemberDto inputDto);
+
+	
 	
 //	로그인 시간 갱신 
 //	void updateMemberLogin(String memberEmail);
