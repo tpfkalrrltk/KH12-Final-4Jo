@@ -20,6 +20,7 @@
 
 		insert into free_board(
 		free_board_no,
+		member_nick,
 		free_board_title,
 		free_board_content,
 		free_board_category
@@ -27,6 +28,7 @@
 		values
 		(
 		#{freeBoardNo},
+		#{memberNick},
 		#{freeBoardTitle},
 		#{freeBoardContent},
 		#{freeBoardCategory}
@@ -44,6 +46,9 @@
 		<set>
 			<if test="freeBoardDto.freeBoardTitle != null">
 				free_board_title = #{freeBoardDto.freeBoardTitle},
+			</if>
+			<if test="freeBoardDto.memberNick != null">
+				member_nick= #{freeBoardDto.memberNick},
 			</if>
 			<if test="freeBoardDto.freeBoardContent != null">
 				free_board_content = #{freeBoardDto.freeBoardContent},
