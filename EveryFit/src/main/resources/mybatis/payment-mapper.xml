@@ -52,7 +52,10 @@
                 p.payment_product,
                 p.payment_member,
                 pp.period_payment_no,
-                pp.period_payment_sid 
+                pp.period_payment_sid,
+                pp.period_payment_start,
+                pp.period_payment_end,
+                pp.period_payment_status
             FROM 
                 payment p
             INNER JOIN
@@ -60,7 +63,8 @@
             ON 
                 p.payment_no = pp.period_payment_no
             WHERE 
-                TRUNC(p.payment_time) = TRUNC(SYSDATE)
+                TRUNC(pp.period_payment_start) = TRUNC(SYSDATE) 
+                AND pp.period_payment_status = 'Y'
         ]]>
 	</select>
 	
