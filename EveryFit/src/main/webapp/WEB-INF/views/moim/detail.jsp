@@ -17,7 +17,11 @@
             </div>
 
 
-	<div class="row mv-30">
+<div class="card border-primary mb-3" style="max-width: 20rem;">
+
+  <div class="card-body">
+
+	<div class="row mt-4">
 		<c:choose>
 			<c:when test="${profile == null}">
 				<img src="/images/user.png" width="150" height="150"
@@ -38,9 +42,10 @@
 		<i class="fa-solid fa-trash-can fa-2x profile-delete"></i>
 		<br>
 	</div>
+  </div>
+</div>
 
-
-	<!-- 수정, 정모등록 등 비동기로 구현할 예정임 -->
+	${profile}
 	<h1>모임 상세(사진, 모임명, 설명)</h1>
 	${moimDto.moimNo}
 	${locationDto.locationDepth1}
@@ -53,117 +58,93 @@
 		${moimMemberDto.moimMemberStatus}
 	</c:forEach>
 	<hr>
-	<h1>정모등록(modal로 구현 예정)-비동기</h1>
-	<div>
-		정모명<input type="text" name="jungmoTitle">
-		정모명<input type="hidden" name="moimNo" value="${moimDto.moimNo}">
-		정모주소<input type="text" name="jungmoAddr">
-		링크<input type="text" name="jungmoAddrLink">
-		인원<input type="text" name="jungmoCapacity">
-		가격<input type="number" name="jungmoPrice">
-		일정<input type="datetime-local" name="jungmoSchedule">
-		채팅방<input type="number" name="chatRoomNo" value=1>
-	<button type="submit" class="save-btn">등록하기</button>
-	</div>
-	<h1>정모수정(modal로 구현 예정)-비동기</h1>
+	<button type="button">
+	<a href="jungmo/create?moimNo=${moimDto.moimNo}">
+	정모등록
+	</a>
+	</button>
 	
 	<hr>
 	<h1>정모 List</h1>
 	<button type="button" class="load-list">목록불러오기</button>
+	<div class="jungmoContainer">
+	
+	</div>
 	<hr>
 	
 	</div>
-	</div>
+
 <script>
 
-	//변경버튼을 누르면 프로필을 업로드하고 이미지 교체
-	//파일이 바뀌면 프로필을 업로드하고 이미지 교체
-// 	$(".profile-chooser").change(function(){
-// 		var input = this;
-// 		if(input.files.length == 0) return;
-		
-// 		//ajax로 multipart 업로드
-// 		var form = new FormData();
-// 		form.append("attach", input.files[0]);
-		
-// 		$.ajax({
-// 			url:window.contextPath+"/rest/attach/upload",
-// 			method:"post",
-// 			processData:false,
-// 			contentType:false,
-// 			data:form,
-// 			success:function(response){
-// 				//응답 형태 - { "attachNo" : 7 }
-// 				//프로필 이미지 교체
-// 				$(".profile-image").attr("src", 
-// 					"/rest/attach/download?attachNo="+response.attachNo);
-// 			},
-// 			error:function(){
-// 				window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
-// 			},
-// 		});
-		
-// 	});
-// 	//삭제아이콘을 누르면 프로필이 제거되도록 구현
-// 	$(".profile-delete").click(function() {
-// 		//확인창
-// 		var choice = window.confirm("정말 프로필을 지우시겠습니까?");
-// 		if(choice == false) return;
-		
-// 		//삭제요청
-// 		$.ajax({
-// 			url:window.contextPath+"/rest/attach/delete",
-// 			method:"post",
-// 			success:function(response){
-// 				$(".profile-image").attr("src", "/images/user.png");
-// 			},
-// 		});
-// 	});
-	
-	$(".save-btn").click(function() {
-        // 입력된 데이터를 JavaScript 객체로 구성
-        var requestData = {
-            jungmoTitle: $("input[name='jungmoTitle']").val(),
-            moimNo: $("input[name='moimNo']").val(),
-            jungmoAddr: $("input[name='jungmoAddr']").val(),
-            jungmoAddrLink: $("input[name='jungmoAddrLink']").val(),
-            jungmoCapacity: $("input[name='jungmoCapacity']").val(),
-            jungmoPrice: $("input[name='jungmoPrice']").val(),
-            jungmoSchedule: $("input[name='jungmoSchedule']").val()
-//             chatRoomNo: $("input[name='chatRoomNo']").val()
-            // 다른 필드도 필요한 경우 추가 가능
-        };
+	var moimNo = "${moimDto.moimNo}";
+	$(".profile-chooser").change(function(){
 
-        // AJAX 요청 보내기
-        $.ajax({
-            url: "http://localhost:8080/rest/moim/create", // 서버의 엔드포인트 URL
-            type: "POST", // HTTP 요청 메서드 (POST를 사용)
-            data: JSON.stringify(requestData), // JavaScript 객체를 JSON 문자열로 변환하여 전송
-            contentType: "application/json", // 전송 데이터 타입
-            success: function(response) {
- 				console.log(response);
-            },
-            error: function(error) {
-                window.alert("저장 중 오류가 발생했습니다.");
-            }
-        });
-    });
-	
+		var input = this;
+		if(input.files.length == 0) return;
+		
+		//ajax로 multipart 업로드
+		var form = new FormData();
+		form.append("attach", input.files[0]);
+		form.append("moimNo", urlParams);
+		
+		$.ajax({
+			url:"http://localhost:8080/rest/attach/upload",
+			method:"post",
+			processData:false,
+			contentType:false,
+			data:form,
+			success:function(response){
+				//응답 형태 - { "attachNo" : 7 }
+				//프로필 이미지 교체
+				$(".profile-image").attr("src", 
+					"/rest/attach/download?attachNo="+response.attachNo);
+			},
+			error:function(){
+				window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
+			},
+		});
+		
+	});
+	//삭제아이콘을 누르면 프로필이 제거되도록 구현
+	$(".profile-delete").click(function() {
+		//확인창
+		var choice = window.confirm("정말 프로필을 지우시겠습니까?");
+		if(choice == false) return;
+		
+		//삭제요청
+		$.ajax({
+			url:"http://localhost:8080/rest/attach/delete",
+			method:"post",
+			data:{moimNo, moimNo},
+			success:function(response){
+				$(".profile-image").attr("src", "/images/user.png");
+			},
+		});
+	});
+
 	
     // 정모목록을 로드하는 함수
     function loadJungmoList() {
         
-    	var moimNo = ${moimDto.moimNo};
-    	
-    	console.log(moimNo);
-    	
+    	var moimNo = "${moimDto.moimNo}";
+    	    	
     	$.ajax({
             type: 'POST',
             url: 'http://localhost:8080/rest/moim/list', 
             data: {moimNo: moimNo},
             dataType: 'json',
             success: function (data) {
-                displayJungmoList(data);
+                
+				$.each(data, function(index, data) { // 데이터 =item
+					$(".jungmoContainer").append(index + " "); // index가 끝날때까지 
+					$(".jungmoContainer").append(data.jungmo_title + " ");
+					$(".jungmoContainer").append(data.jungmo_addr + " ");
+					$(".jungmoContainer").append(data.jungmo_addr_link + " ");
+					$(".jungmoContainer").append(data.jungmo_capacity + " ");
+					$(".jungmoContainer").append(data.jungmo_price + " ");
+					$(".jungmoContainer").append(data.jungmo_schedule + " ");
+					$(".jungmoContainer").append(data.jungmo_status + " ");
+				});
             },
             error: function () {
                 alert('Jungmo 목록을 로드하는 중 오류가 발생했습니다.');
@@ -172,19 +153,19 @@
     }
 
     // 페이지에 Jungmo 목록을 표시하는 함수
-    function displayJungmoList(jungmoList) {
-        var container = $('.jungmoContainer');
-        container.empty(); // 새 항목을 추가하기 전에 컨테이너를 지웁니다
+//     function displayJungmoList(jungmoList) {
+//         var container = $('.jungmoContainer');
+//         container.empty(); // 새 항목을 추가하기 전에 컨테이너를 지웁니다
 
-        var ul = $('<ul>');
+//         var ul = $('<ul>');
 
-        $.each(jungmoList, function (index, jungmo) {
-            var li = $('<li>').text('제목: ' + jungmo.jungmoTitle + ', 주소: ' + jungmo.jungmoAddr);
-            ul.append(li);
-        });
+//         $.each(jungmoList, function (index, jungmo) {
+//             var li = $('<li>').text(${jungmo.jungmo_title});
+//             ul.append(li);
+//         });
 
-        container.append(ul);
-    }
+//         container.append(ul);
+//     }
 
     // 버튼 클릭 시 Jungmo 목록 로드
    $('.load-list').click(function () {
@@ -192,6 +173,6 @@
    });
 
 	
-
 </script>
+
 	

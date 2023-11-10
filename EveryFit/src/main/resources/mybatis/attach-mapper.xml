@@ -15,8 +15,10 @@
 			attach_no, 
 			attach_name, 
 			attach_type, 
-			attach_size"
-			) values(
+			attach_size
+			) 
+			values
+			(
 			#{attachNo},
 			#{attachName},
 			#{attachType},
@@ -25,7 +27,7 @@
 	</insert>
 	
 	<select id="find" resultType="AttachDto">
-		select * from attach where attch_no = #{attchNo}
+		select * from attach where attach_no = #{attchNo}
 	</select>
 	
 	<delete id="delete">
