@@ -20,4 +20,7 @@ public class PaymentListAllVO {
 	private String paymentMember;
 	private int periodPaymentNo;
 	private String periodPaymentSid;
+	private Date periodPaymentStart;
+	private Date periodPaymentEnd;
+	private String periodPaymentStatus;
 }
