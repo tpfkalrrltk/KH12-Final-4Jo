@@ -181,15 +181,75 @@
 	</update>
 	
 	<!-- 정모 목록(이미지번호랑 같이 조회) -->
-	<select id="jungmoList" resultType="JungmoListByMoimNoVO">
-		select j.*, ji.attach_no from jungmo j 
-		left outer join jungmo_image ji 
-		on j.jungmo_no = ji.jungmo_no
-		<where>
-		moim_no = #{moimNo} 
-		</where> 
-		order by j.jungmo_schedule desc 
+	<select id="jungmoList" resultType="JungmoListVO">
+		select * from jungmo_list where moimNo = #{moimNo}
 	</select>
+	<!-- 계층형으로 조회하기! -->
+	<!-- 추가해야할것 : 
+			정모멤버수/
+			멤버아이디+프로필사진번호/
+			정모상태(마감제외)-->
+<!-- 	<select id="jungmoList" resultType="JungmoListByMoimNoVO"> -->
+<!-- 		select j.*, ji.attach_no from jungmo j  -->
+<!-- 		left outer join jungmo_image ji  -->
+<!-- 		on j.jungmo_no = ji.jungmo_no -->
+<!-- 		<where> -->
+<!-- 		moim_no = #{moimNo}  -->
+<!-- 		</where>  -->
+<!-- 		order by j.jungmo_schedule desc  -->
+<!-- 	</select> -->
+		
+	<resultMap type="jungmoWithMembersVO" id="jungmoWithMembersVO">
+		<!-- 객체 -->
+		<association property="jungmoListVO">
+			<result column="jungmo_no" property="jungmoNo"/>
+			<result column="moim_no" property="moimNo"/>
+			<result column="jungmo_title" property="jungmoTitle"/>
+			<result column="jungmo_addr" property="jungmoAddr"/>
+			<result column="jungmo_addr_link" property="jungmoAddrLink"/>
+			<result column="jungmo_capacity" property="jungmoCapacity"/>
+			<result column="jungmo_price" property="jungmoPrice"/>
+			<result column="jungmo_schedule" property="jungmoSchedule"/>
+			<result column="jungmo_status" property="jungmoStatus"/>
+			<result column="chat_room_no" property="chatRoomNo"/>
+			<result column="jungmo_image_attach_no" property="jungmoImageAttachNo"/>
+			<result column="member_count" property="memberCount"/>
+		</association>
+		
+		<!-- List -->
+		<collection property="jungmoMemberList" select="jungmoMemberList"
+			column="jungmo_no" javaType="java.util.List" ofType="jungmoListVO">
+			<result column="member_email" property="memberEmail"/>
+			<result column="jungmo_no" property="jungmoNo"/>
+			<result column="attach_no" property="attachNo"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 정모리스트(대표정보) -->
+	<select id="jungmoListAll" resultMap="jungmoWithMembersVO">
+		select * from jungmo_list where moim_no = #{moimNo}
+	</select>
+	
+	<!-- 정모번호 별 멤버리스트 -->
+	<select id="jungmoMemberList" resultType="jungmoMemberListVO">
+		select * from jungmo_member_list where jungmo_no = #{jungmoNo} 
+	</select>
+	
+	
+	
+	
+	<!-- 해당 정모의 회원목록+프로필사진번호 -->
+<!-- 	<select id="jungmoMemberList" resultType="JungmoMemberListVO"> -->
+<!-- 		select j.member_email, mi.attach_no, j.jungmo_no  from jungmo_member j  -->
+<!-- 		left outer join member_image mi  -->
+<!-- 		on j.member_email = mi.member_email -->
+<!-- 		where jungmo_no = #{jungmoNo}  -->
+<!-- 	</select> -->
+	<!-- 정모 상세정보 -->
+	<select id="findJungmo" resultType="JungmoDto">
+		select * from jungmo where jungmo_no = #{jungmoNo}
+	</select>
+	
 	
 	<!-- 정모 취소(삭제) -->
 	<delete id="deleteJungmo">
@@ -198,12 +258,23 @@
 	
 	<!-- 정모에 회원 등록 -->
 	<insert id="insertJungmoMember">
-		insert into (
+		insert into jungmo_member(
 			jungmo_no,
 			member_email
 		)
 		values(#{jungmoNo}, #{memberEmail})
 	</insert>
+	<!-- 정모 멤버 수 count -->
+	<select id="jungmoMemberCount" resultType="int">
+		select count(*) jungmo_member where jungmo_no = #{jungmoNo}
+	</select>
+	<!-- 정모 등록 취소 -->
+	<delete id="deleteJungmoMember">
+		delete from jungmo_member
+		where jungmo_no = #{jungmoNo} 
+		and member_email = #{memberEmail}
+	</delete>
+		
 	
 	<!-- 프로필사진 등록 -->
 	<insert id="insertMoimProfile">

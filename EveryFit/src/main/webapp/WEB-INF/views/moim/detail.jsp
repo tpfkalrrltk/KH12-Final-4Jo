@@ -5,8 +5,13 @@
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
-<title>모임 상세페이지</title>
+<style>
+.jungmo-image {
+	width: 200px;
+}
+</style>
 
+<title>모임 상세페이지</title>
 
 <div class="container-fluid mb-5 pb-5">
 	<div class="row">
@@ -53,24 +58,59 @@
 		${moimMemberDto.moimMemberStatus}
 	</c:forEach>
 			<hr>
-			<button type="button">
-				<a href="jungmo/create?moimNo=${moimDto.moimNo}"> 정모등록 </a>
+			<button type="button" class="btn btn-primary">
+				<a class="link text-light" href="jungmo/create?moimNo=${moimDto.moimNo}"> 정모등록 </a>
 			</button>
 
 			<hr>
 			<h1>정모 List</h1>
-			<button type="button" class="load-list">목록불러오기</button>
-			<div class="jungmoContainer"></div>
+			<!-- 			<button type="button" class="load-list">목록불러오기</button> -->
+			<!-- 			<div class="list-group"></div> -->
+			<h3 class="card-header">Card header</h3>
+			<c:forEach var="jungmoList" items="${jungmoTotalList}">
+				<div class="card mb-3">
+					<div class="card-body">
+					<div class="col-4">
+						<img class="jungmo-image" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
+					</div>
+					<div class="col-8">
+						${jungmoList}
+						정모번호 : ${jungmoList.jungmoListVO.jungmoNo}
+						정모명 : ${jungmoList.jungmoListVO.jungmoTitle}
+						${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
+					<button type="button" class="btn btn-info btn-join">
+					<a href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">참가</a>
+					    <c:if test="${param.error != null}">
+                        <script>
+                            alert("인원이 꽉 참!");
+                        </script>
+                        <div class="row">
+                        <div class="col">
+                        	<c:forEach var="jungmoMemberList" items="${JungmoListVO.jungmoMemberList}">
+                       	 		이메일 ${jungmoMemberList}
+                    		</c:forEach>
+                        </div>
+                        </div>
+                   		</c:if>
+					</button>
+					<button type="button" class="btn btn-warning">
+					<a href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
+					</button>
+					</div>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
+
 	</div>
 </div>
 
 
 <script>
 
-	$(document).ready(function () {
-	    loadJungmoList();
-	});
+// 	$(document).ready(function () {
+// 	    loadJungmoList();
+// 	});
 
 	var moimNo = "${moimDto.moimNo}";
 	$(".profile-chooser").change(function(){
@@ -111,43 +151,66 @@
 		$.ajax({
 			url:"http://localhost:8080/rest/attach/delete",
 			method:"post",
-			data:{moimNo, moimNo},
+			data:{moimNo: moimNo},
 			success:function(response){
 				$(".profile-image").attr("src", "/images/user.png");
 			},
 		});
 	});
 
+	//회원 정모 참여
+// 	$(".btn-join").click(function() {
+		
+// 		var myId = "${sessionScope.name}";
+// 		var jungmoNo = parseInt($(this).closest(".card").find(".jungmo-no").text().trim(), 10);
+		
+// 		$.ajax({
+// 			url:"http://localhost:8080/rest/moim/join",
+// 			method:"post",
+// 			contentType:"application/json",
+// 			data: JSON.stringify({
+// 				memberEmail:myId,
+// 				jungmoNo:jungmoNo
+// 			}),
+// 			success:function(response) {
+// 				alert("참가신청이 완료되었습니다.");
+// 			}
+// 		});		
+// 	});
+	
 	
     // 정모목록을 로드하는 함수
-    function loadJungmoList() {
-        
-    	var moimNo = "${moimDto.moimNo}";
-    	    	
-    	$.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/rest/moim/list', 
-            data: {moimNo: moimNo},
-            dataType: 'json',
-            success: function (data) {
-                
-				$.each(data, function(index, data) { // 데이터 =item
-					$(".jungmoContainer").append(index + " "); // index가 끝날때까지 
-					$(".jungmoContainer").append(data.jungmo_title + " ");
-					$(".jungmoContainer").append(data.jungmo_addr + " ");
-					$(".jungmoContainer").append(data.jungmo_addr_link + " ");
-					$(".jungmoContainer").append(data.jungmo_capacity + " ");
-					$(".jungmoContainer").append(data.jungmo_price + " ");
-					$(".jungmoContainer").append(data.jungmo_schedule + " ");
-					$(".jungmoContainer").append(data.jungmo_status + " ");
-					$(".jungmoContainer").append(data.attach_no + " ");
-				});
-            },
-            error: function () {
-                alert('Jungmo 목록을 로드하는 중 오류가 발생했습니다.');
-            }
-        });
-    }
+//     function loadJungmoList() {      
+//     	var moimNo = "${moimDto.moimNo}";  	    	
+//     	$.ajax({
+//             type: 'POST',
+//             url: 'http://localhost:8080/rest/moim/list', 
+//             data: {moimNo: moimNo},
+//             dataType: 'json',
+//             success: function (data) {     
+// 				$.each(data, function(index, data) { 
+// 				    var listItem = $("<a>").addClass("list-group-item list-group-item-action flex-column align-items-start");
+
+// 				    var headerDiv = $("<div>").addClass("d-flex w-100 justify-content-between");
+// 				    headerDiv.append("<h5 class='mb-1'>" + data.jungmo_title + "</h5>");
+// 				    headerDiv.append("<small class='text-muted'>" + data.jungmo_schedule + "</small>");
+					
+// 				    var image = $("<img>").attr("src", "/rest/attach/download?attachNo="+data.attach_no).addClass("img-fluid rounded "); // 이미지의 경로나 URL을 지정하세요.
+// 				    listItem.append(headerDiv);
+// 				    listItem.append(image); // 이미지 추가
+				    
+// 				    listItem.append(headerDiv);
+// 				    listItem.append("<p class='mb-1'>" + data.jungmo_addr + "</p>");
+// 				    listItem.append("<small>" + data.jungmo_capacity + "</small>");
+
+// 				    $(".list-group").append(listItem);
+// 				});
+//             },
+//             error: function () {
+//                 alert('Jungmo 목록을 로드하는 중 오류가 발생했습니다.');
+//             }
+//         });
+//     }
 
     // 페이지에 Jungmo 목록을 표시하는 함수
 //     function displayJungmoList(jungmoList) {
@@ -165,9 +228,9 @@
 //     }
 
     // 버튼 클릭 시 Jungmo 목록 로드
-   $('.load-list').click(function () {
-       loadJungmoList();
-   });
+//    $('.load-list').click(function () {
+//        loadJungmoList();
+//    });
 
 	
 </script>

@@ -78,7 +78,6 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public Integer findJungmoProfile(Integer jungmoNo) {
 		try {
-			//queryForObject는 1개의 결과가 나오지 않으면 예외가 발생
 			return sqlSession.selectOne("findJungmoProfile", jungmoNo);
 		}
 		catch(Exception e) {

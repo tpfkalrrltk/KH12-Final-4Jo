@@ -116,8 +116,10 @@ public class MoimController {
 		//모임이미지
 		Integer profile = moimDao.findMoimProfile(moimNo);
 		model.addAttribute("profile", profile);
-		log.debug("profile={}", profile);
-		
+//		//정모 목록
+//		model.addAttribute("jungmoList", jungmoDao.selectList(moimNo));		
+		//정모목록
+		model.addAttribute("jungmoTotalList", jungmoDao.selectTotalList(moimNo));
 		
 		return "moim/detail";
 		
@@ -177,6 +179,32 @@ public class MoimController {
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
+	//정모 참가
+	@RequestMapping("/jungmo/join")
+	public String jungmoJoin(@RequestParam String memberEmail,
+				@RequestParam int jungmoNo) {
+		//insert 하기 전에 해야 할 일
+		//[1] 이미 참가한 회원인지 검색
+		//[2] 정원이 가득 찼는지 검색
+		//정모 조회
+		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		//해당정모의 정모멤버 카운트와 정모Dto의 정원 수 비교
+		int count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
+		//만약 등록된 회원 수가 정원보다 같거나 많으면
+		if(count >= jungmoDto.getJungmoCapacity()) {
+			return "redirect:login?error";
+		}
+		jungmoDao.memberJoin(memberEmail, jungmoNo);
+		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+	}
 	
+	//정모취소
+	@RequestMapping("/jungmo/exit")
+	public String jungmoDelete(@RequestParam String memberEmail,
+			@RequestParam int jungmoNo) {
+		jungmoDao.deleteJungmoMember(memberEmail, jungmoNo);
+		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+	}
 	
 }

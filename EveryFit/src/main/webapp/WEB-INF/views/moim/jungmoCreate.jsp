@@ -4,10 +4,10 @@
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
-			<div class="card border-primary mb-3" style="max-width: 20rem;">
-
-
 <div class="container-fluid mt-4">
+<div class="card border-primary mb-3" style="max-width: 80rem;">
+
+
 	<div class="row mt-4">
 		<div class="col-10 offset-1">
 			<h1>정모등록</h1>
@@ -31,7 +31,7 @@
 		</div>
 	</div>
 </div>
-
+</div>
 <script>
 
 	//현재 페이지의 URL 가져오기
