@@ -116,4 +116,14 @@
 	<select id="eventFind" resultType="EventDto">
 		select * from event where event_no = #{eventNo}
 	</select>
+	
+		<!-- 수정  -->
+	<update id="changeMemberInfo">
+		update member
+		set
+			member_nick = #{memberNick},
+			member_contact = #{memberContact}
+		where member_email = #{memberEmail}
+	</update>
+	
 	</mapper>

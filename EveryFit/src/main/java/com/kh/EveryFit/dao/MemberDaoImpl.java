@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LocationDto;
+import com.kh.EveryFit.dto.MemberBlockDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.error.NoTargetException;
 
@@ -107,8 +108,17 @@ public class MemberDaoImpl implements MemberDao {
 	public void updateMemberInfo(MemberDto inputDto) {
 		 sqlSession.selectOne("member.eventFind", inputDto);
 	}
+	
+	@Override
+	public void changeMemberInfo(MemberDto memberDto) {
+		sqlSession.update("member.changeMemberInfo", memberDto);
 	}
 	
+	
+	
+	
+}
+
 //	로그인 시간 갱신 
 //	@Override
 //	public void updateMemberLogin(String memberEmail) {

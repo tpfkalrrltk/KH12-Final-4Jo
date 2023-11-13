@@ -100,17 +100,18 @@ a{
 						</div>
 						
 						<div>
-							<button class="btn btn-info mt-2"><a href="/member/change">프로필 등록 수정</a></button>
+							<button class="btn btn-info mt-2"><a href="/member/change">프로필 등록/수정</a></button>
 						</div>
 						
-							<%--<div>
-						 <!-- Button trigger modal -->
+							<div>
+						<!-- 	
+						 Button trigger modal
 							<button type="button" class="btn btn-info mt-2"
 								data-bs-toggle="modal" data-bs-target="#exampleModal">
 								프로필 등록/수정</button>
-
+ -->
 							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1"
+							<%-- <div class="modal fade" id="exampleModal" tabindex="-1"
 								aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -161,8 +162,8 @@ a{
 									<button type="button" class="btn btn-primary">Save
 										changes</button>
 								</div>
-							</div> 
-						</div>--%>
+							</div>  --%>
+						</div>
 					</div>
 				</div>
 			</div>
