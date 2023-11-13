@@ -3,8 +3,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
- <script >
-window.contextPath = "${pageContext.request.contextPath}";
+<script>
+	window.contextPath = "${pageContext.request.contextPath}";
 </script>
 
 <!DOCTYPE html>
@@ -96,13 +96,13 @@ p {
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!--     전용 CDN -->
 <link rel="stylesheet" type="text/css" href="/css/EveryFit-layout.css">
-<link rel="stylesheet" type="text/css" href="/css/test11.css">
+<!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
 
 <!-- Bootstrap JS (including Popper.js) -->
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
 
 
 

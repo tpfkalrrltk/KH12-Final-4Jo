@@ -23,18 +23,21 @@
 					<th>제목</th>
 					<th>상태</th>
 					<th>지역</th>
+					<th>참가요강</th>
+					<th>접수관리</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="leagueDto" items="${list}">
-					<tr onclick="location.href='leagueDetail?leagueNo=${leagueDto.leagueNo}'"
-						style="cursor:pointer;">
+					<tr>
 						<td>${leagueDto.leagueNo}</td>
 						<td>${leagueDto.eventName}</td>
 						<td>${leagueDto.leagueManager}</td>
-						<td>${leagueDto.leagueTitle}</td>
+						<td><a href="">${leagueDto.leagueTitle}</a></td>
 						<td>${leagueDto.leagueStatus}</td>
 						<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
+						<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-sm btn-primary">참가요강</a></td>
+						<td><i class="fa-solid fa-pen-to-square fa-lg edit-application btn"></i></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -77,7 +80,41 @@
 </form>
 </div></div>
 
+<!-- Modal -->
+<div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">접수 일정</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form id="appInsert" method="post">
+      	
+      	<div class="row">
+      		<div class="col">
+      			<label class="form-label">접수시작</label>
+      			<input type="datetime-local" name="leagueApplicationStart">
+      		</div>
+      	</div>
+      	<div class="row">
+      		<div class="col">
+      			<label class="form-label">접수마감</label>
+      			<input type="datetime-local" name="leagueApplicationEnd">
+      		</div>
+      	</div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" id="appBtn">등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+$(function(){
 	$("[name=locationDepth1]").change(function(e){
 		var locationDepth1 = e.target.value;
 		console.log(locationDepth1)
@@ -100,5 +137,11 @@
 			}
 		});
 	});
-		
+	
+	
+	$(".edit-application").click(function(e){
+		var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
+		Modal.show();
+	});
+});
 </script>

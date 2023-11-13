@@ -58,14 +58,14 @@ public class LeagueController {
 		leagueDto.setLeagueNo(leagueNo);
 		leagueDto.setChatRoomNo(1);
 		leagueDao.insertLeague(leagueDto);
-		return "redirect:leagueDetail?leagueNo="+leagueNo;
+		return "redirect:leagueGuide?leagueNo="+leagueNo;
 	}
 	
-	@RequestMapping("leagueDetail")
-	public String leagueDetail(@RequestParam int leagueNo, Model model) {
+	@RequestMapping("leagueGuide")
+	public String leagueGuide(@RequestParam int leagueNo, Model model) {
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
 		model.addAttribute("leagueDto",leagueDto);
-		return "league/leagueDetail";
+		return "league/leagueGuide";
 	}
 	
 	@GetMapping("/leagueEdit")
@@ -86,7 +86,7 @@ public class LeagueController {
 	@PostMapping("/leagueEdit")
 	public String leagueEdit(@ModelAttribute LeagueDto leagueDto, @RequestParam int leagueNo) {
 		leagueDao.updateLeague(leagueNo, leagueDto);
-		return "redirect:leagueDetail?leagueNo="+leagueNo;
+		return "redirect:leagueGuide?leagueNo="+leagueNo;
 	}
 	
 	@RequestMapping("/leagueDelete")
