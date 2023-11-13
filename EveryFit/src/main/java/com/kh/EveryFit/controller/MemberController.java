@@ -1,7 +1,5 @@
 package com.kh.EveryFit.controller;
 
-import java.sql.Date;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.MemberDao;
+import com.kh.EveryFit.dto.MemberBlockDto;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.error.AuthorityException;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -135,17 +136,65 @@ public class MemberController {
 		//비밀번호 검사 후 변경 처리 요청 
 		MemberDto findDto = memberDao.selectOne(memberemail);
 		log.debug("find={}",findDto);
-		log.debug("input{}",inputDto);
-		if(inputDto.getMemberPw().equals(findDto.getMemberPw())) {//비밀번호 일치 
+		log.debug("input={}",inputDto);
+		//if(inputDto.getMemberPw().equals(findDto.getMemberPw())) {//비밀번호 일치 
 			inputDto.setMemberEmail(memberemail);//아이디를 설정하고
-//			memberDao.change(inputDto);//정보 변경 처리
-			return "redirect:/member/mypage";
+			memberDao.changeMemberInfo(inputDto);// 정보 변경 처리
+
+            return "redirect:/member/mypage";
+        //} else {// 비밀번호가 일치하지 않는다면 다시 입력하도록 되돌려 보냄 
+        //    return "redirect:/member/change";
+        //}
+//    } catch (Exception e) {
+//        // 예외 처리 (예: 로그 남기기, 오류 페이지로 리다이렉트 등)
+//        return "redirect:/error";
+//    }
+}
+
+		@GetMapping("/exit")
+		public String exit() {
+			return "/member/exit";
 		}
-		else {//비밀번호가 일치하지 않는다면 다시 입력하도록 되돌려 보냄 
-			return "redirect:/member/change";
-		}
-		
-		}
-		
-	}
-	
+
+		@PostMapping("/exit")
+			public String exit(HttpSession session, @RequestParam String memberPw) {
+				String memberEmail = (String)session.getAttribute("name");
+				MemberDto memberDto = memberDao.selectOne(memberEmail);
+				if(memberDto.getMemberPw().equals(memberPw)){//비밀번호 확인
+				memberDao.delete(memberEmail);
+				//로그아웃 
+				session.removeAttribute("name");//세션에서 name의 값을 삭제 
+				return "redirect:/";
+				}
+				else {//비밀번호 불일치 
+					return "redirect:exit";
+				}
+			}
+//		비밀번호 찾기 
+//		@GetMapping("/findPw")
+//		public String findPw() {
+//			return "/member/findPw";
+//		}
+//		
+//		@PostMapping("/findPw")
+//		public String findPw() {
+////			[1] 아이디로 모든 정보를 불러오기 
+//			MemberDto findDto = 
+//					memberDao.selectOne(memberDto.getMemberEmail());
+//			
+//		}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

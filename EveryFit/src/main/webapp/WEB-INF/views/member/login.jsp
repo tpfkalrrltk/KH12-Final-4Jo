@@ -3,6 +3,16 @@
 
 <jsp:include page="../template/Header.jsp"></jsp:include>
 
+
+<style>
+a{
+	text-decoration: none;
+	color:white;
+}
+
+</style>
+
+
 <div>
 	<h3>login</h3>
 </div>
@@ -36,7 +46,7 @@
 							<div class="col-md-4 offset-md-4 mt-2">
 								 <span>아이디 찾기 </span> |
 								 <span>비밀번호 찾기</span> |
-								<span>회원가입</span>
+								<span><a href="/member/join">회원가입</a></span>
 							</div>
 							
 							

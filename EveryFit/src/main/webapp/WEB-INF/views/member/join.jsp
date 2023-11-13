@@ -8,68 +8,60 @@
 </style>
 
 <script>
-		 function{
-		 $("#id").blur(function() {
-		 	let idCheck = /^[a-zA-Z0-9]{8,16}$/;
-		 	
-		 	if ($("#id").val() == "") {
-		         $("#idcheck_blank").css("color", "red");
-		         $("#idcheck_blank").text("아이디는 필수 입력");
-		         id = false;
-		 	}else if(!idCheck.test($("#id").val())) {
-		         $("#idcheck_blank").css("color", "red");
-		         $("#idcheck_blank").text("영문과 숫자 조합하여 8~16자만 가능");
-		         id = false;
-		    }else {
-		    	$("#idcheck_blank").css("color", "blue");
-		    	$("#idcheck_blank").text("괜찮은 아이디입니다. 중복확인을 해보세요");
-		    	id = true;
-		    }
-		 	
-		 	if(id == true) {
-		 		$("#id_Confirm").show();
-		 	}else {
-		 		$("#id_Confirm").hide();
-		 	}
-		 });
-		 
-		 //////아이디 중복 검사////////
-		 $("#id_Confirm").click(function() {
-		 	if( $("#id").val() == "" ) {
-		 		alert("아이디를 입력해주세요.");
-		 	}else {
-		 		$.ajax({
-		 			url: "idcheck.do",
-		 			type: "post",
-		 			data: {'m_id':$("#id").val()},
-		 			success: function(data) {
-						//alert(data);
-						if(data = "YES") {
-							$("#idcheck_blank").css("color", "blue");
-					    	$("#idcheck_blank").text("사용가능한 아이디입니다.");
-					    	id_check = true;
-						}else {
-							$("#idcheck_blank").css("color", "red");
-					    	$("#idcheck_blank").text("중복된 아이디입니다.");
-					    	id_check = false;
-					    	$("#id").val("");
-						}
-					},
-					error: function() {
-						alert("e");
+	$(function() {
+		//검색버튼, 우편번호 입력창, 기본주소 입력창을 클릭하면 검색 실행
+		$(".post-search").click(function() {
+			new daum.Postcode({
+				oncomplete : function(data) {
+					// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					var addr = ''; // 주소 변수
+					var extraAddr = ''; // 참고항목 변수
+
+					//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+						addr = data.roadAddress;
+					} else { // 사용자가 지번 주소를 선택했을 경우(J)
+						addr = data.jibunAddress;
 					}
-		 		});
-		 	}
-		 });
-		 };
-		</script>
+
+					// 우편번호와 주소 정보를 해당 필드에 넣는다.
+					//document.querySelector("[name=memberPost]").value = data.zonecode;
+					$("[name=memberPost]").val(data.zonecode);
+					//document.querySelector("[name=memberAddr1]").value = addr;
+					$("[name=memberAddr1]").val(addr);
+					// 커서를 상세주소 필드로 이동한다.
+					//document.querySelector("[name=memberAddr2]").focus();
+					$("[name=memberAddr2]").focus();
+				}
+			}).open();
+		});
+	});
+	$("#password-check").blur(function() {
+		var originPw = $("[name=memberPw]").val();
+		var checkPw = $(this).val();
+		$(this).removeClass("success fail fail2");
+		if (originPw.length == 0) {//미입력이면
+			$(this).addClass("fail2");
+			status.pwCheck = false;
+		} else if (originPw == checkPw) {//일치하면
+			$(this).addClass("success");
+			status.pwCheck = true;
+		} else {//비밀번호 불일치
+			$(this).addClass("fail");
+			status.pwCheck = false;
+		}
+	});
+</script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
 
 
-<form class="join-form" action="" method="post" autocomplete="off">
-
-	<div class="container-fluid mt-5">
+<form class="join-form needs-validation" action="" method="post"
+	autocomplete="off" novalidate>
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-10 offset-md-1">
 
@@ -80,27 +72,41 @@
 							<div class="mt-5">
 								<h2>join</h2>
 							</div>
-							<div class="col-md-4 offset-md-4 text-center">
-								name<input type="text" name="memberName" class="form-control">
-							</div>
 
-							<div class="col-md-4 offset-md-4 text-center">
-								email<input type="text" name="memberEmail"
-									placeholder="everyfit@every.fit" id="id" class="form-control">
-								<button type="button" id="id_Confirm" value="중복확인"
-									class="btn btn-success">중복검사</button>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								<span>email<i class="fa-solid fa-asterisk red"></i></span>
+								<div class="d-flex mt-2">
+									<div>
+
+
+
+										<input type="text" name="memberEmail"
+											placeholder="everyfit@every.fit" id="id" class="form-control">
+										<div class="success-feedback">합격</div>
+										<div class="fail-feedback">불합격</div>
+										<div class="fail2-feedback">이미사용중인아이디</div>
+									</div>
+									<div class="ms-3">
+										<button type="button" id="id_Confirm" value="중복확인"
+											class="btn btn-success">인증</button>
+									</div>
+								</div>
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-center">
 								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
-								pw<input type="password" name="memberPw" class="form-control">
+								<span>비밀번호<i class="fa-solid fa-asterisk red"></i></span> <input
+									type="password" name="memberPw" class="form-control">
 							</div>
 
-							<!-- <div class="col-md-4 offset-md-4 text-center">
+							<div class="col-md-4 offset-md-4 text-center">
 								<label> 비밀번호 확인 <i class="fa-solid fa-asterisk red"></i>
-								</label> <input type="password" name="memberPw" required
-									class="form-control">
-							</div> -->
+								</label> <input type="password" required class="form-control"
+									name="memberPwConfirm" id="passwordConfirm">
+							</div>
+
+
 
 							<div class="col-md-4 offset-md-4 text-center">
 								nick<input type="text" name="memberNick" class="form-control">
@@ -127,6 +133,7 @@
 								<button type="submit" class="btn btn-info">join</button>
 							</div>
 						</div>
+
 					</div>
 				</div>
 
