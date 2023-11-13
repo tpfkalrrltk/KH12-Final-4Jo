@@ -12,43 +12,52 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-5 offset-2 p-5 m-4 bg-primary rounded-3  text-light">
-
+			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
 				<h1 class="display-5 fw-bold">자유 게시판</h1>
 			</div>
 		</div>
 
 
 		<div class="row">
-			<div class="col-2 offset-7 text-center bg-primary rounded-3  text-light">
+			<div
+				class="col-2 offset-9 text-center bg-primary rounded-3  text-light">
 
-			<h7 class="display-5">등록</h7>
-			
-				</div>
-		</div>
-
-		<div class="row mt-3">
-			<div class="col-10">
-
-				<table class="table">
-					<tr class="table table-primary">
-						<th>번호</th>
-						<th>카테고리</th>
-						<th>제목</th>
-						<th>닉네임</th>
-					</tr>
-					<c:forEach items="${FreeBoardList}" var="FreeBoardList">
-						<td>${FreeBoardList.freeBoardNo}</td>
-						<td>${FreeBoardList.freeBoardCategory}</td>
-						<td>${FreeBoardList.freeBoardTitle}</td>
-						<td>${FreeBoardList.memberNick}</td>
-						</tr>
-					</c:forEach>
-					<tr>
-				</table>
-
+				<a href="add" class="text-light" style="text-decoration: none"><h7
+						class="display-5">등록</h7></a>
 			</div>
 		</div>
+
+
+
+		<table class="table table-hover row">
+			<thead>
+				<tr class=" table-primary text-center row mt-4">
+					<th class="col-2  fw-bold">번호</th>
+					<th class="col-2  fw-bold">카테고리</th>
+					<th class="col-5  fw-bold">제목</th>
+					<th class="col-3  fw-bold">닉네임</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:forEach items="${FreeBoardList}" var="FreeBoardList">
+					<tr class="text-center table- row">
+
+						<td class="col-2">${FreeBoardList.freeBoardNo}</td>
+						<td class="col-2">${FreeBoardList.freeBoardCategory}</td>
+						<td class="col-5"><a
+							href="detail?freeBoardNo=${FreeBoardList.freeBoardNo}"
+							style="text-decoration: none" class="text-primary">
+								${FreeBoardList.freeBoardTitle}</a></td>
+						<td class="col-3">${FreeBoardList.memberNick}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+
+		</table>
+
+	</div>
+	</div>
 
 
 	</div>

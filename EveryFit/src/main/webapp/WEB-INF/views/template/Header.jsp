@@ -85,7 +85,7 @@ p {
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!--     전용 CDN -->
 <link rel="stylesheet" type="text/css" href="/css/EveryFit-layout.css">
-<link rel="stylesheet" type="text/css" href="/css/test111.css">
+<link rel="stylesheet" type="text/css" href="/css/test11.css">
 
 <!-- Bootstrap JS (including Popper.js) -->
 <script
