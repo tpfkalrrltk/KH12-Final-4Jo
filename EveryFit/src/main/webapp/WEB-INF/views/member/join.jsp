@@ -59,7 +59,7 @@
 <!-- ---------------------------------------------------------------------------------------- -->
 
 
-<form class="join-form needs-validation" action="" method="post"
+<form class="join-form was-validated" action="" method="post"
 	autocomplete="off" novalidate>
 	<div class="container-fluid">
 		<div class="row">
