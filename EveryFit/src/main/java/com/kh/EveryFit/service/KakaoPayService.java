@@ -5,8 +5,11 @@ import java.net.URISyntaxException;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
 import com.kh.EveryFit.vo.KakaoPayApproveResponseVO;
+import com.kh.EveryFit.vo.KakaoPayCancelRequestVO;
+import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
+
 
 public interface KakaoPayService {
 	KakaoPayReadyResponseVO ready(KakaoPayReadyRequestVO request) throws URISyntaxException;
@@ -14,5 +17,7 @@ public interface KakaoPayService {
 	KakaoPayReadyResponseVO periodReady(KakaoPayReadyRequestVO request) throws URISyntaxException;
 	KakaoPayApproveResponseVO periodApprove(KakaoPayApproveRequestVO request) throws URISyntaxException;
 	KakaoPayApproveResponseVO period2Approve(KakaoPayApproveRequestInPeriodVO request) throws URISyntaxException;
+	
+	KakaoPayCancelResponseVO cancel(KakaoPayCancelRequestVO request) throws URISyntaxException;
 	
 }

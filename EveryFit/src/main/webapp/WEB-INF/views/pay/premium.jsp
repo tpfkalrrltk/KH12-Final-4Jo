@@ -11,7 +11,8 @@
 <style>
 .main-image {
 	width: 100%;
-	height: 200px;
+	height: 300px;
+	 max-width : 700px;
 	/* 	max-width: 500px;
 	max-height: 300px; */
 }
@@ -46,24 +47,33 @@
 						<h1 class="text-center border">${productDto.productName}</h1>
 					</div>
 				</div>
+				
+			
 				<div class="row">
 					<div class="col">
-						<h3 class="text-center border">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
+						<c:choose>
+							<c:when test="${productDto.productType == '단건'}">
+								<h3 class="text-center border">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
+							</c:when>
+							<c:otherwise>
+								<h3 class="text-center border">EeveryFIt 프리미엄 모임으로 업그레이드 해보세요!</h3>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
+				
 				<div class="row">
 					<div class="col">
-						<span class="text-center border">EeveryFIt 프리미엄 회원권은 한번
+						<c:choose>
+							<c:when test="${productDto.productType == '단건'}">
+								<span class="text-center border">EeveryFIt 프리미엄 회원권은 한번
 							결제하면 평생 이용이 가능합니다.</span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<img src="/images/memberCard.png" class="main-image img-thumbnail">
-					</div>
-				</div>
-
-				<div class="row">
+								<div class="row">
+									<div class="col text-center">
+										<img src="/images/memberCard.png" class="main-image img-thumbnail text-center">
+									</div>
+								</div>
+								<div class="row">
 					<div class="col-2">
 
 						<div class="row">
@@ -86,6 +96,46 @@
 						</div>
 					</div>
 				</div>
+							</c:when>
+							<c:otherwise>
+								<span class="text-center border">
+								EeveryFIt 프리미엄 모임권 구독은 매월/매년 자동결제되고 언제든 해지가능합니다.
+								</span>
+								<div class="row">
+									<div class="col text-center">
+										<img src="/images/moinCard.png" class="main-image img-thumbnail text-center">
+									</div>
+								</div>
+								<div class="row">
+					<div class="col-2">
+
+						<div class="row">
+							<div class="col">
+								<h1 class="text-center mt-3 ms-3">
+									<i class="fa-regular fa-face-grin-stars"></i>
+								</h1>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="col-8">
+						<div class="row">
+							<div class="col">가입모임 개수 증가</div>
+						</div>
+						<div class="row">
+							<div class="col">모임 가입 최대 10개까지 늘리기 (일반 회원은 모임 가입 최대 3개입니다)
+							</div>
+						</div>
+					</div>
+				</div>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+				
+				
+				
 
 
 
@@ -99,10 +149,8 @@
 									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a>
 							</c:when>
 							<c:otherwise>
-								<a href="pay/periodPurchase?productNo=${productDto.productNo}">
-								<a href="pay/purchase?productNo=${productDto.productNo}"
+								<a href="pay/periodPurchase?productNo=${productDto.productNo}"
 									class="ataglink"> EeveryFIt 프리미엄 모임권 구매하기 </a>
-								</a>
 							</c:otherwise>
 						</c:choose>
 					</div>
