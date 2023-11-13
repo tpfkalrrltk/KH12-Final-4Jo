@@ -9,6 +9,7 @@
 <input hidden type="text" name="productNo" value="${productDto.productNo}">
 상품명 : <input type="text" name="productName" value="${productDto.productName}">
 상품 가격 : <input type="text" name="productPrice" value="${productDto.productPrice}">
+상품 가격 : <input type="text" name="productType" value="${productDto.productType}">
 <button type="submit">상품 수정</button>
  </form>
  

@@ -8,19 +8,14 @@
 <link href="test.css" rel="stylesheet">
 
 <style>
-      .main-image {
-    width: 100%;
-    height : 200px;
-    max-width: 300px;
-    max-height: 300px;
-    
-  }
+
   .border {
   border: 1px solid #2d3436;
   }
 </style>
 <div class="container-fluid mb-5 pb-5">
     <div class="row">
+    
         <div class="col-md-8 offset-md-2">
             <div class="row">
                 <div class="col">
@@ -37,45 +32,7 @@
                     </h2>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-5 text-center">
-                <c:if test="${productDto.productNo == 1}">
-                    <img src="/images/memberCard.png" class="main-image img-thumbnail">
-                </c:if>
-                <c:if test="${productDto.productNo == 3}">
-                    <img src="/images/moinCard.png" class="main-image img-thumbnail">
-                </c:if>
-                </div>
-                
-                <c:if test="${productDto.productNo == 1}">
-			    
-			    <div class="col-7 border">
-                    <br><br><br>
-                    모임방 참가 횟수에 제한이 사라집니다
-                    <a href="purchase?productNo=${productDto.productNo}">구매하기</a>
-                </div>
-				</c:if>
-				
-				<c:if test="${productDto.productNo == 3}">
-			    
-			    <div class="col-7 border">
-                    <br><br><br>
-                    프리미엄 모임 이용권으로 모임을 최대한 활용하세요 !
-                    구독은 매월 자동결제되고 언제든 해지가능합니다.
-                    <a href="purchase?productNo=${productDto.productNo}">구매하기</a>
-                </div>
-				</c:if>
-				
-
-            </div>
-
-            
-
-                    
-                    
                 </c:forEach>
-            
         </div>
     </div>
 </div>

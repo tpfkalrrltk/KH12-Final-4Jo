@@ -20,6 +20,8 @@ import com.kh.EveryFit.dto.ProductDto;
 import com.kh.EveryFit.service.KakaoPayService;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
 import com.kh.EveryFit.vo.KakaoPayApproveResponseVO;
+import com.kh.EveryFit.vo.KakaoPayCancelRequestVO;
+import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
 
@@ -51,11 +53,14 @@ public class KakaoPayController {
 				ProductDto productDto = productDao.oneOfList(productNo);
 				//상품정보를 이용하여 결제준비 요청
 				
+				//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
+				String memberId = (String) session.getAttribute("name");
+				
 				KakaoPayReadyRequestVO request = KakaoPayReadyRequestVO.builder()
 						.itemName(productDto.getProductName())
 						.itemPrice(productDto.getProductPrice())
 						.partnerOrderId(UUID.randomUUID().toString())
-						.partnerUserId("testuser1")
+						.partnerUserId(memberId)
 						.build();
 				
 				KakaoPayReadyResponseVO response = kakaoPayService.ready(request);
@@ -115,11 +120,14 @@ public class KakaoPayController {
 					ProductDto productDto = productDao.oneOfList(productNo);
 					//상품정보를 이용하여 결제준비 요청
 					
+					//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
+					String memberId = (String) session.getAttribute("name");
+					
 					KakaoPayReadyRequestVO request = KakaoPayReadyRequestVO.builder()
 							.itemName(productDto.getProductName())
 							.itemPrice(productDto.getProductPrice())
 							.partnerOrderId(UUID.randomUUID().toString())
-							.partnerUserId("testuser3")
+							.partnerUserId(memberId)
 							.build();
 					
 					KakaoPayReadyResponseVO response = kakaoPayService.periodReady(request);
@@ -177,6 +185,33 @@ public class KakaoPayController {
 			public String periodPurchaseSuccessResult() {
 				return "pay/successResult";
 			}
+			
+			@RequestMapping("pay/list")
+			public String list(HttpSession session, Model model) {
+				String memberId = (String) session.getAttribute("name");
+				model.addAttribute("list", paymentDao.paymentListByMember(memberId));
+				log.debug("memberId={}",memberId);
+				log.debug("paymentDao={}",paymentDao.paymentListByMember(memberId));
+				return "pay/list";
+			}
+			
+			@RequestMapping("/pay/cancel")
+			public String cancel(@RequestParam int paymentNo) throws URISyntaxException {
+				PaymentDto paymentDto = paymentDao.selectOneOfPayment(paymentNo);
+				KakaoPayCancelRequestVO request = KakaoPayCancelRequestVO.builder()
+						.tid(paymentDto.getPaymentTid())
+						.cancelAmount(paymentDto.getPaymentPrice())
+						.build();
+				
+				KakaoPayCancelResponseVO response = kakaoPayService.cancel(request);
+				
+				paymentDao.cancel(PaymentDto.builder()
+						.paymentNo(paymentDto.getPaymentNo())
+						.paymentPrice(0)
+						.build());
+				return "redirect:list";
+			}
+			
 }
 
 

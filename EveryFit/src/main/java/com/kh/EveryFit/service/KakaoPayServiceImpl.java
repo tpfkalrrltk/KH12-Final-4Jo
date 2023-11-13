@@ -18,6 +18,8 @@ import com.kh.EveryFit.dao.ProductDao;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
 import com.kh.EveryFit.vo.KakaoPayApproveResponseVO;
+import com.kh.EveryFit.vo.KakaoPayCancelRequestVO;
+import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
 
@@ -162,4 +164,24 @@ public class KakaoPayServiceImpl implements KakaoPayService{
 		//log.debug("결제 승인 완료 = {}", response.getTid());
 		return response;
 	}
+
+
+	@Override
+	public KakaoPayCancelResponseVO cancel(KakaoPayCancelRequestVO request) throws URISyntaxException {
+URI uri = new URI("https://kapi.kakao.com/v1/payment/cancel");
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("cid", properties.getCid());
+		body.add("tid", request.getTid());
+		body.add("cancel_amount", String.valueOf(request.getCancelAmount()));
+		body.add("cancel_tax_free_amount", "0");
+		
+		HttpEntity entity = new HttpEntity(body, headers);
+		
+		KakaoPayCancelResponseVO response = template.postForObject(uri, entity, KakaoPayCancelResponseVO.class);
+		
+		return response;
+	}
+	
+	
 }

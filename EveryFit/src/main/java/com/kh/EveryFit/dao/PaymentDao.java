@@ -7,6 +7,7 @@ import com.kh.EveryFit.dto.PeriodPaymentDto;
 import com.kh.EveryFit.vo.PaymentListAllVO;
 
 
+
 public interface PaymentDao {
 	int sequence();
 	void insert(PaymentDto paymentDto);
@@ -16,4 +17,7 @@ public interface PaymentDao {
 	List<PaymentListAllVO> selectListAll();
 	boolean update(PeriodPaymentDto periodPaymentDto);
 	PeriodPaymentDto selectOne(int periodPaymentNo);
+	PaymentDto selectOneOfPayment(int paymentNo);
+	List<PaymentListAllVO> paymentListByMember(String paymentMember);
+	void cancel(PaymentDto paymentDto);
 }

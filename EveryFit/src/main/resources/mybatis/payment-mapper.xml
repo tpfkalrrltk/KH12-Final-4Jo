@@ -77,9 +77,57 @@
     ]]>
 </update>
 	<!-- 상세조회  -->
-	<select id="periodPaymentdetail" resultType="periodPaymentDto">
+	<select id="periodPaymentDetail" resultType="periodPaymentDto">
 	select * from period_payment where period_payment_no = #{periodPaymentNo}
 	</select>
+	
+		<select id="paymentDetail" resultType="paymentDto">
+	select * from payment where payment_no = #{paymentNo}
+	</select>
+	
+		 <!-- 결제 전체내역(멤버를 넣어서) -->
+<select id="listAllByMember" resultType="paymentListAllVO">
+        
+           SELECT 
+                p.payment_no,
+                p.payment_tid,
+                p.payment_name,
+                p.payment_price,
+                p.payment_time,
+                p.payment_product,
+                p.payment_member,
+                pp.period_payment_no,
+                pp.period_payment_sid,
+                pp.period_payment_start,
+                pp.period_payment_end,
+                pp.period_payment_status
+            FROM 
+                payment p
+            LEFT outer JOIN
+                period_payment pp
+            ON 
+                p.payment_no = pp.period_payment_no
+                WHERE p.payment_member=#{paymentMember}
+        
+	</select>
+        
+	<!-- payment 취소 처리 -->
+	<update id="cancel">
+		update payment set payment_price = #{paymentPrice} where payment_no = #{paymentNo}
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>
 
 
