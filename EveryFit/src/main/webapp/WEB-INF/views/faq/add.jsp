@@ -45,7 +45,7 @@
 					<div class="row">
 						<div class="col">
 							내용 :
-							<textarea rows="30" cols="52" name="faqContent"></textarea>
+							<textarea rows="30" cols="52" name="faqDetail"></textarea>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">등록</button>

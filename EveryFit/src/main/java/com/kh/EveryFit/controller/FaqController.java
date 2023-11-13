@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.EveryFit.dao.FaqDao;
 import com.kh.EveryFit.dto.FaqDto;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/faq")
+@Slf4j
 public class FaqController {
 
 	@Autowired
@@ -36,10 +39,14 @@ public class FaqController {
 	}
 
 	@PostMapping("/add")
-	public String add(@ModelAttribute FaqDto faqDto) {
+	public String add(@ModelAttribute FaqDto faqDto, HttpSession session) {
 		int faqNo = faqDao.sequence();
-		faqDto.setFaqNo(faqNo)
+		faqDto.setFaqNo(faqNo);
+		String memberEmail =  (String) session.getAttribute("name");
+		faqDto.setMemberEmail(memberEmail);
+		log.debug("faqDto={}",faqDto);
 		faqDao.add(faqDto);
+		
 		return "redirect:list";
 	}
 
