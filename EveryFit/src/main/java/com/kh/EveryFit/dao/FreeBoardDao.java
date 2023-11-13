@@ -11,6 +11,7 @@ public interface FreeBoardDao {
 	void add(FreeBoardDto freeBoardDto);
 
 	void edit(FreeBoardDto freeBoardDto, int freeBoardNo);
+	void edit(int freeBoardNo);
 
 	void delete(int freeBoardNo);
 

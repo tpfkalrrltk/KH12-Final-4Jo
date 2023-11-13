@@ -13,7 +13,7 @@ import com.kh.EveryFit.dto.FreeBoardDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
-@Slf4j
+
 public class FreeBoardImpl implements FreeBoardDao {
 
 	@Autowired
@@ -28,7 +28,7 @@ public class FreeBoardImpl implements FreeBoardDao {
 	@Override
 	public void add(FreeBoardDto freeBoardDto) {
 		sqlSession.insert("freeBoard.add", freeBoardDto);
-		log.debug("확인={}", freeBoardDto);
+
 
 	}
 
@@ -38,7 +38,7 @@ public class FreeBoardImpl implements FreeBoardDao {
 		params.put("freeBoardDto", freeBoardDto);
 		params.put("no", freeBoardNo);
 		sqlSession.update("freeBoard.edit", params);
-		log.debug("확인={}", params);
+
 
 	}
 
@@ -58,6 +58,12 @@ public class FreeBoardImpl implements FreeBoardDao {
 	public FreeBoardDto selectOne(int freeBoardNo) {
 
 		return sqlSession.selectOne("freeBoard.selectOne", freeBoardNo);
+	}
+
+	@Override
+	public void edit(int freeBoardNo) {
+		sqlSession.update("freeBoard.edit", freeBoardNo);
+		
 	}
 
 }
