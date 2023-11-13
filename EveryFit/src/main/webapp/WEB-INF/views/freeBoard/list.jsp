@@ -19,12 +19,16 @@
 
 
 		<div class="row">
-			<div
-				class="col-2 offset-9 text-center bg-primary rounded-3  text-light">
 
-				<a href="add" class="text-light" style="text-decoration: none"><h7
-						class="display-5">등록</h7></a>
-			</div>
+
+			<a href="add" class="text-light" style="text-decoration: none">
+				<div
+					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+					<h7 class="display-3">
+					<i class="fa-solid fa-plus"></i></h7>
+				</div>
+			</a>
+
 		</div>
 
 

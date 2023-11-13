@@ -36,10 +36,10 @@
 						<div class="col-5">
 							카테고리 : <select name="freeBoardCategory"
 								value="${freeBoardDto.freeBoardCategory}">
-								<option>회원</option>
-								<option>모임</option>
-								<option>운동</option>
-								<option>장소</option>
+								<option class="fw-bold">회원</option>
+								<option class="fw-bold">모임</option>
+								<option class="fw-bold">운동</option>
+								<option class="fw-bold">장소</option>
 							</select>
 						</div>
 					</div>

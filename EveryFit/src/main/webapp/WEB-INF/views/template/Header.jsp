@@ -3,6 +3,17 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+ <script >
+window.contextPath = "${pageContext.request.contextPath}";
+</script>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Every Fit</title>
+
+
 
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,6 +101,8 @@ p {
 <!-- Bootstrap JS (including Popper.js) -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
 
 
@@ -214,6 +227,7 @@ p {
 		</div>
 	</div>
 </nav>
+ 
 
 
 
