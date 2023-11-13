@@ -76,8 +76,8 @@ public class MemberController {
 	      
 	      //[3] 비밀번호가 일치하면 메인페이지로 이동
 	      if(isCorrectPw) {
-
 	    	  session.setAttribute("name",inputDto.getMemberEmail());
+	    	  session.setAttribute("nickName",findDto.getMemberNick());
 	    		//로그인시간 갱신
 //				memberDao.updateMemberLogin(inputDto.getMemberEmail());
 
@@ -108,6 +108,7 @@ public class MemberController {
 		@RequestMapping("/logout")
 		public String logout(HttpSession session) {
 			session.removeAttribute("name");
+			session.removeAttribute("nickName");
 //			session.removeAttribute("level");//확인받아야
 			return "redirect:/";
 		}
