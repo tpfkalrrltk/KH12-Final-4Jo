@@ -6,25 +6,12 @@
 
 <div class="row">
 	<div class="col">
-		<c:choose>
-			<c:when test="${leagueDto==null}">
-				<h1>리그등록</h1>
-			</c:when>
-			<c:otherwise>
-				<h1>${leagueDto.leagueNo}번 리그 수정</h1>
-			</c:otherwise>
-		</c:choose>
+		<h1>리그등록</h1>
 	</div>
 </div>
 <form method="post">
 	<div class="row mt-4"><div class="col">
 		<label class="form-label">종목</label>
-		<c:choose>
-			<c:when test="">
-			
-			</c:when>
-		</c:choose>
-		
         <select class="form-select" name="eventNo">
 			<option value="">종목선택</option>
 			<c:forEach var="eventDto" items="${eventList}">

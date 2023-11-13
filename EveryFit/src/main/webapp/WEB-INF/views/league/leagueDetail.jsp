@@ -19,7 +19,7 @@
 </div></div>
 <div class="row mt-4">
 	<div class="col">
-		<a class="btn btn-secondary" href="leagueInsert?leagueNo=${leagueDto.leagueNo}">수정</a>
+		<a class="btn btn-secondary" href="leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
 	</div>
 	<div class="col">
 		<a class="btn btn-danger" href="leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
