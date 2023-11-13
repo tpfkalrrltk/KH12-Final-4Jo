@@ -125,6 +125,16 @@ public class MoimController {
 		
 	}
 	
+	@RequestMapping("/edit")
+	public String edit(Model model, @RequestParam int moimNo) {
+		MoimDto moimDto = moimDao.selectOne(moimNo);
+		model.addAttribute("moimDto", moimDto);
+		Integer profile = moimDao.findMoimProfile(moimNo);
+		model.addAttribute("profile", profile);
+		return "moim/create";
+	}
+	
+	
 	@GetMapping("/jungmo/create")
 	public String jungmoCreate(@RequestParam int moimNo) {
 		return "moim/jungmoCreate";

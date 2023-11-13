@@ -9,6 +9,7 @@
 .jungmo-image {
 	width: 200px;
 }
+
 </style>
 
 <title>모임 상세페이지</title>
@@ -17,17 +18,10 @@
 	<div class="row">
 		<div class="col-md-10 offset-md-1">
 			<div class="jumbotron mt-5">
-				<h1 class="display-4 bg-primary rounded text-light p-3">모임상세</h1>
-				<p class="lead">모임상세/정모등록 페이지입니다</p>
+				<h1 class="display-4 bg-primary rounded text-light p-3">${moimDto.moimTitle}</h1>
+				<p class="lead">${moimDto.moimContent}</p>
 				<hr class="my-4" />
 				<p>구현중입니다</p>
-			</div>
-
-
-			<div class="card border-primary mb-3" style="max-width: 20rem;">
-
-				<div class="card-body">
-
 					<div class="row mt-4">
 						<c:choose>
 							<c:when test="${profile == null}">
@@ -44,23 +38,29 @@
 							accept="image/*"> <i class="fa-solid fa-user fa-2x"></i>
 						</label> <i class="fa-solid fa-trash-can fa-2x profile-delete"></i> <br>
 					</div>
-				</div>
 			</div>
 
-			${profile}
-			<h1>모임 상세(사진, 모임명, 설명)</h1>
-			${moimDto.moimNo} ${locationDto.locationDepth1}
-			${locationDto.locationDepth2} ${eventDto.eventName}
-			<h1>회원목록</h1>
-			<c:forEach var="moimMemberDto" items="${memberList}">
+
+			<div class="card border-primary mb-3 items-center" style="max-width: 50rem;">
+
+				<div class="card-body">
+
+
+
+		${profile}
+		${moimDto}
+		<h1>모임 상세(사진, 모임명, 설명)</h1>
+		${moimDto.moimNo} ${locationDto.locationDepth1}
+		${locationDto.locationDepth2} ${eventDto.eventName}
+		<h1>회원목록</h1>
+		<c:forEach var="moimMemberDto" items="${memberList}">
 		${moimMemberDto.memberEmail}
 		${moimMemberDto.moimMemberLevel}
 		${moimMemberDto.moimMemberStatus}
 	</c:forEach>
 			<hr>
-			<button type="button" class="btn btn-primary">
-				<a class="link text-light" href="jungmo/create?moimNo=${moimDto.moimNo}"> 정모등록 </a>
-			</button>
+				<a class="btn btn-primary" href="jungmo/create?moimNo=${moimDto.moimNo}">정모등록</a>
+				<a class="btn btn-primary" href="edit?moimNo=${moimDto.moimNo}">모임수정</a>
 
 			<hr>
 			<h1>정모 List</h1>
@@ -105,6 +105,8 @@
 	</div>
 </div>
 
+				</div>
+			</div>
 
 <script>
 

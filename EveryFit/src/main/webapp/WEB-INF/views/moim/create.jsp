@@ -7,12 +7,23 @@
 
 <title>등록해보기</title>
 
-<h1>모임등록</h1>
-<div class="card border-primary mb-3" style="max-width: 20rem;">
+<c:choose>
+	<c:when test="${moimDto != null}">
+		<h1>모임수정</h1>
+	</c:when>
+	<c:otherwise>
+		<h1>모임등록</h1>
+	</c:otherwise>
+</c:choose>
+<div class="container-fluid col-8 offset-2">
+<div class="row mt-4">
+<div class="card border-primary mb-3" style="max-width: 100rem;">
 
-
-
-
+<div class="row mt-4">
+	<c:if test="${profile != null}">
+	<img src="/rest/attach/download?attachNo=${profile}"
+			class="rounded profile-image">		
+	</c:if>
 <!--  라벨을 만들고 파일선택창을 숨김 -->
 <form method="post" enctype="multipart/form-data" autocomplete="off">
 	<div class="row mt-4">
@@ -43,15 +54,19 @@
              <option value="${event.eventNo}">${event.eventName}</option>
          </c:forEach>
      </select>
-	모임명<input type="text" name="moimTitle">
-	모임설명<input type="text" name="moimContent">
+	모임명<input type="text" name="moimTitle" placeholder="${moimDto.moimTitle}">
+	모임설명<input type="text" name="moimContent" placeholder="${moimDto.moimContent}">
 	<input type="hidden" name="moimMemberCount" value=30>
-	성별체크여부<input type="text" name="moimGenderCheck">
-	<input type="number" name="chatRoomNo" value=1>
 	
+	여성전용 <input type="checkbox" name="moimGenderCheck">
+	<input type="hidden" name="chatRoomNo" value="${moimDto.chatRoomNo}">
 	<button type="submit">등록</button>
 </form>
 </div>
+</div>
+</div>
+</div>
+
 
 <script>
 // //변경버튼을 누르면 프로필을 업로드하고 이미지 교체
@@ -120,5 +135,16 @@
 				alert('주소 로딩중 서버 에러 발생');
 			}
 		});
+	});
+	
+	$("[name=moimGenderCheck]").click(function(e){
+	    var isChecked = $(this).prop("checked");
+
+	    // 체크박스를 클릭하여 선택되었다면
+	    if (isChecked) {
+	        $(this).val(1);
+	    } else {
+	    	$(this).val(2);
+	    }
 	});
  </script> 

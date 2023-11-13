@@ -262,7 +262,10 @@
 			jungmo_no,
 			member_email
 		)
-		values(#{jungmoNo}, #{memberEmail})
+		values(
+		#{jungmoNo},
+		#{memberEmail}
+		 )
 	</insert>
 	<!-- 정모 멤버 수 count -->
 	<select id="jungmoMemberCount" resultType="int">
