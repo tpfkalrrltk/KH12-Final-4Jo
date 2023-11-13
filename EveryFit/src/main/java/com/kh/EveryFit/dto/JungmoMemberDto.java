@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
-public class JungmoMember {
+public class JungmoMemberDto {
 
 	private int jungmoNo;
 	private String memberEmail;

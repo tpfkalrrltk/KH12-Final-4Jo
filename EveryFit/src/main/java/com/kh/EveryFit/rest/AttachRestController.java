@@ -68,8 +68,10 @@ public class AttachRestController {
 		attachDto.setAttachName(attach.getOriginalFilename());
 		attachDto.setAttachSize(attach.getSize());
 		attachDto.setAttachType(attach.getContentType());
+		
 		attachDao.insert(attachDto);
 		
+		moimDao.deleteMoimProfile(moimNo);
 		moimDao.insertMoimProfile(moimNo, attachDto.getAttachNo());
 		
 		log.debug("moimNo = {}", moimNo);

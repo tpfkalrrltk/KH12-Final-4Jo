@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dto.JungmoDto;
-import com.kh.EveryFit.vo.JungmoListByMoimNoVO;
+import com.kh.EveryFit.vo.JungmoMemberListVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/moim")
@@ -43,8 +46,14 @@ public class MoimRestController {
 		jungmoDao.edit(jungmoDto);
 	}
 	//정모 목록
-	@PostMapping("/list")
-	public List<JungmoListByMoimNoVO> list(@RequestParam int moimNo) {
-		return jungmoDao.selectList(moimNo);
+//	@PostMapping("/list")
+//	public List<JungmoListByMoimNoVO> list(@RequestParam int moimNo) {
+//		return jungmoDao.selectList(moimNo);
+//	}
+	//정모회원리스트
+	@PostMapping("/memberList")
+	public List<JungmoMemberListVO> memberList(@RequestParam int jungmoNo) {
+		return jungmoDao.selectListByJungmoNo(jungmoNo);
 	}
+
 }

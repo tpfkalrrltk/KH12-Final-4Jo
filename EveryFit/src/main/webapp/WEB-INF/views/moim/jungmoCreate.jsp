@@ -4,18 +4,21 @@
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
-
-<div class="row mt-4">
-	<h1>안보임</h1>
-</div>
 <div class="container-fluid mt-4">
+<div class="card border-primary mb-3" style="max-width: 80rem;">
+
+
 	<div class="row mt-4">
 		<div class="col-10 offset-1">
 			<h1>정모등록</h1>
 			<div>
-				<form method="post" autocomplete="off">
+				<form method="post" autocomplete="off" enctype="multipart/form-data" >
+				
+					<input type="file" class="profile-chooser" 
+					name="attach" 
+					accept="image/*" multiple>
 					정모명<input type="text" name="jungmoTitle"> 
-					<input type="hidden" name="moimNo" value=1>
+					<input type="hidden" name="moimNo" >
 					정모주소<input type="text" name="jungmoAddr"> 링크<input
 						type="text" name="jungmoAddrLink"> 인원<input type="text"
 						name="jungmoCapacity"> 가격<input type="number"
@@ -28,17 +31,15 @@
 		</div>
 	</div>
 </div>
-
+</div>
 <script>
-//현재 페이지의 URL 가져오기
-// var currentUrl = location.search;
 
-// URLSearchParams 객체 생성
-// var urlParams = new URLSearchParams(currentUrl);
+	//현재 페이지의 URL 가져오기
+	var currentUrl = location.search;
+	var moimNo = currentUrl.replace(/\D/g, '');
 
-// 원하는 파라미터 값 가져오기
-// $('input[name="moimNo"]').val(moimNo);
-// 가져온 값 확인 (콘솔에 출력)
+    $('input[name="moimNo"]').val(moimNo);
+
 console.log(moimNo);
 
 </script>

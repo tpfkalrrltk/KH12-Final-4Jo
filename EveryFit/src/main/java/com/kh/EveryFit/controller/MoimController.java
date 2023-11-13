@@ -1,10 +1,13 @@
 package com.kh.EveryFit.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.EveryFit.configuration.FileUploadProperties;
+import com.kh.EveryFit.dao.AttachDao;
 import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
+import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
@@ -31,14 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/moim")
 public class MoimController {
 
-	@Autowired
-	private MoimDao moimDao;
-	
-	@Autowired
-	private MemberDao memberDao;
-	
-	@Autowired
-	private JungmoDao jungmoDao;
+	@Autowired private MoimDao moimDao;
+	@Autowired private MemberDao memberDao;
+	@Autowired private JungmoDao jungmoDao;
+	@Autowired private AttachDao attachDao;	
 	
 	@GetMapping("/create")
 	public String create(Model model) {
@@ -49,8 +52,21 @@ public class MoimController {
 		return "moim/create";
 	}
 	
+	@Autowired
+	private FileUploadProperties props;
+	
+	private File dir;
+	
+	//모든 로딩이 끝나면 자동으로 실행되는 메소드
+	@PostConstruct
+	public void init() {
+		dir = new File(props.getHome());
+		dir.mkdirs();
+	}
+	
 	@PostMapping("/create")
-	public String create(@ModelAttribute MoimDto moimDto) {
+	public String create(@ModelAttribute MoimDto moimDto,
+			@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
 		int moimNo = moimDao.sequence();
 		moimDto.setMoimNo(moimNo);
 		moimDao.insert(moimDto);
@@ -59,6 +75,27 @@ public class MoimController {
 		//moimDto.setChatRoomNo에 넣기
 		//모임등록한 사람의 아이디를 moim_member 테이블에 insert 하기!
 		//모임등록한사람의 등급은 모임장으로 하자
+		
+		//첨부파일등록(파일있을때)
+		if(!attach.isEmpty()) {
+			//첨부파일등록(파일이 있을때만)
+			int attachNo = attachDao.sequence();
+
+			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+			attach.transferTo(target);
+			
+
+			AttachDto attachDto = new AttachDto();
+			attachDto.setAttachNo(attachNo);
+			attachDto.setAttachName(attach.getOriginalFilename());
+			attachDto.setAttachSize(attach.getSize());
+			attachDto.setAttachType(attach.getContentType());
+			attachDao.insert(attachDto);
+
+			//연결(파일이 있을때만)
+			moimDao.insertMoimProfile(moimNo, attachNo);			
+		}
+		
 		return "redirect:detail?moimNo="+moimNo;
 	}
 	
@@ -79,12 +116,24 @@ public class MoimController {
 		//모임이미지
 		Integer profile = moimDao.findMoimProfile(moimNo);
 		model.addAttribute("profile", profile);
-		log.debug("profile={}", profile);
-		
+//		//정모 목록
+//		model.addAttribute("jungmoList", jungmoDao.selectList(moimNo));		
+		//정모목록
+		model.addAttribute("jungmoTotalList", jungmoDao.selectTotalList(moimNo));
 		
 		return "moim/detail";
 		
 	}
+	
+	@RequestMapping("/edit")
+	public String edit(Model model, @RequestParam int moimNo) {
+		MoimDto moimDto = moimDao.selectOne(moimNo);
+		model.addAttribute("moimDto", moimDto);
+		Integer profile = moimDao.findMoimProfile(moimNo);
+		model.addAttribute("profile", profile);
+		return "moim/create";
+	}
+	
 	
 	@GetMapping("/jungmo/create")
 	public String jungmoCreate(@RequestParam int moimNo) {
@@ -94,7 +143,8 @@ public class MoimController {
 	@PostMapping("/jungmo/create")
 	public String jungmoCreate(
 			@ModelAttribute JungmoDto jungmoDto, 
-			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr) {
+			@RequestParam MultipartFile attach,
+			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr) throws IllegalStateException, IOException {
 
 		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
 		
@@ -116,8 +166,55 @@ public class MoimController {
 		
 		jungmoDao.insert(jungmoDto);
 		
+		//첨부파일등록(파일있을때)
+		if(!attach.isEmpty()) {
+			//첨부파일등록(파일이 있을때만)
+			int attachNo = attachDao.sequence();
+
+			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+			attach.transferTo(target);
+			
+
+			AttachDto attachDto = new AttachDto();
+			attachDto.setAttachNo(attachNo);
+			attachDto.setAttachName(attach.getOriginalFilename());
+			attachDto.setAttachSize(attach.getSize());
+			attachDto.setAttachType(attach.getContentType());
+			attachDao.insert(attachDto);
+
+			//연결(파일이 있을때만)
+			moimDao.insertJungmoProfile(jungmoNo, attachNo);
+		}
+		
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
+	//정모 참가
+	@RequestMapping("/jungmo/join")
+	public String jungmoJoin(@RequestParam String memberEmail,
+				@RequestParam int jungmoNo) {
+		//insert 하기 전에 해야 할 일
+		//[1] 이미 참가한 회원인지 검색
+		//[2] 정원이 가득 찼는지 검색
+		//정모 조회
+		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		//해당정모의 정모멤버 카운트와 정모Dto의 정원 수 비교
+		int count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
+		//만약 등록된 회원 수가 정원보다 같거나 많으면
+		if(count >= jungmoDto.getJungmoCapacity()) {
+			return "redirect:login?error";
+		}
+		jungmoDao.memberJoin(memberEmail, jungmoNo);
+		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+	}
+	
+	//정모취소
+	@RequestMapping("/jungmo/exit")
+	public String jungmoDelete(@RequestParam String memberEmail,
+			@RequestParam int jungmoNo) {
+		jungmoDao.deleteJungmoMember(memberEmail, jungmoNo);
+		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+	}
 	
 }
