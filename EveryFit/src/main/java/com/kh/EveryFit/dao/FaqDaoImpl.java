@@ -37,8 +37,8 @@ public class FaqDaoImpl implements FaqDao {
 	}
 
 	@Override
-	public void delete(int faqNo) {
-		sqlSession.delete("FAQ.delete", faqNo);
+	public boolean delete(int faqNo) {
+		return sqlSession.delete("FAQ.delete", faqNo)>0;
 
 	}
 
@@ -52,5 +52,10 @@ public class FaqDaoImpl implements FaqDao {
 	public FaqDto selectOne(int faqNo) {
 	
 		return sqlSession.selectOne("FAQ.selectOne",faqNo);
+	}
+
+	@Override
+	public boolean edit(FaqDto faqDto) {
+	return sqlSession.update("FAQ.edit",faqDto)>0;
 	}
 }

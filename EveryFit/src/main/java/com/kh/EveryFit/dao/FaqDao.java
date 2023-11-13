@@ -9,7 +9,8 @@ public interface FaqDao {
 	List<FaqDto> list();
 	int sequence();
 	void edit(int faqNo, FaqDto faqDto);
-	void delete(int faqNo);
+	boolean edit(FaqDto faqDto);
+	boolean delete(int faqNo);
 	void add(FaqDto faqDto);
 	FaqDto selectOne(int faqNo);
 }
