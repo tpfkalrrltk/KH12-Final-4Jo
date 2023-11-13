@@ -178,7 +178,7 @@ p {
 							href="${pageContext.request.contextPath}/moim/detail?moimNo=5">
 							모임상세(테스트용) </a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">리그 목록</a>
+						<a class="dropdown-item" href="/league/leagueList">리그 목록</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#">여성전용 모임</a>
 						<div class="dropdown-divider"></div>

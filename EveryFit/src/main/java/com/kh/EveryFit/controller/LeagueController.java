@@ -41,11 +41,7 @@ public class LeagueController {
 	}
 	
 	@GetMapping("/leagueInsert")
-	public String leagueInsert(Model model, @RequestParam(required = false) Integer leagueNo) {
-		if(leagueNo != null) {
-			LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
-			model.addAttribute("leagueDto", leagueDto);
-		}
+	public String leagueInsert(Model model) {
 		List<EventDto> eventList = memberDao.selectEventList();
 		List<LocationDto> locationList = memberDao.selectLocationList();
 		model.addAttribute("eventList", eventList);
@@ -70,5 +66,32 @@ public class LeagueController {
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
 		model.addAttribute("leagueDto",leagueDto);
 		return "league/leagueDetail";
+	}
+	
+	@GetMapping("/leagueEdit")
+	public String leagueEdit(@RequestParam int leagueNo, Model model) {
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+		EventDto eventDto = memberDao.selectOneByEventNo(leagueDto.getEventNo());
+		LocationDto locationDto = memberDao.selectOneByLocationNo(leagueDto.getLocationNo());
+		List<LocationDto> locationList = memberDao.selectLocationList();
+		List<EventDto> eventList = memberDao.selectEventList();
+		model.addAttribute("leagueDto", leagueDto);
+		model.addAttribute("eventDto", eventDto);
+		model.addAttribute("locationDto", locationDto);
+		model.addAttribute("eventList", eventList);
+		model.addAttribute("locationList", locationList);
+		return "league/leagueEdit";
+	}
+	
+	@PostMapping("/leagueEdit")
+	public String leagueEdit(@ModelAttribute LeagueDto leagueDto, @RequestParam int leagueNo) {
+		leagueDao.updateLeague(leagueNo, leagueDto);
+		return "redirect:leagueDetail?leagueNo="+leagueNo;
+	}
+	
+	@RequestMapping("/leagueDelete")
+	public String leagueDelete(@RequestParam int leagueNo) {
+		leagueDao.deleteLeague(leagueNo);
+		return "redirect:leagueList";
 	}
 }
