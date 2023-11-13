@@ -24,7 +24,7 @@
 			<a href="add" class="text-light" style="text-decoration: none">
 				<div
 					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
-					<h7 class="display-3">
+					<h7 class="display-4">
 					<i class="fa-solid fa-plus"></i></h7>
 				</div>
 			</a>

@@ -10,7 +10,7 @@
 	</select>
 
 	<insert id="add">
-		insert into(
+		insert into faq(
 		faq_no,
 		member_email,
 		faq_title,
@@ -51,7 +51,7 @@
 	</update>
 
 	<delete id="delete">
-		delete * from faq where faq_no = #{faqNo}
+		delete from faq where faq_no = #{faqNo}
 	</delete>
 
 	<select id="selectOne" resultType="FaqDto">
