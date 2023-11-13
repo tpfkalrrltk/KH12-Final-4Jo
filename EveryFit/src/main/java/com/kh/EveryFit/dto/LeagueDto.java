@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class LeagueDto {
-	private int leagueNo;
+	private Integer leagueNo;
 	private Integer eventNo;
 	private String leagueManager;
 	private String leagueTitle;
 	private String leagueDetail;
-	private double leagueEntryFee;
+	private Integer leagueEntryFee;
 	private Date leagueStart;
 	private Date leagueEnd;
 	private String leagueStatus;

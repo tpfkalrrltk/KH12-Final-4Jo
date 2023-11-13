@@ -7,6 +7,11 @@
 <span class="m-5 p-5"></span>
 <div class="row"><div class="col-md-8 offset-md-2 mt-5">
 <h1 class="m-5 p-5">리그 목록</h1>
+	<div class="row">
+		<div class="col">
+			<a href="leagueInsert">리그등록</a>
+		</div>
+	</div>
 <div class="row">
 	<div class="col">
 		<table class="table">
@@ -22,7 +27,8 @@
 			</thead>
 			<tbody>
 				<c:forEach var="leagueDto" items="${list}">
-					<tr>
+					<tr onclick="location.href='leagueDetail?leagueNo=${leagueDto.leagueNo}'"
+						style="cursor:pointer;">
 						<td>${leagueDto.leagueNo}</td>
 						<td>${leagueDto.eventName}</td>
 						<td>${leagueDto.leagueManager}</td>
@@ -42,7 +48,7 @@
 			종목 <select class="form-select" name="eventName">
 					<option value="">종목선택</option>
 					<c:forEach var="eventDto" items="${eventList}">
-						<option value="${eventDto.eventNo}">${eventDto.eventName}</option>
+						<option value="${eventDto.eventName}">${eventDto.eventName}</option>
 					</c:forEach>
 				</select>
 			제목 <input type="text" class="form-control" name="leagueTitle">
