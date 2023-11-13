@@ -83,9 +83,15 @@ public class LeagueController {
 		return "league/leagueEdit";
 	}
 	
-	@PostMapping("leagueEdit")
+	@PostMapping("/leagueEdit")
 	public String leagueEdit(@ModelAttribute LeagueDto leagueDto, @RequestParam int leagueNo) {
 		leagueDao.updateLeague(leagueNo, leagueDto);
 		return "redirect:leagueDetail?leagueNo="+leagueNo;
+	}
+	
+	@RequestMapping("/leagueDelete")
+	public String leagueDelete(@RequestParam int leagueNo) {
+		leagueDao.deleteLeague(leagueNo);
+		return "redirect:leagueList";
 	}
 }
