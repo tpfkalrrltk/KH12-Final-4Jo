@@ -197,6 +197,8 @@ p {
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item"
 							href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
+						<a class="dropdown-item"
+							href="${pageContext.request.contextPath}/faq/list">FAQ</a>
 
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item"
@@ -220,9 +222,9 @@ p {
 				</c:choose>
 			</ul>
 			<form class="d-flex">
-				<input class="form-control me-sm-2 bg-light" type="search"
+				<input class="form-control me-sm-2 bg-light text-primary fw-bold"  type="search"
 					placeholder="Search">
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+				<button class="btn btn-light my-2 my-sm-0 text-primary  fw-bold" type="submit">Search</button>
 			</form>
 		</div>
 	</div>
