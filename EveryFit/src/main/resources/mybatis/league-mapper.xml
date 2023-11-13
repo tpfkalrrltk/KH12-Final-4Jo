@@ -14,12 +14,12 @@
 	<!-- 리그등록 -->
 	<insert id="insertLeague">
         INSERT INTO league (
-        	league_no, event_no, league_manager, league_title, league_detail, league_entery_fee,
-        	league_start, league_end, league_status, chat_room_no, location_no
+        	league_no, event_no, league_manager, league_title, league_detail, league_entry_fee,
+        	league_start, league_end, chat_room_no, location_no
         	)
         VALUES (
         	#{leagueNo}, #{eventNo}, #{leagueManager}, #{leagueTitle}, #{leagueDetail}, #{leagueEntryFee}, 
-        	#{leagueStart}, #{leagueEnd}, #{leagueStatus}, #{chatRoomNo}, #{locationNo})
+        	#{leagueStart}, #{leagueEnd}, #{chatRoomNo}, #{locationNo})
     </insert>
     
     <!-- 리그조회 -->
@@ -78,7 +78,7 @@
        			league_detail = #{leagueDto.leagueDetail},
        		</if>
        		<if test="leagueDto.leagueEntryFee!=null">
-       			league_entery_fee = #{leagueDto.leagueEntryFee},
+       			league_entry_fee = #{leagueDto.leagueEntryFee},
        		</if>
        		<if test="leagueDto.leagueStart!=null">
        			league_start = #{leagueDto.leagueStart},

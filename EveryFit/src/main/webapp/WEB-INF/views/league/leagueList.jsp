@@ -7,6 +7,11 @@
 <span class="m-5 p-5"></span>
 <div class="row"><div class="col-md-8 offset-md-2 mt-5">
 <h1 class="m-5 p-5">리그 목록</h1>
+	<div class="row">
+		<div class="col">
+			<a href="leagueInsert">리그등록</a>
+		</div>
+	</div>
 <div class="row">
 	<div class="col">
 		<table class="table">
@@ -18,6 +23,7 @@
 					<th>제목</th>
 					<th>상태</th>
 					<th>지역</th>
+					<th>상태</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,6 +35,10 @@
 						<td>${leagueDto.leagueTitle}</td>
 						<td>${leagueDto.leagueStatus}</td>
 						<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
+						<td>
+							<a href="deleteLeague?leagueNo=${leagueDto.leagueNo}">삭제</a>
+							<a href="editLeague?leagueNo=${leagueDto.leagueNo}">수정</a>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>

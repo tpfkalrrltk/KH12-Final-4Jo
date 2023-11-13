@@ -14,7 +14,7 @@ public class LeagueDto {
 	private String leagueManager;
 	private String leagueTitle;
 	private String leagueDetail;
-	private double leagueEntryFee;
+	private Integer leagueEntryFee;
 	private Date leagueStart;
 	private Date leagueEnd;
 	private String leagueStatus;
