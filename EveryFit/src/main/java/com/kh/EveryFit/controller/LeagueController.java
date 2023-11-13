@@ -41,7 +41,11 @@ public class LeagueController {
 	}
 	
 	@GetMapping("/leagueInsert")
-	public String leagueInsert(Model model) {
+	public String leagueInsert(Model model, @RequestParam(required = false) Integer leagueNo) {
+		if(leagueNo != null) {
+			LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+			model.addAttribute("leagueDto", leagueDto);
+		}
 		List<EventDto> eventList = memberDao.selectEventList();
 		List<LocationDto> locationList = memberDao.selectLocationList();
 		model.addAttribute("eventList", eventList);

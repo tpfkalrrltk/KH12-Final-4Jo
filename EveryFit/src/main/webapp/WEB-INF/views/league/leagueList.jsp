@@ -23,22 +23,18 @@
 					<th>제목</th>
 					<th>상태</th>
 					<th>지역</th>
-					<th>상태</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="leagueDto" items="${list}">
-					<tr>
+					<tr onclick="location.href='leagueDetail?leagueNo=${leagueDto.leagueNo}'"
+						style="cursor:pointer;">
 						<td>${leagueDto.leagueNo}</td>
 						<td>${leagueDto.eventName}</td>
 						<td>${leagueDto.leagueManager}</td>
 						<td>${leagueDto.leagueTitle}</td>
 						<td>${leagueDto.leagueStatus}</td>
 						<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
-						<td>
-							<a href="deleteLeague?leagueNo=${leagueDto.leagueNo}">삭제</a>
-							<a href="editLeague?leagueNo=${leagueDto.leagueNo}">수정</a>
-						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -52,7 +48,7 @@
 			종목 <select class="form-select" name="eventName">
 					<option value="">종목선택</option>
 					<c:forEach var="eventDto" items="${eventList}">
-						<option value="${eventDto.eventNo}">${eventDto.eventName}</option>
+						<option value="${eventDto.eventName}">${eventDto.eventName}</option>
 					</c:forEach>
 				</select>
 			제목 <input type="text" class="form-control" name="leagueTitle">
