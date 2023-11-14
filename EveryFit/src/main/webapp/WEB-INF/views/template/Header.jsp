@@ -217,7 +217,7 @@ p {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
+									<div class="text-light fw-bold">${name} 회원님 환영합니다.</div>
 								</h5>
 							</li>
 						</c:when>
@@ -237,7 +237,8 @@ p {
 	</nav>
 
 
-
+<div id='wrapper'>
+  <div>
 
 
 
