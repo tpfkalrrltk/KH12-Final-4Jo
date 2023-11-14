@@ -115,6 +115,12 @@
 	<update id="cancel">
 		update payment set payment_price = #{paymentPrice} where payment_no = #{paymentNo}
 	</update>
+	
+		<!-- payment 취소 처리 -->
+	<update id="periodCancel">
+		update period_payment set period_payment_status = #{periodPaymentStatus}, 
+		period_payment_sid = #{periodPaymentSid} where period_payment_no = #{periodPaymentNo}
+	</update>
 
 
 

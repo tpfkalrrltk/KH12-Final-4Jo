@@ -15,7 +15,7 @@
 	${paymentListAllVO}
 	<hr>
 			<c:if test="${paymentListAllVO.paymentPrice > 0}">
-			<a href="cancel?paymentNo=${paymentListAllVO.paymentNo}">
+			<a href="periodCancel?periodPaymentNo=${paymentListAllVO.paymentNo}">
 			정기 결제 취소</a>
 			</c:if>
 	</div>

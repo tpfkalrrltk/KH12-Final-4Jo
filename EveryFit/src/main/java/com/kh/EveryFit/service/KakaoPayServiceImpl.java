@@ -18,7 +18,9 @@ import com.kh.EveryFit.dao.ProductDao;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
 import com.kh.EveryFit.vo.KakaoPayApproveResponseVO;
+import com.kh.EveryFit.vo.KakaoPayCancelRequestInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayCancelRequestVO;
+import com.kh.EveryFit.vo.KakaoPayCancelResponseInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
@@ -182,6 +184,20 @@ URI uri = new URI("https://kapi.kakao.com/v1/payment/cancel");
 		
 		return response;
 	}
-	
+	@Override
+	public KakaoPayCancelResponseInPeriodVO periodCancel(KakaoPayCancelRequestInPeriodVO request)
+			throws URISyntaxException {
+URI uri = new URI("https://kapi.kakao.com/v1/payment/manage/subscription/inactive");
+		
+		MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+		body.add("cid", periodProperties.getCid());
+		body.add("sid", request.getSid());
+		
+		HttpEntity entity = new HttpEntity(body, headers);
+		
+		KakaoPayCancelResponseInPeriodVO response = template.postForObject(uri, entity, KakaoPayCancelResponseInPeriodVO.class);
+		
+		return response;
+	}
 	
 }
