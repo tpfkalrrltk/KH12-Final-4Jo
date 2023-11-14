@@ -43,6 +43,10 @@ public interface MemberDao {
 	
 	
 	void changeMemberInfo(MemberDto memberDto);
+
+	MemberDto selectOneByMemberNick(String memberNick);
+
+	void deleteProfile(String memberId);
 	
 //	로그인 시간 갱신 
 //	void updateMemberLogin(String memberEmail);
