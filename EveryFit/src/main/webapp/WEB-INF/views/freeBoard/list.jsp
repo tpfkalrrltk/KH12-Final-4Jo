@@ -9,9 +9,9 @@
 <title>에브리핏</title>
 </head>
 <body>
-	<div class="container">
+	<div class="container mt-5 pt-5">
 
-		<div class="row">
+		<div class="row mt-5 p-5">
 			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
 				<h1 class="display-5 fw-bold">자유 게시판</h1>
 			</div>
@@ -24,8 +24,7 @@
 			<a href="add" class="text-light" style="text-decoration: none">
 				<div
 					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
-					<h7 class="display-4">
-					<i class="fa-solid fa-plus"></i></h7>
+					<h7 class="display-4"> <i class="fa-solid fa-plus"></i></h7>
 				</div>
 			</a>
 
@@ -45,15 +44,27 @@
 
 			<tbody>
 				<c:forEach items="${FreeBoardList}" var="FreeBoardList">
+
 					<tr class="text-center table- row">
 
 						<td class="col-2">${FreeBoardList.freeBoardNo}</td>
 						<td class="col-2">${FreeBoardList.freeBoardCategory}</td>
 						<td class="col-5"><a
 							href="detail?freeBoardNo=${FreeBoardList.freeBoardNo}"
-							style="text-decoration: none" class="text-primary">
+							style="text-decoration: none" class="text-primary fw-bold">
 								${FreeBoardList.freeBoardTitle}</a></td>
-						<td class="col-3">${FreeBoardList.memberNick}</td>
+
+
+						<c:choose>
+							<c:when test="${FreeBoardList.memberNick==null}">
+								<td class="col-3">--탈퇴한 회원--</td>
+							</c:when>
+
+							<c:otherwise>
+								<td class="col-3">${FreeBoardList.memberNick}</td>
+							</c:otherwise>
+						</c:choose>
+
 					</tr>
 				</c:forEach>
 			</tbody>

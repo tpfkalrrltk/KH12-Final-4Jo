@@ -74,7 +74,7 @@ public class FaqController {
 	public String edit(@ModelAttribute FaqDto faqDto) {
 		boolean result = faqDao.edit(faqDto);
 		if (result) {
-			return "redirect:/faq/detail?";
+			return "redirect:/faq/detail?faqNo="+faqDto.getFaqNo();
 		} else {
 			return "redirect:error";
 		}

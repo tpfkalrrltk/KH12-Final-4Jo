@@ -45,7 +45,7 @@ public class FreeBoardController {
 	public String edit(@ModelAttribute FreeBoardDto freeBoardDto) {
 		boolean result = freeBoardDao.edit(freeBoardDto);
 		if (result) {
-			return "redirect:/freeBoard/detail=" + freeBoardDto.getFreeBoardNo();
+			return "redirect:/freeBoard/detail?freeBoardNo=" + freeBoardDto.getFreeBoardNo();
 		} else {
 			return "redirect:error";
 		}

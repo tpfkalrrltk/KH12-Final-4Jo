@@ -107,7 +107,7 @@ p {
 
 
 
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-primary fixed-top" data-bs-theme="dark">
 	<div class="container-fluid">
 		<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
 			width="110px" height="100px" /></a>
@@ -185,33 +185,35 @@ p {
 						</h2>
 				</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item"
+						<a class="dropdown-item fw-bold"
 							href="${pageContext.request.contextPath}/moim/create"> 모임 만들기
-						</a> <a class="dropdown-item"
+						</a> <a class="dropdown-item  fw-bold"
 							href="${pageContext.request.contextPath}/moim/detail?moimNo=5">
 							모임상세(테스트용) </a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="/league/leagueList">리그 목록</a>
+						<a class="dropdown-item fw-bold" href="/league/leagueList">리그 목록</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">여성전용 모임</a>
+						<a class="dropdown-item fw-bold" href="#">여성전용 모임</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item"
+						<a class="dropdown-item fw-bold"
 							href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
-						<a class="dropdown-item"
+						<a class="dropdown-item fw-bold"
 							href="${pageContext.request.contextPath}/faq/list">FAQ</a>
 
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item"
+						<a class="dropdown-item fw-bold"
 							href="${pageContext.request.contextPath}/pay?productNo=1">
-							프리미엄회원권(테스트용) </a> <a class="dropdown-item"
+							프리미엄회원권(테스트용) </a> <a class="dropdown-item fw-bold"
 							href="${pageContext.request.contextPath}/pay?productNo=2">
 							프리미엄회원권(테스트용) </a>
 					</div></li>
 				<c:choose>
 					<c:when test="${sessionScope.name != null}">
+			
+					
 						<li class="nav-item ms-5">
 							<h5>
-								<div class="text-light">${name}회원님 환영합니다.</div>
+								<div class="text-light fw-bold">${name}회원님 환영합니다.</div>
 							</h5>
 						</li>
 					</c:when>
