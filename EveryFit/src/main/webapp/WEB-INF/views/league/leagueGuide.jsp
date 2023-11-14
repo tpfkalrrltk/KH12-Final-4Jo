@@ -26,5 +26,26 @@
 	</div>        
 </div>
 <div class="row mt-4"><div class="col">
-	<a class="btn btn-primary" href="leagueTeamInsert?leagueNo=${leagueDto.leagueNo}">리그참여</a>
+	<a class="btn btn-primary" id="enter-btn">리그참여</a>
 </div></div>
+
+<script>
+$(function(){
+	$("#enter-btn").click(function(){
+		var leagueNo = ${leagueDto.leagueNo};
+		$.ajax({
+			url:"http://localhost:8080/rest/league/checkMoim",
+			method:"post",
+			data:{leagueNo:leagueNo},
+			success:function(response){
+				console.log(response);
+				alert("성공");
+			},
+			error:function(error){
+				alert("오류발생");
+			}
+		});
+	});
+	
+});
+</script>
