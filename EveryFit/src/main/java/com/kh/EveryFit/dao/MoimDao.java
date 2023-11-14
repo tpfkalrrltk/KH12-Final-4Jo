@@ -21,4 +21,10 @@ public interface MoimDao {
 	void insertJungmoProfile(int jungmoNo, int attachNo);
 	boolean deleteJungmoProfile(int jungmoNo);
 	Integer findJungmoProfile(Integer jungmoNo);
+	
+	//모임장등록
+	void addMoimJang(int moimNo, String memberEmail);
+	//모임회원등록
+	void addMoimMember(int moimNo, String memberEmail);
+	
 }
