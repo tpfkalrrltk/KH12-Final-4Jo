@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -249,7 +249,9 @@ p {
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"></li>
+							<li class="nav-item ms-5">
+									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+									</li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
