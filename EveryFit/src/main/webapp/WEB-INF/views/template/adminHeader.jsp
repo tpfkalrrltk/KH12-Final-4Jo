@@ -159,7 +159,7 @@ p {
 					<li class="nav-item">
 						<h1>
 							<a class="nav-link ms-3" href="#"> <i
-								class="fa-solid fa-ranking-star  mt-2"></i>
+								class="fa-solid fa-ranking-star mt-2"></i>
 							</a>
 						</h1>
 					</li>
@@ -179,6 +179,7 @@ p {
 							</a>
 						</h1>
 					</li>
+
 
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
@@ -211,6 +212,35 @@ p {
 								href="${pageContext.request.contextPath}/pay?productNo=2">
 								프리미엄회원권(테스트용) </a>
 						</div></li>
+						
+
+						
+						<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<h2>
+								<i class="fa-solid fa-lock mt-2"></i>
+							</h2>
+					</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/moim/create">	
+								(관리자)회원 목록 </a> 
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold" href="/league/leagueList">(관리자)리그
+								목록</a>
+
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/pay?productNo=1">
+								프리미엄회원권(테스트용) </a> <a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/pay?productNo=2">
+								프리미엄회원권(테스트용) </a>
+						</div></li>
+						
+
+						
+						
 					<c:choose>
 						<c:when test="${sessionScope.name != null}">
 

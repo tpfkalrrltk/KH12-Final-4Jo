@@ -36,7 +36,7 @@ p {
 <footer>
 
 
-	<nav class=" bg-primary p-0" id="Footer">
+	<nav class=" bg-primary mt-5 p-0" id="Footer">
 
 		<div class="container p-0">
 			<div class='row ms-5'>
