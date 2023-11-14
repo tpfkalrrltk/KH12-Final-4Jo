@@ -114,7 +114,17 @@ public class MemberDaoImpl implements MemberDao {
 		sqlSession.update("member.changeMemberInfo", memberDto);
 	}
 	
-	
+	@Override
+	public void deleteProfile(String memberId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MemberDto selectOneByMemberNick(String memberNick) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

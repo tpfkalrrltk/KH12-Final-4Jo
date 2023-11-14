@@ -7,7 +7,6 @@
 <jsp:include page="../template/Header.jsp"></jsp:include>
 
 
-<h2>mypage</h2>
 
 <style>
 .box {
@@ -71,7 +70,7 @@ a{
 <!-- ---------------------------------------------------------------------------------------- -->
 
 
-<div class="container-fluid mt-5">
+<div class="container-fluid ">
 	<div class="row">
 		<div class="col-md-10 offset-md-1">
 
