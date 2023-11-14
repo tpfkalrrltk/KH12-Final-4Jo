@@ -12,4 +12,6 @@ public interface MoimBoardDao {
 	void delete(int moimBoardNo);
 	int sequence();
 	MoimBoardDto selelctOne(int moimBoardNo);
+	
+	List<MoimBoardDto> listByMoimNo(int moimNo);
 }

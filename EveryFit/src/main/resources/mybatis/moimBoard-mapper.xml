@@ -61,4 +61,7 @@
 		moim_board_no = #{moimBoardNo}
 	</select>
 
+	<select id="listByMoimNo" resultType="MoimBoardDto">
+		SELECT * FROM moim_board WHERE moim_no= #{moimNo}
+	</select>
 </mapper>

@@ -52,4 +52,15 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 	public MoimBoardDto selelctOne(int moimBoardNo) {
 		return sqlSession.selectOne("MoimBoard.selectOne",moimBoardNo);
 	}
+
+	@Override
+	public List<MoimBoardDto> listByMoimNo(int moimNo) {
+		return sqlSession.selectList("MoimBoard.listByMoimNo", moimNo);
+	}
+
+//	@Override
+//	public List<MoimBoardDto> listByMoimNo() {
+//		return sqlSession.selectList("MoimBoard.listByMoimNo");
+//	}
+	
 }
