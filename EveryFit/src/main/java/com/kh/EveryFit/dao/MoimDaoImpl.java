@@ -86,4 +86,20 @@ public class MoimDaoImpl implements MoimDao {
 		}
 	}
 	
+	@Override
+	public void addMoimJang(int moimNo, String memberEmail) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("moimNo", moimNo);
+	    params.put("memberEmail", memberEmail);
+		sqlSession.insert("moim.insertMoimJang", params);
+	}
+	
+	@Override
+	public void addMoimMember(int moimNo, String memberEmail) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("moimNo", moimNo);
+	    params.put("memberEmail", memberEmail);
+		sqlSession.insert("moim.insertMoimMember", params);
+	}
+	
 }
