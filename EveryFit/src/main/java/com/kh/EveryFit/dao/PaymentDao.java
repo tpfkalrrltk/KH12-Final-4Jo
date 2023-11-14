@@ -20,4 +20,5 @@ public interface PaymentDao {
 	PaymentDto selectOneOfPayment(int paymentNo);
 	List<PaymentListAllVO> paymentListByMember(String paymentMember);
 	void cancel(PaymentDto paymentDto);
+	void periodCancel (PeriodPaymentDto periodPaymentDto);
 }

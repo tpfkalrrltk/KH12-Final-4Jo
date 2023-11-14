@@ -20,7 +20,9 @@ import com.kh.EveryFit.dto.ProductDto;
 import com.kh.EveryFit.service.KakaoPayService;
 import com.kh.EveryFit.vo.KakaoPayApproveRequestVO;
 import com.kh.EveryFit.vo.KakaoPayApproveResponseVO;
+import com.kh.EveryFit.vo.KakaoPayCancelRequestInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayCancelRequestVO;
+import com.kh.EveryFit.vo.KakaoPayCancelResponseInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
@@ -211,6 +213,34 @@ public class KakaoPayController {
 						.build());
 				return "redirect:list";
 			}
+			
+			@RequestMapping("/pay/periodCancel")
+			public String periodCancel(@RequestParam int periodPaymentNo) throws URISyntaxException {
+				//int periodPaymentNo = paymentNo; 
+				PeriodPaymentDto periodPaymentDto = paymentDao.selectOne(periodPaymentNo);
+				PaymentDto paymentDto = paymentDao.selectOneOfPayment(periodPaymentNo);
+				KakaoPayCancelRequestInPeriodVO request = KakaoPayCancelRequestInPeriodVO.builder()
+						.sid(periodPaymentDto.getPeriodPaymentSid())
+						.build();
+				log.debug("sid={}",periodPaymentDto.getPeriodPaymentSid());
+				log.debug("vo sid={}", request);
+				KakaoPayCancelResponseInPeriodVO response = kakaoPayService.periodCancel(request);
+				
+				paymentDao.cancel(PaymentDto.builder()
+						.paymentNo(periodPaymentNo)
+						.paymentPrice(0)
+						.build());
+				
+				paymentDao.periodCancel(PeriodPaymentDto.builder()
+						.periodPaymentSid(response.getStatus())
+						.periodPaymentStatus("N")
+						.periodPaymentNo(periodPaymentNo)
+						.build());
+				
+				log.debug("비활성화 완료");
+				return "redirect:list";
+			}
+			
 			
 }
 
