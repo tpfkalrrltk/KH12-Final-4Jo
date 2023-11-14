@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
+import com.kh.EveryFit.vo.CheckMoimListVO;
 
 @Repository
 public class MoimDaoImpl implements MoimDao {
@@ -35,6 +36,16 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public List<MoimMemberDto> selectAllMoimMembers(int moimNo) {
 		return sqlSession.selectList("moim.moimMemberList", moimNo);
+	}
+	
+	@Override
+	public List<MoimDto> moimListByEmail(String memberEmail) {
+		return sqlSession.selectList("moim.moimListByEmail", memberEmail);
+	}
+	
+	@Override
+	public List<MoimDto> checkMoimList(CheckMoimListVO vo) {
+		return sqlSession.selectList("moim.checkMoimList", vo);
 	}
 	
 	@Override

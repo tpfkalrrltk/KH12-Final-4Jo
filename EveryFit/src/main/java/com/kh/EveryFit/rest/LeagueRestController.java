@@ -1,7 +1,7 @@
 package com.kh.EveryFit.rest;
 
-import java.sql.Date;
 import java.text.ParseException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kh.EveryFit.component.TimeFormatter;
 import com.kh.EveryFit.dao.LeagueDao;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.LeagueApplicationDto;
+import com.kh.EveryFit.dto.LeagueDto;
+import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.CheckMoimListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LeagueRestController {
 
 	@Autowired private LeagueDao leagueDao;
+	@Autowired private MoimDao moimDao;
 	
 	@PostMapping("/addLeagueApplication")
 	public void addLeagueApplication(@ModelAttribute LeagueApplicationDto applicationDto) throws ParseException {
@@ -41,5 +45,20 @@ public class LeagueRestController {
 	@PostMapping("/updateLeagueApplication")
 	public void updateLeagueApplication(@ModelAttribute LeagueApplicationDto applicationDto) {
 		leagueDao.updateLeagueApplication(applicationDto.getLeagueApplicationNo(), applicationDto);
+	}
+	
+	@PostMapping("/checkMoim")
+	public List<MoimDto> checkMoim(@RequestParam int leagueNo){
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+		String memberEmail = "leaguetest1";
+		int locationNo = leagueDto.getLocationNo();
+		int eventNo = leagueDto.getEventNo();
+		CheckMoimListVO vo = CheckMoimListVO.builder()
+								.memberEmail(memberEmail)
+								.locationNo(locationNo)
+								.eventNo(eventNo)
+								.build();
+		List<MoimDto> list = moimDao.checkMoimList(vo);
+		return list;
 	}
 }

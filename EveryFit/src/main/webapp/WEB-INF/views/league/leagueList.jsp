@@ -121,7 +121,6 @@ $(function(){
 	
 	$("[name=locationDepth1]").change(function(e){
 		var locationDepth1 = e.target.value;
-		console.log(locationDepth1)
 		$.ajax({
 			url:"http://localhost:8080/rest/location/depth2List",
 			type:"post",
