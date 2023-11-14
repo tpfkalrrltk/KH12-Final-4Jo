@@ -1,8 +1,9 @@
 package com.kh.EveryFit.websocket;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,37 +37,50 @@ public class DefaultWebsocketServer extends TextWebSocketHandler {
 	//private Set<WebSocketSession> clients = new HashSet<>();//동기화 처리가 안되어 있음
 	//private Set<WebSocketSession> clients = new CopyOnWriteArraySet<>();//동기화 처리 됨
 	//	private Set<WebSocketSession> clients = Collections.synchronizedSet(new HashSet<>());
-	private Set<ClientVO> clients = new CopyOnWriteArraySet<>();
+//	private Set<ClientVO> clients = new CopyOnWriteArraySet<>();
 	private Set<ClientVO> members = new CopyOnWriteArraySet<>(); //로그인한 회원
-	//동기화된 저장소가 필요한데 이제 같은방 사람들을..다넣어주는코드...흠..
+	private Map<Integer, Set<ClientVO>> roomMembersMap = new ConcurrentHashMap<>(); // 채팅방 멤버, 채팅방 번호를 키로 사용
 //	private Set<ClientVO> chatMembers  = new CopyOnWriteArraySet<>(); //같은방 회원
-	private Map<String, Object> chatMembers = Collections.synchronizedMap(new HashMap<>());
 	
 	//JSON 변환기
 	private ObjectMapper mapper = new ObjectMapper(); 
 	
-	@Autowired
-	private ChatDao chatDao;
+	@Autowired private ChatDao chatDao;
 	
 	//접속자 명단을 모든 접속자에게 전송하는 메소드
 	public void sendClientList() throws IOException {
 		//1. clients를 전송 가능한 형태(JSON 문자열)로 변환한다
 		ObjectMapper mapper = new ObjectMapper();
-		Map<String, Object> data = new HashMap<>();
-		data.put("clients", clients);
-		String clientJson = mapper.writeValueAsString(data);
+//		Map<String, Object> data = new HashMap<>();
+		//members가 아니라 ClientVO의 멤버를 넣어야 함...
+//		data.put("members", members);
+//		String clientJson = mapper.writeValueAsString(data);
+		
+	    //Set<ClientVO> roomMembers = roomMembersMap.get(chatRoomNo);
+
+//	    if (roomMembers != null) {
+//	        List<String> memberEmails = new ArrayList<>();
+//	        for (ClientVO member : roomMembers) {
+//	            memberEmails.add(member.getMemberEmail());
+//	        }
+
+        Map<String, Object> data = new HashMap<>();
+//	        data.put("members", memberEmails);
+        String clientJson = mapper.writeValueAsString(data);
+		
 		
 		//2. 모든 사용자에게 전송
 		TextMessage message = new TextMessage(clientJson);
-		for(ClientVO client : members) {
-			client.send(message);
+		for(ClientVO members : members) {
+			members.send(message);
 		}
 	}
 	
 	//접속한 사용자에게 메세지 이력을 전송하는 메소드
 	public void sendMessageList(ClientVO client) throws IOException {
-		int chatRoomNo = 1;
-		List<ChatDto> list = chatDao.list(chatRoomNo);
+		
+		
+		List<ChatDto> list = chatDao.list(client.getChatRoomNo());
 		
 		for(ChatDto dto : list) {
 			//dto의 내용을 메세지 형식으로 만들어서 전송
@@ -117,38 +131,47 @@ public class DefaultWebsocketServer extends TextWebSocketHandler {
 //		TextMessage message = new TextMessage(LocalDateTime.now().toString());
 //		session.sendMessage(message);		
 		ClientVO client = new ClientVO(session);
-		clients.add(client);
-		
+//		clients.add(client);
+		log.debug("입장!");
+
 		if(client.isMember()) {
 			members.add(client);
-//			if(client.isChatMember()) {
-//				chatMembers.add(client);
-//			}
-//		    for (ClientVO otherClient : clients) { //반복문으로 지금  해당 client랑 다른 client들의 chatroomno를 비교해서 번호가 같으면 추가!
-//		        if (client != otherClient && client.isInSameChatRoom(otherClient.getChatRoomNo())) {
-//		            chatMembers.add(otherClient);
-//		        }
-//		    }
 		}
 		
+		Integer chatRoomNo = client.getChatRoomNo();
+		//여기의 chatRoomNo는 jsp파라미터로 값을 받아와야 함
+		addRoomMember(client	, chatRoomNo);
 		//모든 접속자에게 접속자 명단을 전송
 		sendClientList();
 		sendMessageList(client);
 		
 	}
 	
+   // 채팅방 멤버 추가
+   public void addRoomMember(ClientVO client, Integer chatRoomNo) {
+       Set<ClientVO> roomMembers = roomMembersMap.computeIfAbsent(chatRoomNo, k -> new HashSet<>());
+       roomMembers.add(client);
+       log.debug("채팅방 멤버 추가 - 채팅방 번호: {}, 멤버 수: {}", chatRoomNo, roomMembers.size());
+   }
+	
+   // 채팅방 멤버 제거
+   public void removeRoomMember(ClientVO client, Integer chatRoomNo) {
+       Set<ClientVO> roomMembers = roomMembersMap.get(chatRoomNo);
+       if (roomMembers != null) {
+           roomMembers.remove(client);
+           log.debug("채팅방 멤버 제거 - 채팅방 번호: {}, 멤버 수: {}", chatRoomNo, roomMembers.size());
+       }
+   }
+
+	
+	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		//사용자를 저장소에서 제거하는 코드
 		ClientVO client = new ClientVO(session);
-		clients.remove(session);
-		
-		if(client.isMember()) {
-			members.remove(client);
-//			if(client.isChatMember()) {
-//				chatMembers.remove(client);
-//			}
-		}	
+//		clients.remove(session);
+		members.remove(session);
+		log.debug("종료!");
 		sendClientList();
 	}
 	
@@ -161,8 +184,13 @@ public class DefaultWebsocketServer extends TextWebSocketHandler {
 //		- (+추가) 사용자는 메세지를 JSON 형태로 보내므로 이를 해석해야 한다(ObjectMapper)
 		Map params = mapper.readValue(message.getPayload(), Map.class);
 		
+		//params에 있는 방번호를 꺼내서....처리?
+		Integer chatRoomNo = (Integer) params.get("chatRoomNo");
+		client.setChatRoomNo(chatRoomNo);
+		
 		//DM일 경우와 아닐 경우 구분하여 처리
 		boolean isDM = params.get("target") != null;
+		
 		if(isDM) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("dm", true);
@@ -188,7 +216,7 @@ public class DefaultWebsocketServer extends TextWebSocketHandler {
 			//DB insert (DM 경우 내용, 발신자, 발신자등급, 수신자를 저장)
 			chatDao.insert(ChatDto.builder()
 					.chatContent((String)params.get("content"))
-					.chatRoomNo(1)
+					.chatRoomNo(chatRoomNo)
 					.memberEmail(client.getMemberEmail())
 					.chatMentionTarget((String)params.get("target"))
 					.build());
@@ -200,12 +228,14 @@ public class DefaultWebsocketServer extends TextWebSocketHandler {
 			//FE에게 보낼 메세지 객체를 생성
 			Map<String, Object> map = new HashMap<>();
 			map.put("memberEmail", client.getMemberEmail());
+			map.put("chatRoomNo", client.getChatRoomNo());
 			map.put("content", params.get("content"));
 			//시간추가등
 			//도구를 만들어 JSON으로 변환
 			
 			String messageJson = mapper.writeValueAsString(map);
 			//메세지를 생성하여 변환된 내용을 담아 모든 사용자에게 전송
+			
 			TextMessage tm = new TextMessage(messageJson);
 			for(ClientVO c : members) {
 				c.send(tm);
@@ -213,7 +243,7 @@ public class DefaultWebsocketServer extends TextWebSocketHandler {
 			//DB insert (전체메세지일 경우 내용, 발신자, 발신자등급을 저장)
 			chatDao.insert(ChatDto.builder()
 					.chatContent((String)params.get("content"))
-					.chatRoomNo(1)
+					.chatRoomNo(chatRoomNo)
 					.memberEmail(client.getMemberEmail())
 					.build());
 		}

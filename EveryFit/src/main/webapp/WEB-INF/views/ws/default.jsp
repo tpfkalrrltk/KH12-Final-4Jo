@@ -54,6 +54,7 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
 				
+				${sessionScope.name}
 <!-- 				<div class="row"> -->
 <!-- 						<h2 class="bg-primary text-light p-3 text-start rounded"> -->
 <!-- 							 채팅방 -->
@@ -137,7 +138,7 @@
 			ul.appendTo(".client-list");
 		}
 		else if(data.content) {//메세지처리
-			var memberEmailail;
+			var memberEmail;
 			if(data.dm == true) {
 				if(myId == data.memberEmail){
 					memberEmail = $("<label>").text(data.target + "님에게 DM");
@@ -217,6 +218,7 @@
 // 			  onClick: function(){} // Callback after click
 // 			}).showToast();
 	
+	var chatRoomNo = "${chatRoomNo}";
 	
 	//메세지 전송 함수
 	function sendMessage() {
@@ -229,7 +231,9 @@
 	    	
 	    	var obj = {
 	    		target : input.substring(1, space),
-	    		content : input.substring(space+1)
+	    		content : input.substring(space+1),
+	    		chatRoomNo : chatRoomNo,
+	    		//방번호를 같이 보냄? 화이팅!
 	    	};
 		    var str = JSON.stringify(obj);
 		    window.socket.send(str);
