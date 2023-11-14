@@ -126,16 +126,15 @@ public class FreeBoardImpl implements FreeBoardDao {
 	public List<FreeBoardDto> selectListByPage(int page) {
 		int begin = page * 10 - 9;
 		int end = page * 10;
-
-		Map<String, Object> params = new HashMap<>();
+		Map<String, Integer> params = new HashMap<>();
 		params.put("begin", begin);
 		params.put("end", end);
-
 		return sqlSession.selectList("freeBoard.selectListByPage", params);
 	}
 
 	@Override
 	public List<FreeBoardDto> selectListByPage(BoardVO boardVO) {
+
 		if (boardVO.getType() != null && boardVO.getKeyword() != null) {
 			return selectListByPage(boardVO.getType(), boardVO.getKeyword(), boardVO.getPage());
 
