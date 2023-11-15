@@ -8,6 +8,17 @@
 <meta charset="UTF-8">
 <title>에브리핏</title>
 </head>
+
+<style>
+textarea {
+	width: 100%;
+	height: 25em;
+	border: none;
+	resize: none;
+}
+</style>
+
+
 <body>
 	<div class="container ">
 
@@ -23,7 +34,7 @@
 
 		<div class="row mt-3">
 			<div class="col">
-				<form action="add" method="post">
+				<form action="add" method="post" enctype="multipart/form-data" autocomplete="off">
 
 					<div class="row">
 						<div class="col-5 offset-1">

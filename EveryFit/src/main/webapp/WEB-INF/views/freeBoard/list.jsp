@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../template/Header.jsp"></jsp:include>
@@ -10,16 +10,14 @@
 </head>
 
 <script>
+	window.onscroll = function() {
+		scrollRotate();
+	};
 
-  window.onscroll = function () {
-  scrollRotate(); 
-  };
-
-  function scrollRotate() {
-  let image = document.getElementById("addIcon");
-  image.style.transform = "rotate(" + window.pageYOffset/2 + "deg)";
-  }
-
+	function scrollRotate() {
+		let image = document.getElementById("addIcon");
+		image.style.transform = "rotate(" + window.pageYOffset / 1 + "deg)";
+	}
 </script>
 
 
@@ -42,7 +40,8 @@
 			<a href="add" class="text-light" style="text-decoration: none">
 				<div
 					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
-					<h7 class="display-4" > <i class="fa-solid fa-plus" id="addIcon"></i></h7>
+					<h7 class="display-4"> <i class="fa-solid fa-plus"
+						id="addIcon"></i></h7>
 				</div>
 			</a>
 
@@ -61,6 +60,9 @@
 			</thead>
 
 			<tbody>
+			
+			
+			
 				<c:forEach items="${FreeBoardList}" var="FreeBoardList">
 
 					<tr class="text-center table- row">
@@ -70,8 +72,12 @@
 						<td class="col-5"><a
 							href="detail?freeBoardNo=${FreeBoardList.freeBoardNo}"
 							style="text-decoration: none" class="text-primary fw-bold">
-								${FreeBoardList.freeBoardTitle}</a></td>
-
+								${FreeBoardList.freeBoardTitle}
+								<c:if test="${FreeBoardList.freeBoardReplyCount>0}">
+							[${FreeBoardList.freeBoardReplyCount}]
+								</c:if>	
+								</a></td>
+	
 
 						<c:choose>
 							<c:when test="${FreeBoardList.memberNick==null}">
@@ -108,14 +114,17 @@
 		</div>
 		<!-- 숫자 버튼 -->
 		<div class="col-1">
-			<c:forEach var="i" begin="${boardVO.begin}" end="${boardVO.end}" step="1">
-				<c:choose><c:when test="${boardVO.page == i}">
+			<c:forEach var="i" begin="${boardVO.begin}" end="${boardVO.end}"
+				step="1">
+				<c:choose>
+					<c:when test="${boardVO.page == i}">
 						<a class="on text-primary fw-bold">${i}</a>
 					</c:when>
 					<c:otherwise>
 						<a
 							href="${pageContext.request.contextPath}/freeBoard/list?${boardVO.getQueryString(i)}">${i}</a>
-					</c:otherwise></c:choose>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</div>
 		<!-- 다음 버튼 -->
@@ -138,14 +147,16 @@
 
 				<c:choose>
 					<c:when test="${param.type == 'member_nick'}">
-						<select name="type" required="required" class="form-select text-primary fw-bold">
+						<select name="type" required="required"
+							class="form-select text-primary fw-bold">
 							<option value="free_board_title">제목</option>
 							<option value="member_nick" selected="selected">닉네임</option>
 							<option value="free_board_content">내용</option>
 						</select>
 					</c:when>
 					<c:otherwise>
-						<select name="type" required="required" class="form-select text-primary fw-bold">
+						<select name="type" required="required"
+							class="form-select text-primary fw-bold">
 							<option value="free_board_title" selected="selected">제목</option>
 							<option value="member_nick">닉네임</option>
 							<option value="free_board_content">내용</option>
@@ -154,12 +165,13 @@
 				</c:choose>
 		</div>
 		<div class="col-4 p-0">
-			<input class="form-control text-primary  fw-bold" type="search" name="keyword"
-				required="required" placeholder="검색어를 입력해주세요"  >
+			<input class="form-control text-primary  fw-bold" type="search"
+				name="keyword" required="required" placeholder="검색어를 입력해주세요">
 		</div>
 		<div class="col-1 ">
-			<button class="btn btn-primary w-100 " type="submit" style="height: 44px">
-				<i class="fa-solid fa-magnifying-glass fa-flip fa-xl" ></i>
+			<button class="btn btn-primary w-100 " type="submit"
+				style="height: 44px">
+				<i class="fa-solid fa-magnifying-glass fa-flip fa-xl"></i>
 			</button>
 			</form>
 		</div>

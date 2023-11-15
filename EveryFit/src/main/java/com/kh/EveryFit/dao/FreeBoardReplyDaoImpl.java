@@ -42,8 +42,8 @@ public class FreeBoardReplyDaoImpl implements FreeBoardReplyDao {
 	}
 
 	@Override
-	public List<FreeBoardReplyDto> list() {
-		return sqlSession.selectList("freeBoardReply.list");
+	public List<FreeBoardReplyDto> list(int freeBoardNo) {
+		return sqlSession.selectList("freeBoardReply.list",freeBoardNo);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import com.kh.EveryFit.dto.FreeBoardReplyDto;
 
 public interface FreeBoardReplyDao {
 
-	List<FreeBoardReplyDto> list();
+	List<FreeBoardReplyDto> list(int freeBoardNo);
 
 	boolean update(FreeBoardReplyDto freeBoardReplyDto);
 

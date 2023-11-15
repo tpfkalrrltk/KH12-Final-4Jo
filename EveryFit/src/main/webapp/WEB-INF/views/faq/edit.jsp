@@ -8,6 +8,16 @@
 <meta charset="UTF-8">
 <title>에브리핏</title>
 </head>
+
+<style>
+textarea {
+	width: 100%;
+	height: 25em;
+	border: none;
+	resize: none;
+}
+</style>
+
 <body>
 
 

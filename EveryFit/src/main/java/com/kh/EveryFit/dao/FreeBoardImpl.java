@@ -83,7 +83,7 @@ public class FreeBoardImpl implements FreeBoardDao {
 	}
 
 	@Override
-	public boolean updateShopAfterReplyCount(int freeBoardNo) {
+	public boolean updateFreeBoardReplyCount(int freeBoardNo) {
 
 		return sqlSession.update("freeBoard.replyCount", freeBoardNo) > 0;
 	}

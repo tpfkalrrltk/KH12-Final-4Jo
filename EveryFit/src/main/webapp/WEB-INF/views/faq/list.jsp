@@ -16,7 +16,7 @@
 
 	function scrollRotate() {
 		let image = document.getElementById("addIcon");
-		image.style.transform = "rotate(" + window.pageYOffset / 2 + "deg)";
+		image.style.transform = "rotate(" + window.pageYOffset / 1 + "deg)";
 	}
 
 	var number = 0;//특정 갯수만큼 반복하고 멈추게 하기 위해서

@@ -20,7 +20,7 @@
 
 		insert into free_board(
 		free_board_no,
-		member_nick,
+		member_email,
 		free_board_title,
 		free_board_content,
 		free_board_category
@@ -28,7 +28,7 @@
 		values
 		(
 		#{freeBoardNo},
-		#{memberNick},
+		#{memberEmail},
 		#{freeBoardTitle},
 		#{freeBoardContent},
 		#{freeBoardCategory}
@@ -72,12 +72,9 @@
 
 
 	<update id="replyCount">
-		update free_board set free_board_replycount= (
-
-		select
-		count(*) from reply where reply_origin = ?)
-		where
-		free_board_no = ?
+		update free_board set free_board_reply_count= (
+		select count(*) from free_board_reply where free_board_no = #{freeBoardNo})
+		where free_board_no =#{freeBoardNo}
 	</update>
 
 	<select id="selectList" resultType="BoardVO">
@@ -97,7 +94,8 @@
 		where
 		instr(${type},#{keyword})>0
 		ORDER BY free_board_no DESC)
-		WHERE ROWNUM between #{begin}
+		WHERE ROWNUM
+		between #{begin}
 		and #{end}
 	</select>
 
@@ -114,15 +112,18 @@
 	</select>
 
 	<insert id="connect">
-		insert into free_boad_image( free_board_no, attach_no )
+		insert into free_boad_image( free_board_no, attach_no
+		)
 		values(#{freeBoardNo}, #{attachNo})
 	</insert>
 
 	<select id="findImage" resultType="FreeBoardDto">
 		select * from attach
-		where attach_no = (
+		where
+		attach_no = (
 		select attach_no from free_board_image
-		where free_board_no = #{freeBoardNo})
+		where free_board_no
+		= #{freeBoardNo})
 	</select>
 
 
