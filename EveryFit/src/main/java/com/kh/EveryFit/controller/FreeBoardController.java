@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.FreeBoardDao;
 import com.kh.EveryFit.dto.FreeBoardDto;
+import com.kh.EveryFit.vo.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,10 +27,17 @@ public class FreeBoardController {
 	@Autowired
 	FreeBoardDao freeBoardDao;
 
-	@RequestMapping("/list")
-	public String list(Model model) {
 
-		List<FreeBoardDto> list = freeBoardDao.list();
+	@RequestMapping("/list")
+	public String list(Model model,
+			@ModelAttribute(name =  "boardVO") BoardVO boardVO) {
+		
+
+		int count = freeBoardDao.countList(boardVO);
+		boardVO.setCount(count);
+		
+		
+		List<FreeBoardDto> list = freeBoardDao.selectListByPage(boardVO);
 		model.addAttribute("FreeBoardList", list);
 		return "/freeBoard/list";
 	}

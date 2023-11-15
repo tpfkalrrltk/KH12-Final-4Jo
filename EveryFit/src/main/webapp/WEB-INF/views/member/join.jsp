@@ -138,11 +138,13 @@ span {
 							<div class="col-md-4 offset-md-4 text-start d-flex">
 								<div class="d-flex ">
 									<div class="text-start">
+
 										<label>인증번호</label> <input type="text" class="form-control cert-input">
 
 									</div>
 									<div class="ms-3 mt-4">
 										<button class="btn btn-success btn-cert" type="button">확인</button>
+
 									</div>
 								</div>
 							</div>

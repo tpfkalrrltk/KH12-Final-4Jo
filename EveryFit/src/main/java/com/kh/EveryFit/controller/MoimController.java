@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
+import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
@@ -42,6 +44,7 @@ public class MoimController {
 	@Autowired private MemberDao memberDao;
 	@Autowired private JungmoDao jungmoDao;
 	@Autowired private AttachDao attachDao;	
+	@Autowired private ChatDao chatDao;
 	
 	@GetMapping("/create")
 	public String create(Model model) {
@@ -66,14 +69,22 @@ public class MoimController {
 	
 	@PostMapping("/create")
 	public String create(@ModelAttribute MoimDto moimDto,
-			@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+			@RequestParam MultipartFile attach, HttpSession session) throws IllegalStateException, IOException {
 		int moimNo = moimDao.sequence();
 		moimDto.setMoimNo(moimNo);
 		moimDao.insert(moimDto);
 		
 		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
+		int chatRoomNo = chatDao.sequence();
+		
+		String memberEmail = (String)session.getAttribute("name");
+		chatDao.insertChatRoom(chatRoomNo);
 		//moimDto.setChatRoomNo에 넣기
+		moimDto.setChatRoomNo(chatRoomNo);
+		//채팅참가자 추가
+		chatDao.addChatMember(chatRoomNo, memberEmail);
 		//모임등록한 사람의 아이디를 moim_member 테이블에 insert 하기!
+		moimDao.addMoimJang(moimNo, memberEmail);
 		//모임등록한사람의 등급은 모임장으로 하자
 		
 		//첨부파일등록(파일있을때)
@@ -84,7 +95,6 @@ public class MoimController {
 			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
 			attach.transferTo(target);
 			
-
 			AttachDto attachDto = new AttachDto();
 			attachDto.setAttachNo(attachNo);
 			attachDto.setAttachName(attach.getOriginalFilename());
@@ -131,6 +141,10 @@ public class MoimController {
 		model.addAttribute("moimDto", moimDto);
 		Integer profile = moimDao.findMoimProfile(moimNo);
 		model.addAttribute("profile", profile);
+		List<LocationDto> locationList = memberDao.selectLocationList(); //지역조회
+		model.addAttribute("locationList", locationList);
+		List<EventDto> eventList = memberDao.selectEventList(); //종목조회
+		model.addAttribute("eventList", eventList);
 		return "moim/create";
 	}
 	
@@ -192,7 +206,7 @@ public class MoimController {
 	//정모 참가
 	@RequestMapping("/jungmo/join")
 	public String jungmoJoin(@RequestParam String memberEmail,
-				@RequestParam int jungmoNo) {
+				@RequestParam int jungmoNo, RedirectAttributes redirectAttributes) {
 		//insert 하기 전에 해야 할 일
 		//[1] 이미 참가한 회원인지 검색
 		//[2] 정원이 가득 찼는지 검색
@@ -202,17 +216,34 @@ public class MoimController {
 		int count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
 		//만약 등록된 회원 수가 정원보다 같거나 많으면
 		if(count >= jungmoDto.getJungmoCapacity()) {
-			return "redirect:login?error";
+			redirectAttributes.addAttribute("errorFlag", true);
+	        return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 		}
-		jungmoDao.memberJoin(memberEmail, jungmoNo);
+		
+		String memberCheck = jungmoDao.selectMemberEmail(memberEmail, jungmoNo);
+		if(memberCheck == null) {
+			jungmoDao.memberJoin(memberEmail, jungmoNo);			
+		}
+		else {
+			redirectAttributes.addAttribute("errorFlag", true);
+	        return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+		}
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
-	//정모취소
+	//정모참가취소
 	@RequestMapping("/jungmo/exit")
 	public String jungmoDelete(@RequestParam String memberEmail,
 			@RequestParam int jungmoNo) {
 		jungmoDao.deleteJungmoMember(memberEmail, jungmoNo);
+		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+	}
+	
+	//정모취소(일정취소)
+	@RequestMapping("/jungmo/cancel")
+	public String jungmoCancel(@RequestParam int jungmoNo) {
+		jungmoDao.cancel(jungmoNo);
 		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}

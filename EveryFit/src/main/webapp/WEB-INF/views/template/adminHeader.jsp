@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -212,10 +212,10 @@ p {
 								href="${pageContext.request.contextPath}/pay?productNo=2">
 								프리미엄회원권(테스트용) </a>
 						</div></li>
-						
 
-						
-						<li class="nav-item dropdown"><a
+
+
+					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">
 							<h2>
@@ -223,36 +223,35 @@ p {
 							</h2>
 					</a>
 						<div class="dropdown-menu">
+							<a class="dropdown-item fw-bold" href="#"> (관리자)회원 관리 </a>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/moim/create">	
-								(관리자)회원 목록 </a> 
+								href="${pageContext.request.contextPath}/moim/create">(관리자)모임
+								관리</a>
+
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold" href="/league/leagueList">(관리자)리그
-								목록</a>
-
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/pay?productNo=1">
-								프리미엄회원권(테스트용) </a> <a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/pay?productNo=2">
-								프리미엄회원권(테스트용) </a>
+								관리</a>
 						</div></li>
-						
 
-						
-						
+
+
+
 					<c:choose>
 						<c:when test="${sessionScope.name != null}">
 
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
+									<div class="text-light fw-bold">${name} 회원님 환영합니다.</div>
+									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"></li>
+							<li class="nav-item ms-5">
+									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+									</li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
@@ -267,7 +266,8 @@ p {
 	</nav>
 
 
-
+<div id='wrapper'>
+  <div>
 
 
 

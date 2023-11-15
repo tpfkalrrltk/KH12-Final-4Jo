@@ -117,9 +117,9 @@ public class LeagueDaoImpl implements LeagueDao{
 	}
 	
 	@Override
-	public LeagueApplicationDto selectOneLeagueApplication(int leagueApplicationNo) {
-		LeagueApplicationDto leagueApplicationDto = sqlSession.selectOne("league.findLeagueApplication", leagueApplicationNo);
-		if(leagueApplicationDto==null) throw new NoTargetException();
+	public LeagueApplicationDto selectOneLeagueApplication(int leagueNo) {
+		LeagueApplicationDto leagueApplicationDto = sqlSession.selectOne("league.findLeagueApplication", leagueNo);
+		//if(leagueApplicationDto==null) throw new NoTargetException();
 		return leagueApplicationDto;
 	}
 	
@@ -127,7 +127,7 @@ public class LeagueDaoImpl implements LeagueDao{
 	public void updateLeagueApplication(int leagueApplicationNo, LeagueApplicationDto leagueApplicationDto) {
 		Map<String, Object> param = Map.of("leagueApplicationNo", leagueApplicationNo,"leagueApplicationDto", leagueApplicationDto);
 		int result = sqlSession.update("league.updateLeagueApplication", param);
-		if(result==0) throw new NoTargetException();
+		//if(result==0) throw new NoTargetException();
 	}
 	
 	@Override

@@ -14,6 +14,8 @@ public interface JungmoDao {
 	 void insert(JungmoDto jungmoDto);
 	 void edit(JungmoDto jungmoDto);
 //	 List<JungmoListByMoimNoVO> selectList(int moimNo);
+	//정모취소
+	 boolean cancel(int jungmoNo);
 	 
 	 //정모멤버리스트
 	 List<JungmoMemberListVO> selectListByJungmoNo(int jungmoNo);
@@ -22,5 +24,7 @@ public interface JungmoDao {
 	int selectOneJungmoMemberCount(int jungmoNo);
 	boolean deleteJungmoMember(String memberEmail, int jungmoNo);
 	List<JungmoWithMembersVO> selectTotalList(int moimNo);
+
+	String selectMemberEmail(String memberEmail, int jungmoNo);
 	
 }

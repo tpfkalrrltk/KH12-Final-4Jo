@@ -2,6 +2,8 @@ package com.kh.EveryFit.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,8 +52,8 @@ public class LeagueController {
 	}
 	
 	@PostMapping("/leagueInsert")
-	public String leagueInsert(@ModelAttribute LeagueDto leagueDto) {
-		String leagueManager = "user";
+	public String leagueInsert(@ModelAttribute LeagueDto leagueDto, HttpSession session) {
+		String leagueManager = (String)session.getAttribute("name");
 		int leagueNo = leagueDao.leagueSequence();
 		
 		leagueDto.setLeagueManager(leagueManager);
