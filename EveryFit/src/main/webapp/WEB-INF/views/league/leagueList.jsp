@@ -149,7 +149,7 @@ $(function(){
 			type:"post",
 			data:{leagueNo:leagueNo},
 			success:function(data){
-				if(data==null){
+				if(data==false){
 					$("#actionType").val("add");
 				}
 				else{
@@ -159,6 +159,9 @@ $(function(){
 					$("#appInsert input[name='leagueApplicationEnd']").val(data.leagueApplicationEnd);
 				}
 				Modal.show();
+			},
+			error: function(response) {
+			    console.log(response);
 			}
 		})
 		$("#appInsert input[name='leagueNo']").val(leagueNo);
