@@ -233,10 +233,8 @@ p {
 		</div>
 	</nav>
 
-
-<div id='wrapper' style="padding-top: 126px">
-  <div>
-
+<div class="p-5 m-5"></div>
+<div id='wrapper'>
 
 
 
