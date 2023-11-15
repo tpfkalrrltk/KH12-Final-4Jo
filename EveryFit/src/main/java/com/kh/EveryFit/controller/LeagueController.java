@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MemberDao;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueListDto;
+import com.kh.EveryFit.dto.LeagueTeamDto;
+import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.vo.LeagueListVO;
 
@@ -30,6 +33,7 @@ public class LeagueController {
 
 	@Autowired private LeagueDao leagueDao;
 	@Autowired private MemberDao memberDao;
+	@Autowired private MoimDao moimDao;
 	
 	@RequestMapping("/leagueList")
 	public String leagueList(Model model,@ModelAttribute(name="vo") LeagueListVO vo) {
@@ -98,7 +102,37 @@ public class LeagueController {
 	}
 	
 	@GetMapping("/leagueTeamInsert")
-	public String leagueTeamInsert(@RequestParam int leagueNo, @RequestParam int moimNo) {
+	public String leagueTeamInsert(@RequestParam int leagueNo, 
+									@RequestParam int moimNo,
+									Model model) {
+		model.addAttribute("memberList", moimDao.selectAllMoimMembers(moimNo));
 		return "league/leagueTeamInsert";
+	}
+	
+	@PostMapping("/leagueTeamInsert")
+	public String leagueTeamInsert(@RequestParam String[] memberEmail, 
+									@RequestParam int leagueNo,
+									@RequestParam int moimNo) {
+		int leagueTeamNo = leagueDao.leagueTeamSequence();
+		leagueDao.insertLeagueTeam(LeagueTeamDto.builder()
+									.leagueTeamNo(leagueTeamNo)
+									.leagueNo(leagueNo)
+									.moimNo(moimNo)
+									.build());
+		
+		for(String email : memberEmail) {
+			leagueDao.insertLeagueTeamRoaster(LeagueTeamRoasterDto.builder()
+						.leagueTeamRoasterNo(leagueDao.leagueTeamRoasterSequence())
+						.leagueNo(leagueNo)
+						.leagueTeamNo(leagueTeamNo)
+						.memberEmail(email)
+						.build());
+		}
+		return "redirect:leagueTeamDetail";
+	}
+	
+	@RequestMapping("/leagueTeamDetail")
+	public String leagueTeamDetail() {
+		return "/league/leagueTeamDetail";
 	}
 }
