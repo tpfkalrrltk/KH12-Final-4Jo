@@ -15,6 +15,7 @@ import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.error.NoTargetException;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -204,5 +205,22 @@ public class LeagueDaoImpl implements LeagueDao{
 	public void deleteLeagueMatch(int leagueMatchNo) {
 		int result = sqlSession.delete("league.deleteLeagueMatch", leagueMatchNo);
 		if(result==0) throw new NoTargetException();
+	}
+	
+	@Override
+	public List<LeagueTeamDto> listLeagueTeamNonApprove(int leagueNo) {
+		return sqlSession.selectList("league.listLeagueTeamNonApprove", leagueNo);
+	}
+	
+	@Override
+	public List<LeagueTeamRankListVO> leagueTeamRank(int leagueNo) {
+		return sqlSession.selectList("league.listLeagueTeamRank", leagueNo);
+	}
+	
+	@Override
+	public boolean updateLeagueTeamStatus(int leagueTeamNo, String status) {
+		Map<String, Object> param = Map.of("leagueTeamNo", leagueTeamNo, "status", status);
+		sqlSession.update("league.updateLeagueTeamStatus", param);
+		return false;
 	}
 }

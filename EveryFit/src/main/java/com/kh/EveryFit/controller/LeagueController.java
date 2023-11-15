@@ -24,6 +24,7 @@ import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -145,4 +146,16 @@ public class LeagueController {
 		model.addAttribute("leagueDto", leagueDto);
 		return "/league/leagueTeamDetail";
 	}
+	
+	@RequestMapping("/leagueDetail")
+	public String leagueDetail(@RequestParam int leagueNo, Model model) {
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+		List<LeagueTeamDto> nonApproveList = leagueDao.listLeagueTeamNonApprove(leagueNo);
+		List<LeagueTeamRankListVO> rankList = leagueDao.leagueTeamRank(leagueNo);
+		model.addAttribute("nonApproveList", nonApproveList);
+		model.addAttribute("rankList", rankList);
+		model.addAttribute("leagueDto", leagueDto);
+		return "league/leagueDetail";
+	}
 }
+
