@@ -6,5 +6,5 @@ public interface CertDao {
 
 	void insert(CertDto certDto);
 	boolean delete(String certEmail);
-	CertDto selectOnt(String certEmail);
+	CertDto selectOne(String certEmail);
 }

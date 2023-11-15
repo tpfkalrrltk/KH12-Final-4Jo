@@ -38,8 +38,8 @@ span {
                     success:function(){
                         $(".btn-send").prop("disabled",false);
                         $(".btn-send").find(".fa-spinner").hide();
-                        $(".btn-send").find("span").text("보내기");
-                        // window.alert("이메일 확인하세요");
+                        $(".btn-send").find("span").text("인증번호 보내기");
+                         /* window.alert("이메일 확인하세요"); */
 
                         $(".cert-wrapper").show();
                         window.email = email;
@@ -51,6 +51,7 @@ span {
             //    var email = $("[name=memberEmail]").val();
                 var email = window.email;
                 var number = $(".cert-input").val();
+                /* console.log("number", number); */
 
                 if(email.length == 0 || number.length == 0)return;
 
@@ -61,24 +62,38 @@ span {
                         certEmail : email,
                         certNumber : number
                     },
+                    async : true, // 비동기화 동작 여부
+                    dataType: "html", // 전달받을 데이터 타입
+                    출처: https://terianp.tistory.com/95 [Terian의 IT 도전기:티스토리]
                     success:function(response){
                         // console.log(response);
+                        
+            
+                        
+                        
                         if(response.result){//인증성공 
                             $(".cert-input").removeClass("success fail").addClass("success");
                             $(".btn-cert").prop("disabled",true);
-                            //상태객체에 상태 저장하는 코드
+                            //성공 
+                            $(".cert-result").text("인증되었습니다.").css("color", "green");
                         }
                         else{
                             $(".cert-input").removeClass("success fail").addClass("fail");
-                            //상태객체에 상태 저장하는 코드
+                            //실패 
+                            $(".cert-result").text("인증에 실패했습니다.").css("color", "red");
                         }
+                        error : function(){ // 에러 발생시
+        					
+        				},
+        				complete: function(){ // ajax 통기 끝났을 때
+        					$img.fadeIn(2000)
+        				}
                     },
                 });
             });
         });
         
       
-
 
 </script>
 
@@ -109,7 +124,9 @@ span {
 									</div>
 									<div class="ms-3 mt-4">
 										<button type="button" id="id_Confirm" value="중복확인"
+
 											class="btn btn-success btn-send" >인증</button>
+
 									</div>
 								</div>
 							</div>
@@ -118,11 +135,13 @@ span {
 							<div class="col-md-4 offset-md-4 text-start d-flex">
 								<div class="d-flex ">
 									<div class="text-start">
-										<label>인증번호</label> <input type="text" class="form-control ">
+
+										<label>인증번호</label> <input type="text" class="form-control cert-input">
 
 									</div>
 									<div class="ms-3 mt-4">
 										<button class="btn btn-success btn-cert" type="button">확인</button>
+
 									</div>
 								</div>
 							</div>
@@ -130,6 +149,10 @@ span {
 							<div id="timerDisplay" style="display: none; color: darkorange;"
 								class="col-md-4 offset-md-4 text-start">
 								남은 시간: <span id="timer"></span>
+								<div>
+								
+								<span class="cert-result">실패</span>
+								</div>
 							</div>
 
 							<!-- 타이머 시간 끝났을때 재전송  -->

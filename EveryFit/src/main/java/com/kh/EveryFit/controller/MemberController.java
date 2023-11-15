@@ -1,5 +1,8 @@
 package com.kh.EveryFit.controller;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -22,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 
+	@Autowired
+	private EmailService emailService;
+	
 	@Autowired
 	private MemberDao memberDao;
 	
@@ -43,14 +50,16 @@ public class MemberController {
 	}
 		
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberDto memberDto) {
-		memberDao.insert(memberDto);
+	public String join(
+			@ModelAttribute MemberDto dto) throws MessagingException, IOException {
+//		memberDao.insert(dto);
+		emailService.sendCelebration(dto.getMemberEmail());
 		return "/member/login";
 	}
 	
 	@RequestMapping("/joinFinsh")
 	public String joinFinish() {
-		return "/member/jponFinish";
+		return "/member/joinFinish";
 	}
 	
 	
