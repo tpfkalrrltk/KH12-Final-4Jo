@@ -15,8 +15,8 @@ public interface ChatDao {
 	//채팅방만들기
 	void insertChatRoom(int chatRoomNo);
 	//채팅참가자 추가
-	void addChatMember(int chatRoomNo, String memberEmail);
+	void addChatMember(Integer chatRoomNo, String memberEmail);
 	//채팅방정보조회
-
+	List<Integer> selectChatRoomNoList(String memberEmail);
 	
 }
