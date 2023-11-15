@@ -74,7 +74,8 @@
 	<update id="replyCount">
 		update free_board set free_board_replycount= (
 
-		select count(*) from reply where reply_origin = ?) 
+		select
+		count(*) from reply where reply_origin = ?)
 		where
 		free_board_no = ?
 	</update>
@@ -89,22 +90,39 @@
 		free_board
 	</select>
 
-	<select id="selectListBySearchPage" resultType="FreeBoardDto" parameterType="map">
+	<select id="selectListBySearchPage" resultType="FreeBoardDto"
+		parameterType="map">
 		SELECT * FROM
 		(SELECT * FROM free_board
-		where instr(${type},#{keyword})>0
-		 ORDER BY free_board_no DESC)
-	 WHERE ROWNUM between #{begin}
+		where
+		instr(${type},#{keyword})>0
+		ORDER BY free_board_no DESC)
+		WHERE ROWNUM between #{begin}
 		and #{end}
 	</select>
-	
-	<select id="selectListByPage" resultType="FreeBoardDto"  parameterType="map">
+
+	<select id="selectListByPage" resultType="FreeBoardDto"
+		parameterType="map">
 
 		select * from ( select rownum rn, TMP.* from(
-		select * from free_board order by free_board_no desc
+		select *
+		from free_board order by free_board_no desc
 		)TMP
-		) where rn between #{begin}
+		) where rn between
+		#{begin}
 		and #{end}
+	</select>
+
+	<insert id="connect">
+		insert into free_boad_image( free_board_no, attach_no )
+		values(#{freeBoardNo}, #{attachNo})
+	</insert>
+
+	<select id="findImage" resultType="FreeBoardDto">
+		select * from attach
+		where attach_no = (
+		select attach_no from free_board_image
+		where free_board_no = #{freeBoardNo})
 	</select>
 
 

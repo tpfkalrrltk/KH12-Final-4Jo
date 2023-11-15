@@ -2,6 +2,7 @@ package com.kh.EveryFit.dao;
 
 import java.util.List;
 
+import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.FreeBoardDto;
 import com.kh.EveryFit.vo.BoardVO;
 
@@ -45,6 +46,10 @@ public interface FreeBoardDao {
 	public List<FreeBoardDto> selectListByPage(BoardVO boardVO);
 
 	public int countList(BoardVO boardVO);
+
+	void connect(int freeBoardNo, int attachNo);
+
+	AttachDto findImage(int freeBoardNo);
 	
 	
 	

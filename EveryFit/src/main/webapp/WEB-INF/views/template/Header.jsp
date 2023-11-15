@@ -119,7 +119,7 @@ p {
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item">
 					<h1>
-						<a class="nav-link active" href="/member/join"> <i
+						<a class="nav-link " href="/member/join"> <i
 							class="fa-regular fa-id-card mt-2"></i> <span
 							class="visually-hidden">(current)</span>
 						</a>

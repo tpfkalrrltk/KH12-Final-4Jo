@@ -9,8 +9,18 @@
 <title>에브리핏</title>
 </head>
 
-<script>
+<style>
+textarea {
+	width: 100%;
+	height: 6.25em;
+	border: none;
+	resize: none;
+}
+</style>
 
+
+<script>
+	
 </script>
 
 
@@ -138,29 +148,33 @@
 
 
 			</table>
-			
-				<div class="row  ps-2 ms-2">
-			<div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light" style="height: 100px">
 
-				<h1 class="display-5 fw-bold">comment</h1>
+			<div class="row  ps-2 ms-2">
+				<div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light"
+					style="height: 100px">
+
+					<h1 class="display-5 fw-bold">Comment</h1>
+				</div>
 			</div>
-		</div>
-			
-	<div class="container reply-list "></div>
 
-<%-- 댓글과 관련된 화면이 작성될 위치 --%>
+			<div class="container reply-list "></div>
 
-	<form class="reply-insert-form" method="post">
-		<input type="hidden" name="freeBoardNo" value="${freeBoardDto.freeBoardNo}">
-		<div class="row">
-			<textarea class="form-input  bg-primary  text-light fw-bold" name="replyContent" rows="4"></textarea>
-		</div>
-		<div class="row">
-			<button class="btn btn-positive w-50 bg-primary text-light fw-bold mt-3">
-				<i class="fa-solid fa-pen text-light"></i>comment insert
-			</button>
-		</div>
-	</form>
+
+
+			<form class="reply-insert-form" method="post">
+				<input type="hidden" name="freeBoardNo"
+					value="${freeBoardDto.freeBoardNo}">
+				<div class="row">
+					<textarea class="form-input  bg-primary  text-light fw-bold"
+						name="replyContent" rows="4"></textarea>
+				</div>
+				<div class="row">
+					<button
+						class="btn btn-positive w-50 bg-primary text-light fw-bold mt-3 offset-3">
+						<i class="fa-solid fa-pen text-light"></i>Comment insert
+					</button>
+				</div>
+			</form>
 
 
 

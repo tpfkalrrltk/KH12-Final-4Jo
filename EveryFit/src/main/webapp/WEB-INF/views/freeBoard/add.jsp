@@ -27,16 +27,29 @@
 
 					<div class="row">
 						<div class="col-5 offset-1">
-								<p class="text-primary fw-bold">제목 : </p>
-								<input type="text" name="freeBoardTitle"
-								class="form-control">
+							<p class="text-primary fw-bold">제목 :</p>
+							<input type="text" name="freeBoardTitle" class="form-control">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-5 offset-1">
-							<p class="text-primary fw-bold">
-							카테고리 :</p> <select name="freeBoardCategory" class="form-select">
+							<p class="text-primary fw-bold">파일 :</p>
+							<label> <input type="file" name="attach"
+								class="w-100 file-chooser" style="display: none;"
+								accept="image/*"> <img
+								src="${pageContext.request.contextPath}/images/no-image.png"
+								width="200" height="200">
+							</label>
+						</div>
+					</div>
+
+
+
+					<div class="row">
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">카테고리 :</p>
+							<select name="freeBoardCategory" class="form-select">
 								<option>회원</option>
 								<option>모임</option>
 								<option>운동</option>
