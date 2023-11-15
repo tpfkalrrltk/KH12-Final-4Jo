@@ -68,18 +68,18 @@ span {
 						success : function(response) {
 							console.log(response);
 
-
-							if (response) {//인증성공 
+							if (response=='Y') {//인증성공 
 								$(".cert-input").removeClass("success fail")
 										.addClass("success");
 								$(".btn-cert").prop("disabled", true);
 								//성공 
 								$(".cert-result").text("인증되었습니다.").css("color",
 										"green");
-							} else {
+								
+							} else {//실패 
 								$(".cert-input").removeClass("success fail")
 										.addClass("fail");
-								//실패 
+							
 								$(".cert-result").text("인증에 실패했습니다.").css(
 										"color", "red");
 							}

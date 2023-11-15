@@ -8,11 +8,13 @@ public interface FreeBoardReplyDao {
 
 	List<FreeBoardReplyDto> list();
 
-	boolean update(int freeBoardReplyNo,FreeBoardReplyDto freeBoardReplyDto);
+	boolean update(FreeBoardReplyDto freeBoardReplyDto);
 
 	boolean delete(int freeBoardReplyNo);
 
 	void add(FreeBoardReplyDto freeBoardReplyDto);
 
 	int sequence();
+
+	FreeBoardReplyDto selectOne(int freeBoardReplyNo);
 }
