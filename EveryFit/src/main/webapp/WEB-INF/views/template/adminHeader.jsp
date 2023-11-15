@@ -103,6 +103,30 @@ p {
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
+<script>
+	function startTime() {
+		const today = new Date();
+		let h = today.getHours();
+		let m = today.getMinutes();
+		let s = today.getSeconds();
+		m = checkTime(m);
+		s = checkTime(s);
+		document.getElementById('txt').innerHTML = h + "시" + " " + m + "분"
+				+ " " + s + "초";
+		setTimeout(startTime, 1000);
+	}
+
+	function checkTime(i) {
+		if (i < 10) {
+			i = "0" + i
+		}
+		;
+		return i;
+	}
+</script>
+
+
 <body>
 
 
@@ -263,17 +287,27 @@ p {
 						</c:otherwise>
 					</c:choose>
 				</ul>
-				<form class="d-flex">
-					<input class="form-control me-sm-2 bg-light text-primary fw-bold"
-						type="search" placeholder="Search">
-					<button class="btn btn-light my-2 my-sm-0 text-primary  fw-bold"
-						type="submit">Search</button>
-				</form>
+				<div class="d-flex">
+				<div class="nav-item ms-5 me-3  bg-light rounded-3 "
+					style="margin-left: 5500">
+					<h6 class="text-primary fw-bold ">Now Time</h6>
+					<div id="txt" class="text-primary fw-bold">
+						<h5></h5>
+					</div>
+				</div>
+			</div>
+			
+			<form class="d-flex">
+				<input class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
+					type="search" placeholder="Search" style="height: 52px">
+				<button class="btn btn-light   text-primary mt-3  fw-bold"
+					type="submit"  style="height: 52px">Search</button>
+			</form>
 			</div>
 		</div>
 	</nav>
 
-
+<body onload="startTime()">
 	<div class="p-5 m-5"></div>
 	<div id='wrapper'>
 

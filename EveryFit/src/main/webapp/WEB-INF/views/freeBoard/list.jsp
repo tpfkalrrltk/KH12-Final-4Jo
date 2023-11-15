@@ -8,6 +8,24 @@
 <meta charset="UTF-8">
 <title>에브리핏</title>
 </head>
+
+<script>
+
+  window.onscroll = function () {
+  scrollRotate(); 
+  };
+
+  function scrollRotate() {
+  let image = document.getElementById("addIcon");
+  image.style.transform = "rotate(" + window.pageYOffset/2 + "deg)";
+  }
+
+</script>
+
+
+
+
+
 <body>
 	<div class="container ">
 
@@ -24,7 +42,7 @@
 			<a href="add" class="text-light" style="text-decoration: none">
 				<div
 					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
-					<h7 class="display-4"> <i class="fa-solid fa-plus"></i></h7>
+					<h7 class="display-4" > <i class="fa-solid fa-plus" id="addIcon"></i></h7>
 				</div>
 			</a>
 
