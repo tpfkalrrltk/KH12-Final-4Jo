@@ -266,8 +266,8 @@ p {
 	</nav>
 
 
-<div id='wrapper'>
-  <div>
+<div id='wrapper' class="container-fluid">
+
 
 
 

@@ -72,7 +72,7 @@ public class CertRestController {
    }
    
    @PostMapping("/check")
-   public Map<String, Object> check(@ModelAttribute CertDto certDto){
+   public String check(@ModelAttribute CertDto certDto){
       //[1]이메일로 인증정보를 조회
             //CertDto findDto = certDao.selectOne(certDto.getCertEmail());//기간제한 없음
             CertDto findDto = certDao.selectOne(certDto.getCertEmail());//5분제한
@@ -82,10 +82,10 @@ public class CertRestController {
                if(isValid) {
                   //인증 성공하면 인증번호를 삭제
                   certDao.delete(certDto.getCertEmail());
-                  return Map.of("result",true);
+                  return "true";
                }
             }
-            return Map.of("result", false);
+            return "false";
          }
    
 }
