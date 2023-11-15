@@ -1,5 +1,10 @@
 package com.kh.EveryFit.controller;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
 @Controller
@@ -23,17 +29,15 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 
 	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
 	private MemberDao memberDao;
 	
 	@Autowired
 	private JavaMailSender sender;
 	
-//	//main
-//	@GetMapping("/")
-//	public String home() {
-//		return "/home";
-//	}
-	
+
 	
 	
 	//회원가입
@@ -43,14 +47,16 @@ public class MemberController {
 	}
 		
 	@PostMapping("/join")
-	public String join(@ModelAttribute MemberDto memberDto) {
-		memberDao.insert(memberDto);
+	public String join(
+			@ModelAttribute MemberDto dto) throws MessagingException, IOException {
+//		memberDao.insert(dto);
+		emailService.sendCelebration(dto.getMemberEmail());
 		return "/member/login";
 	}
 	
 	@RequestMapping("/joinFinsh")
 	public String joinFinish() {
-		return "/member/jponFinish";
+		return "/member/joinFinish";
 	}
 	
 	
@@ -64,34 +70,52 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	   public String login(@ModelAttribute MemberDto inputDto, 
-	                              HttpSession session) {
-	      
-	      //[1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
-	      MemberDto findDto = memberDao.slelctOne(inputDto.getMemberEmail());
-	      //[2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
-	      if(findDto == null) {
-	         return "redirect:login?error";//redirect는 무조건 GetMapping으로 간다
-	      }
-	      
-	      
-	      boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
-	      
-	      //[3] 비밀번호가 일치하면 메인페이지로 이동
-	      if(isCorrectPw) {
-	    	  session.setAttribute("name",inputDto.getMemberEmail());
-	    	  session.setAttribute("nickName",findDto.getMemberNick());
-	    		//로그인시간 갱신
-//				memberDao.updateMemberLogin(inputDto.getMemberEmail());
+	public String login(
+	    @ModelAttribute MemberDto inputDto,
+	    @RequestParam String memberEmail,
+	    @RequestParam String memberPw,
+	    @RequestParam(required = false) String autoLogin,
+	    HttpServletResponse response,
+	    HttpSession session) {
 
-	         //메인페이지로 이동
-	         return "redirect:/";
-	      }
-	      //[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
-	      else {
-	         return "redirect:login?error";
-	      }
-	   }
+	    //[1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
+	    MemberDto findDto = memberDao.slelctOne(inputDto.getMemberEmail());
+
+	    //[2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
+	    if (findDto == null) {
+	        return "redirect:login?error";
+	    }
+
+	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+
+	    //[3] 비밀번호가 일치하면 메인페이지로 이동
+	    if (isCorrectPw) {
+	        session.setAttribute("name", inputDto.getMemberEmail());
+	        session.setAttribute("nickName", findDto.getMemberNick());
+
+	        // 로그인 시간 갱신
+	        // memberDao.updateMemberLogin(inputDto.getMemberEmail());
+
+	        // 아이디 저장하기를 체크했다면 쿠키 생성
+	        if (autoLogin != null) {
+	            Cookie cookie = new Cookie("saveId", memberEmail);
+	            cookie.setMaxAge(4 * 7 * 24 * 60 * 60); // 4주
+	            response.addCookie(cookie);
+	        } else {
+	            // 아이디 저장하기를 체크하지 않았다면 쿠키 삭제
+	            Cookie cookie = new Cookie("saveId", memberEmail);
+	            cookie.setMaxAge(0); // 발행 즉시 삭제
+	            response.addCookie(cookie);
+	        }
+
+	        return "redirect:/";
+	    }
+	    //[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
+	    else {
+	        return "redirect:login?error";
+	    }
+	}
+	
 	
 	//마이페이지 
 	@RequestMapping("/mypage")
@@ -209,7 +233,27 @@ public String findPwFinish() {
 	return"/member/Finish";
 	}
 
-
+// 자동 로그인 쿠키 
+//@PostMapping("/login")
+//public String login(
+//		HttpServletResponse response,
+//		@RequestParam String memberEmail,
+//		@RequestParam String memberPw,
+//		@RequestParam(required = false) String autoLogin// 미체크시 null
+//		) {
+//	
+//	if(autoLogin != null ) {//아디 저장을 체크했다면 
+//		Cookie cookie = new Cookie("saveId",memberEmail);//쿠키 생성 
+//		cookie.setMaxAge(4*7*24*60*60);//4주
+//		response.addCookie(cookie);//쿠키 발행
+//	}
+//	else {// 안했다면 
+//		Cookie cookie = new Cookie("saveId",memberEmail);
+//		cookie.setMaxAge(0);//발행 즉시삭제
+//		response.addCookie(cookie);//쿠키 발행
+//	}
+//	return "redirect:/";
+//}
 
 }
 

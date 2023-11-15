@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -102,6 +103,30 @@ p {
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
+<script>
+	function startTime() {
+		const today = new Date();
+		let h = today.getHours();
+		let m = today.getMinutes();
+		let s = today.getSeconds();
+		m = checkTime(m);
+		s = checkTime(s);
+		document.getElementById('txt').innerHTML = h + "시" + " " + m + "분"
+				+ " " + s + "초";
+		setTimeout(startTime, 1000);
+	}
+
+	function checkTime(i) {
+		if (i < 10) {
+			i = "0" + i
+		}
+		;
+		return i;
+	}
+</script>
+
+
 <body>
 
 
@@ -123,7 +148,7 @@ p {
 				<ul class="navbar-nav me-auto">
 					<li class="nav-item">
 						<h1>
-							<a class="nav-link active" href="/member/join"> <i
+							<a class="nav-link " href="/member/join"> <i
 								class="fa-regular fa-id-card mt-2"></i> <span
 								class="visually-hidden">(current)</span>
 							</a>
@@ -152,7 +177,13 @@ p {
 
 						</c:otherwise>
 					</c:choose>
-
+					<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href=/member/mypage> 
+							<i class="fa-solid fa-user mt-2"></i>
+							</a>
+						</h1>
+					</li>
 
 
 
@@ -179,6 +210,7 @@ p {
 							</a>
 						</h1>
 					</li>
+
 
 
 					<li class="nav-item dropdown"><a
@@ -243,31 +275,41 @@ p {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name} 회원님 환영합니다.</div>
+									<div class="text-light fw-bold">${name}회원님 환영합니다.</div>
 									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"></li>
+							<li class="nav-item ms-5">
+								<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+							</li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
-				<form class="d-flex">
-					<input class="form-control me-sm-2 bg-light text-primary fw-bold"
-						type="search" placeholder="Search">
-					<button class="btn btn-light my-2 my-sm-0 text-primary  fw-bold"
-						type="submit">Search</button>
-				</form>
+				<div class="d-flex">
+				<div class="nav-item ms-5 me-3  bg-light rounded-3 "
+					style="margin-left: 5500">
+					<h6 class="text-primary fw-bold ">Now Time</h6>
+					<div id="txt" class="text-primary fw-bold">
+						<h5></h5>
+					</div>
+				</div>
+			</div>
+			
+			<form class="d-flex">
+				<input class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
+					type="search" placeholder="Search" style="height: 52px">
+				<button class="btn btn-light   text-primary mt-3  fw-bold"
+					type="submit"  style="height: 52px">Search</button>
+			</form>
 			</div>
 		</div>
 	</nav>
 
-
-<div id='wrapper'>
-  <div>
-
-
+<body onload="startTime()">
+	<div class="p-5 m-5"></div>
+	<div id='wrapper'>
 
 
 
@@ -282,7 +324,10 @@ p {
 
 
 
-	<!-- <nav class="navbar navbar-expand-lg bg-primary fixed-top p-0"
+
+
+
+		<!-- <nav class="navbar navbar-expand-lg bg-primary fixed-top p-0"
 	data-bs-theme="dark">
 	<div class="container-fluid col-9">
 		<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
@@ -311,15 +356,15 @@ p {
 		<ul class="navbar-nav  row"> -->
 
 
-	<!-- 회원가입  -->
-	<!-- <li class="nav-item me-1  col-3  "><a href="/member/join"
+		<!-- 회원가입  -->
+		<!-- <li class="nav-item me-1  col-3  "><a href="/member/join"
 				class=" btn btn-outline-primary text-light border-light mt-2">
 					<h3>
 						<i class="fa-regular fa-id-card mt-2"></i>
 					</h3>
 			</a></li> -->
-	<!-- 로그인  -->
-	<!-- 			<li class="nav-item me-4 col-3 "><a href="/member/login"
+		<!-- 로그인  -->
+		<!-- 			<li class="nav-item me-4 col-3 "><a href="/member/login"
 				class=" btn btn-light text-primary mt-2">
 					<h3>
 						<i class="fa-solid fa-right-to-bracket mt-2"></i>
@@ -332,7 +377,7 @@ p {
 
 
 
-	<%-- 				<div class="flex-container pt-20">
+		<%-- 				<div class="flex-container pt-20">
 
 					<div class="row etc-menu custom-menu navy">
 						<a class="nav-link dropdown-toggle text-light mt-2 me-5 pe-5"
@@ -368,7 +413,7 @@ p {
 
 
 
-	<!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+		<!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">

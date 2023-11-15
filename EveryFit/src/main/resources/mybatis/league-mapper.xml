@@ -15,11 +15,11 @@
 	<insert id="insertLeague">
         INSERT INTO league (
         	league_no, event_no, league_manager, league_title, league_detail, league_entry_fee,
-        	league_start, league_end, chat_room_no, location_no
+        	league_start, league_end, chat_room_no, location_no, league_team_count, league_roaster_count
         	)
         VALUES (
         	#{leagueNo}, #{eventNo}, #{leagueManager}, #{leagueTitle}, #{leagueDetail}, #{leagueEntryFee}, 
-        	#{leagueStart}, #{leagueEnd}, #{chatRoomNo}, #{locationNo})
+        	#{leagueStart}, #{leagueEnd}, #{chatRoomNo}, #{locationNo}, #{leagueTeamCount}, #{leagueRoasterCount})
     </insert>
     
     <!-- 리그조회 -->
@@ -94,6 +94,12 @@
        		</if>
        		<if test="leagueDto.locationNo!=null">
        			location_no = #{leagueDto.locationNo},
+       		</if>
+       		<if test="leagueDto.leagueTeamCount!=null">
+       			league_team_count = #{leagueDto.leagueTeamCount},
+       		</if>
+       		<if test="leagueDto.leagueRoasterCount!=null">
+       			league_roaster_count = #{leagueDto.leagueRoasterCount},
        		</if>
        </set>
         WHERE league_no = #{leagueNo}
@@ -170,12 +176,14 @@
     <!-- 리그접수 생성 -->
     <insert id="insertLeagueApplication">
         INSERT INTO league_application (league_application_no, league_no, league_application_start, league_application_end)
-        VALUES (#{leagueApplicationNo}, #{leagueNo}, #{leagueApplicationStart}, #{leagueApplicationEnd})
+        VALUES (#{leagueApplicationNo}, #{leagueNo},
+        to_timestamp(#{leagueApplicationStart}, 'YYYY-MM-DD"T"HH24:MI'), 
+        to_timestamp(#{leagueApplicationEnd}, 'YYYY-MM-DD"T"HH24:MI'))
     </insert>
     
     <!-- 리그 접수 상세 -->
     <select id="findLeagueApplication" resultType="LeagueApplicationDto">
-        SELECT * FROM league_application WHERE league_application_no = #{leagueApplicationNo}
+        SELECT * FROM league_application WHERE league_no = #{leagueNo}
     </select>
     
     <!-- 리그 접수 전체 -->
@@ -191,10 +199,10 @@
                 league_no = #{leagueApplicationDto.leagueNo},
             </if>
             <if test="leagueApplicationDto.leagueApplicationStart != null">
-                league_application_start = #{leagueApplicationDto.leagueApplicationStart},
+                league_application_start = to_timestamp(#{leagueApplicationDto.leagueApplicationStart}, 'YYYY-MM-DD"T"HH24:MI'),
             </if>
             <if test="leagueApplicationDto.leagueApplicationEnd != null">
-                league_application_end = #{leagueApplicationDto.leagueApplicationEnd},
+                league_application_end = to_timestamp(#{leagueApplicationDto.leagueApplicationEnd}, 'YYYY-MM-DD"T"HH24:MI'),
             </if>
         </set>
         WHERE league_application_no = #{leagueApplicationNo}

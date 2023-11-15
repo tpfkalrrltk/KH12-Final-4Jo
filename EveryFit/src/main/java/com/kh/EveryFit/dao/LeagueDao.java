@@ -33,7 +33,7 @@ public interface LeagueDao {
 	List<LeagueApplicationDto> selectLeagueApplcationList();
 	int leagueApplicationSeqeunce();
 	void insertLeagueApplication(LeagueApplicationDto leagueApplicationDto);
-	LeagueApplicationDto selectOneLeagueApplication(int leagueApplicationNo);
+	LeagueApplicationDto selectOneLeagueApplication(int leagueNo);
 	void updateLeagueApplication(int leagueApplicationNo, LeagueApplicationDto leagueApplicationDto);
 	void deleteLeagueApplication(int leagueApplicationNo);
 	

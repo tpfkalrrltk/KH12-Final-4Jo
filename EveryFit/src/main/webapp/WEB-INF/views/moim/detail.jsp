@@ -272,3 +272,4 @@
 	
 </script>
 
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

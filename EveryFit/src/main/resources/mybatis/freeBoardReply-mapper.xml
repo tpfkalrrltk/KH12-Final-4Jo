@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="freeBoardReply">
+
+	<insert id="add">
+		insert into free_board_reply(
+
+		free_board_reply_no,
+		member_email,
+		reply_free_board_reply_content,
+		free_board_no
+
+		)
+		values(#{freeBoardReplyNo}, {memberEmail}, {freeBoardReplyContent},
+		{freeBoardNo})
+	</insert>
+
+	<select id="list" resultType="FreeBoardReplyDto">
+		select * from free_board_reply
+		where free_board_no = #{freeBoardNo} order by
+		free_board_reply_no asc
+	</select>
+
+	<update id="edit">
+		update from free_board_reply set
+		reply_free_board_reply_content = {freeBoardDto.freeBoardReplyContent}
+		where
+		free_board_reply_no =
+		#{no}
+	</update>
+
+
+	<delete id="delete">
+		delete from free_board_reply where
+		free_board_reply_no =
+		#{freeBoardReplyNo}
+	</delete>
+
+	<select id="sequence" resultType="int">
+		select
+		free_board_reply_seq.nextval
+		from dual
+	</select>
+
+	<select id="selectOne" resultType="FreeBoardReplyDto">
+		select * from free_board_reply where free_board_reply_no =
+		#{freeBoardReplyNo}
+	</select>
+
+</mapper>
