@@ -111,7 +111,7 @@ p {
 		data-bs-theme="dark">
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
-				width="110px" height="100px" /></a>
+				width="110px"/></a>
 
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarColor01"
