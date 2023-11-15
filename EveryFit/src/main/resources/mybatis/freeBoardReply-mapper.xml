@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    
+    <mapper namespace="freeBoardReply">
+    
+    <insert id="add">
+    insert into free_board_reply(
+    
+    free_board_reply_no, 
+    member_email, 
+    reply_free_board_reply_content, 
+    free_board_no
+    
+    ) values(#{freeBoardReplyNo}, {memberEmail}, {freeBoardReplyContent}, {freeBoardNo})
+    </insert>
+    
+    </mapper>
