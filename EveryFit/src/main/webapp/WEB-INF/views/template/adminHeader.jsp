@@ -1,4 +1,5 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -152,7 +153,13 @@ p {
 
 						</c:otherwise>
 					</c:choose>
-
+					<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href=/member/mypage> 
+							<i class="fa-solid fa-user mt-2"></i>
+							</a>
+						</h1>
+					</li>
 
 
 
@@ -179,6 +186,7 @@ p {
 							</a>
 						</h1>
 					</li>
+
 
 
 					<li class="nav-item dropdown"><a
@@ -243,15 +251,15 @@ p {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name} 회원님 환영합니다.</div>
+									<div class="text-light fw-bold">${name}회원님 환영합니다.</div>
 									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
 							<li class="nav-item ms-5">
-									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
-									</li>
+								<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+							</li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
@@ -266,7 +274,8 @@ p {
 	</nav>
 
 
-<div id='wrapper' class="container-fluid">
+	<div class="p-5 m-5"></div>
+	<div id='wrapper'>
 
 
 
@@ -284,7 +293,7 @@ p {
 
 
 
-	<!-- <nav class="navbar navbar-expand-lg bg-primary fixed-top p-0"
+		<!-- <nav class="navbar navbar-expand-lg bg-primary fixed-top p-0"
 	data-bs-theme="dark">
 	<div class="container-fluid col-9">
 		<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
@@ -313,15 +322,15 @@ p {
 		<ul class="navbar-nav  row"> -->
 
 
-	<!-- 회원가입  -->
-	<!-- <li class="nav-item me-1  col-3  "><a href="/member/join"
+		<!-- 회원가입  -->
+		<!-- <li class="nav-item me-1  col-3  "><a href="/member/join"
 				class=" btn btn-outline-primary text-light border-light mt-2">
 					<h3>
 						<i class="fa-regular fa-id-card mt-2"></i>
 					</h3>
 			</a></li> -->
-	<!-- 로그인  -->
-	<!-- 			<li class="nav-item me-4 col-3 "><a href="/member/login"
+		<!-- 로그인  -->
+		<!-- 			<li class="nav-item me-4 col-3 "><a href="/member/login"
 				class=" btn btn-light text-primary mt-2">
 					<h3>
 						<i class="fa-solid fa-right-to-bracket mt-2"></i>
@@ -334,7 +343,7 @@ p {
 
 
 
-	<%-- 				<div class="flex-container pt-20">
+		<%-- 				<div class="flex-container pt-20">
 
 					<div class="row etc-menu custom-menu navy">
 						<a class="nav-link dropdown-toggle text-light mt-2 me-5 pe-5"
@@ -370,7 +379,7 @@ p {
 
 
 
-	<!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+		<!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">

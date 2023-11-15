@@ -9,6 +9,65 @@
 <title>에브리핏</title>
 </head>
 
+<script>
+
+</script>
+
+
+
+
+
+
+
+<script id="reply-template" type="text/template">
+		<div class="row bg-primary">
+			<div class="col-3">
+					<p class="replyWriter">작성자</p>
+				<div class="col-9">
+					<pre class="replyContent">내용</pre>
+				</div>
+			</div>
+			<div class="w-25 row">
+				<div class="col-5 right">
+					<button class="btn btn-edit btn-navy">
+						<i class="fa-solid fa-edit"></i>
+						수정
+					</button>
+				</div>
+				<div class="col-5 right">
+					<button class="btn btn-orange btn-delete">
+						<i class="fa-solid fa-trash"></i>
+						삭제
+					</button>
+				</div>
+			</div>
+		</div>
+</script>
+<script id="reply-edit-template" type="text/template">
+		<form class="reply-edit-form edit-container">
+		<input type="hidden" name="replyNo" value="?">
+		<div class="row flex-container">
+			<div class="w-75">
+				<textarea name="replyContent" class="form-input w-100" rows="4"></textarea>
+			</div>
+			<div class="w-25">
+				<div class="row right">
+					<button type="submit" class="btn btn-positive">
+						<i class="fa-solid fa-check"></i>
+						수정
+					</button>
+				</div>
+				<div class="row right">
+					<button type="button" class="btn btn-negative btn-cancel">
+						<i class="fa-solid fa-xmark"></i>
+						취소
+					</button>
+				</div>
+			</div>
+		</div>
+		</form>
+</script>
+
 
 
 <body>
@@ -79,12 +138,40 @@
 
 
 			</table>
+			
+				<div class="row  ps-2 ms-2">
+			<div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light" style="height: 100px">
+
+				<h1 class="display-5 fw-bold">comment</h1>
+			</div>
+		</div>
+			
+	<div class="container reply-list "></div>
+
+<%-- 댓글과 관련된 화면이 작성될 위치 --%>
+
+	<form class="reply-insert-form" method="post">
+		<input type="hidden" name="freeBoardNo" value="${freeBoardDto.freeBoardNo}">
+		<div class="row">
+			<textarea class="form-input  bg-primary  text-light fw-bold" name="replyContent" rows="4"></textarea>
+		</div>
+		<div class="row">
+			<button class="btn btn-positive w-50 bg-primary text-light fw-bold mt-3">
+				<i class="fa-solid fa-pen text-light"></i>comment insert
+			</button>
+		</div>
+	</form>
+
+
+
 
 		</div>
 	</div>
 
 
 	</div>
+
+
 </body>
 </html>
 <jsp:include page="../template/Footer.jsp"></jsp:include>

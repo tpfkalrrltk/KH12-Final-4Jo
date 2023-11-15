@@ -24,11 +24,9 @@ public class FreeBoardReplyDaoImpl implements FreeBoardReplyDao {
 
 
 	@Override
-	public boolean update(int freeBoardReplyNo,FreeBoardReplyDto freeBoardReplyDto) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("freeBoardDto", freeBoardReplyDto);
-		params.put("no", freeBoardReplyNo);
-		return sqlSession.update("freeBoardReply.edit",params) >0;
+	public boolean update(FreeBoardReplyDto freeBoardReplyDto) {
+
+		return sqlSession.update("freeBoardReply.edit",freeBoardReplyDto) >0;
 	}
 
 	@Override
@@ -53,6 +51,13 @@ public class FreeBoardReplyDaoImpl implements FreeBoardReplyDao {
 
 		return sqlSession.selectOne("freeBoardReply.sequence");
 	}
+
+	@Override
+	public FreeBoardReplyDto selectOne(int freeBoardReplyNo) {
+		return sqlSession.selectOne("freeBoardReply.selectOne",freeBoardReplyNo);
+	}
+
+
 
 	
 }

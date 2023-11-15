@@ -41,8 +41,14 @@
 	</delete>
 
 	<select id="sequence" resultType="int">
-		select free_board_reply_seq.nextval
+		select
+		free_board_reply_seq.nextval
 		from dual
+	</select>
+
+	<select id="selectOne" resultType="FreeBoardReplyDto">
+		select * from free_board_reply where free_board_reply_no =
+		#{freeBoardReplyNo}
 	</select>
 
 </mapper>
