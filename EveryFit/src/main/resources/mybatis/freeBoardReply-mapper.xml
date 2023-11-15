@@ -6,7 +6,7 @@
     
     <mapper namespace="freeBoardReply">
     
-    <insert id="add">
+    <insert id="add" >
     insert into free_board_reply(
     
     free_board_reply_no, 
@@ -14,7 +14,8 @@
     reply_free_board_reply_content, 
     free_board_no
     
-    ) values(#{freeBoardReplyNo}, {memberEmail}, {freeBoardReplyContent}, {freeBoardNo})
+    ) 
+    values(#{freeBoardReplyNo}, {memberEmail}, {freeBoardReplyContent}, {freeBoardNo})
     </insert>
     
     </mapper>

@@ -11,90 +11,83 @@ span {
 </style>
 
 <script>
+	/* 인증번호  */
+	$(function() {
+		//처음 로딩아이콘 숨김
+		$(".btn-send").find(".fa-spinner").hide();
+		$(".cert-wrapper").hide();
+
+		// 인증번호 보내기 버튼을 누르면 
+		// 서버로 비동기 통신을 보내 인증 메일 발송 요청
+		$(".btn-send").click(function() {
+			var email = $("[name=memberEmail]").val();
+			if (email.length == 0)
+				return;
+
+			$(".btn-send").prop("disabled", true);
+			$(".btn-send").find(".fa-spinner").show();
+			$(".btn-send").find("span").text("이메일 발송중");
+			$.ajax({
+				url : "http://localhost:8080/rest/cert/send",
+				method : "post",
+				data : {
+					certEmail : email
+				},
+				success : function() {
+					$(".btn-send").prop("disabled", false);
+					$(".btn-send").find(".fa-spinner").hide();
+					$(".btn-send").find("span").text("인증번호 보내기");
+					//window.alert("이메일 확인하세요");
+
+					$(".cert-wrapper").show();
+					window.email = email;
+				},
+			});
+		});
+		// 확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사 
+		$(".btn-cert").click(
+				function() {
+					var email = $("[name=memberEmail]").val();
+					//  var email = window.email;
+					var number = $(".cert-input").val();
+					/* console.log("number", number); */
+
+					if (email.length == 0 || number.length == 0)
+						return;
+
+					$.ajax({
+						url : "http://localhost:8080/rest/cert/check",
+						method : "post",
+						data : {
+							certEmail : email,
+							certNumber : number
+						},
+						async : true, // 비동기화 동작 여부
+						dataType : "html", // 전달받을 데이터 타입
+
+						success : function(response) {
+							console.log(response);
 
 
+							if (response) {//인증성공 
+								$(".cert-input").removeClass("success fail")
+										.addClass("success");
+								$(".btn-cert").prop("disabled", true);
+								//성공 
+								$(".cert-result").text("인증되었습니다.").css("color",
+										"green");
+							} else {
+								$(".cert-input").removeClass("success fail")
+										.addClass("fail");
+								//실패 
+								$(".cert-result").text("인증에 실패했습니다.").css(
+										"color", "red");
+							}
 
-
-/* 인증번호  */
-   $(function(){
-            //처음 로딩아이콘 숨김
-            $(".btn-send").find(".fa-spinner").hide();
-            $(".cert-wrapper").hide();
-
-
-            // 인증번호 보내기 버튼을 누르면 
-            // 서버로 비동기 통신을 보내 인증 메일 발송 요청
-            $(".btn-send").click(function(){
-                var email = $("[name=memberEmail]").val();
-                if(email.length == 0) return;
-
-                $(".btn-send").prop("disabled",true);
-                $(".btn-send").find(".fa-spinner").show();
-                $(".btn-send").find("span").text("이메일 발송중");
-                $.ajax({
-                    url:"http://localhost:8080/rest/cert/send",
-                    method:"post",
-                    data:{certEmail : email},
-                    success:function(){
-                        $(".btn-send").prop("disabled",false);
-                        $(".btn-send").find(".fa-spinner").hide();
-                        $(".btn-send").find("span").text("인증번호 보내기");
-                         /* window.alert("이메일 확인하세요"); */
-
-                        $(".cert-wrapper").show();
-                        window.email = email;
-                    },
-                });
-            });
-            // 확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사 
-            $(".btn-cert").click(function(){
-            //    var email = $("[name=memberEmail]").val();
-                var email = window.email;
-                var number = $(".cert-input").val();
-                /* console.log("number", number); */
-
-                if(email.length == 0 || number.length == 0)return;
-
-                $.ajax({
-                    url:"http://localhost:8080/rest/cert/check",
-                    method:"post",
-                    data:{
-                        certEmail : email,
-                        certNumber : number
-                    },
-                    async : true, // 비동기화 동작 여부
-                    dataType: "html", // 전달받을 데이터 타입
-                    출처: https://terianp.tistory.com/95 [Terian의 IT 도전기:티스토리]
-                    success:function(response){
-                        // console.log(response);
-                        
-            
-                        
-                        
-                        if(response.result){//인증성공 
-                            $(".cert-input").removeClass("success fail").addClass("success");
-                            $(".btn-cert").prop("disabled",true);
-                            //성공 
-                            $(".cert-result").text("인증되었습니다.").css("color", "green");
-                        }
-                        else{
-                            $(".cert-input").removeClass("success fail").addClass("fail");
-                            //실패 
-                            $(".cert-result").text("인증에 실패했습니다.").css("color", "red");
-                        }
-                        error : function(){ // 에러 발생시
-        					
-        				},
-        				complete: function(){ // ajax 통기 끝났을 때
-        					$img.fadeIn(2000)
-        				}
-                    },
-                });
-            });
-        });
-        
-      
-
+						},
+					});
+				});
+	});
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -124,8 +117,9 @@ span {
 									</div>
 									<div class="ms-3 mt-4">
 										<button type="button" id="id_Confirm" value="중복확인"
-
-											class="btn btn-success btn-send" >인증</button>
+											class="btn btn-success btn-send">
+											인증<i class="fa-solid fa-spinner fa-spin"></i>
+										</button>
 
 									</div>
 								</div>
@@ -136,12 +130,13 @@ span {
 								<div class="d-flex ">
 									<div class="text-start">
 
-										<label>인증번호</label> <input type="text" class="form-control cert-input">
+										<label>인증번호</label> <input type="text"
+											class="form-control cert-input">
 
 									</div>
 									<div class="ms-3 mt-4">
 										<button class="btn btn-success btn-cert" type="button">확인</button>
-
+										<div class="cert-result"></div>
 									</div>
 								</div>
 							</div>
@@ -150,8 +145,8 @@ span {
 								class="col-md-4 offset-md-4 text-start">
 								남은 시간: <span id="timer"></span>
 								<div>
-								
-								<span class="cert-result">실패</span>
+
+									<span class="cert-result">실패</span>
 								</div>
 							</div>
 
@@ -183,14 +178,14 @@ span {
 
 							<div class="col-md-4 offset-md-4 text-start">
 								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
-								<label>비밀번호</label> 
-								<input type="password" name="memberPw" class="form-control">
+								<label>비밀번호</label> <input type="password" name="memberPw"
+									class="form-control">
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start">
-								<label> 비밀번호 확인 </label> 
-								<input type="password" required class="form-control"
-									name="memberPwConfirm" id="passwordConfirm">
+								<label> 비밀번호 확인 </label> <input type="password" required
+									class="form-control" name="memberPwConfirm"
+									id="passwordConfirm">
 							</div>
 
 

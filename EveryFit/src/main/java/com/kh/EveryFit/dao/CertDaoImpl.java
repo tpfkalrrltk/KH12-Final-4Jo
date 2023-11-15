@@ -29,7 +29,7 @@ public class CertDaoImpl implements CertDao{
 
 	@Override
     public CertDto selectOne(String certEmail) {
-    	CertDto certDto = sqlSession.selectOne("cert.selectOne", certEmail);
+    	CertDto certDto = sqlSession.selectOne("cert.selectOneIn5min", certEmail);
 		if(certDto == null) throw new NoTargetException();
 		return certDto;
 	}

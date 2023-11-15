@@ -102,10 +102,12 @@ p {
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
+
+
+
+
 <body>
-
-
-
 
 	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
 		data-bs-theme="dark">
@@ -237,8 +239,9 @@ p {
 	</nav>
 
 
-<div id='wrapper'>
-  <div>
+
+<div id='wrapper' class="container-fluid">
+  
 
 
 
