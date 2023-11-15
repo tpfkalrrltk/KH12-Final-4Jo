@@ -12,6 +12,7 @@ span {
 
 <script>
 	/* 인증번호  */
+
 	$(function() {
 		//처음 로딩아이콘 숨김
 		$(".btn-send").find(".fa-spinner").hide();
@@ -88,6 +89,8 @@ span {
 					});
 				});
 	});
+
+	
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -136,46 +139,12 @@ span {
 									</div>
 									<div class="ms-3 mt-4">
 										<button class="btn btn-success btn-cert" type="button">확인</button>
-										<div class="cert-result"></div>
 									</div>
 								</div>
 							</div>
-							<!-- 시간 표시 부분 -->
-							<div id="timerDisplay" style="display: none; color: darkorange;"
-								class="col-md-4 offset-md-4 text-start">
-								남은 시간: <span id="timer"></span>
-								<div>
-
-									<span class="cert-result">실패</span>
-								</div>
+							<div class="col-md-4 offset-md-4 text-start">
+								<label class="cert-result"></label>
 							</div>
-
-							<!-- 타이머 시간 끝났을때 재전송  -->
-
-							<!-- <div class="col-md-4 offset-md-4 text-start">
-								<div class="d-flex mt-2">
-									<div class="text-start">
-										<label>Email</label> <input type="text" name="memberEmail"
-											placeholder="everyfit@every.fit" id="id" class="form-control">
-									</div>
-									<div class="ms-3">
-										<button type="button" id="id_Confirm" value="중복확인"
-											class="btn btn-success btn-send">인증</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start d-flex">
-								<div class="d-flex ">
-									<div class="text-start">
-										<label>인증번호</label> <input class="form-control">
-									</div>
-								</div>
-								<div>
-									<button class="btn btn-success">확인</button>
-								</div>
-							</div> -->
-
 							<div class="col-md-4 offset-md-4 text-start">
 								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
 								<label>비밀번호</label> <input type="password" name="memberPw"
