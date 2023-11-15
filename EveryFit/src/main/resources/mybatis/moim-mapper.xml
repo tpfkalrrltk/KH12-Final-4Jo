@@ -85,8 +85,8 @@
 	</select>
 	
 	<!-- 리그 참여할 수 있는 모임  -->
-	<select id="checkMoimList" resultType="MoimDto">
-		SELECT m.* FROM moim m LEFT OUTER JOIN moim_member mm ON m.MOIM_NO = mm.MOIM_NO 
+	<select id="checkMoimList" resultType="LeagueTeamCheckDto">
+		SELECT m.*, mm.moim_member_level FROM moim m LEFT OUTER JOIN moim_member mm ON m.MOIM_NO = mm.MOIM_NO 
 		WHERE mm.MEMBER_EMAIL = #{memberEmail}
 		AND m.LOCATION_NO = #{locationNo} 
 		AND m.EVENT_NO = #{eventNo} 

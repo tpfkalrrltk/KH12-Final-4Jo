@@ -104,11 +104,6 @@ p {
 </head>
 
 
-
-
-
-<body>
-
 	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
 		data-bs-theme="dark">
 		<div class="container-fluid">
@@ -239,9 +234,8 @@ p {
 	</nav>
 
 
-
-<div id='wrapper' class="container-fluid">
-  
+<div id='wrapper' style="padding-top: 126px">
+  <div>
 
 
 
