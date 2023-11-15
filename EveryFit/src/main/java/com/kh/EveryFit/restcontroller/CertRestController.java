@@ -82,10 +82,10 @@ public class CertRestController {
                if(isValid) {
                   //인증 성공하면 인증번호를 삭제
                   certDao.delete(certDto.getCertEmail());
-                  return "true";
+                  return "Y";
                }
             }
-            return "false";
+            return "N";
          }
    
 }

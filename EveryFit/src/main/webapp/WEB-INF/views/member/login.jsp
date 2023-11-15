@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="../template/Header.jsp"></jsp:include>
 
@@ -33,7 +34,7 @@ a {
 
 							<div class="col-md-4 offset-md-4">
 								<input type="text" name="memberEmail" class="form-control"
-									placeholder="email" value="${cookie.savaId.value}">
+									placeholder="email" value="${cookie.saveId.value}">
 							</div>
 
 							<div class="col-md-4 offset-md-4 mt-2">
@@ -41,12 +42,27 @@ a {
 									placeholder="pw">
 							</div>
 
+
+
+
 							<!-- 자동로그인  -->
+
 							<div class="col-md-4 offset-md-4 mt-2 text-start">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value=""
-										id="flexCheckDefault"> <label class="form-check-label"
-										for="flexCheckDefault"> ${cookie.autoLogin != null}로그인 상태 유지 </label>
+									<c:choose>
+										<c:when test="${cookie.saveId != null }">
+											<input class="form-check-input" type="checkbox" value="ok"
+												id="flexCheckDefault" name="autoLogin" checked>
+											<label class="form-check-label" for="flexCheckDefault">
+												로그인 상태 유지 </label>
+										</c:when>
+										<c:otherwise>
+											<input class="form-check-input" type="checkbox" value="ok"
+												id="flexCheckDefault" name="autoLogin">
+											<label class="form-check-label" for="flexCheckDefault">
+												로그인 상태 유지 </label>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 
