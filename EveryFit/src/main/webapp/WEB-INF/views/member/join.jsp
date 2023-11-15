@@ -15,7 +15,6 @@ span {
 
 
 
-
 /* 인증번호  */
    $(function(){
             //처음 로딩아이콘 숨김
@@ -96,10 +95,6 @@ span {
         
       
 
-   
-
-
-
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -129,7 +124,9 @@ span {
 									</div>
 									<div class="ms-3 mt-4">
 										<button type="button" id="id_Confirm" value="중복확인"
-											class="btn btn-success btn-send">인증</button>
+
+											class="btn btn-success btn-send" >인증</button>
+
 									</div>
 								</div>
 							</div>
