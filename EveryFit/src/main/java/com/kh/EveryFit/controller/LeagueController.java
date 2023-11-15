@@ -96,4 +96,9 @@ public class LeagueController {
 		leagueDao.deleteLeague(leagueNo);
 		return "redirect:leagueList";
 	}
+	
+	@GetMapping("/leagueTeamInsert")
+	public String leagueTeamInsert(@RequestParam int leagueNo, @RequestParam int moimNo) {
+		return "league/leagueTeamInsert";
+	}
 }
