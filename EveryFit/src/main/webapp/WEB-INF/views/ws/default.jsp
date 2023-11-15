@@ -13,45 +13,45 @@
 <!-- <input type="text" class="message-input form-control"> -->
 <!-- <button type="button" class="send-btn btn btn-primary">전송</button> -->
 
-	<style>
-		h2 {
-			opacity:0.4;		
+<style>
+	h2 {
+		opacity:0.4;		
+	}
+	.message-list {
+		height: 60vh;
+		overflow-y:scroll;
+		padding-bottom: 20px;
+	}
+	::-webkit-scrollbar {
+	 	width: 1px; /* 스크롤바 너비 */
+	}
+	::-webkit-scrollbar-thumb {
+	 	background: var(--bs-secondary); /* 스크롤바 배경 색상 */
+	 	border-radius: 5px; /* 스크롤바 엄지 모서리 둥글게 */
+	}
+	
+	@media screen and (max-width:768px) {
+		.client-list {
+			position:fixed;
+			top:0;
+			left:-250px;
+			bottom:0;
+			width:250px;	
+			z-index: 999999;
+			padding-top:95px;
+			transition:left 0.2s ease-out;
+			color:white;
 		}
-		.message-list {
-			height: 60vh;
-			overflow-y:scroll;
-			padding-bottom: 20px;
+		.client-list.active {
+			left:0;
 		}
-		::-webkit-scrollbar {
-		 	width: 1px; /* 스크롤바 너비 */
-		}
-		::-webkit-scrollbar-thumb {
-		 	background: var(--bs-secondary); /* 스크롤바 배경 색상 */
-		 	border-radius: 5px; /* 스크롤바 엄지 모서리 둥글게 */
-		}
-		
-		@media screen and (max-width:768px) {
-			.client-list {
-				position:fixed;
-				top:0;
-				left:-250px;
-				bottom:0;
-				width:250px;	
-				z-index: 999999;
-				padding-top:95px;
-				transition:left 0.2s ease-out;
-				color:white;
-			}
-			.client-list.active {
-				left:0;
-			}
-		}
+	}
 	</style>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid mt-4">
+        <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
 				
 				${sessionScope.name}
@@ -61,13 +61,13 @@
 <!-- 						</h2> -->
 <!-- 				</div> -->
 				
-				<div class="row mt-4">
+				<div class="row mt-5">
 					<div class="col-md-4 client-list"></div>
 					<div class="col-md-8">
 						
 						<!-- 메세지 표시 영역 -->
 						<div class="row text-start">
-							<div class="col message-list rounded border"></div>
+							<div class="col message-list rounded border mt-4"></div>
 						</div>
 						
 						<div class="row">
@@ -103,6 +103,30 @@
 	//- onclose : 연결이 종료된 직후에 실행하는 함수를 설정하는 자리
 	//- onerror : 연결에서 오류가 발생한 경우 실행하는 함수를 설정하는 자리
 	//- onmessage : 서버에서 메세지가 전송되는 경우 실행하는 함수를 설정하는 자리
+
+	var currentURL = window.location.href;
+
+	// URL을 '/'로 나누고, 마지막 부분을 가져오기
+	var urlParts = currentURL.split('/');
+	var chatRoomNo = urlParts[urlParts.length - 1];
+	
+	// 마지막 부분을 출력
+	console.log(chatRoomNo);
+	
+	socket.onopen = function(event) {
+        console.log('WebSocket 연결이 열렸습니다.');
+
+        // 서버에게 초기 메시지 전송
+        var obj = {
+        	type : 'join',
+        	chatRoomNo : chatRoomNo
+        }
+        // JSON 문자열로 직렬화하여 전송
+	    var str = JSON.stringify(obj);
+		window.socket.send(str);
+        
+	};
+	
    var myId = "${sessionScope.name}";
 	
 	socket.onmessage = function(e){
@@ -113,16 +137,15 @@
 		//data.clients에 회원 목록이 있다
 		if(data.clients) { //목록처리
 			$(".client-list").empty();
-		
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
 				if(myId == data.clients[i].memberEmail){
 					$("<li>")
 					.addClass("list-group-item d-flex justify-content-between align-items-center")
 					.append($("<span>").text(data.clients[i].memberEmail))
-					.append(
-						$("<span>").addClass("badge bg-danger badge-pill").text(data.clients[i].memberLevel)		
-		 			)
+// 					.append(
+// 						$("<span>").addClass("badge bg-danger badge-pill").text(data.clients[i].memberLevel)		
+// 		 			)
 					.appendTo(ul);
 				}
 			else {
@@ -185,7 +208,7 @@
 // 		    $(".message-input").val("@" + memberEmail + " ");
 // 		    $(".message-input").focus();
 // 		});
-		$(".client-list").on("click", ".list-group-item label", function() {
+	$(".client-list").on("click", ".list-group-item label", function() {
     var memberEmail = $(this).text();
     var messageInput = $(".message-input");
     var currentMessage = messageInput.val();
@@ -230,17 +253,19 @@
 	    	if(space == -1) return;
 	    	
 	    	var obj = {
+	    		type: 'message', 
 	    		target : input.substring(1, space),
 	    		content : input.substring(space+1),
 	    		chatRoomNo : chatRoomNo,
-	    		//방번호를 같이 보냄? 화이팅!
 	    	};
 		    var str = JSON.stringify(obj);
 		    window.socket.send(str);
 	    }
 	    else {
 		    var obj = {
-		        content: input
+		    	type: 'message',
+		        content: input,
+		        chatRoomNo : chatRoomNo,
 		    };
 		    var str = JSON.stringify(obj);
 		    window.socket.send(str);    

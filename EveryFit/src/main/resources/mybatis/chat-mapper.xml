@@ -12,16 +12,14 @@
 		chat_room_no, 
 		member_email,
 		chat_mention_target, 
-		chat_content, 
-		chat_time
+		chat_content 
 		)
 		values(
 		chat_seq.nextval, 
 		#{chatRoomNo}, 
 		#{memberEmail}, 
 		#{chatMentionTarget}, 
-		#{chatContent},
-		#{chatTime}
+		#{chatContent}
 		)
 	</insert>
 	
@@ -46,5 +44,10 @@
 		insert into chat_entry (chat_room_no, member_email) 
 		values(#{chatRoomNo}, #{memberEmail})
 	</insert>
+	
+	<!-- 회원의 참여 채팅방 조회 -->
+<!-- 	<select id="chatRoomNoByMemberEmail" resultType="list"> -->
+<!-- 		select chat_room_no from chat_entry where member_email = #{memberEmail} -->
+<!-- 	</select> -->
 	
 </mapper>

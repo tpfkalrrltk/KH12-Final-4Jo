@@ -87,7 +87,7 @@
 	<input type="hidden" name="moimMemberCount" value=30>
 	
 	여성전용 <input type="checkbox" name="moimGenderCheck">
-	<input type="hidden" name="chatRoomNo" value=1>
+	<input type="hidden" name="chatRoomNo" value="${moimDto.chatRoomNo}">
 	<button type="submit">등록</button>
 </form>
 </div>

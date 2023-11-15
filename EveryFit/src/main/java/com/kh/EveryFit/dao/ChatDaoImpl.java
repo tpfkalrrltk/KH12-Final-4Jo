@@ -37,10 +37,15 @@ public class ChatDaoImpl implements ChatDao{
 	}
 	
 	@Override
-	public void addChatMember(int chatRoomNo, String memberEmail) {
+	public void addChatMember(Integer chatRoomNo, String memberEmail) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("memberEmail", memberEmail);
 		params.put("chatRoomNo", chatRoomNo);
 		sqlSession.insert("chat.addChatMember", params);
+	}
+	
+	@Override
+	public List<Integer> selectChatRoomNoList(String memberEmail) {
+		return sqlSession.selectList("chat.chatRoomNoByMemberEmail", memberEmail);
 	}
 }

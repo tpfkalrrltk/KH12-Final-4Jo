@@ -129,13 +129,17 @@ p {
 
 
 </head>
+  
+  
+  
+ 
 
 
-<nav class="navbar navbar-expand-lg bg-primary fixed-top"
-	data-bs-theme="dark">
-	<div class="container-fluid">
-		<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
-			width="110px" height="100px" /></a>
+	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
+		data-bs-theme="dark">
+		<div class="container-fluid">
+			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
+				width="110px"/></a>
 
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarColor01" aria-controls="navbarColor01"
