@@ -137,16 +137,15 @@
 		//data.clients에 회원 목록이 있다
 		if(data.clients) { //목록처리
 			$(".client-list").empty();
-		
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
 				if(myId == data.clients[i].memberEmail){
 					$("<li>")
 					.addClass("list-group-item d-flex justify-content-between align-items-center")
 					.append($("<span>").text(data.clients[i].memberEmail))
-					.append(
-						$("<span>").addClass("badge bg-danger badge-pill").text(data.clients[i].memberLevel)		
-		 			)
+// 					.append(
+// 						$("<span>").addClass("badge bg-danger badge-pill").text(data.clients[i].memberLevel)		
+// 		 			)
 					.appendTo(ul);
 				}
 			else {

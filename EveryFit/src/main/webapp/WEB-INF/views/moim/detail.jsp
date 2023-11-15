@@ -54,6 +54,8 @@
 		${moimDto.moimNo} ${locationDto.locationDepth1}
 		${locationDto.locationDepth2} ${eventDto.eventName}
 		
+		<a href="/default/${moimDto.chatRoomNo}">채팅방가기</a>
+		
 		<h1>회원목록</h1>
 		<c:forEach var="moimMemberDto" items="${memberList}">
 		<div class="card-body">
@@ -129,6 +131,10 @@
 
 				</div>
 			</div>
+			
+			
+			
+			
 <body>
 	<c:if test="${param.errorFlag != null}">
 	    <script>

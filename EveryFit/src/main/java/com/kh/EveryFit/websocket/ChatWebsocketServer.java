@@ -1,5 +1,6 @@
 package com.kh.EveryFit.websocket;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatWebsocketServer extends TextWebSocketHandler {
 	
 	private ChatRoomVO waitingRoom = new ChatRoomVO();
-	Set<ClientVO> members = new CopyOnWriteArraySet<>();
+	private Set<ClientVO> members = new CopyOnWriteArraySet<>();
 	
 	@Autowired private ChannelService channelService;
 	@Autowired private ObjectMapper mapper = new ObjectMapper(); 
@@ -35,6 +36,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		waitingRoom.enter(session);
+		sendClientList();
 	}
 	
 	@Override
@@ -43,6 +45,26 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		ClientVO client = new ClientVO(session);
 		members.remove(client);
 		log.debug("나감!");
+		sendClientList();
+	}
+	
+	//접속자명단을 모든 접속자에게 전송하는 메소드
+	public void sendClientList() throws IOException {
+		//1. clients를 전송 가능한 형태(JSON 문자열)로 변환한다
+//		ObjectMapper mapper = new ObjectMapper();
+		
+		Map<String, Object> data = new HashMap<>();
+		//data.put("clients", clients);//전체회원명단(null이 문제가됨)
+		data.put("clients", members);//로그인한 회원명단
+		log.debug("members = {}", members);
+		String clientJson = mapper.writeValueAsString(data);
+		
+		//2. 모든 사용자에게 전송
+		TextMessage message = new TextMessage(clientJson);
+		for(ClientVO client : members) {
+			client.send(message);
+		}
+		
 	}
 	
 	@Override
@@ -71,10 +93,9 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			
 			members.add(client);
 			log.debug("방에 입장");
-			
-			//memberEmail님이 입장하였습니다. 라는 문구를 띄우고싶음
+		
 		}
-		log.debug("members = {}", members);			
+//		log.debug("members = {}", members);			
 		
 		boolean isMessage = params.get("type").equals("message"); //메시지면
 		log.debug("isMessage = {}", isMessage);
