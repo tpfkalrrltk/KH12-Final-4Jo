@@ -12,7 +12,7 @@
 
 
 <body>
-	<div class="container mt-5 pt-5">
+	<div class="container ">
 
 		<div class="row mt-5 p-5">
 			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
