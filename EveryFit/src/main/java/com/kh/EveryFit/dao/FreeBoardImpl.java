@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.FreeBoardDto;
 import com.kh.EveryFit.vo.BoardVO;
 
@@ -153,6 +154,21 @@ public class FreeBoardImpl implements FreeBoardDao {
 			String sql = "select count(*) from free_board";
 			return tem.queryForObject(sql, int.class);
 		}
+	}
+
+	@Override
+	public void connect(int freeBoardNo, int attachNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("freeBoardNo", freeBoardNo);
+		params.put("attachNo", attachNo);
+		sqlSession.insert("freeBoard.connect", params);
+
+	}
+
+	@Override
+	public AttachDto findImage(int freeBoardNo) {
+	
+		return sqlSession.selectOne("freeBoard.findImage",freeBoardNo);
 	}
 
 }
