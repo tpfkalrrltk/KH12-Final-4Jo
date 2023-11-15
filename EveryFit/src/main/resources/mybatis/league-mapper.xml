@@ -15,11 +15,11 @@
 	<insert id="insertLeague">
         INSERT INTO league (
         	league_no, event_no, league_manager, league_title, league_detail, league_entry_fee,
-        	league_start, league_end, chat_room_no, location_no
+        	league_start, league_end, chat_room_no, location_no, league_team_count, league_roaster_count
         	)
         VALUES (
         	#{leagueNo}, #{eventNo}, #{leagueManager}, #{leagueTitle}, #{leagueDetail}, #{leagueEntryFee}, 
-        	#{leagueStart}, #{leagueEnd}, #{chatRoomNo}, #{locationNo})
+        	#{leagueStart}, #{leagueEnd}, #{chatRoomNo}, #{locationNo}, #{leagueTeamCount}, #{leagueRoasterCount})
     </insert>
     
     <!-- 리그조회 -->
@@ -94,6 +94,12 @@
        		</if>
        		<if test="leagueDto.locationNo!=null">
        			location_no = #{leagueDto.locationNo},
+       		</if>
+       		<if test="leagueDto.leagueTeamCount!=null">
+       			league_team_count = #{leagueDto.leagueTeamCount},
+       		</if>
+       		<if test="leagueDto.leagueRoasterCount!=null">
+       			league_roaster_count = #{leagueDto.leagueRoasterCount},
        		</if>
        </set>
         WHERE league_no = #{leagueNo}

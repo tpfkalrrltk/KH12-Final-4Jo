@@ -22,6 +22,7 @@ import com.kh.EveryFit.dto.LeagueListDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.LocationDto;
+import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.LeagueListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,8 @@ public class LeagueController {
 	
 	@PostMapping("/leagueInsert")
 	public String leagueInsert(@ModelAttribute LeagueDto leagueDto, HttpSession session) {
-		String leagueManager = (String)session.getAttribute("name");
+		//String leagueManager = (String)session.getAttribute("name");
+		String leagueManager = "leaguetest1";
 		int leagueNo = leagueDao.leagueSequence();
 		
 		leagueDto.setLeagueManager(leagueManager);
@@ -105,7 +107,9 @@ public class LeagueController {
 	public String leagueTeamInsert(@RequestParam int leagueNo, 
 									@RequestParam int moimNo,
 									Model model) {
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
 		model.addAttribute("memberList", moimDao.selectAllMoimMembers(moimNo));
+		model.addAttribute("leagueDto", leagueDto);
 		return "league/leagueTeamInsert";
 	}
 	
@@ -128,11 +132,17 @@ public class LeagueController {
 						.memberEmail(email)
 						.build());
 		}
-		return "redirect:leagueTeamDetail";
+		return "redirect:leagueTeamDetail?leagueTeamNo="+leagueTeamNo;
 	}
 	
 	@RequestMapping("/leagueTeamDetail")
-	public String leagueTeamDetail() {
+	public String leagueTeamDetail(@RequestParam int leagueTeamNo, Model model) {
+		LeagueTeamDto leagueTeamDto = leagueDao.selectOneLeagueTeam(leagueTeamNo);
+		MoimDto moimDto = moimDao.selectOne(leagueTeamDto.getMoimNo());
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueTeamDto.getLeagueNo());
+		model.addAttribute("leagueTeamDto", leagueTeamDto);
+		model.addAttribute("moimDto", moimDto);
+		model.addAttribute("leagueDto", leagueDto);
 		return "/league/leagueTeamDetail";
 	}
 }

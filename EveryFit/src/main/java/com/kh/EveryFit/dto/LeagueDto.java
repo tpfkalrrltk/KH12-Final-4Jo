@@ -20,4 +20,6 @@ public class LeagueDto {
 	private String leagueStatus;
 	private Integer chatRoomNo;
 	private Integer locationNo;
+	private Integer leagueTeamCount;
+	private Integer leagueRoasterCount;
 }

@@ -23,10 +23,10 @@
 	</c:forEach>
 </div></div>
 <div class="row"><div class="col">
-	<label id="checkedCount">0</label> / 10
+	<label id="checkedCount">0</label> / <label id="roasterCount">${leagueDto.leagueRoasterCount}</label>
 </div></div>
 <div class="row mt-2"><div class="col">
-	<button type="submit" class="btn btn-primary">로스터 등록 및 참가신청</button>
+	<button id="button-add" type="submit" class="btn btn-primary" disabled>로스터 등록 및 참가신청</button>
 </div></div>
 </form>
 
@@ -39,9 +39,18 @@
     function updateCheckedCount() {
         // 이름이 "memberEmail"인 모든 체크박스 가져오기
         var checkboxes = document.querySelectorAll('input[name="memberEmail"]:checked');
-
+		var roasterCount = ${leagueDto.leagueRoasterCount};
+        var count = checkboxes.length;
+		
+        if (count === roasterCount) {
+            // 버튼 활성화
+            $('#button-add').prop('disabled', false);
+        } else {
+            // 버튼 비활성화
+            $('#button-add').prop('disabled', true);
+        }
         // 라벨에서 개수 업데이트
-        document.getElementById('checkedCount').innerText = checkboxes.length;
+        document.getElementById('checkedCount').innerText = count;
     }
 </script>
 

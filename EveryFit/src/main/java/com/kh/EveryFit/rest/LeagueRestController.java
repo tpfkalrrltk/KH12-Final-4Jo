@@ -29,8 +29,6 @@ public class LeagueRestController {
 	
 	@PostMapping("/addLeagueApplication")
 	public void addLeagueApplication(@ModelAttribute LeagueApplicationDto applicationDto) throws ParseException {
-		log.debug("dto = {}", applicationDto);
-		
 		int applicationNo = leagueDao.leagueApplicationSeqeunce();
 		applicationDto.setLeagueApplicationNo(applicationNo);
 		leagueDao.insertLeagueApplication(applicationDto);
@@ -39,7 +37,7 @@ public class LeagueRestController {
 	@PostMapping("/findLeagueApplication")
 	public LeagueApplicationDto findLeagueApplication(@RequestParam int leagueNo) {
 		LeagueApplicationDto dto = leagueDao.selectOneLeagueApplication(leagueNo);
-		return dto==null? null: dto;
+		return dto;
 	}
 	
 	@PostMapping("/updateLeagueApplication")
