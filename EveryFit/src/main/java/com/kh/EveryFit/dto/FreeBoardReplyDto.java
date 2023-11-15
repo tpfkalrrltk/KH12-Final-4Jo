@@ -14,4 +14,5 @@ public class FreeBoardReplyDto {
 String freeBoardReplyContent, memberEmail;
 int freeBoardReplyNo, freeBoardNo;
 
+
 }

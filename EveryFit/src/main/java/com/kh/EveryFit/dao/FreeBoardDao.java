@@ -30,7 +30,7 @@ public interface FreeBoardDao {
 	
 	
 	
-	public boolean updateShopAfterReplyCount(int freeBoardNo);
+	public boolean updateFreeBoardReplyCount(int freeBoardNo);
 
 	public int countList();
 

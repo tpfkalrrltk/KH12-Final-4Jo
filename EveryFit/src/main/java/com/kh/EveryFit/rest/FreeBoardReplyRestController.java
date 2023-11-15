@@ -36,13 +36,13 @@ public class FreeBoardReplyRestController {
 		String memberEmail = (String) httpSession.getAttribute("name");
 		freeBoardReplyDto.setMemberEmail(memberEmail);
 		freeBoardReplyDao.add(freeBoardReplyDto);
-		freeBoardDao.updateShopAfterReplyCount(freeBoardReplyDto.getFreeBoardNo());
+		freeBoardDao.updateFreeBoardReplyCount(freeBoardReplyDto.getFreeBoardNo());
 	}
 
 	@PostMapping("/list")
 	public List<FreeBoardReplyDto> list(@RequestParam int freeBoardNo,
 			@ModelAttribute(name = "freeBoardReplyVO") BoardVO boardVO, Model model) {
-		List<FreeBoardReplyDto> list = freeBoardReplyDao.list();
+		List<FreeBoardReplyDto> list = freeBoardReplyDao.list(freeBoardNo);
 		model.addAttribute("freeBoardReplyDto", list);
 		return list;
 	}
@@ -56,7 +56,7 @@ public class FreeBoardReplyRestController {
 	public void delete(@RequestParam int freeBoardReplyNo) {
 		FreeBoardReplyDto freeBoardReplyDto = freeBoardReplyDao.selectOne(freeBoardReplyNo);
 		freeBoardReplyDao.delete(freeBoardReplyNo);
-		freeBoardDao.updateShopAfterReplyCount(freeBoardReplyDto.getFreeBoardNo());
+		freeBoardDao.updateFreeBoardReplyCount(freeBoardReplyDto.getFreeBoardNo());
 	}
 
 }

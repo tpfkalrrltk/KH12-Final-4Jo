@@ -8,15 +8,13 @@
 
 	<insert id="add">
 		insert into free_board_reply(
-
 		free_board_reply_no,
 		member_email,
-		reply_free_board_reply_content,
+		free_board_reply_content,
 		free_board_no
-
 		)
-		values(#{freeBoardReplyNo}, {memberEmail}, {freeBoardReplyContent},
-		{freeBoardNo})
+		values(#{freeBoardReplyNo}, #{memberEmail}, #{freeBoardReplyContent},
+		#{freeBoardNo})
 	</insert>
 
 	<select id="list" resultType="FreeBoardReplyDto">
@@ -26,11 +24,11 @@
 	</select>
 
 	<update id="edit">
-		update from free_board_reply set
-		reply_free_board_reply_content = {freeBoardDto.freeBoardReplyContent}
+		update free_board_reply set
+		free_board_reply_content = #{freeBoardReplyContent}
 		where
 		free_board_reply_no =
-		#{no}
+		#{freeBoardReplyNo}
 	</update>
 
 
