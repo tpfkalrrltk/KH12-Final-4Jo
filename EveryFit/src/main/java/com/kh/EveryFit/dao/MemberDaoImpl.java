@@ -122,6 +122,14 @@ public class MemberDaoImpl implements MemberDao {
 		sqlSession.update("member.changeMemberInfo", memberDto);
 	}
 	
+
+	// 회원권 구매 후 member_moim_count (3->10) 수정 
+	@Override
+	public boolean updateMemberMoimCount(String memberEmail) {
+		return sqlSession.update("member.changeMemberMoimCount", memberEmail)>0;
+	}
+	
+
 	@Override
 	public void deleteProfile(String memberId) {
 		// TODO Auto-generated method stub
@@ -133,6 +141,7 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 	@Override
 	public MemberDto login(MemberDto memberDto) {

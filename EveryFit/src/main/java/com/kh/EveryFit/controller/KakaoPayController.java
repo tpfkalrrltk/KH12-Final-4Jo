@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dao.ProductDao;
 import com.kh.EveryFit.dto.PaymentDto;
@@ -41,6 +42,9 @@ public class KakaoPayController {
 	
 	@Autowired
 	private PaymentDao paymentDao;
+	
+	@Autowired
+	private MemberDao memberDao;
 	
 	
 	@GetMapping("/pay")
@@ -107,6 +111,10 @@ public class KakaoPayController {
 							.paymentName(response.getItemName())
 							.paymentPrice(response.getAmount().getTotal())
 							.build());
+					
+					//회원권 구매 후 member_moim_count (3->10) 디비 수정
+					String memberEmail = (String) session.getAttribute("name");
+					memberDao.updateMemberMoimCount(memberEmail);
 					
 					return "redirect:successResult";
 		}
