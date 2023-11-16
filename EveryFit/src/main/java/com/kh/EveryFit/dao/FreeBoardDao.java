@@ -29,7 +29,6 @@ public interface FreeBoardDao {
 	
 	
 	
-	
 	public boolean updateFreeBoardReplyCount(int freeBoardNo);
 
 	public int countList();
@@ -50,6 +49,13 @@ public interface FreeBoardDao {
 	void connect(int freeBoardNo, int attachNo);
 
 	AttachDto findImage(int freeBoardNo);
+	
+	
+	
+
+	boolean deleteFreeBoardImage(int freeBoardNo);
+
+	void insertFreeBoardImage(int freeBoardNo, int attachNo);
 	
 	
 	

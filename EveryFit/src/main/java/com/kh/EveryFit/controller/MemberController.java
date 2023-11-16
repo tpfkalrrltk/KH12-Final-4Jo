@@ -49,7 +49,7 @@ public class MemberController {
 	@PostMapping("/join")
 	public String join(
 			@ModelAttribute MemberDto dto) throws MessagingException, IOException {
-//		memberDao.insert(dto);
+		memberDao.insert(dto);
 		emailService.sendCelebration(dto.getMemberEmail());
 		return "/member/login";
 	}
