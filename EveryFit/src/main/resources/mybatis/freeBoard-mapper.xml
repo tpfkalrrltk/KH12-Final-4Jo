@@ -118,13 +118,8 @@
 
 	</insert>
 
-	<select id="findImage" resultType="FreeBoardDto">
-		select * from attach
-		where
-		attach_no = (
-		select attach_no from free_board_image
-		where free_board_no
-		= #{freeBoardNo})
+	<select id="findImage" resultType="integer">
+	select attach_no from free_board_image where free_board_no = #{freeBoardNo}
 	</select>
 
 

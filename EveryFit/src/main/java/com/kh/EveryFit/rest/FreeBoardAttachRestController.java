@@ -51,7 +51,7 @@ public class FreeBoardAttachRestController {
 	//모든 로딩이 끝나면 자동으로 실행되는 메소드
 	@PostConstruct
 	public void init() {
-		dir = new File(props.getHome(),"freeBoad");
+		dir = new File(props.getHome(),"freeBoard");
 		dir.mkdirs();
 	}
 	

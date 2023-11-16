@@ -22,15 +22,17 @@ textarea {
 $(function(){
 	 $(".btn-save").click(function(){
  	   
-
+         var freeBoardTitle = $("[name=freeBoardTitle]").val();
+         var freeBoardContent = $("[name=freeBoardContent]").val();
         var fileInput = $(".file-chooser")[0];
 
-        // 이미지 파일이 업로드되었는지 확인
-        if (fileInput.files.length == 0) {
-            event.preventDefault(); // 폼 제출을 막음
-            alert("이미지를 선택하세요.");
-            return;
+      
+        
+        if (freeBoardTitle.length == 0  || freeBoardContent.length == 0) {
+            event.preventDefault(); 
+            alert("제목과 내용을 입력해주세요.");
         }
+        
 
         var input =$(".file-chooser")[0];
 
@@ -39,7 +41,7 @@ $(function(){
         form.append("attach",input.files[0]);
 
         $.ajax({
-            url:window.contextPath+"/kh12c",
+            url:window.contextPath+"/freeBoard",
             method:"post",
             processData:false,
             contentType:false,
