@@ -114,6 +114,12 @@ public class MemberDaoImpl implements MemberDao {
 		sqlSession.update("member.changeMemberInfo", memberDto);
 	}
 	
+	// 회원권 구매 후 member_moim_count (3->10) 수정 
+	@Override
+	public boolean updateMemberMoimCount(String memberEmail) {
+		return sqlSession.update("member.changeMemberMoimCount", memberEmail)>0;
+	}
+	
 	
 	
 	

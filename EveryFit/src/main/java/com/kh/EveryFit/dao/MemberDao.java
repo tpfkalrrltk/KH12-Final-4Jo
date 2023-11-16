@@ -47,6 +47,7 @@ public interface MemberDao {
 //	로그인 시간 갱신 
 //	void updateMemberLogin(String memberEmail);
 	
-	
+	// 회원권 구매 후 member_moim_count (3->10) 수정 
+	boolean updateMemberMoimCount(String memberEmail);
 	
 }
