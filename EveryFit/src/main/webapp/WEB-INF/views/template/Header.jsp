@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -21,14 +22,31 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap"
 	rel="stylesheet">
+	
+	
+	<link rel="preload" href="webfont-path" as="font" crossorigin />
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Noto Sans KR', 'Noto Sans KR']
+    }
+  });
+</script>
+	
 <style>
 @font-face {
-	font-family: NotoSansKR;
-	src: url("./fonts/NotoSansKR-VariableFont_wght.ttf");
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
-p {
-	font-family: NotoSansKR;
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#wrapper {
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .dropdown-menu {
@@ -101,6 +119,10 @@ p {
 <!-- Bootstrap JS (including Popper.js) -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+
+
 
 
 
@@ -127,12 +149,9 @@ p {
 </script>
 
 
+<body>
 
-</head>
-  
-  
-  
- 
+
 
 
 	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
@@ -141,125 +160,144 @@ p {
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
 				width="110px"/></a>
 
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-			data-bs-target="#navbarColor01" aria-controls="navbarColor01"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item">
-					<h1>
-						<a class="nav-link " href="/member/join"> <i
-							class="fa-regular fa-id-card mt-2"></i> <span
-							class="visually-hidden">(current)</span>
-						</a>
-					</h1>
-				</li>
-				<c:choose>
-					<c:when test="${sessionScope.name==null}">
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+				aria-controls="navbarColor01" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarColor01">
+				<ul class="navbar-nav me-auto">
+				
+				
+			
+					<c:choose>
+						<c:when test="${sessionScope.name==null}">
 
-						<li class="nav-item">
-							<h1>
-								<a class="nav-link ms-3" href="/member/login"> <i
-									class="fa-solid fa-right-to-bracket mt-2"></i>
-								</a>
-							</h1>
-						</li>
-					</c:when>
+							<li class="nav-item">
+								<h1>
+									<a class="nav-link ms-3" href="/member/login"> <i
+										class="fa-solid fa-user mt-2"></i>
+									</a>
+								</h1>
+							</li>
+						</c:when>
 
-					<c:otherwise>
-						<li class="nav-item">
-							<h1>
-								<a class="nav-link ms-3" href="/member/logout"> <i
-									class="fa-solid fa-delete-left mt-2"></i>
-								</a>
-							</h1>
-						</li>
+						<c:otherwise>
+							<li class="nav-item">
+								<h1>
+									<a class="nav-link ms-3" href="/member/logout"> <i
+										class="fa-solid fa-user-slash mt-2"></i>
+									</a>
+								</h1>
+							</li>
 
-					</c:otherwise>
-				</c:choose>
-				<li class="nav-item">
-					<h1>
-						<a class="nav-link ms-3" href=/member/mypage> <i
-							class="fa-solid fa-user mt-2"></i>
-						</a>
-					</h1>
-				</li>
-
-
-
-				<li class="nav-item">
-					<h1>
-						<a class="nav-link ms-3" href="#"> <i
-							class="fa-solid fa-ranking-star  mt-2"></i>
-						</a>
-					</h1>
-				</li>
-
-				<li class="nav-item">
-					<h1>
-						<a class="nav-link ms-3" href="#"> <i
-							class="fa-solid fa-route  mt-2"></i>
-						</a>
-					</h1>
-				</li>
-
-				<li class="nav-item">
-					<h1>
-						<a class="nav-link ms-3" href=#"> <i
-							class="fa-solid fa-people-group  mt-2"></i>
-						</a>
-					</h1>
-				</li>
-
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
-					href="#" role="button" aria-haspopup="true" aria-expanded="false">
-						<h2>
-							<i class="fa-solid fa-users-gear mt-2"></i>
-						</h2>
-				</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item fw-bold"
-							href="${pageContext.request.contextPath}/moim/create"> 모임 만들기
-						</a> <a class="dropdown-item  fw-bold"
-							href="${pageContext.request.contextPath}/moim/detail?moimNo=5">
-							모임상세(테스트용) </a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item fw-bold" href="/league/leagueList">리그
-							목록</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item fw-bold" href="#">여성전용 모임</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item fw-bold"
-							href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
-						<a class="dropdown-item fw-bold"
-							href="${pageContext.request.contextPath}/faq/list">FAQ</a>
-
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item fw-bold"
-							href="${pageContext.request.contextPath}/pay?productNo=1">
-							프리미엄회원권(테스트용) </a> <a class="dropdown-item fw-bold"
-							href="${pageContext.request.contextPath}/pay?productNo=2">
-							프리미엄회원권(테스트용) </a>
-					</div></li>
-				<c:choose>
-					<c:when test="${sessionScope.name != null}">
+						</c:otherwise>
+					</c:choose>
+							<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href="/member/join"> <i
+								class="fa-solid fa-user-plus mt-2"></i> <span
+								class="visually-hidden">(current)</span>
+							</a>
+						</h1>
+					</li>
+					
+					
+					<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href=/member/mypage> 
+							<i class="fa-solid fa-user-gear mt-2"></i>
+							</a>
+						</h1>
+					</li>
 
 
-						<li class="nav-item ms-5">
-							<h5>
-								<div class="text-light fw-bold">${name}회원님환영합니다.</div>
-							</h5>
-						</li>
-					</c:when>
-					<c:otherwise>
 
-					</c:otherwise>
-				</c:choose>
-			</ul>
-			<div class="d-flex">
+					<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href="#"> <i
+								class="fa-solid fa-ranking-star mt-2"></i>
+							</a>
+						</h1>
+					</li>
+
+					<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href="#"> <i
+								class="fa-solid fa-route  mt-2"></i>
+							</a>
+						</h1>
+					</li>
+
+					<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href="#"> <i
+								class="fa-solid fa-people-group  mt-2"></i>
+							</a>
+						</h1>
+					</li>
+
+
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<h2>
+								<i class="fa-solid fa-users-gear mt-2"></i>
+							</h2>
+					</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/moim/create"> 모임
+								만들기 </a> <a class="dropdown-item  fw-bold"
+								href="${pageContext.request.contextPath}/moim/detail?moimNo=5">
+								모임상세(테스트용) </a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold" href="/league/leagueList">리그
+								목록</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold" href="#">여성전용 모임</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/faq/list">FAQ</a>
+
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/pay?productNo=1">
+								프리미엄회원권(테스트용) </a> <a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/pay?productNo=2">
+								프리미엄회원권(테스트용) </a>
+						</div></li>
+
+
+
+				
+
+
+
+
+					<c:choose>
+						<c:when test="${sessionScope.name != null}">
+
+
+							<li class="nav-item ms-5">
+								<h5>
+									<div class="text-light fw-bold">${name}회원님 환영합니다.</div>
+						
+								</h5>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item ms-5">
+					
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+				<div class="d-flex">
 				<div class="nav-item ms-5 me-3  bg-light rounded-3 "
 					style="margin-left: 5500">
 					<h6 class="text-primary fw-bold ">Now Time</h6>
@@ -275,12 +313,15 @@ p {
 				<button class="btn btn-light   text-primary mt-3  fw-bold"
 					type="submit"  style="height: 52px">Search</button>
 			</form>
+			</div>
 		</div>
-	</div>
-</nav>
+	</nav>
+
 <body onload="startTime()">
 	<div class="p-5 m-5"></div>
 	<div id='wrapper'>
+
+
 
 
 
