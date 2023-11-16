@@ -137,5 +137,43 @@ public class FaqDaoImpl implements FaqDao {
 			return tem.queryForObject(sql, int.class);
 		}
 	}
+	
+	@Override
+	public void connect(int faqNo, int attachNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("faqNo", faqNo);
+		params.put("attachNo", attachNo);
+		sqlSession.insert("FAQ.connect", params);
+
+	}
+
+	@Override
+	public Integer findImage(Integer faqNo) {
+		try {
+			return sqlSession.selectOne("FAQ.findImage", faqNo);
+		} 
+		catch (Exception e) {
+			return null;
+		}
+			
+	}
+	
+	
+	
+
+	@Override
+	public boolean deleteFreeBoardImage(int faqNo) {
+		return sqlSession.delete("FAQ.deleteFaqImage", faqNo) > 0;
+		
+	}
+
+	@Override
+	public void insertFreeBoardImage(int faqNo, int attachNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("faqNo", faqNo);
+		params.put("attachNo", attachNo);
+		sqlSession.insert("FAQ.insertFaqImage", params);
+		
+	}
 
 }

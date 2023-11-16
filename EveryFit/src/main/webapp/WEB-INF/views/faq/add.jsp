@@ -19,6 +19,47 @@ textarea {
 </style>
 
 
+
+<script>
+	$(function() {
+		$(".btn-save").click(
+				function() {
+
+					var faqTitle = $("[name=faqTitle]").val();
+					var faqDetail = $("[name=faqDetail]").val();
+					var fileInput = $(".file-chooser")[0];
+
+					if (faqTitle.length == 0 || faqDetail.length == 0) {
+						event.preventDefault();
+						alert("제목과 내용을 입력해주세요.");
+					}
+
+					var input = $(".file-chooser")[0];
+
+					if (input.files.length == 0)
+						return;
+					var form = new FormData();
+					form.append("attach", input.files[0]);
+
+					$.ajax({
+						url : window.contextPath + "/faq",
+						method : "post",
+						processData : false,
+						contentType : false,
+						data : form,
+						success : function(response) {
+							$("img").attr(
+									"src",
+									window.contextPath + "/download?attachNo="
+											+ response.attachNo);
+							$("[name=attachNo]").val(response.attachNo);
+						},
+					});
+				});
+
+	});
+</script>
+
 <body>
 	<div class="container ">
 
@@ -34,20 +75,32 @@ textarea {
 
 		<div class="row mt-3">
 			<div class="col">
-				<form action="add" method="post">
+				<form action="add" method="post" enctype="multipart/form-data">
 
 					<div class="row">
 						<div class="col-5 offset-1">
-								<p class="text-primary fw-bold">제목 : </p>
-								<input type="text" name="faqTitle"
-								class="form-control">
+							<p class="text-primary fw-bold">제목 :</p>
+							<input type="text" name="faqTitle" class="form-control">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-5 offset-1">
-							<p class="text-primary fw-bold">
-							카테고리 :</p> <select name="faqCategory" class="form-select">
+							<p class="text-primary fw-bold">파일 :</p>
+							<label> <input type="file" name="attach"
+								class="w-100 file-chooser" style="display: none;"
+								accept="image/*"> <img
+								src="${pageContext.request.contextPath}/images/no-image.png"
+								width="200" height="200">
+							</label>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">카테고리 :</p>
+							<select name="faqCategory" class="form-select">
 								<option>회원</option>
 								<option>모임</option>
 								<option>운동</option>
@@ -65,7 +118,7 @@ textarea {
 					</div>
 					<div class="row">
 						<div class="col-10 offset-1">
-							<button type="submit" class="btn btn-primary w-100 m-5">등록</button>
+							<button type="submit" class="btn btn-primary w-100 m-5 btn-save">등록</button>
 						</div>
 					</div>
 				</form>

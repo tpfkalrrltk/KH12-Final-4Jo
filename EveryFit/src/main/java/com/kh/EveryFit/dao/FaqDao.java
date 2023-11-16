@@ -9,21 +9,26 @@ import com.kh.EveryFit.vo.BoardVO;
 public interface FaqDao {
 
 	List<FaqDto> list();
+
 	int sequence();
+
 	void edit(int faqNo, FaqDto faqDto);
+
 	boolean edit(FaqDto faqDto);
+
 	boolean delete(int faqNo);
+
 	void add(FaqDto faqDto);
+
 	FaqDto selectOne(int faqNo);
-	
+
 	public boolean updateShopAfterReplyCount(int freeBoardNo);
 
 	public int countList();
 
 	public int countList(String type, String keyword);
-	
-	public List<FaqDto> selectList(String type,String keyword);
 
+	public List<FaqDto> selectList(String type, String keyword);
 
 	public List<FaqDto> selectListByPage(String type, String keyword, int page);
 
@@ -32,7 +37,13 @@ public interface FaqDao {
 	public List<FaqDto> selectListByPage(BoardVO boardVO);
 
 	public int countList(BoardVO boardVO);
-	
-	
-	
+
+	boolean deleteFreeBoardImage(int faqNo);
+
+	void insertFreeBoardImage(int faqNo, int attachNo);
+
+	void connect(int faqNo, int attachNo);
+
+	Integer findImage(Integer faqNo);
+
 }
