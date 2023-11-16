@@ -51,12 +51,12 @@ public class MemberController {
 			@ModelAttribute MemberDto dto) throws MessagingException, IOException {
 		memberDao.insert(dto);
 		emailService.sendCelebration(dto.getMemberEmail());
-		return "redirect:/joinFinish";
+		return "redirect:joinFinish";
 	}
 	
-	@RequestMapping("/joinFinsh")
+	@RequestMapping("/joinFinish")
 	public String joinFinish() {
-		return "secure/joinFinish";
+		return "/member/joinFinish";
 	}
 	
 	
@@ -85,6 +85,9 @@ public class MemberController {
 
 	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
 
+
+
+	    
 	    //[3] 비밀번호가 일치하면 메인페이지로 이동
 	    if (isCorrectPw) {
 	        session.setAttribute("name", inputDto.getMemberEmail());
@@ -251,6 +254,7 @@ public String findPwFinish() {
 //	}
 //	return "redirect:/";
 //}
+
 
 }
 

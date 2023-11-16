@@ -136,7 +136,7 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public MemberDto login(MemberDto memberDto) {
-		MemberDto target = sqlSession.selectOne("secureMember.find", memberDto.getMemberEmail());
+		MemberDto target = sqlSession.selectOne("Member.find", memberDto.getMemberEmail());
 		if(target != null) {//아이디가 존재한다면
 			boolean result = encoder.matches(memberDto.getMemberPw(), target.getMemberPw());
 			if(result == true) {//비밀번호가 암호화 도구에 의해 맞다고 판정된다면
