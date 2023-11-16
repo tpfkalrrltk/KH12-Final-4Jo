@@ -12,7 +12,6 @@ span {
 
 <script>
 	/* 인증번호  */
-
 	$(function() {
 		//처음 로딩아이콘 숨김
 		$(".btn-send").find(".fa-spinner").hide();
@@ -37,8 +36,8 @@ span {
 				success : function() {
 					$(".btn-send").prop("disabled", false);
 					$(".btn-send").find(".fa-spinner").hide();
-					$(".btn-send").find("span").text("인증번호 보내기");
-					//window.alert("이메일 확인하세요");
+					$(".btn-send").find("span").text("보내기");
+					// window.alert("이메일 확인하세요");
 
 					$(".cert-wrapper").show();
 					window.email = email;
@@ -48,10 +47,9 @@ span {
 		// 확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사 
 		$(".btn-cert").click(
 				function() {
-					var email = $("[name=memberEmail]").val();
-					//  var email = window.email;
+					//    var email = $("[name=memberEmail]").val();
+					var email = window.email;
 					var number = $(".cert-input").val();
-					/* console.log("number", number); */
 
 					if (email.length == 0 || number.length == 0)
 						return;
@@ -63,34 +61,26 @@ span {
 							certEmail : email,
 							certNumber : number
 						},
-						async : true, // 비동기화 동작 여부
-						dataType : "html", // 전달받을 데이터 타입
-
 						success : function(response) {
-							console.log(response);
-
-							if (response=='Y') {//인증성공 
+							// console.log(response);
+							if (response == 'Y') {//인증성공 
 								$(".cert-input").removeClass("success fail")
 										.addClass("success");
 								$(".btn-cert").prop("disabled", true);
-								//성공 
+								//상태객체에 상태 저장하는 코드
 								$(".cert-result").text("인증되었습니다.").css("color",
 										"green");
-								
-							} else {//실패 
+							} else {
 								$(".cert-input").removeClass("success fail")
 										.addClass("fail");
-							
+								//상태객체에 상태 저장하는 코드
 								$(".cert-result").text("인증에 실패했습니다.").css(
 										"color", "red");
 							}
-
 						},
 					});
 				});
 	});
-
-	
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -157,7 +147,9 @@ span {
 									id="passwordConfirm">
 							</div>
 
-
+							<div class="col-md-4 offset-md-4 text-start">
+								이름<input type="text" name="memberName" class="form-control">
+							</div>
 
 							<div class="col-md-4 offset-md-4 text-start">
 								닉네임<input type="text" name="memberNick" class="form-control">
@@ -181,7 +173,7 @@ span {
 
 							<div class="mt-4 col-md-4 offset-md-4 text-center"
 								style="margin-bottom: 150px;">
-								<button type="submit" class="btn btn-info">회원가입</button>
+								<button type="submit" class="btn btn-info" style="width: 350px;">회원가입</button>
 							</div>
 						</div>
 
