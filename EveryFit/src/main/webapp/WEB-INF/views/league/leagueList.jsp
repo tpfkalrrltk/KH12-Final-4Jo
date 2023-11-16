@@ -33,7 +33,7 @@
 						<td>${leagueDto.leagueNo}</td>
 						<td>${leagueDto.eventName}</td>
 						<td>${leagueDto.leagueManager}</td>
-						<td><a href="">${leagueDto.leagueTitle}</a></td>
+						<td><a href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
 						<td>${leagueDto.leagueStatus}</td>
 						<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
 						<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-sm btn-primary">참가요강</a></td>

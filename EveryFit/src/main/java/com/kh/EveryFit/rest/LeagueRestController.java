@@ -59,4 +59,12 @@ public class LeagueRestController {
 		List<MoimDto> list = moimDao.checkMoimList(vo);
 		return list;
 	}
+	
+	@PostMapping("/updateLeagueTeamStatus")
+	public boolean updateLeagueTeamStatus(@RequestParam int leagueTeamNo) {
+		String origin = leagueDao.selectOneLeagueTeam(leagueTeamNo).getLeagueTeamStatus();
+		String status;
+		status = origin.equals("N") ? "Y" : "N";
+		return leagueDao.updateLeagueTeamStatus(leagueTeamNo, status); 
+	}
 }

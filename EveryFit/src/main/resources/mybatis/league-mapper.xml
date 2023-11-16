@@ -132,6 +132,24 @@
         SELECT * FROM league_team order by league_team_no asc
     </select>
     
+    <!-- 리그별 리그팀 리스트 -->
+    <select id="listLeagueTeamByLeague" resultType="LeagueTeamDto">
+    	select * from league_team where league_no = #{leagueNo} order by league_team_no asc
+    </select>
+    
+    <!-- 리그별 승인대기중인 리그팀 리스트 -->
+    <select id="listLeagueTeamNonApprove" resultType="LeagueTeamDto">
+    	select * from league_team where league_no = #{leagueNo} and league_team_status = 'N' 
+    	order by league_team_no asc
+    </select>
+    
+    <!-- 리그 순위표 리스트 -->
+    <select id="listLeagueTeamRank" resultType="LeagueTeamRankListVO">
+    	select league_team.*, rank() over (order by league_team_point desc, league_team_win desc, 
+    	league_team_gd desc, league_team_g desc) as league_team_rank from league_team
+    	where league_no = #{leagueNo} and league_team_status = 'Y'
+    </select>
+    
     <!-- 리그팀 업데이트 -->
     <update id="updateLeagueTeam">
         UPDATE league_team
@@ -161,6 +179,10 @@
         WHERE league_team_no = #{leagueTeamNo}
     </update>
    
+	<!-- 리그팀 상태 수정 -->
+	<update id="updateLeagueTeamStatus">
+		update league_team set league_team_status = #{status} where league_team_no = #{leagueTeamNo}
+	</update>   
     
      <!-- 리그팀 삭제 -->
     <delete id="deleteLeagueTeam">
