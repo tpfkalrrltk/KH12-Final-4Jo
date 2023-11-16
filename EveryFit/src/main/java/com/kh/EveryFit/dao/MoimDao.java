@@ -15,7 +15,7 @@ public interface MoimDao {
 	
 	//모임정보수정
 	//수정 할 것 : 인증여부, 모임설명, 모임명, 모임상태(인원마감이라든지)
-//	boolean updateMoimInfo(MoimInfoChangeVO vo);
+	boolean updateMoimInfo(MoimDto moimDto);
 	
 	//모임회원
 	List<MoimMemberDto> selectAllMoimMembers(int moimNo);

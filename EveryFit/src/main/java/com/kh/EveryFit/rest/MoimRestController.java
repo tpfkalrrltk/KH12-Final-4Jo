@@ -1,20 +1,15 @@
 package com.kh.EveryFit.rest;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dao.MoimDao;
-import com.kh.EveryFit.dto.JungmoDto;
-import com.kh.EveryFit.vo.JungmoMemberListVO;
-import com.kh.EveryFit.vo.MoimMemberStatusVO;
+import com.kh.EveryFit.dto.MoimDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,6 +58,20 @@ public class MoimRestController {
 //		moimDao.updateMoimInfo(vo);
 //	}
 	
+	@PostMapping("/infoChange")
+	public String infoChange(@ModelAttribute MoimDto moimDto) {
+	    int moimNo = Integer.parseInt(String.valueOf(moimDto.getMoimNo()));
+	    int locationNo = Integer.parseInt(String.valueOf(moimDto.getLocationNo()));
+	    int eventNo = Integer.parseInt(String.valueOf(moimDto.getEventNo()));
+
+	    // 변환된 값을 다시 yourDto에 설정
+	    moimDto.setMoimNo(moimNo);
+	    moimDto.setLocationNo(locationNo);
+	    moimDto.setEventNo(eventNo);
+
+		moimDao.updateMoimInfo(moimDto);
+		return "success";
+	}
 	
 	//모임회원차단
 //	@PostMapping("/memberBlock")
