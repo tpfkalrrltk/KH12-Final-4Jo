@@ -49,19 +49,16 @@ public class MemberController {
 	@PostMapping("/join")
 	public String join(
 			@ModelAttribute MemberDto dto) throws MessagingException, IOException {
-//		memberDao.insert(dto);
+		memberDao.insert(dto);
 		emailService.sendCelebration(dto.getMemberEmail());
-		return "/member/login";
+		return "redirect:/joinFinish";
 	}
 	
 	@RequestMapping("/joinFinsh")
 	public String joinFinish() {
-		return "/member/joinFinish";
+		return "secure/joinFinish";
 	}
 	
-	
-//	@RequestMapping("joinFinish")
-//	public
 	
 //	로그인
 	@GetMapping("/login")

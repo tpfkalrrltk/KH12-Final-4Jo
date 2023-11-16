@@ -60,7 +60,7 @@ a {
 											<input class="form-check-input" type="checkbox" value="ok"
 												id="flexCheckDefault" name="autoLogin">
 											<label class="form-check-label" for="flexCheckDefault">
-												로그인 상태 유지 </label>
+												아이디 저장 </label>
 										</c:otherwise>
 									</c:choose>
 								</div>
@@ -74,8 +74,8 @@ a {
 							</div>
 
 
-							<div class="mt-5">
-								<button type="submit" class="btn btn-success">login</button>
+							<div class="col-md-4 offset-md-4 mt-5 ">
+								<button type="submit" class="btn btn-success" style="width:350px;">login</button>
 							</div>
 
 						</div>
