@@ -22,14 +22,31 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap"
 	rel="stylesheet">
+	
+	
+	<link rel="preload" href="webfont-path" as="font" crossorigin />
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Noto Sans KR', 'Noto Sans KR']
+    }
+  });
+</script>
+	
 <style>
 @font-face {
-	font-family: NotoSansKR;
-	src: url("./fonts/NotoSansKR-VariableFont_wght.ttf");
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
-p {
-	font-family: NotoSansKR;
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#wrapper {
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .dropdown-menu {
@@ -104,6 +121,11 @@ p {
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+
+
+
+
+
 <script>
 	function startTime() {
 		const today = new Date();
@@ -146,21 +168,16 @@ p {
 			</button>
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav me-auto">
-					<li class="nav-item">
-						<h1>
-							<a class="nav-link " href="/member/join"> <i
-								class="fa-regular fa-id-card mt-2"></i> <span
-								class="visually-hidden">(current)</span>
-							</a>
-						</h1>
-					</li>
+				
+				
+			
 					<c:choose>
 						<c:when test="${sessionScope.name==null}">
 
 							<li class="nav-item">
 								<h1>
 									<a class="nav-link ms-3" href="/member/login"> <i
-										class="fa-solid fa-right-to-bracket mt-2"></i>
+										class="fa-solid fa-user mt-2"></i>
 									</a>
 								</h1>
 							</li>
@@ -170,17 +187,27 @@ p {
 							<li class="nav-item">
 								<h1>
 									<a class="nav-link ms-3" href="/member/logout"> <i
-										class="fa-solid fa-delete-left mt-2"></i>
+										class="fa-solid fa-user-slash mt-2"></i>
 									</a>
 								</h1>
 							</li>
 
 						</c:otherwise>
 					</c:choose>
+							<li class="nav-item">
+						<h1>
+							<a class="nav-link ms-3" href="/member/join"> <i
+								class="fa-solid fa-user-plus mt-2"></i> <span
+								class="visually-hidden">(current)</span>
+							</a>
+						</h1>
+					</li>
+					
+					
 					<li class="nav-item">
 						<h1>
 							<a class="nav-link ms-3" href=/member/mypage> 
-							<i class="fa-solid fa-user mt-2"></i>
+							<i class="fa-solid fa-user-gear mt-2"></i>
 							</a>
 						</h1>
 					</li>
@@ -197,7 +224,7 @@ p {
 
 					<li class="nav-item">
 						<h1>
-							<a class="nav-link ms-3" href=#"> <i
+							<a class="nav-link ms-3" href="#"> <i
 								class="fa-solid fa-route  mt-2"></i>
 							</a>
 						</h1>
@@ -205,7 +232,7 @@ p {
 
 					<li class="nav-item">
 						<h1>
-							<a class="nav-link ms-3" href=#"> <i
+							<a class="nav-link ms-3" href="#"> <i
 								class="fa-solid fa-people-group  mt-2"></i>
 							</a>
 						</h1>
