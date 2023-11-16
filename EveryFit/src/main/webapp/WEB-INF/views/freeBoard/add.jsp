@@ -18,6 +18,46 @@ textarea {
 }
 </style>
 
+<script>
+$(function(){
+	 $(".btn-save").click(function(){
+ 	   
+
+        var fileInput = $(".file-chooser")[0];
+
+        // 이미지 파일이 업로드되었는지 확인
+        if (fileInput.files.length == 0) {
+            event.preventDefault(); // 폼 제출을 막음
+            alert("이미지를 선택하세요.");
+            return;
+        }
+
+        var input =$(".file-chooser")[0];
+
+        if(input.files.length == 0) return;
+        var form = new FormData();
+        form.append("attach",input.files[0]);
+
+        $.ajax({
+            url:window.contextPath+"/kh12c",
+            method:"post",
+            processData:false,
+            contentType:false,
+            data:form,
+            success:function(response){
+                $("img").attr("src", window.contextPath+"/download?attachNo="+response.attachNo);
+                $("[name=attachNo]").val(response.attachNo);
+            },
+        });
+    });
+         
+}); 
+
+</script>
+
+
+
+
 
 <body>
 	<div class="container ">
@@ -78,7 +118,7 @@ textarea {
 					</div>
 					<div class="row">
 						<div class="col-10 offset-1">
-							<button type="submit" class="btn btn-primary w-100 m-5">등록</button>
+							<button type="submit" class="btn btn-primary w-100 m-5 btn-save">등록</button>
 						</div>
 					</div>
 				</form>

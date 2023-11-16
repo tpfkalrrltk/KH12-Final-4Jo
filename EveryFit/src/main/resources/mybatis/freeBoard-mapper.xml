@@ -112,9 +112,10 @@
 	</select>
 
 	<insert id="connect">
-		insert into free_boad_image( free_board_no, attach_no
-		)
-		values(#{freeBoardNo}, #{attachNo})
+		insert into free_board_image
+		( free_board_no, attach_no) values(#{freeBoardNo}, #{attachNo})
+
+
 	</insert>
 
 	<select id="findImage" resultType="FreeBoardDto">
@@ -125,6 +126,23 @@
 		where free_board_no
 		= #{freeBoardNo})
 	</select>
+
+
+	<insert id="insertFreeBoardImage" >
+		insert into free_board_image
+		(free_board_no, attach_no) values(#{freeBoardNo}, #{attachNo})
+	</insert>
+
+	
+
+	<delete id="deleteFreeBoardImage">
+		delete free_board_image where free_board_no = #{freeBoardNo}
+	</delete>
+
+
+	
+
+
 
 
 
