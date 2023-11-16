@@ -35,8 +35,8 @@
 	
 	<!-- 채팅방 만들기? -->
 	<insert id="createChatRoom">
-		insert into chat_room (chat_room_no)
-		values (#{chatRoomNo})
+		insert into chat_room chat_room_no
+		values #{chatRoomNo}
 	</insert>
 	
 	<!-- 채팅참가자 추가 -->
@@ -46,8 +46,9 @@
 	</insert>
 	
 	<!-- 회원의 참여 채팅방 조회 -->
-<!-- 	<select id="chatRoomNoByMemberEmail" resultType="list"> -->
-<!-- 		select chat_room_no from chat_entry where member_email = #{memberEmail} -->
-<!-- 	</select> -->
+	<select id="chatRoomNoByMemberEmail" resultType="list">
+		select chat_room_no from chat_entry 
+		where member_email = #{memberEmail}
+	</select>
 	
 </mapper>

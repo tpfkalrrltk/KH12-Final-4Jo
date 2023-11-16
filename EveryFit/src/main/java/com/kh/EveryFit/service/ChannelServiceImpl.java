@@ -66,6 +66,8 @@ public class ChannelServiceImpl implements ChannelService{
 		ChatRoomVO room = findRoom(chatRoomNo);
 		if(room == null) return;
 		
+		
+	
 		room.send(message);
 	}
 

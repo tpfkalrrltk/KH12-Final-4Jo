@@ -50,7 +50,7 @@
 </head>
 
 <body>
-    <div class="container-fluid mt-4">
+    <div class="container-fluid">
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
 				
@@ -61,7 +61,7 @@
 <!-- 						</h2> -->
 <!-- 				</div> -->
 				
-				<div class="row mt-5">
+				<div class="row">
 					<div class="col-md-4 client-list"></div>
 					<div class="col-md-8">
 						
@@ -137,6 +137,7 @@
 		//data.clients에 회원 목록이 있다
 		if(data.clients) { //목록처리
 			$(".client-list").empty();
+			console.log(data.clients);
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
 				if(myId == data.clients[i].memberEmail){

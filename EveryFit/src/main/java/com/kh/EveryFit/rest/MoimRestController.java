@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.EveryFit.dao.JungmoDao;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.vo.JungmoMemberListVO;
+import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,8 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rest/moim")
 public class MoimRestController {
 	
-	@Autowired
-	private JungmoDao jungmoDao;
+	@Autowired private JungmoDao jungmoDao;
+	@Autowired private MoimDao moimDao;
 	
 	//모임프로필사진 등록/삭제
 	//정모프로필사진 등록/삭제
@@ -41,19 +43,32 @@ public class MoimRestController {
 //	}
 
 	//정모 수정
-	@PostMapping("/edit")
-	public void edit(@ModelAttribute JungmoDto jungmoDto) {
-		jungmoDao.edit(jungmoDto);
-	}
+//	@PostMapping("/edit")
+//	public void edit(@ModelAttribute JungmoDto jungmoDto) {
+//		jungmoDao.edit(jungmoDto);
+//	}
 	//정모 목록
 //	@PostMapping("/list")
 //	public List<JungmoListByMoimNoVO> list(@RequestParam int moimNo) {
 //		return jungmoDao.selectList(moimNo);
 //	}
 	//정모회원리스트
-	@PostMapping("/memberList")
-	public List<JungmoMemberListVO> memberList(@RequestParam int jungmoNo) {
-		return jungmoDao.selectListByJungmoNo(jungmoNo);
-	}
+//	@PostMapping("/memberList")
+//	public List<JungmoMemberListVO> memberList(@RequestParam int jungmoNo) {
+//		return jungmoDao.selectListByJungmoNo(jungmoNo);
+//	}
+	
+//	@PostMapping("/genderCheck")
+//	public String genderCheck(@ModelAttribute genderCheckVO vo) {
+//		moimDao.updateMoimInfo(vo);
+//	}
+	
+	
+	//모임회원차단
+//	@PostMapping("/memberBlock")
+//	public String memberBlock(@RequestParam String memberEmail) {
+//		moimDao.updateMoimMember(memberEmail);
+//		return "Y";
+//	}
 
 }

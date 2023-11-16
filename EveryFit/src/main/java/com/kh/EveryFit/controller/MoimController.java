@@ -32,6 +32,7 @@ import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,21 +73,23 @@ public class MoimController {
 			@RequestParam MultipartFile attach, HttpSession session) throws IllegalStateException, IOException {
 		int moimNo = moimDao.sequence();
 		moimDto.setMoimNo(moimNo);
-		moimDao.insert(moimDto);
+		
 		
 		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
 		int chatRoomNo = chatDao.sequence();
+		log.debug("chatRoomNo");
 		
 		String memberEmail = (String)session.getAttribute("name");
 		chatDao.insertChatRoom(chatRoomNo);
 		//moimDto.setChatRoomNo에 넣기
 		moimDto.setChatRoomNo(chatRoomNo);
+
+		moimDao.insert(moimDto);
 		//채팅참가자 추가
 		chatDao.addChatMember(chatRoomNo, memberEmail);
 		//모임등록한 사람의 아이디를 moim_member 테이블에 insert 하기!
 		moimDao.addMoimJang(moimNo, memberEmail);
 		//모임등록한사람의 등급은 모임장으로 하자
-		
 		//첨부파일등록(파일있을때)
 		if(!attach.isEmpty()) {
 			//첨부파일등록(파일이 있을때만)
@@ -148,7 +151,31 @@ public class MoimController {
 		return "moim/create";
 	}
 	
+	//모임멤버차단
+	@RequestMapping("/memberBlock")
+	public String memberBlock(@RequestParam String memberEmail,
+							@RequestParam int moimNo, RedirectAttributes redirectAttributes) {
+		MoimMemberStatusVO vo = new MoimMemberStatusVO();
+		vo.setMemberBlock("memberBlock");
+		vo.setMemberEmail(memberEmail);
+		vo.setMoimNo(moimNo);
+		moimDao.updateMoimMember(vo);
+		redirectAttributes.addAttribute("block", true);
+		return "redirect:detail?moimNo="+moimNo;
+	}
 	
+	//모임멤버레벨확인
+	@RequestMapping("/memberApproval")
+	public String memberApproval(@RequestParam String memberEmail,
+					@RequestParam int moimNo, RedirectAttributes redirectAttributes) {
+		MoimMemberStatusVO vo = new MoimMemberStatusVO();
+		vo.setMemberApproval("memberApproval");
+		vo.setMemberEmail(memberEmail);
+		vo.setMoimNo(moimNo);
+		moimDao.updateMoimMember(vo);
+		redirectAttributes.addAttribute("approval", true);
+		return "redirect:detail?moimNo="+moimNo;
+	}
 	@GetMapping("/jungmo/create")
 	public String jungmoCreate(@RequestParam int moimNo) {
 		return "moim/jungmoCreate";
@@ -240,6 +267,13 @@ public class MoimController {
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
+	//정모수정
+	@RequestMapping("/jungmo/edit")
+	public String jungmoEdit(@RequestParam int jungmoNo, Model model) {
+		model.addAttribute("jungmoDto", jungmoDao.selectOneByJungmoNo(jungmoNo));
+		return "/moim/jungmoCreate";
+	}
+	
 	//정모취소(일정취소)
 	@RequestMapping("/jungmo/cancel")
 	public String jungmoCancel(@RequestParam int jungmoNo) {
@@ -247,5 +281,7 @@ public class MoimController {
 		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
+	
+
 	
 }
