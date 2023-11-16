@@ -29,17 +29,8 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 	}
 
 	@Override
-	public void edit(MoimBoardDto moimBoardDto, int moimBoardNo) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("no", moimBoardNo);
-		params.put("moimBoardDto", moimBoardDto);
-		sqlSession.update("MoimBoard.edit", params);
-
-	}
-
-	@Override
-	public void delete(int moimBoardNo) {
-		sqlSession.delete("MoimBoard.delete", moimBoardNo);
+	public boolean delete(int moimBoardNo) {
+		return sqlSession.delete("MoimBoard.delete", moimBoardNo)>0;
 
 	}
 
@@ -52,4 +43,32 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 	public MoimBoardDto selelctOne(int moimBoardNo) {
 		return sqlSession.selectOne("MoimBoard.selectOne",moimBoardNo);
 	}
+
+	@Override
+	public List<MoimBoardDto> listByMoimNo(int moimNo) {
+		return sqlSession.selectList("MoimBoard.listByMoimNo", moimNo);
+	}
+
+	@Override
+	public boolean edit(MoimBoardDto moimBoardDto) {
+		return sqlSession.update("MoimBoard.edit", moimBoardDto)>0;
+	}
+
+	@Override
+	public List<MoimBoardDto> listByMoimCategory(MoimBoardDto moimBoardDto) {
+		return sqlSession.selectList("MoimBoard.listByMoimCategory", moimBoardDto);
+	}
+
+	@Override
+	public List<MoimBoardDto> listByMoimNoSortedByCategory(int moimNo, String category) {
+		return sqlSession.selectList("MoimBoard.listByMoimNoSortedByCategory", Map.of("moimNo", moimNo, "category", category));
+	}
+	
+
+
+//	@Override
+//	public List<MoimBoardDto> listByMoimNo() {
+//		return sqlSession.selectList("MoimBoard.listByMoimNo");
+//	}
+
 }

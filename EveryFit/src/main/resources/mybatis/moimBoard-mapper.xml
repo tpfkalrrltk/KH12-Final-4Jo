@@ -35,30 +35,46 @@
 	<update id="edit">
 		update moim_board
 		<set>
-			<if test="moimBoardDto.moimBoardTitle != null">
+			<if test="moimBoardTitle != null">
 				moim_board_title =
-				#{moimBoardDto.moimBoardTitle},
+				#{moimBoardTitle},
 			</if>
-			<if test="moimBoardDto.moimBoardContent != null">
+			<if test="moimBoardContent != null">
 				moim_board_content =
-				#{moimBoardDto.moimBoardContent},
+				#{moimBoardContent},
 			</if>
-			<if test="moimBoardDto.moimBoardCategory != null">
+			<if test="moimBoardCategory != null">
 				moim_board_category =
-				#{moimBoardDto.moimBoardCategory},
+				#{moimBoardCategory},
 			</if>
 
 		</set>
-		where moim_board_no = #{no}
+		where moim_board_no = #{moimBoardNo}
 	</update>
 
 	<delete id="delete">
-		delete * from where moim_board_no = #{moimBoardNo}
+		delete moim_board where moim_board_no = #{moimBoardNo}
 	</delete>
 
 	<select id="selectOne" resultType="MoimBoardDto">
-		select * from where
+		select * from moim_board where
 		moim_board_no = #{moimBoardNo}
 	</select>
+<!-- 모임 번호에 따른 모임 게시판 목록 -->
+	<select id="listByMoimNo" resultType="MoimBoardDto">
+		SELECT * FROM moim_board WHERE moim_no= #{moimNo}
+	</select>
 
+<!-- 모임번호와 카테고리에 따른 모임 게시판 목록 -->
+	<select id="listByMoimCategory" resultType="MoimBoardDto">
+		SELECT * FROM moim_board WHERE moim_no= #{moimNo} AND moim_board_no_category = #{moimBoardCategory};
+	</select>
+
+<!-- 모임번호와 카테고리에 따른 모임 게시판 목록2 -->	
+	<select id="listByMoimNoSortedByCategory" resultType="MoimBoardDto">
+    SELECT * FROM moim_board
+    WHERE moim_no = #{moimNo}
+      AND moim_board_category = #{category}
+    ORDER BY moim_board_no DESC
+</select>
 </mapper>

@@ -8,8 +8,12 @@ public interface MoimBoardDao {
 
 	List<MoimBoardDto> list();
 	void add(MoimBoardDto moimBoardDto);
-	void edit(MoimBoardDto moimBoardDto, int moimBoardNo);
-	void delete(int moimBoardNo);
+	boolean delete(int moimBoardNo);
 	int sequence();
 	MoimBoardDto selelctOne(int moimBoardNo);
+	
+	List<MoimBoardDto> listByMoimNo(int moimNo);
+	List<MoimBoardDto> listByMoimCategory(MoimBoardDto moimBoardDto);
+	boolean edit(MoimBoardDto moimBoardDto);
+	List<MoimBoardDto> listByMoimNoSortedByCategory(int moimNo, String category);
 }
