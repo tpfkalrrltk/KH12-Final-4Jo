@@ -10,6 +10,7 @@ public class LeagueTeamDto {
 	private int leagueTeamNo;
     private int leagueNo;
     private int moimNo;
+    private String leagueTeamStatus;
     private Integer leagueTeamMatchCount;
     private Integer leagueTeamWin;
     private Integer leagueTeamLose;
@@ -17,4 +18,5 @@ public class LeagueTeamDto {
     private Integer leagueTeamG;
     private Integer leagueTeamD;
     private Integer leagueTeamGD;
+    private Integer leagueTeamPoint;
 }

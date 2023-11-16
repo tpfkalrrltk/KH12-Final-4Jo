@@ -1,7 +1,5 @@
 package com.kh.EveryFit.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +9,6 @@ import lombok.NoArgsConstructor;
 public class LeagueApplicationDto {
 	private Integer leagueApplicationNo;
     private Integer leagueNo;
-    private Date leagueApplicationStart;
-    private Date leagueApplicationEnd;
+    private String leagueApplicationStart;
+    private String leagueApplicationEnd;
 }

@@ -7,7 +7,7 @@
 
 	<select id="list" resultType="FreeBoardDto">
 		select * from free_board order by
-		free_board_no asc
+		free_board_no desc
 	</select>
 
 
@@ -20,7 +20,7 @@
 
 		insert into free_board(
 		free_board_no,
-		member_nick,
+		member_email,
 		free_board_title,
 		free_board_content,
 		free_board_category
@@ -28,7 +28,7 @@
 		values
 		(
 		#{freeBoardNo},
-		#{memberNick},
+		#{memberEmail},
 		#{freeBoardTitle},
 		#{freeBoardContent},
 		#{freeBoardCategory}
@@ -44,20 +44,20 @@
 	<update id="edit">
 		update free_board
 		<set>
-			<if test="freeBoardDto.freeBoardTitle != null">
-				free_board_title = #{freeBoardDto.freeBoardTitle},
+			<if test="freeBoardTitle != null">
+				free_board_title = #{freeBoardTitle},
 			</if>
-			<if test="freeBoardDto.memberNick != null">
-				member_nick= #{freeBoardDto.memberNick},
+			<if test="memberNick != null">
+				member_nick= #{memberNick},
 			</if>
-			<if test="freeBoardDto.freeBoardContent != null">
-				free_board_content = #{freeBoardDto.freeBoardContent},
+			<if test="freeBoardContent != null">
+				free_board_content = #{freeBoardContent},
 			</if>
-			<if test="freeBoardDto.freeBoardCategory != null">
-				free_board_category = #{freeBoardDto.freeBoardCategory}
+			<if test="freeBoardCategory != null">
+				free_board_category = #{freeBoardCategory}
 			</if>
 		</set>
-		where free_board_no = #{no}
+		where free_board_no = #{freeBoardNo}
 	</update>
 
 	<delete id="delete">
@@ -69,5 +69,82 @@
 		select * from free_board where
 		free_board_no = #{freeBoardNo}
 	</select>
+
+
+	<update id="replyCount">
+		update free_board set free_board_reply_count= (
+		select count(*) from free_board_reply where free_board_no = #{freeBoardNo})
+		where free_board_no =#{freeBoardNo}
+	</update>
+
+	<select id="selectList" resultType="BoardVO">
+		select * from free_board
+		where instr(${type},#{keyword}) > 0
+	</select>
+
+	<select id="countList" resultType="FreeBoardDto">
+		select count(*) from
+		free_board
+	</select>
+
+	<select id="selectListBySearchPage" resultType="FreeBoardDto"
+		parameterType="map">
+		SELECT * FROM
+		(SELECT * FROM free_board
+		where
+		instr(${type},#{keyword})>0
+		ORDER BY free_board_no DESC)
+		WHERE ROWNUM
+		between #{begin}
+		and #{end}
+	</select>
+
+	<select id="selectListByPage" resultType="FreeBoardDto"
+		parameterType="map">
+
+		select * from ( select rownum rn, TMP.* from(
+		select *
+		from free_board order by free_board_no desc
+		)TMP
+		) where rn between
+		#{begin}
+		and #{end}
+	</select>
+
+	<insert id="connect">
+		insert into free_board_image
+		( free_board_no, attach_no) values(#{freeBoardNo}, #{attachNo})
+
+
+	</insert>
+
+	<select id="findImage" resultType="FreeBoardDto">
+		select * from attach
+		where
+		attach_no = (
+		select attach_no from free_board_image
+		where free_board_no
+		= #{freeBoardNo})
+	</select>
+
+
+	<insert id="insertFreeBoardImage" >
+		insert into free_board_image
+		(free_board_no, attach_no) values(#{freeBoardNo}, #{attachNo})
+	</insert>
+
+	
+
+	<delete id="deleteFreeBoardImage">
+		delete free_board_image where free_board_no = #{freeBoardNo}
+	</delete>
+
+
+	
+
+
+
+
+
 
 </mapper>

@@ -1,6 +1,6 @@
 package com.kh.EveryFit.dto;
 
-import java.sql.Date;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class MemberDto {
 	private String memberGender;
 	private String memberContact;
 	private String memberBirth;
-//	private String memberLevel;
+	private String memberLevel;
 //	private Date memberJoin;
 //	private Date memberLogin;
 //	private Date memberPwChange;

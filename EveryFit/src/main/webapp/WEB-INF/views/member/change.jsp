@@ -66,8 +66,7 @@ a {
 
 							<div class="col-md-4 offset-md-4 text-center">
 								<label> 닉네임 </label> <input type="text" name="memberNick"
-									class="form-control" value="${memberDto.memberNick}" required
-									disabled>
+									class="form-control" value="${memberDto.memberNick}" required>
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-center">

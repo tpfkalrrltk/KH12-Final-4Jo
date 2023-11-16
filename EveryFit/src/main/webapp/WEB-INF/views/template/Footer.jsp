@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-</body>	
+
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,10 +25,25 @@
 p {
 	font-family: NotoSansKR;
 }
+
+#wrapper{
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 96px;
+}
+Footer{
+  height:10px;
+  position : relative;
+  transform : translateY(-100%);
+}
+
 </style>
 
 
-</section>
+
+</div>
+</body>
+
 
 
 
@@ -36,7 +51,7 @@ p {
 <footer>
 
 
-	<nav class=" bg-primary p-0" id="Footer">
+	<nav class=" bg-primary mt-5 p-0" id="Footer">
 
 		<div class="container p-0">
 			<div class='row ms-5'>

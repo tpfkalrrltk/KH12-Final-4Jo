@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.EventDto;
@@ -21,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class MemberDaoImpl implements MemberDao {
 
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -44,6 +48,9 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public void insert(MemberDto memberDto) {
+		String origin = memberDto.getMemberPw();
+		String encrypt = encoder.encode(origin);
+		memberDto.setMemberPw(encrypt);
 		sqlSession.insert("member.save", memberDto);
 //		log.debug("ss=${}",memberDto);
 	}
@@ -74,7 +81,8 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberDto selectOne(String memberEmail) {
 
-		return sqlSession.selectOne("member.findByMemberEmail", memberEmail);
+		MemberDto memberDto = sqlSession.selectOne("member.findByMemberEmail", memberEmail);
+		return memberDto; 
 	}
 
 	// 지역조회
@@ -114,9 +122,29 @@ public class MemberDaoImpl implements MemberDao {
 		sqlSession.update("member.changeMemberInfo", memberDto);
 	}
 	
+	@Override
+	public void deleteProfile(String memberId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MemberDto selectOneByMemberNick(String memberNick) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
-	
-	
+	@Override
+	public MemberDto login(MemberDto memberDto) {
+		MemberDto target = sqlSession.selectOne("Member.find", memberDto.getMemberEmail());
+		if(target != null) {//아이디가 존재한다면
+			boolean result = encoder.matches(memberDto.getMemberPw(), target.getMemberPw());
+			if(result == true) {//비밀번호가 암호화 도구에 의해 맞다고 판정된다면
+				return target;
+			}
+		}
+		return null;
+	}
 }
 
 //	로그인 시간 갱신 

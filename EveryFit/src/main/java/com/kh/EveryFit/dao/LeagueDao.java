@@ -9,6 +9,7 @@ import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 public interface LeagueDao {
 
@@ -28,12 +29,15 @@ public interface LeagueDao {
 	LeagueTeamDto selectOneLeagueTeam(int leagueTeamNo);
 	void updateLeagueTeam(LeagueTeamDto leagueTeamDto, int leagueTeamNo);
 	void deleteLeagueTeam(int leagueTeamNo);
+	List<LeagueTeamDto> listLeagueTeamNonApprove(int leagueNo);
+	List<LeagueTeamRankListVO> leagueTeamRank(int leagueNo);
+	boolean updateLeagueTeamStatus(int leagueTeamNo, String status);
 	
 	//리그 접수 관련
 	List<LeagueApplicationDto> selectLeagueApplcationList();
 	int leagueApplicationSeqeunce();
 	void insertLeagueApplication(LeagueApplicationDto leagueApplicationDto);
-	LeagueApplicationDto selectOneLeagueApplication(int leagueApplicationNo);
+	LeagueApplicationDto selectOneLeagueApplication(int leagueNo);
 	void updateLeagueApplication(int leagueApplicationNo, LeagueApplicationDto leagueApplicationDto);
 	void deleteLeagueApplication(int leagueApplicationNo);
 	
@@ -52,5 +56,6 @@ public interface LeagueDao {
 	LeagueMatchDto selectOneLeagueMatch(int leagueMatchNo);
 	void updateLeagueMatch(int leagueMatchNo, LeagueMatchDto leagueMatchDto);
 	void deleteLeagueMatch(int leagueMatchNo);
+	
 
 }

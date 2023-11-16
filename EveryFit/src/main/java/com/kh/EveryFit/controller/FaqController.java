@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.FaqDao;
 import com.kh.EveryFit.dto.FaqDto;
+import com.kh.EveryFit.dto.FreeBoardDto;
+import com.kh.EveryFit.vo.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,8 +29,12 @@ public class FaqController {
 	FaqDao faqDao;
 
 	@RequestMapping("/list")
-	public String list(Model model) {
-		List<FaqDto> faqList = faqDao.list();
+	public String list(Model model,
+			@ModelAttribute(name = "boardVO") BoardVO boardVO) {
+		int count = faqDao.countList(boardVO);
+		boardVO.setCount(count);
+		
+		List<FaqDto> faqList = faqDao.selectListByPage(boardVO);
 		model.addAttribute("faqList", faqList);
 		return "faq/list";
 	}
@@ -74,7 +80,7 @@ public class FaqController {
 	public String edit(@ModelAttribute FaqDto faqDto) {
 		boolean result = faqDao.edit(faqDto);
 		if (result) {
-			return "redirect:/faq/detail?";
+			return "redirect:/faq/detail?faqNo="+faqDto.getFaqNo();
 		} else {
 			return "redirect:error";
 		}

@@ -9,9 +9,9 @@
 <title>에브리핏</title>
 </head>
 <body>
-	<div class="container">
+	<div class="container ">
 
-		<div class="row">
+		<div class="row mt-5 p-5">
 			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
 
 				<h1 class="display-5 fw-bold">${faqDto.faqTitle}</h1>
@@ -70,7 +70,7 @@
 
 				</tr>
 				<tr>
-					<td class="fw-bold text-primary">${faqDto.faqContent}</td>
+					<td class="fw-bold text-primary">${faqDto.faqDetail}</td>
 
 				</tr>
 

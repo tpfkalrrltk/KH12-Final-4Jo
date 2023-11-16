@@ -37,15 +37,43 @@
 		<i class="fa-solid fa-trash-can fa-2x profile-delete"></i>
 		<br>
 	</div>
+<%-- 	<c:choose> --%>
+<%-- 	<c:when test="${moimDto != null}" > --%>
+<!-- 		<select name="locationNo"> -->
+<%-- 	    <c:forEach var="location" items="${locationList}"> --%>
+<%-- 	        <option value="${location.locationNo}"> --%>
+<%-- 	            ${location.locationDepth1} - ${location.locationDepth2} --%>
+<!-- 	        </option> -->
+<%-- 	    </c:forEach> --%>
+<!-- 	</select> -->
+<%-- 	</c:when> --%>
+<%-- 	<c:otherwise> --%>
+<!--      지역 -->
+<!-- 	<select name="locationNo"> -->
+<%-- 	    <c:forEach var="location" items="${locationList}"> --%>
+<%-- 	        <option value="${location.locationNo}"> --%>
+<%-- 	            ${location.locationDepth1} - ${location.locationDepth2} --%>
+<!-- 	        </option> -->
+<%-- 	    </c:forEach> --%>
+<!-- 	</select> -->
+<%-- 	</c:otherwise> --%>
+<%-- 	</c:choose> --%>
 
-     지역
-	<select name="locationNo">
-	    <c:forEach var="location" items="${locationList}">
-	        <option value="${location.locationNo}">
-	            ${location.locationDepth1} - ${location.locationDepth2}
-	        </option>
-	    </c:forEach>
-	</select>
+    <div class="row mt-4"><div class="col">
+		<label class="form-label">시/도</label>
+		<select class="form-select location-depth1">
+			<option value="">시/도</option>
+			<c:forEach var="locationDto" items="${locationList}">
+				<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
+			</c:forEach>
+		</select>
+		<label class="form-label">구/시 선택</label>
+		<select class="form-select" name="locationNo">
+			<option value="">시/도</option>
+		</select>
+    </div></div>
+
+
 	
      <br>
      종목 
@@ -112,30 +140,30 @@
 // 			},
 // 		});
 // 	});
-
-	$("[name=locationDepth1]").change(function(e){
-		var locationDepth1 = e.target.value;
-		console.log(locationDepth1)
-		$.ajax({
-			url:"http://localhost:8080/rest/location/depth2List",
-			type:"post",
-			data:{locationDepth1:locationDepth1},
-			success:function (data){
-				var select = $("[name=locationDepth2]");
-				
-				select.empty();
-				select.append('<option value="">구/시 선택</option>');
-				$.each(data, function(index, locationDto){
-					var depth2Value = locationDto.locationDepth2;
-					select.append('<option value="' + depth2Value + '">' + depth2Value + '</option>');
-				console.log(depth2Value);
-				});
-			},
-			error:function(){
-				alert('주소 로딩중 서버 에러 발생');
-			}
+	
+	$(".location-depth1").change(function(e){
+			var locationDepth1 = e.target.value;
+			console.log(locationDepth1)
+			$.ajax({
+				url:"http://localhost:8080/rest/location/depth2List",
+				type:"post",
+				data:{locationDepth1:locationDepth1},
+				success:function (data){
+					var select = $("[name=locationNo]");
+					
+					select.empty();
+					select.append('<option value="">구/시 선택</option>');
+					$.each(data, function(index, locationDto){
+						var depth2Value = locationDto.locationDepth2;
+						var locationNo = locationDto.locationNo;
+						select.append('<option value="' + locationNo + '">' + depth2Value + '</option>');
+					});
+				},
+				error:function(){
+					alert('주소 로딩중 서버 에러 발생');
+				}
+			});
 		});
-	});
 	
 	$("[name=moimGenderCheck]").click(function(e){
 	    var isChecked = $(this).prop("checked");

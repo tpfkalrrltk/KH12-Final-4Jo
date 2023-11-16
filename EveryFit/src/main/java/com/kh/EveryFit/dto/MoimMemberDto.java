@@ -11,4 +11,7 @@ public class MoimMemberDto {
     private String moimNo;
     private String moimMemberLevel;
     private String moimMemberStatus;
+    private String memberNick;
+    private String memberBlock;
+    private Integer attachNo;
 }
