@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,9 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender sender;
 	
+	@Autowired
+	 private BCryptPasswordEncoder encoder;
+
 
 	
 	
@@ -83,18 +87,16 @@ public class MemberController {
 	        return "redirect:login?error";
 	    }
 
-	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
-
+//	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+	    boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
 
 
 	    
-	    //[3] 비밀번호가 일치하면 메인페이지로 이동
-	    if (isCorrectPw) {
-	        session.setAttribute("name", inputDto.getMemberEmail());
-	        session.setAttribute("nickName", findDto.getMemberNick());
-
-	        // 로그인 시간 갱신
-	        // memberDao.updateMemberLogin(inputDto.getMemberEmail());
+	  //[3] 비밀번호가 일치하면 메인페이지로 이동
+	      if(isCorrectPw ) {
+	         //세션에 아이디+등급 저장
+	         session.setAttribute("name", findDto.getMemberEmail());
+	         session.setAttribute("level", findDto.getMemberLevel());
 
 	        // 아이디 저장하기를 체크했다면 쿠키 생성
 	        if (autoLogin != null) {
@@ -188,8 +190,11 @@ public class MemberController {
 			public String exit(HttpSession session, @RequestParam String memberPw) {
 				String memberEmail = (String)session.getAttribute("name");
 				MemberDto memberDto = memberDao.selectOne(memberEmail);
-				if(memberDto.getMemberPw().equals(memberPw)){//비밀번호 확인
+				boolean isCorrectPw = encoder.matches(memberPw,memberDto.getMemberPw());
+				if(isCorrectPw){//비밀번호 확인
+					
 				memberDao.delete(memberEmail);
+				
 				//로그아웃 
 				session.removeAttribute("name");//세션에서 name의 값을 삭제 
 				return "redirect:/";
@@ -216,7 +221,7 @@ public class MemberController {
 			//이메일 발송 코드 
 			SimpleMailMessage message = new SimpleMailMessage();
 			message.setTo(findDto.getMemberEmail());
-			message.setSubject("비밀번호 찾기 결과");
+			message.setSubject("[Every Fit] 임시비밀번호 안내");
 			message.setText(findDto.getMemberPw());
 			sender.send(message);
 			
@@ -230,7 +235,7 @@ public class MemberController {
 
 @RequestMapping("findPwFinish")
 public String findPwFinish() {
-	return"/member/Finish";
+	return"/member/findPwFinish";
 	}
 
 // 자동 로그인 쿠키 
