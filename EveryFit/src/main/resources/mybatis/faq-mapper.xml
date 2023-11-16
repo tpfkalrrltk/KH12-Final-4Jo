@@ -6,7 +6,7 @@
 
 	<select id="list" resultType="FaqDto">
 		select * from faq order by faq_no
-		asc
+		desc
 	</select>
 
 	<insert id="add">
@@ -32,23 +32,16 @@
 	</select>
 
 	<update id="edit">
-		update faq
-		<set>
-			<if test="faqDto.faqTitle != null">
-				faq_title=#{faqDto.faqTitle},
-			</if>
-			<if test="faqDto.faqDetail != null">
-				faq_detail=#{faqDto.faqDetail},
-			</if>
-			<if test="faqDto.faqCategory != null">
-				faq_category =#{faqDto.faqCategory},
-			</if>
-		</set>
-	where faq_no ={no}
+		update faq set
+		faq_title=#{faqTitle},
 
-	
-	
+		faq_detail=#{faqDetail},
+
+		faq_category =#{faqCategory}
+
+		where faq_no =#{faqNo}
 	</update>
+
 
 	<delete id="delete">
 		delete from faq where faq_no = #{faqNo}
@@ -58,5 +51,71 @@
 		select * from faq where faq_no
 		= #{faqNo}
 	</select>
+
+
+
+	<update id="replyCount">
+		update free_board set faq_replycount= (
+
+		select
+		count(*) from reply where reply_origin = #{replyOrigin})
+		where
+		faq_no = #{faqNo}
+	</update>
+
+	<select id="selectList" resultType="BoardVO">
+		select * from faq
+		where
+		instr(${type},#{keyword}) > 0
+	</select>
+
+	<select id="countList" resultType="FaqDto">
+		select count(*) from faq
+	</select>
+
+	<select id="selectListBySearchPage" resultType="FaqDto"
+		parameterType="map">
+		SELECT * FROM
+		(SELECT * FROM faq
+		where
+		instr(${type},#{keyword})>0
+		ORDER BY faq_no DESC)
+		WHERE ROWNUM between #{begin}
+		and #{end}
+	</select>
+
+	<select id="selectListByPage" resultType="FaqDto"
+		parameterType="map">
+
+		select * from ( select rownum rn, TMP.* from(
+		select *
+		from faq order by faq_no desc
+		)TMP
+		) where rn between #{begin}
+		and #{end}
+	</select>
+
+	<insert id="connect">
+		insert into faq_image ( faq_no, attach_no) values(#{faqNo}, #{attachNo})
+	</insert>
+
+	<select id="findImage" resultType="integer">
+		select attach_no from faq_image where faq_no = #{faqNo}
+	</select>
+
+
+	<insert id="insertFaqImage">
+		insert into faq_image
+		(faq_no,
+		attach_no) values(#{faqNo}, #{attachNo})
+	</insert>
+
+
+	<delete id="deleteFaqImage">
+		delete faq_image where faq_no = #{faqNo}
+	</delete>
+
+
+
 
 </mapper>

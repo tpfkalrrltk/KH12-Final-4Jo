@@ -33,11 +33,12 @@
 						<td>${leagueDto.leagueNo}</td>
 						<td>${leagueDto.eventName}</td>
 						<td>${leagueDto.leagueManager}</td>
-						<td><a href="">${leagueDto.leagueTitle}</a></td>
+						<td><a href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
 						<td>${leagueDto.leagueStatus}</td>
 						<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
 						<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-sm btn-primary">참가요강</a></td>
-						<td><i class="fa-solid fa-pen-to-square fa-lg edit-application btn"></i></td>
+						<td><i class="fa-solid fa-pen-to-square fa-lg edit-application btn"
+							data-league-no="${leagueDto.leagueNo}"></i></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -80,7 +81,7 @@
 </form>
 </div></div>
 
-<!-- Modal -->
+<!-- 접수 모달 -->
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -90,7 +91,9 @@
       </div>
       <div class="modal-body">
       <form id="appInsert" method="post">
-      	
+      	<input type="hidden" name="leagueNo">
+      	<input type="hidden" id="actionType" name="actionType" value="add">
+      	<input type="hidden" id="leagueApplicationNo" name="leagueApplicationNo" value="">
       	<div class="row">
       		<div class="col">
       			<label class="form-label">접수시작</label>
@@ -115,9 +118,9 @@
 
 <script>
 $(function(){
+	
 	$("[name=locationDepth1]").change(function(e){
 		var locationDepth1 = e.target.value;
-		console.log(locationDepth1)
 		$.ajax({
 			url:"http://localhost:8080/rest/location/depth2List",
 			type:"post",
@@ -138,10 +141,48 @@ $(function(){
 		});
 	});
 	
-	
+	var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
 	$(".edit-application").click(function(e){
-		var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
-		Modal.show();
+		var leagueNo = $(this).data('league-no');
+		$.ajax({
+			url:"http://localhost:8080/rest/league/findLeagueApplication",
+			type:"post",
+			data:{leagueNo:leagueNo},
+			success:function(data){
+				if(data==false){
+					$("#actionType").val("add");
+				}
+				else{
+					$("#actionType").val("edit");
+					$("#leagueApplicationNo").val(data.leagueApplicationNo);
+					$("#appInsert input[name='leagueApplicationStart']").val(data.leagueApplicationStart);
+					$("#appInsert input[name='leagueApplicationEnd']").val(data.leagueApplicationEnd);
+				}
+				Modal.show();
+			},
+			error: function(response) {
+			    console.log(response);
+			}
+		})
+		$("#appInsert input[name='leagueNo']").val(leagueNo);
+	});
+	
+	$("#appBtn").click(function(){
+		var formData = $("#appInsert").serialize();
+		var url = ($("#actionType").val() === "add") ? "http://localhost:8080/rest/league/addLeagueApplication" : "http://localhost:8080/rest/league/updateLeagueApplication";
+		$.ajax({
+			url:url,
+			type:"post", 
+			data:formData,
+			success:function(data){
+				alert("완료되었습니다");
+				Modal.hide();
+			},
+			error:function(){
+				alert("오류발생")
+				Modal.hide();
+			}
+		});
 	});
 });
 </script>

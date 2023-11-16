@@ -76,6 +76,14 @@
 	</select>
 </div></div>
 <div class="row mt-4"><div class="col">
+	<label class="form-label">최대 참여 가능 팀</label>
+       <input type="number" class="form-control" name="leagueTeamCount" value="${leagueDto.leagueTeamCount}">
+   </div></div>
+   <div class="row mt-4"><div class="col">
+	<label class="form-label">로스터 등록 정원</label>
+       <input type="number" class="form-control" name="leagueRoasterCount" value="${leagueDto.leagueRoasterCount}">
+   </div></div>
+<div class="row mt-4"><div class="col">
 	<button type="submit" class="btn btn-primary">수정</button>        
 </div></div>
 </form>

@@ -12,6 +12,7 @@ public class ChatDto {
 	private int chatNo;
 	private int chatRoomNo;
 	private String memberEmail;
-	private String chatMemtionTarget;
+	private String chatMentionTarget;
+	private String chatContent;
 	private Date chatTime;
 }

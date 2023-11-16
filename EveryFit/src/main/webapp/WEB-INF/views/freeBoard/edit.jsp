@@ -8,33 +8,57 @@
 <meta charset="UTF-8">
 <title>에브리핏</title>
 </head>
-<body>
-	<div class="container">
 
-		<div class="row">
+<style>
+textarea {
+	width: 100%;
+	height: 25em;
+	border: none;
+	resize: none;
+}
+</style>
+
+<body>
+	<div class="container ">
+
+		<div class="row mt-5 p-5">
 			<div class="col-5 offset-2 p-5 m-4 bg-primary rounded-3  text-light">
 
-				<h1 class="display-5 fw-bold">수정</h1>
+				<h1 class="display-5 fw-bold">${freeBoardDto.freeBoardTitle}
+					edit</h1>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-5 offset-1">
+				<p class="text-primary fw-bold">파일 :</p>
+				<label> <input type="file" name="attach"
+					class="w-100 file-chooser" style="display: none;" accept="image/*">
+					<img src="${pageContext.request.contextPath}/images/no-image.png"
+					width="200" height="200">
+				</label>
 			</div>
 		</div>
 
 
 
-
 		<div class="row mt-3">
 			<div class="col">
-				<form action="add" method="post">
-
+				<form action="edit" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="freeBoardNo"
+						value="${freeBoardDto.freeBoardNo}">
 					<div class="row">
-						<div class="col-2">
-							제목 : <input type="text" name="freeBoardTitle"
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">제목 :</p>
+							<input type="text" name="freeBoardTitle" class="form-control"
 								value="${freeBoardDto.freeBoardTitle}">
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-5">
-							카테고리 : <select name="freeBoardCategory"
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">카테고리 :</p>
+							<select name="freeBoardCategory" class="form-control"
 								value="${freeBoardDto.freeBoardCategory}">
 								<option class="fw-bold">회원</option>
 								<option class="fw-bold">모임</option>
@@ -45,13 +69,17 @@
 					</div>
 
 					<div class="row">
-						<div class="col">
-							내용 :
+						<div class="col offset-1">
+							<p class="text-primary fw-bold">내용 :</p>
 							<textarea rows="30" cols="52" name="freeBoardContent"
-								>${freeBoardDto.freeBoardContent}</textarea>
+								class="form-control">${freeBoardDto.freeBoardContent}</textarea>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">수정</button>
+					<div class="row">
+						<div class="col-10 offset-1">
+							<button type="submit" class="btn btn-primary w-100 m-5">수정</button>
+						</div>
+					</div>
 				</form>
 
 			</div>

@@ -58,7 +58,7 @@ public class JungmoDaoImpl implements JungmoDao{
 	
 	@Override
 	public int selectOneJungmoMemberCount(int jungmoNo) {
-		return sqlSession.selectOne("moim.jungmoMemberCount", int.class);
+		return sqlSession.selectOne("moim.jungmoMemberCount", jungmoNo);
 	}
 	
 	@Override
@@ -71,5 +71,18 @@ public class JungmoDaoImpl implements JungmoDao{
 	@Override
 	public List<JungmoWithMembersVO> selectTotalList(int moimNo) {
 		return sqlSession.selectList("moim.jungmoListAll", moimNo);
+	}
+	
+	@Override
+	public boolean cancel(int jungmoNo) {
+		return sqlSession.update("moim.deleteJungmo", jungmoNo) > 0;
+	}
+	
+	@Override
+	public String selectMemberEmail(String memberEmail, int jungmoNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberEmail", memberEmail);
+		params.put("jungmoNo", jungmoNo);
+		return sqlSession.selectOne("moim.memberCheck", params);
 	}
 }

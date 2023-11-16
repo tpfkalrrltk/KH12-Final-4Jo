@@ -9,6 +9,9 @@
 .jungmo-image {
 	width: 200px;
 }
+.member-profile {
+	width: 50px;
+}
 
 </style>
 
@@ -42,9 +45,7 @@
 
 
 			<div class="card border-primary mb-3 items-center" style="max-width: 50rem;">
-
 				<div class="card-body">
-
 
 
 		${profile}
@@ -52,11 +53,26 @@
 		<h1>모임 상세(사진, 모임명, 설명)</h1>
 		${moimDto.moimNo} ${locationDto.locationDepth1}
 		${locationDto.locationDepth2} ${eventDto.eventName}
+		
+		<a href="/default/${moimDto.chatRoomNo}">채팅방가기</a>
+		
 		<h1>회원목록</h1>
 		<c:forEach var="moimMemberDto" items="${memberList}">
+		<div class="card-body">
+		<c:choose>
+			<c:when test="${moimMemberDto.attachNo} != null">
+			<img src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}">
+			</c:when>
+			<c:otherwise>
+			<img class="member-profile rounded-circle bg-primary" src="/images/user.png">
+			</c:otherwise>
+		</c:choose>
 		${moimMemberDto.memberEmail}
 		${moimMemberDto.moimMemberLevel}
 		${moimMemberDto.moimMemberStatus}
+		${moimMemberDto.memberNick}
+		${moimMemberDto.memberBlock}
+		</div>
 	</c:forEach>
 			<hr>
 				<a class="btn btn-primary" href="jungmo/create?moimNo=${moimDto.moimNo}">정모등록</a>
@@ -74,28 +90,36 @@
 						<img class="jungmo-image" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
 					</div>
 					<div class="col-8">
-						${jungmoList}
+<%-- 						${jungmoList} --%>
 						정모번호 : ${jungmoList.jungmoListVO.jungmoNo}
 						정모명 : ${jungmoList.jungmoListVO.jungmoTitle}
-						${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
-					<button type="button" class="btn btn-info btn-join">
-					<a href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">참가</a>
-					    <c:if test="${param.error != null}">
-                        <script>
-                            alert("인원이 꽉 참!");
-                        </script>
+						상태 : ${jungmoList.jungmoListVO.jungmoStatus}
+						인원 : ${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
+					
+					<a class="btn btn-primary" href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">참가</a>
+					<a class="btn btn-warning" href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
+					<a class="btn btn-warning" href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모취소</a>
+                        
                         <div class="row">
                         <div class="col">
-                        	<c:forEach var="jungmoMemberList" items="${JungmoListVO.jungmoMemberList}">
-                       	 		이메일 ${jungmoMemberList}
+                        	<c:forEach var="jungmoMember" items="${jungmoList.jungmoMemberList}">
+		                    <div class="card-body">
+							<div class="col-4">
+                       	 		<c:choose>
+                       	 		<c:when test="${jungmoMember.attachNo} != null">
+                       	 		<img src="/rest/attach/download?attachNo=${jungmoMember.attachNo}">
+                       	 		</c:when>
+ 								<c:otherwise>
+                       	 		<img class="member-profile rounded-circle bg-primary" src="/images/user.png">
+ 								</c:otherwise>
+                       	 		</c:choose>
+                       	 		${jungmoMember.memberEmail}      
+                   	 		</div>
+                  	 		</div>                 	 		
                     		</c:forEach>
                         </div>
                         </div>
-                   		</c:if>
-					</button>
-					<button type="button" class="btn btn-warning">
-					<a href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
-					</button>
+
 					</div>
 					</div>
 				</div>
@@ -107,12 +131,23 @@
 
 				</div>
 			</div>
-
+			
+			
+			
+			
+<body>
+	<c:if test="${param.errorFlag != null}">
+	    <script>
+	    confirm("오류가발생");
+	    </script>
+	</c:if>
+</body>
 <script>
 
 // 	$(document).ready(function () {
 // 	    loadJungmoList();
 // 	});
+	    // 클라이언트 측에서 errorFlag를 확인하여 alert를 띄웁니다.
 
 	var moimNo = "${moimDto.moimNo}";
 	$(".profile-chooser").change(function(){
@@ -237,3 +272,4 @@
 	
 </script>
 
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

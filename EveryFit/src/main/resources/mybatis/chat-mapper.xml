@@ -4,28 +4,50 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="chat">
-
+	
+	
 	<insert id="add">
 		insert into chat(
-		chat_no, 
+		chat_no,
 		chat_room_no, 
 		member_email,
 		chat_mention_target, 
-		chat_content, 
-		chat_time
+		chat_content 
 		)
 		values(
-		#{chatNo}, 
+		chat_seq.nextval, 
 		#{chatRoomNo}, 
 		#{memberEmail}, 
 		#{chatMentionTarget}, 
-		#{chatContent},
-		#{chatTime}
+		#{chatContent}
 		)
 	</insert>
 	
 	<select id="list" resultType="ChatDto">
-		select * from chat order by chat_no asc
+		select * from chat 
+		where chat_room_no = #{chatRoomNo} 
+		order by chat_no asc
 	</select>
-
+	
+	<select id="sequence" resultType="int">
+		select chat_room_seq.nextval from dual
+	</select>
+	
+	<!-- 채팅방 만들기? -->
+	<insert id="createChatRoom">
+		insert into chat_room (chat_room_no)
+		values (#{chatRoomNo})
+	</insert>
+	
+	<!-- 채팅참가자 추가 -->
+	<insert id="addChatMember">
+		insert into chat_entry (chat_room_no, member_email) 
+		values(#{chatRoomNo}, #{memberEmail})
+	</insert>
+	
+	<!-- 회원의 참여 채팅방 조회 -->
+<!-- 	<select id="chatRoomNoByMemberEmail" resultType="list"> -->
+<!-- 		select chat_room_no from chat_entry where member_email = #{memberEmail} -->
+<!-- 	</select> -->
+	
 </mapper>

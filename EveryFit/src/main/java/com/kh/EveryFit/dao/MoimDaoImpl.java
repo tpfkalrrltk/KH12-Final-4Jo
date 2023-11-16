@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
+import com.kh.EveryFit.vo.CheckMoimListVO;
 
 @Repository
 public class MoimDaoImpl implements MoimDao {
@@ -35,6 +36,16 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public List<MoimMemberDto> selectAllMoimMembers(int moimNo) {
 		return sqlSession.selectList("moim.moimMemberList", moimNo);
+	}
+	
+	@Override
+	public List<MoimDto> moimListByEmail(String memberEmail) {
+		return sqlSession.selectList("moim.moimListByEmail", memberEmail);
+	}
+	
+	@Override
+	public List<MoimDto> checkMoimList(CheckMoimListVO vo) {
+		return sqlSession.selectList("moim.checkMoimList", vo);
 	}
 	
 	@Override
@@ -84,6 +95,22 @@ public class MoimDaoImpl implements MoimDao {
 			//예외 발생 시 null로 대체하여 반환
 			return null;
 		}
+	}
+	
+	@Override
+	public void addMoimJang(int moimNo, String memberEmail) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("moimNo", moimNo);
+	    params.put("memberEmail", memberEmail);
+		sqlSession.insert("moim.insertMoimJang", params);
+	}
+	
+	@Override
+	public void addMoimMember(int moimNo, String memberEmail) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("moimNo", moimNo);
+	    params.put("memberEmail", memberEmail);
+		sqlSession.insert("moim.insertMoimMember", params);
 	}
 	
 }
