@@ -10,14 +10,15 @@
 <c:choose>
 	<c:when test="${moimDto != null}">
 		<h1>모임수정</h1>
+<div class="container-fluid col-8 offset-2">
+<div class="row mt-4">
+<div class="card border-primary mb-3" style="max-width: 100rem;">
+</div></div></div>
 	</c:when>
 	<c:otherwise>
 		<h1>모임등록</h1>
 	</c:otherwise>
 </c:choose>
-<div class="container-fluid col-8 offset-2">
-<div class="row mt-4">
-<div class="card border-primary mb-3" style="max-width: 100rem;">
 
 <div class="row mt-4">
 	<c:if test="${profile != null}">
@@ -25,39 +26,16 @@
 			class="rounded profile-image">		
 	</c:if>
 <!--  라벨을 만들고 파일선택창을 숨김 -->
-<form method="post" enctype="multipart/form-data" autocomplete="off">
+<form method="post" enctype="multipart/form-data" autocomplete="off" >
 	<div class="row mt-4">
 		<label>
-		<input type="file" class="profile-chooser" 
-		name="attach" 
-		accept="image/*" multiple>
-
+		<input type="file" name="attach" accept="image/*" multiple id="attach-selector" >
+		
 		<i class="fa-solid fa-user fa-2x"></i>
 		</label>
 		<i class="fa-solid fa-trash-can fa-2x profile-delete"></i>
-		<br>
+		<div class="preview-wrapper1"></div>
 	</div>
-<%-- 	<c:choose> --%>
-<%-- 	<c:when test="${moimDto != null}" > --%>
-<!-- 		<select name="locationNo"> -->
-<%-- 	    <c:forEach var="location" items="${locationList}"> --%>
-<%-- 	        <option value="${location.locationNo}"> --%>
-<%-- 	            ${location.locationDepth1} - ${location.locationDepth2} --%>
-<!-- 	        </option> -->
-<%-- 	    </c:forEach> --%>
-<!-- 	</select> -->
-<%-- 	</c:when> --%>
-<%-- 	<c:otherwise> --%>
-<!--      지역 -->
-<!-- 	<select name="locationNo"> -->
-<%-- 	    <c:forEach var="location" items="${locationList}"> --%>
-<%-- 	        <option value="${location.locationNo}"> --%>
-<%-- 	            ${location.locationDepth1} - ${location.locationDepth2} --%>
-<!-- 	        </option> -->
-<%-- 	    </c:forEach> --%>
-<!-- 	</select> -->
-<%-- 	</c:otherwise> --%>
-<%-- 	</c:choose> --%>
 
     <div class="row mt-4"><div class="col">
 		<label class="form-label">시/도</label>
@@ -73,8 +51,6 @@
 		</select>
     </div></div>
 
-
-	
      <br>
      종목 
      <select name="eventNo">
@@ -87,59 +63,45 @@
 	<input type="hidden" name="moimMemberCount" value=30>
 	
 	여성전용 <input type="checkbox" name="moimGenderCheck">
-	<input type="hidden" name="chatRoomNo" value="${moimDto.chatRoomNo}">
 	<button type="submit">등록</button>
 </form>
-</div>
-</div>
-</div>
 </div>
 
 
 <script>
-// //변경버튼을 누르면 프로필을 업로드하고 이미지 교체
-// //파일이 바뀌면 프로필을 업로드하고 이미지 교체
-// 	$(".profile-chooser").change(function(){
-// 		var input = this;
-// 		if(input.files.length == 0) return;
-	
-// 		//ajax로 multipart 업로드
-// 		var form = new FormData();
-// 		form.append("attach", input.files[0]);
-	
-// 		$.ajax({
-// 			url:window.contextPath+"/rest/attach/upload",
-// 			method:"post",
-// 			processData:false,
-// 			contentType:false,
-// 			data:form,
-// 			success:function(response){
-// 				//응답 형태 - { "attachNo" : 7 }
-// 				//프로필 이미지 교체
-// 				$(".profile-image").attr("src", 
-// 					"/rest/attach/download?attachNo="+response.attachNo);
-// 			},
-// 			error:function(){
-// 				window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
-// 			},
-// 		});
-	
-// 	});
-// 	//삭제아이콘을 누르면 프로필이 제거되도록 구현
-// 	$(".profile-delete").click(function() {
-// 		//확인창
-// 		var choice = window.confirm("정말 프로필을 지우시겠습니까?");
-// 		if(choice == false) return;
-	
-// 		//삭제요청
-// 		$.ajax({
-// 			url:window.contextPath+"/rest/attach/delete",
-// 			method:"post",
-// 			success:function(response){
-// 				$(".profile-image").attr("src", "/images/user.png");
-// 			},
-// 		});
-// 	});
+		
+    $(function(){
+        $("#attach-selector").change(function(){
+        	 $(".preview-wrapper1").empty();
+        	
+        	 if(this.files.length == 0) {
+                //초기화
+                return;
+            }
+            
+
+            //파일 미리보기는 서버 업로드와 관련이 없다
+            //- 서버에 올릴거면 따로 처리를 또 해야 한다
+
+            //[1] 자동으로 생성되는 미리보기 주소를 연결
+//             for(let i=0; i < this.files.length; i++) {
+//                 $("<img>").attr("src", URL.createObjectURL(this.files[i]))
+//                                 .css("max-width", "300px")
+//                                 .appendTo(".preview-wrapper1");
+//             }
+            
+            //[2] 직접 읽어서 내용을 설정하는 방법
+            let reader = new FileReader();
+            reader.onload = ()=>{
+                $("<img>").attr("src", reader.result)//data;로 시작하는 엄청많은 실제이미지 글자
+                                .css("max-width", "300px")
+                                .appendTo(".preview-wrapper1");
+            };
+            for(let i=0; i < this.files.length; i++) {
+                reader.readAsDataURL(this.files[i]);
+            }
+        });
+    });
 	
 	$(".location-depth1").change(function(e){
 			var locationDepth1 = e.target.value;
