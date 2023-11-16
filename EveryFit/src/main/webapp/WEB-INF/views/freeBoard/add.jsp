@@ -19,42 +19,44 @@ textarea {
 </style>
 
 <script>
-$(function(){
-	 $(".btn-save").click(function(){
- 	   
-         var freeBoardTitle = $("[name=freeBoardTitle]").val();
-         var freeBoardContent = $("[name=freeBoardContent]").val();
-        var fileInput = $(".file-chooser")[0];
+	$(function() {
+		$(".btn-save").click(
+				function() {
 
-      
-        
-        if (freeBoardTitle.length == 0  || freeBoardContent.length == 0) {
-            event.preventDefault(); 
-            alert("제목과 내용을 입력해주세요.");
-        }
-        
+					var freeBoardTitle = $("[name=freeBoardTitle]").val();
+					var freeBoardContent = $("[name=freeBoardContent]").val();
+					var fileInput = $(".file-chooser")[0];
 
-        var input =$(".file-chooser")[0];
+					if (freeBoardTitle.length == 0
+							|| freeBoardContent.length == 0) {
+						event.preventDefault();
+						alert("제목과 내용을 입력해주세요.");
+					}
 
-        if(input.files.length == 0) return;
-        var form = new FormData();
-        form.append("attach",input.files[0]);
+					var input = $(".file-chooser")[0];
 
-        $.ajax({
-            url:window.contextPath+"/freeBoard",
-            method:"post",
-            processData:false,
-            contentType:false,
-            data:form,
-            success:function(response){
-                $("img").attr("src", window.contextPath+"/download?attachNo="+response.attachNo);
-                $("[name=attachNo]").val(response.attachNo);
-            },
-        });
-    });
-         
-}); 
+					if (input.files.length == 0)
+						return;
+					var form = new FormData();
+					form.append("attach", input.files[0]);
 
+					$.ajax({
+						url : window.contextPath + "/freeBoard",
+						method : "post",
+						processData : false,
+						contentType : false,
+						data : form,
+						success : function(response) {
+							$("img").attr(
+									"src",
+									window.contextPath + "/download?attachNo="
+											+ response.attachNo);
+							$("[name=attachNo]").val(response.attachNo);
+						},
+					});
+				});
+
+	});
 </script>
 
 
@@ -71,42 +73,45 @@ $(function(){
 			</div>
 		</div>
 
-
+		<div class="row">
+			<div class="col-5 offset-1">
+				<p class="text-primary fw-bold">파일 :</p>
+				<label> <input type="file" name="attach"
+					class="w-100 file-chooser" style="display: none;" accept="image/*">
+					<img src="${pageContext.request.contextPath}/images/no-image.png"
+					width="200" height="200">
+				</label>
+			</div>
+		</div>
 
 
 		<div class="row mt-3">
 			<div class="col">
-				<form action="add" method="post" enctype="multipart/form-data" autocomplete="off">
+				<form action="add" method="post" enctype="multipart/form-data"
+					autocomplete="off">
 
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">제목 :</p>
-							<input type="text" name="freeBoardTitle" class="form-control">
+							<input type="text" name="freeBoardTitle"
+								class="form-control  fw-bold bg-primary text-light">
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-5 offset-1">
-							<p class="text-primary fw-bold">파일 :</p>
-							<label> <input type="file" name="attach"
-								class="w-100 file-chooser" style="display: none;"
-								accept="image/*"> <img
-								src="${pageContext.request.contextPath}/images/no-image.png"
-								width="200" height="200">
-							</label>
-						</div>
-					</div>
+
 
 
 
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">카테고리 :</p>
-							<select name="freeBoardCategory" class="form-select">
-								<option>회원</option>
-								<option>모임</option>
-								<option>운동</option>
-								<option>장소</option>
+							<select name="freeBoardCategory"
+								class="form-select fw-bold bg-primary text-light ">
+								<option class="fw-bold bg-primary text-light">자유</option>
+								<option class="fw-bold bg-primary text-light">회원</option>
+								<option class="fw-bold bg-primary text-light">모임</option>
+								<option class="fw-bold bg-primary text-light">운동</option>
+								<option class="fw-bold bg-primary text-light">장소</option>
 							</select>
 						</div>
 					</div>
@@ -115,12 +120,12 @@ $(function(){
 						<div class="col offset-1">
 							<p class="text-primary fw-bold">내용 :</p>
 							<textarea rows="30" cols="52" name="freeBoardContent"
-								class="form-control"></textarea>
+								class="form-control fw-bold bg-primary text-light"></textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-10 offset-1">
-							<button type="submit" class="btn btn-primary w-100 m-5 btn-save">등록</button>
+							<button type="submit" class="btn btn-primary w-100 m-5 btn-save fw-bold">등록</button>
 						</div>
 					</div>
 				</form>

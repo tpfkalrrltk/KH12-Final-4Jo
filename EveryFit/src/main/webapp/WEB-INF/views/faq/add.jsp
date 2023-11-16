@@ -70,21 +70,7 @@ textarea {
 			</div>
 		</div>
 
-
-
-
-		<div class="row mt-3">
-			<div class="col">
-				<form action="add" method="post" enctype="multipart/form-data">
-
-					<div class="row">
-						<div class="col-5 offset-1">
-							<p class="text-primary fw-bold">제목 :</p>
-							<input type="text" name="faqTitle" class="form-control">
-						</div>
-					</div>
-
-					<div class="row">
+	<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">파일 :</p>
 							<label> <input type="file" name="attach"
@@ -97,14 +83,30 @@ textarea {
 					</div>
 
 
+		<div class="row mt-3">
+			<div class="col">
+				<form action="add" method="post" enctype="multipart/form-data">
+
+					<div class="row">
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">제목 :</p>
+							<input type="text" name="faqTitle" class="form-control fw-bold bg-primary text-light">
+						</div>
+					</div>
+
+				
+
+
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">카테고리 :</p>
-							<select name="faqCategory" class="form-select">
-								<option>회원</option>
-								<option>모임</option>
-								<option>운동</option>
-								<option>장소</option>
+							<select name="faqCategory" class="form-select fw-bold bg-primary text-light" >
+								<option class="fw-bold bg-primary text-light">공지사항</option>
+								<option class="fw-bold bg-primary text-light">이용방법</option>
+								<option class="fw-bold bg-primary text-light">이벤트</option>
+								<option class="fw-bold bg-primary text-light">일반</option>
+								<option class="fw-bold bg-primary text-light">계정</option>
+								<option class="fw-bold bg-primary text-light">모임</option>
 							</select>
 						</div>
 					</div>
@@ -113,12 +115,12 @@ textarea {
 						<div class="col offset-1">
 							<p class="text-primary fw-bold">내용 :</p>
 							<textarea rows="30" cols="52" name="faqDetail"
-								class="form-control"></textarea>
+								class="form-control fw-bold bg-primary text-light"></textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-10 offset-1">
-							<button type="submit" class="btn btn-primary w-100 m-5 btn-save">등록</button>
+							<button type="submit" class="btn btn-primary w-100 m-5 btn-save fw-bold">등록</button>
 						</div>
 					</div>
 				</form>

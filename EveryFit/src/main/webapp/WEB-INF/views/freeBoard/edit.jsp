@@ -28,7 +28,7 @@ textarea {
 					edit</h1>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-5 offset-1">
 				<p class="text-primary fw-bold">파일 :</p>
@@ -50,7 +50,7 @@ textarea {
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">제목 :</p>
-							<input type="text" name="freeBoardTitle" class="form-control"
+							<input type="text" name="freeBoardTitle" class="form-control fw-bold bg-primary text-light"
 								value="${freeBoardDto.freeBoardTitle}">
 						</div>
 					</div>
@@ -58,12 +58,13 @@ textarea {
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">카테고리 :</p>
-							<select name="freeBoardCategory" class="form-control"
+							<select name="freeBoardCategory" class="form-control fw-bold bg-primary text-light"
 								value="${freeBoardDto.freeBoardCategory}">
-								<option class="fw-bold">회원</option>
-								<option class="fw-bold">모임</option>
-								<option class="fw-bold">운동</option>
-								<option class="fw-bold">장소</option>
+								<option class="fw-bold bg-primary text-light">자유</option>
+								<option class="fw-bold bg-primary text-light">회원</option>
+								<option class="fw-bold bg-primary text-light">모임</option>
+								<option class="fw-bold bg-primary text-light">운동</option>
+								<option class="fw-bold bg-primary text-light">장소</option>
 							</select>
 						</div>
 					</div>
@@ -72,12 +73,12 @@ textarea {
 						<div class="col offset-1">
 							<p class="text-primary fw-bold">내용 :</p>
 							<textarea rows="30" cols="52" name="freeBoardContent"
-								class="form-control">${freeBoardDto.freeBoardContent}</textarea>
+								class="form-control fw-bold bg-primary text-light">${freeBoardDto.freeBoardContent}</textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-10 offset-1">
-							<button type="submit" class="btn btn-primary w-100 m-5">수정</button>
+							<button type="submit" class="btn btn-primary w-100 m-5 fw-bold">수정</button>
 						</div>
 					</div>
 				</form>
