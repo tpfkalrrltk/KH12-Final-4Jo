@@ -2,11 +2,17 @@ package com.kh.EveryFit.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.EveryFit.configuration.FileUploadProperties;
@@ -23,6 +30,7 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.FreeBoardDto;
 import com.kh.EveryFit.vo.BoardVO;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -64,29 +72,34 @@ public class FreeBoardController {
 			throws IllegalStateException, IOException {
 		boolean result = freeBoardDao.edit(freeBoardDto);
 
-		if (!attach.isEmpty()) {
-			AttachDto attachDto = freeBoardDao.findImage(freeBoardDto.getFreeBoardNo());
+		if (!attach.isEmpty()) { // 파일이 있으면
+			// 파일 삭제
+			Integer findImageNo = freeBoardDao.findImage(freeBoardDto.getFreeBoardNo());
+			String home = "C:/upload/kh12fd";
+			File dir = new File(home, "freeBoard");
+			dir.mkdirs();
+			if (findImageNo != null) {
+				attachDao.delete(findImageNo);
 
-			if (attachDto != null) {
-				attachDao.delete(attachDto.getAttachNo());
-				File target = new File(dir, String.valueOf(attachDto.getAttachNo()));
+				File target = new File(dir, String.valueOf(findImageNo));
 				target.delete();
 			}
 
+			// 파일 추가 및 연결
+			int attachNo = attachDao.sequence();
+
+			File insertTarget = new File(dir, String.valueOf(attachNo));
+			attach.transferTo(insertTarget);
+
+			AttachDto insertDto = new AttachDto();
+			insertDto.setAttachNo(attachNo);
+			insertDto.setAttachName(attach.getOriginalFilename());
+			insertDto.setAttachSize(attach.getSize());
+			insertDto.setAttachType(attach.getContentType());
+			attachDao.insert(insertDto);
+
+			freeBoardDao.connect(freeBoardDto.getFreeBoardNo(), attachNo);// 상품 번호 + 파일 연결
 		}
-
-		int attachNo = attachDao.sequence();
-		File target = new File(dir, String.valueOf(attachNo));
-		attach.transferTo(target);
-
-		AttachDto attachDto = new AttachDto();
-		attachDto.setAttachNo(attachNo);
-		attachDto.setAttachName(attach.getOriginalFilename());
-		attachDto.setAttachSize(attach.getSize());
-		attachDto.setAttachType(attach.getContentType());
-		attachDao.insert(attachDto);
-
-		freeBoardDao.connect(freeBoardDto.getFreeBoardNo(), attachNo);
 
 		if (result) {
 			return "redirect:/freeBoard/detail?freeBoardNo=" + freeBoardDto.getFreeBoardNo();
@@ -103,6 +116,7 @@ public class FreeBoardController {
 	@PostMapping("/add")
 	public String add(@ModelAttribute FreeBoardDto freeBoardDto, HttpSession session,
 			@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+
 		int freeBoardNo = freeBoardDao.sequence();
 		freeBoardDto.setFreeBoardNo(freeBoardNo);
 		String memberNickName = (String) session.getAttribute("nickName");
@@ -111,6 +125,10 @@ public class FreeBoardController {
 
 		if (!attach.isEmpty()) {
 			int attachNo = attachDao.sequence();
+
+			String home = "C:/upload/kh12fd";
+			File dir = new File(home, "freeBoard");
+			dir.mkdirs();
 			File target = new File(dir, String.valueOf(attachNo));
 			attach.transferTo(target);
 
@@ -138,6 +156,12 @@ public class FreeBoardController {
 	public String detail(@RequestParam int freeBoardNo, Model model) {
 		FreeBoardDto freeBoardDto = freeBoardDao.selectOne(freeBoardNo);
 		model.addAttribute("freeBoardDto", freeBoardDto);
+
+		Integer freeBoardImage = freeBoardDao.findImage(freeBoardNo);
+		model.addAttribute("freeBoardImage", freeBoardImage);
+
+
 		return "freeBoard/detail";
 	}
+
 }

@@ -166,24 +166,29 @@ public class FreeBoardImpl implements FreeBoardDao {
 	}
 
 	@Override
-	public AttachDto findImage(int freeBoardNo) {
-	
-		return sqlSession.selectOne("freeBoard.findImage",freeBoardNo);
+	public Integer findImage(Integer freeBoardNo) {
+		try {
+			return sqlSession.selectOne("freeBoard.findImage", freeBoardNo);
+		} 
+		catch (Exception e) {
+			return null;
+		}
+			
 	}
 
 	@Override
 	public boolean deleteFreeBoardImage(int freeBoardNo) {
 		return sqlSession.delete("freeBoard.deleteFreeBoardImage", freeBoardNo) > 0;
-		
+
 	}
 
 	@Override
 	public void insertFreeBoardImage(int freeBoardNo, int attachNo) {
-		  Map<String, Object> params = new HashMap<>();
-		    params.put("freeBoardNo", freeBoardNo);
-		    params.put("attachNo", attachNo);
-			sqlSession.insert("freeBoard.insertFreeBoardImage", params);
-		
+		Map<String, Object> params = new HashMap<>();
+		params.put("freeBoardNo", freeBoardNo);
+		params.put("attachNo", attachNo);
+		sqlSession.insert("freeBoard.insertFreeBoardImage", params);
+
 	}
 
 }

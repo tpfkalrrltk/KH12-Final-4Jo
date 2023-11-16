@@ -34,7 +34,7 @@ textarea {
 				}
 			});
 		});
-		
+
 		reloadList();
 		function reloadList() {
 			var params = new URLSearchParams(location.search);
@@ -66,7 +66,8 @@ textarea {
 								if (memberId.length == 0
 										|| memberId != reply.memberEmail) {
 
-									$(htmlTemplate).find(".replyButton").empty();
+									$(htmlTemplate).find(".replyButton")
+											.empty();
 								}
 								$(htmlTemplate)
 										.find(".btn-delete")
@@ -299,7 +300,21 @@ textarea {
 
 				</tr>
 				<tr>
-					<td class="fw-bold text-primary">${freeBoardDto.freeBoardContent}</td>
+					<td class="fw-bold text-primary">
+						<div>
+							<c:choose>
+								<c:when test="${freeBoardImage == null}">
+								</c:when>
+								<c:otherwise>
+									<img
+										src="/freeBoard/rest/attach/download?attachNo=${freeBoardImage}"
+										class="rounded profile-image">
+								</c:otherwise>
+							</c:choose>
+							${freeBoardDto.freeBoardContent}
+						</div>
+
+					</td>
 
 				</tr>
 

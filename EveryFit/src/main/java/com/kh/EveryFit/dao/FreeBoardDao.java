@@ -48,7 +48,7 @@ public interface FreeBoardDao {
 
 	void connect(int freeBoardNo, int attachNo);
 
-	AttachDto findImage(int freeBoardNo);
+
 	
 	
 	
@@ -56,6 +56,8 @@ public interface FreeBoardDao {
 	boolean deleteFreeBoardImage(int freeBoardNo);
 
 	void insertFreeBoardImage(int freeBoardNo, int attachNo);
+
+	Integer findImage(Integer freeBoardNo);
 	
 	
 	
