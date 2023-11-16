@@ -14,6 +14,7 @@ import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
+import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 
@@ -66,5 +67,10 @@ public class LeagueRestController {
 		String status;
 		status = origin.equals("N") ? "Y" : "N";
 		return leagueDao.updateLeagueTeamStatus(leagueTeamNo, status); 
+	}
+	
+	@PostMapping("/loadLeagueTeamList")
+	public List<LeagueTeamDto> loadLeagueTeamList(@RequestParam int leagueNo){
+		return leagueDao.listLeagueTeamByLeague(leagueNo);
 	}
 }

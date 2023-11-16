@@ -29,6 +29,7 @@ public interface LeagueDao {
 	LeagueTeamDto selectOneLeagueTeam(int leagueTeamNo);
 	void updateLeagueTeam(LeagueTeamDto leagueTeamDto, int leagueTeamNo);
 	void deleteLeagueTeam(int leagueTeamNo);
+	List<LeagueTeamDto> listLeagueTeamByLeague(int leagueNo);
 	List<LeagueTeamDto> listLeagueTeamNonApprove(int leagueNo);
 	List<LeagueTeamRankListVO> leagueTeamRank(int leagueNo);
 	boolean updateLeagueTeamStatus(int leagueTeamNo, String status);
@@ -52,10 +53,10 @@ public interface LeagueDao {
 	//리그 경기 관련
 	int leagueMatchSequence();
 	void insertLeagueMatch(LeagueMatchDto leagueMatchDto);
-	List<LeagueMatchDto> selectLeagueMatchList();
 	LeagueMatchDto selectOneLeagueMatch(int leagueMatchNo);
 	void updateLeagueMatch(int leagueMatchNo, LeagueMatchDto leagueMatchDto);
 	void deleteLeagueMatch(int leagueMatchNo);
+	List<LeagueMatchDto> selectLeagueMatchList(int leagueNo);
 	
 
 }

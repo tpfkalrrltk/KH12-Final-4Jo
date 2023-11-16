@@ -10,6 +10,7 @@ public class LeagueTeamDto {
 	private int leagueTeamNo;
     private int leagueNo;
     private int moimNo;
+    private String leagueTeamName;
     private String leagueTeamStatus;
     private Integer leagueTeamMatchCount;
     private Integer leagueTeamWin;
