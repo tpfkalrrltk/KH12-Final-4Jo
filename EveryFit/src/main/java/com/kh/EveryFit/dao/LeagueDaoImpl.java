@@ -183,11 +183,6 @@ public class LeagueDaoImpl implements LeagueDao{
 	}
 	
 	@Override
-	public List<LeagueMatchDto> selectLeagueMatchList() {
-		return sqlSession.selectList("league.listLeagueMatch");
-	}
-	
-	@Override
 	public LeagueMatchDto selectOneLeagueMatch(int leagueMatchNo) {
 		LeagueMatchDto leagueMatchDto = sqlSession.selectOne("league.findLeagueMatch", leagueMatchNo);
 		if(leagueMatchDto==null) throw new NoTargetException();
@@ -222,5 +217,15 @@ public class LeagueDaoImpl implements LeagueDao{
 		Map<String, Object> param = Map.of("leagueTeamNo", leagueTeamNo, "status", status);
 		sqlSession.update("league.updateLeagueTeamStatus", param);
 		return false;
+	}
+	
+	@Override
+	public List<LeagueTeamDto> listLeagueTeamByLeague(int leagueNo) {
+		return sqlSession.selectList("league.listLeagueTeamByLeague", leagueNo);
+	}
+	
+	@Override
+	public List<LeagueMatchDto> selectLeagueMatchList(int leagueNo) {
+		return sqlSession.selectList("league.listLeagueMatch", leagueNo);
 	}
 }

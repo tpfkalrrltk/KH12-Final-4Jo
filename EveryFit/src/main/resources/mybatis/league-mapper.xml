@@ -118,8 +118,8 @@
     
     <!-- 리그팀 추가 -->
     <insert id="insertLeagueTeam">
-        INSERT INTO league_team (league_team_no, league_no, moim_no)
-        VALUES (#{leagueTeamNo}, #{leagueNo}, #{moimNo})
+        INSERT INTO league_team (league_team_no, league_no, moim_no, league_team_name)
+        VALUES (#{leagueTeamNo}, #{leagueNo}, #{moimNo}, #{leagueTeamName})
     </insert>
     
     <!-- 리그팀 조회 -->

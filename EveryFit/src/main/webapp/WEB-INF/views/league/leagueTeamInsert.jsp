@@ -12,6 +12,10 @@
 <input type="hidden" name="leagueNo" value="${param.leagueNo}">
 <input type="hidden" name="moimNo" value="${param.moimNo}">
 <div class="row"><div class="col">
+	<lable class="form-label">팀이름</lable>
+	<input type="text" class="form-control" name="leagueTeamName">
+</div></div>
+<div class="row"><div class="col">
 	<c:forEach var="memberDto" items="${memberList}">
 		<div class="form-check">
 		<input class="form-check-input" id="flexCheckChecked" type="checkbox" name="memberEmail" 
