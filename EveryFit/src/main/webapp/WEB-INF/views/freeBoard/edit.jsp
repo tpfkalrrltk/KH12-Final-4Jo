@@ -24,27 +24,41 @@ textarea {
 		<div class="row mt-5 p-5">
 			<div class="col-5 offset-2 p-5 m-4 bg-primary rounded-3  text-light">
 
-				<h1 class="display-5 fw-bold">${freeBoardDto.freeBoardTitle} edit</h1>
+				<h1 class="display-5 fw-bold">${freeBoardDto.freeBoardTitle}
+					edit</h1>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-5 offset-1">
+				<p class="text-primary fw-bold">파일 :</p>
+				<label> <input type="file" name="attach"
+					class="w-100 file-chooser" style="display: none;" accept="image/*">
+					<img src="${pageContext.request.contextPath}/images/no-image.png"
+					width="200" height="200">
+				</label>
 			</div>
 		</div>
 
 
 
-
 		<div class="row mt-3">
 			<div class="col">
-				<form action="edit" method="post">
-					<input type="hidden" name="freeBoardNo" value="${freeBoardDto.freeBoardNo}">
+				<form action="edit" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="freeBoardNo"
+						value="${freeBoardDto.freeBoardNo}">
 					<div class="row">
 						<div class="col-5 offset-1">
-						<p class="text-primary fw-bold">제목 : </p>	<input type="text" name="freeBoardTitle" class="form-control"
+							<p class="text-primary fw-bold">제목 :</p>
+							<input type="text" name="freeBoardTitle" class="form-control"
 								value="${freeBoardDto.freeBoardTitle}">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-5 offset-1">
-						<p class="text-primary fw-bold">	카테고리 :</p><select name="freeBoardCategory"  class="form-control"
+							<p class="text-primary fw-bold">카테고리 :</p>
+							<select name="freeBoardCategory" class="form-control"
 								value="${freeBoardDto.freeBoardCategory}">
 								<option class="fw-bold">회원</option>
 								<option class="fw-bold">모임</option>
@@ -56,9 +70,9 @@ textarea {
 
 					<div class="row">
 						<div class="col offset-1">
-						<p class="text-primary fw-bold">	내용 :</p>
-							<textarea rows="30" cols="52" name="freeBoardContent"  class="form-control"
-							>${freeBoardDto.freeBoardContent}</textarea>
+							<p class="text-primary fw-bold">내용 :</p>
+							<textarea rows="30" cols="52" name="freeBoardContent"
+								class="form-control">${freeBoardDto.freeBoardContent}</textarea>
 						</div>
 					</div>
 					<div class="row">

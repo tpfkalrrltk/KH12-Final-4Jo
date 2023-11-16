@@ -70,7 +70,21 @@
 
 				</tr>
 				<tr>
-					<td class="fw-bold text-primary">${faqDto.faqDetail}</td>
+					<td class="fw-bold text-primary">
+			
+					<div>
+							<c:choose>
+								<c:when test="${faqImage == null}">
+								</c:when>
+								<c:otherwise>
+									<img
+										src="/faq/rest/attach/download?attachNo=${faqImage}"
+										class="rounded profile-image">
+								</c:otherwise>
+							</c:choose>
+								${faqDto.faqDetail}
+						</div>
+					</td>
 
 				</tr>
 

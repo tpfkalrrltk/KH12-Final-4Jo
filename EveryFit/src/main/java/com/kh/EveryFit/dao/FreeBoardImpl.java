@@ -179,7 +179,6 @@ public class FreeBoardImpl implements FreeBoardDao {
 	@Override
 	public boolean deleteFreeBoardImage(int freeBoardNo) {
 		return sqlSession.delete("freeBoard.deleteFreeBoardImage", freeBoardNo) > 0;
-
 	}
 
 	@Override
