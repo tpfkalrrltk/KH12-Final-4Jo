@@ -37,22 +37,22 @@
 	<update id="editMoim">
 		update moim
 		<set>
-			<if test="MoimDto.locationNo != null">
+			<if test="locationNo != null">
 				location_no=#{locationNo},
 			</if>
-			<if test="MoimDto.eventNo != null">
+			<if test="eventNo != null">
 				event_no=#{eventNo},
 			</if>
-			<if test="MoimDto.moimTitle != null">
+			<if test="moimTitle != null">
 				moim_title=#{moimTitle},
 			</if>
-			<if test="MoimDto.moimContent != null">
+			<if test="moimContent != null">
 				moim_content=#{moimContent},
 			</if>
-			<if test="MoimDto.moimState != null">
-				moim_state#{moimState},
+			<if test="moimState != null">
+				moim_state = #{moimState},
 			</if>
-			<if test="MoimDto.moimGenderCheck != null">
+			<if test="moimGenderCheck != null">
 				moim_gender_check=#{moimGenderCheck}
 			</if>
 		</set>
@@ -69,14 +69,42 @@
 		select * from moim where moim_no = #{moimNo}
 	</select>
 	
+	<!-- 모임회원들이 볼 목록 -->
 	<select id="moimMemberList" resultType="MoimMemberDto">
-		select mm.*, m.member_nick, m.member_block, mi.attach_no 
-		from moim_member mm left outer join 
-		member m on m.member_email = mm.member_email 
-		left outer join member_image mi 
-		on mi.member_email = mm.member_email 
-		where mm.moim_no = #{moimNo}
+		select * from moim_member_list 
+		where moim_no = #{moimNo} 
+		and moim_member_status != '차단'	
 	</select>
+	
+	<!-- 모임장이 볼 목록 -->
+	<select id="moimMemberListForMoimJang" resultType="MoimMemberDto">
+		select * from moim_member_list 
+		where moim_no = #{moimNo} 
+	</select>
+	
+	<!-- 세션값으로 멤버레벨 / 상태 확인 -->
+	<select id="findMoimJang" resultType="moimMemberDto">
+		select * from moim_member 
+		where member_email = #{memberEmail} 
+	</select>
+	
+	<!-- 모임회원상태변경 -->
+	<update id="updateMoimMemberStatus">
+		update moim_member 
+		<set>
+		<if test="memberBlock != null">
+		moim_member_status = '차단' 
+		</if>
+		<if test="memberUnBlock != null">
+		moim_member_status = '승인' 
+		</if>
+		<if test="memberApproval != null">
+		moim_member_status = '승인' 
+		</if>
+		</set>
+		where member_email = #{memberEmail} 
+		and moim_no = #{moimNo} 
+	</update>
 	
 	<!-- 이메일로 회원이 가입한 모임 목록 조회 -->
 	<select id="moimListByEmail" resultType="MoimDto">
@@ -336,6 +364,7 @@
 		select attach_no from jungmo_image where jungmo_no = #{jungmoNo}
 	</select>
 	
+
 	
 	
 </mapper>

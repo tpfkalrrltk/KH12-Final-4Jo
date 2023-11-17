@@ -22,7 +22,7 @@
 		<div class="col-md-10 offset-md-1">
 			<div class="jumbotron mt-5">
 				<h1 class="display-4 bg-primary rounded text-light p-3">${moimDto.moimTitle}</h1>
-				<p class="lead">${moimDto.moimContent}</p>
+				<div class="miom-content">${moimDto.moimContent}</div>
 				<hr class="my-4" />
 				<p>구현중입니다</p>
 					<div class="row mt-4">
@@ -51,10 +51,44 @@
 		${profile}
 		${moimDto}
 		<h1>모임 상세(사진, 모임명, 설명)</h1>
-		${moimDto.moimNo} ${locationDto.locationDepth1}
+		${locationDto.locationDepth1}
 		${locationDto.locationDepth2} ${eventDto.eventName}
+		<div class="row"><div class="col">
+		<a class="btn btn-primary" href="/default/${moimDto.chatRoomNo}">채팅방가기</a>
 		
-		<a href="/default/${moimDto.chatRoomNo}">채팅방가기</a>
+		</div></div>
+		<div class="row"><div class="col">
+		모임신고
+		</div></div>
+		<div class="row"><div class="col">
+		<button class="moim-edit">모임수정</button>
+		</div></div>
+		<div class="row"><div class="col">
+		</div></div>
+		<div class="row"><div class="col">
+		좋아요
+		</div></div>
+		<div class="row"><div class="col">
+		모임탈퇴
+		</div></div>
+		<div class="row"><div class="col">
+		모임장승계?(어떻게구현할지고민해보자)
+		</div></div>
+		<div class="row"><div class="col">
+		모임수정은 모임명 / 모임설명 / 여성전용해제만 가능하도록 하자!
+		</div></div>
+		<c:if test="${moimDto.moimGenderCheck == 'Y'}">
+			<span class="badge bg-warning gender-check">여성전용</span>
+			<input type="checkbox" name="moimGenderCheck" style="display:none;">
+		</c:if>
+		<div class="row"><div class="col">
+				
+		</div></div>
+		
+		<h1 class="text-primary">
+		<a href="board/list?moimNo=${moimDto.moimNo}"
+		class="btn btn-primary">게시판가기</a>
+		</h1>		
 		
 		<h1>회원목록</h1>
 		<c:forEach var="moimMemberDto" items="${memberList}">
@@ -72,6 +106,10 @@
 		${moimMemberDto.moimMemberStatus}
 		${moimMemberDto.memberNick}
 		${moimMemberDto.memberBlock}
+<!-- 		<a href="" class="btn btn-danger">차단</a> -->
+		<a href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" class="btn btn-info">승인</a>
+		<a href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" class="btn btn-danger btn-block">
+		차단</a>
 		</div>
 	</c:forEach>
 			<hr>
@@ -96,6 +134,8 @@
 						상태 : ${jungmoList.jungmoListVO.jungmoStatus}
 						인원 : ${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
 					
+					
+					<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a>
 					<a class="btn btn-primary" href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">참가</a>
 					<a class="btn btn-warning" href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
 					<a class="btn btn-warning" href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모취소</a>
@@ -132,13 +172,58 @@
 				</div>
 			</div>
 			
-			
+<div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">모임 정보 수정</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form id="appInsert" method="post">
+      	<input type="hidden" name="moimNo" value="${moimDto.moimNo}" >
+      	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}" >
+      	<input type="hidden" name="eventNo" value="${moimDto.eventNo}" >
+      	모임명 <input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}">
+      	모임설명 <input type="text" name="moimContent" data-original-value="${moimDto.moimContent}">
+      	모임상태 <select name="moimState" data-original-value="${moimDto.moimState}">
+      		<option>모집중</option>
+      		<option>마감</option>
+      	</select>
+      	<c:if test="${moimDto.moimGenderCheck == 'Y'}">
+      	여성전용해제<input type="checkbox"  id="moimGenderCheck" 
+      	name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
+      	data-original-value="${moimDto.moimGenderCheck}">
+      	</c:if>
+
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" id="appBtn">등록</button>
+      </div>
+    </div>
+  </div>
+</div>
 			
 			
 <body>
 	<c:if test="${param.errorFlag != null}">
 	    <script>
-	    confirm("오류가발생");
+	    alert("인원이 꽉 찼습니다.");
+	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+	    </script>
+	</c:if>
+	<c:if test="${param.block != null}">
+	    <script>
+	    alert("차단했습니다.");
+	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+	    </script>
+	</c:if>
+	<c:if test="${param.approval != null}">
+	    <script>
+	    alert("승인완료");
+	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
 	    </script>
 	</c:if>
 </body>
@@ -194,7 +279,159 @@
 			},
 		});
 	});
+	
+	$("#moimGenderCheck").on("change", function() {
+	    // 체크박스가 체크되어 있다면 'N', 체크되어 있지 않다면 'Y' 값을 설정
+		if (this.checked) {
+			this.value = 'N';
+			alert("여성모임을 해제하면 다시 변경이 어렵습니다.");
+        } else {
+            this.checked = true; // 체크를 해제하지 못하게 함
+        }
+	});
 
+//     $(".gender-check").click(function(){
+//         // 여성전용을 나타내는 span이 클릭되면
+//         // 해당하는 체크박스를 토글
+//         $("[name=moimGenderCheck]").show();
+
+//         // 체크박스 상태에 따라 서버로 값을 전송
+//         var isChecked = $("[name=moimGenderCheck]").prop("checked");
+//         var valueToSend = isChecked ? "N" : "Y";
+
+//         // AJAX를 사용하여 서버로 데이터 전송
+//         //모임번호랑, 체크여부를 보내면 될 듯 Y면 여성전용 해제..인걸로!
+// 		var vo = {
+// 			moimGenderCheck: valueToSend,
+// 			moimNo: moimNoValue
+// 		};
+        
+//         $.ajax({
+//             url: "http://localhost:8080/rest/moim/genderCheck",
+//             type: "POST",
+//             data: vo,
+//             success: function (response) {
+//                 if(response == success) {
+//                 	$("[name=moimGenderCheck]").hide();                	
+//                 }
+//             },
+//         });
+//     });
+    var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
+	 $("#appBtn").click(function(){
+
+		 var formData = $("#appInsert").serialize();
+
+		 $.ajax({
+               url: "http://localhost:8080/rest/moim/infoChange",
+               type: "POST",
+               data: formData,
+               success: function (data) {
+                   // 서버 응답에 따른 동작 수행
+                  console.log(data); 
+             	    alert("변경완료");
+                	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+               },
+               error: function (error) {
+                   // 오류 발생 시 동작 수행
+                   console.error(error);
+                   console.error("에러");
+               }
+           });
+ 
+       });
+// $("#appBtn").click(function () {
+//   var dataToSend = {};
+
+//   // input, select 요소에 대해 처리
+//   $("#appInsert input, #appInsert select, #appInsert input[type='checkbox']").each(function () {
+//     var originalValue = $(this).data("original-value");
+//     var currentValue = $(this).val();
+
+//     // input 타입이 checkbox인 경우에 대한 처리
+//     if ($(this).is("input[type='checkbox']")) {
+//       currentValue = this.checked ? 'N' : 'Y';
+
+//     }
+
+//     // 입력값이 있고, 현재 값이 원래 값과 다르면 객체에 추가
+//     if (currentValue.length !== 0 && currentValue !== originalValue) {
+//       dataToSend[$(this).attr("name")] = currentValue;
+//     }
+//   });
+//   console.log(dataToSend);
+//   // AJAX를 사용하여 서버로 데이터 전송
+//   $.ajax({
+//     url: "http://localhost:8080/rest/moim/infoChange",
+//     type: "POST",
+//     data: dataToSend,
+//     success: function (data) {
+//       // 서버 응답에 따른 동작 수행
+//       console.log(data);
+//       alert("변경완료");
+//       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+//     },
+//     error: function (error) {
+//       // 오류 발생 시 동작 수행
+//       console.error(error);
+//       console.error("에러");
+//     }
+//   });
+// });
+
+	
+	
+    $(".moim-edit").click(function(){
+        // 모든 input, select, checkbox 필드에 대해 초기화
+        $("#appInsert input:not([type='hidden']), #appInsert select").each(function () {
+          var originalValue = $(this).data("original-value");
+          if ($(this).is("select")) {
+            // select는 선택된 옵션으로 초기화
+            $(this).val(originalValue);
+          } 
+          else if ($(this).is("input[type='checkbox']")) {
+              // checkbox는 checked 상태로 초기화
+              $(this).prop("checked", originalValue === "N");
+          }
+          else {
+            // 나머지는 값으로 초기화
+            $(this).val(originalValue);
+          }
+        });
+    	
+        $("#applicationModal").modal("show");
+    });
+
+    // 등록 버튼 클릭 시 모달 닫기
+    $("#appBtn").click(function(){
+        $("#applicationModal").modal("hide");
+    });
+
+//     $('.blockButton').click(function () {
+//         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴
+//         var memberEmail = $(this).data('member-email');
+// 		console.log(memberEmail);
+		
+        
+//         // AJAX 요청
+//         $.ajax({
+//             type: 'POST', // 또는 'GET'
+//             url: "http://localhost:8080/rest/moim/memberBlock", // 실제 서버 엔드포인트로 대체해야 함
+//             data: { memberEmail: memberEmail },
+//             success: function (response) {
+//                 // 성공 시 수행할 동작
+//                 if(response == "Y") {
+//                 console.log(response);
+//                 	window.alert("차단함");
+//                 }
+//             },
+//             error: function (error) {
+//                 // 오류 발생 시 수행할 동작
+//                 console.log(error);
+//             }
+//         });
+//     });
+	
 	//회원 정모 참여
 // 	$(".btn-join").click(function() {
 		

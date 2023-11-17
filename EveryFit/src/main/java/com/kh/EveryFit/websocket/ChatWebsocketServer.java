@@ -36,6 +36,8 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		waitingRoom.enter(session);
+		ClientVO clientVO = new ClientVO(session);
+		members.add(clientVO);
 		sendClientList();
 	}
 	
@@ -62,6 +64,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		//2. 모든 사용자에게 전송
 		TextMessage message = new TextMessage(clientJson);
 		for(ClientVO client : members) {
+			log.debug("여기는?members = {}", members);
 			client.send(message);
 		}
 		
@@ -117,7 +120,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 				.memberEmail(client.getMemberEmail())
 				.build());
 		}
-		
+
 		/*
 		사용자가 보낸 메세지에 type이나 roomNo같은게 있어야 어떠한 처리가 가능하다
 		if(type == 방입장) {

@@ -126,4 +126,11 @@
 		where member_email = #{memberEmail}
 	</update>
 	
+	<!-- 회원권 구매 후 member_moim_count (3->10) 수정  -->
+	<update id="changeMemberMoimCount">
+		update member
+		set
+			member_moim_count = 10
+		where member_email = #{memberEmail}
+	</update>
 	</mapper>

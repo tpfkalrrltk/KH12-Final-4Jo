@@ -19,6 +19,7 @@ import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueListDto;
+import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.LocationDto;
@@ -117,12 +118,13 @@ public class LeagueController {
 	@PostMapping("/leagueTeamInsert")
 	public String leagueTeamInsert(@RequestParam String[] memberEmail, 
 									@RequestParam int leagueNo,
-									@RequestParam int moimNo) {
+									@RequestParam int moimNo, @RequestParam String leagueTeamName) {
 		int leagueTeamNo = leagueDao.leagueTeamSequence();
 		leagueDao.insertLeagueTeam(LeagueTeamDto.builder()
 									.leagueTeamNo(leagueTeamNo)
 									.leagueNo(leagueNo)
 									.moimNo(moimNo)
+									.leagueTeamName(leagueTeamName)
 									.build());
 		
 		for(String email : memberEmail) {
@@ -156,6 +158,18 @@ public class LeagueController {
 		model.addAttribute("rankList", rankList);
 		model.addAttribute("leagueDto", leagueDto);
 		return "league/leagueDetail";
+	}
+	
+	@RequestMapping("/leagueMatch")
+	public String leagueMatch(@RequestParam int leagueNo, Model model) {
+		List<LeagueMatchDto> leagueMatchList = leagueDao.selectLeagueMatchList(leagueNo);
+		model.addAttribute("leagueMatchList", leagueMatchList);
+		return "league/leagueMatch";
+	}
+	
+	@GetMapping("/leagueMatchInsert")
+	public String leagueMatchInsert(@RequestParam int leagueNo, Model model) {
+		return "league/leagueMatchInsert";
 	}
 }
 

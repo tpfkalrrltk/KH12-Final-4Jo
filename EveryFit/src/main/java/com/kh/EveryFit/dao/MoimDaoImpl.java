@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
+import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
 @Repository
 public class MoimDaoImpl implements MoimDao {
@@ -31,6 +32,11 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public void insert(MoimDto moimDto) {
 		sqlSession.insert("moim.createMoim", moimDto);
+	}
+	
+	@Override
+	public boolean updateMoimInfo(MoimDto moimDto) {
+		return sqlSession.update("moim.editMoim", moimDto) > 0;
 	}
 	
 	@Override
@@ -111,6 +117,15 @@ public class MoimDaoImpl implements MoimDao {
 	    params.put("moimNo", moimNo);
 	    params.put("memberEmail", memberEmail);
 		sqlSession.insert("moim.insertMoimMember", params);
+	}
+	
+	@Override
+	public void updateMoimMember(MoimMemberStatusVO vo) {	
+		sqlSession.update("moim.updateMoimMemberStatus", vo);
+	}
+	@Override
+	public MoimMemberDto selectOneMyInfo(String memberEmail) {
+		return sqlSession.selectOne("moim.selectOneMyInfo", memberEmail);
 	}
 	
 }

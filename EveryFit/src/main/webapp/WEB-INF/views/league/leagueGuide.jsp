@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
-
+<div class="row"><div class="col-md-8 offset-md-2">
 <div class="row mt-4 text-center"><div class="col">
 	<h1>${leagueDto.leagueTitle}</h1>
 </div></div>
@@ -28,7 +28,10 @@
 <div class="row mt-4"><div class="col">
 	<a class="btn btn-primary" id="enter-btn">리그참여</a>
 </div></div>
-
+<div class="row mt-4"><div class="col">
+	<a href="leagueList" class="btn btn-secondary">목록으로</a>
+</div></div>
+</div></div>
 <script>
 $(function(){
 	$("#enter-btn").click(function(){

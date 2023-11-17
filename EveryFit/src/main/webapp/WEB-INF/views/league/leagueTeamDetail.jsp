@@ -9,7 +9,7 @@
 </div></div>
 
 <div class="row"><div class="col">
-	<h2>참여중인 리그 : ${leagueDto.leagueTitle}</h2>
+	<h2>참여중인 리그 : <a href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></h2>
 </div></div>
 
 <div class="row"><div class="col">
