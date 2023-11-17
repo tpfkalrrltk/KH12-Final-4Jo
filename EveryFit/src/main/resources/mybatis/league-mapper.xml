@@ -155,7 +155,7 @@
         UPDATE league_team
         <set>
             <if test="leagueTeamDto.leagueTeamMatchCount != null">
-                league_team_match_count = #{leagueTeamDto.leagueTeamMatchCount},
+                league_team_match_count = league_team_win + league_team_draw + league_team_lose,
             </if>
             <if test="leagueTeamDto.leagueTeamWin != null">
                 league_team_win = #{leagueTeamDto.leagueTeamWin},
@@ -173,7 +173,10 @@
                 league_team_d = #{leagueTeamDto.leagueTeamD},
             </if>
             <if test="leagueTeamDto.leagueTeamGD != null">
-                league_team_gd = #{leagueTeamDto.leagueTeamGD},
+                league_team_gd = league_team_g - league_team_d,
+            </if>
+            <if test="leagueTeamDto.leagueTeamPoint != null">
+                league_team_point = (league_team_win * 3) + league_team_draw;
             </if>
         </set>
         WHERE league_team_no = #{leagueTeamNo}
@@ -244,7 +247,9 @@
     <!-- 리그경기 생성 -->
     <insert id="insertLeagueMatch">
         INSERT INTO league_match (league_match_no, league_no, league_match_home, league_match_away, league_match_date, league_match_location)
-        VALUES (#{leagueMatchNo}, #{leagueNo}, #{leagueMatchHome}, #{leagueMatchAway}, #{leagueMatchDate}, #{leagueMatchLocation})
+        VALUES (#{leagueMatchNo}, #{leagueNo}, #{leagueMatchHome}, #{leagueMatchAway}, 
+        to_timestamp(#{leagueMatchDate}, 'YYYY-MM-DD"T"HH24:MI'),
+        #{leagueMatchLocation})
     </insert>
     
     <!-- 리그경기 조회 -->
@@ -268,7 +273,7 @@
                 league_match_away = #{leagueMatchDto.leagueMatchAway},
             </if>
             <if test="leagueMatchDto.leagueMatchDate != null">
-                league_match_date = #{leagueMatchDto.leagueMatchDate},
+                league_match_date = to_timestamp(#{leagueMatchDto.leagueMatchDate}, 'YYYY-MM-DD"T"HH24:MI'),
             </if>
             <if test="leagueMatchDto.leagueMatchHomeScore != null">
                 league_match_home_score = #{leagueMatchDto.leagueMatchHomeScore},
