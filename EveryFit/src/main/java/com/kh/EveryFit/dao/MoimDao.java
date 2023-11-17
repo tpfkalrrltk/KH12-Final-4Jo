@@ -2,6 +2,7 @@ package com.kh.EveryFit.dao;
 
 import java.util.List;
 
+import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
@@ -51,5 +52,14 @@ public interface MoimDao {
 
 	//세션값의 모임멤버레벨, 모임멤버상태 조회
 	MoimMemberDto selectOneMyInfo(String memberEmail);
+
+	
+	//모임 좋아요
+	void memberLikeInsert(MemberLikeDto memberLikeDto);
+	boolean memberLikeDelete(MemberLikeDto memberLikeDto);
+	boolean  memberLikeCheck(MemberLikeDto memberLikeDto);
+	int memberLikeCount(int moimNo);
+	//좋아요 누른 모임 확인하는건 나중에....
+
 
 }

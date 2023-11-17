@@ -12,6 +12,9 @@
 .member-profile {
 	width: 50px;
 }
+.profile-image {
+	width:500px;
+}
 
 </style>
 
@@ -61,12 +64,14 @@
 		모임신고
 		</div></div>
 		<div class="row"><div class="col">
-		<button class="moim-edit">모임수정</button>
+		<button class="moim-edit btn btn-primary">모임수정</button>
 		</div></div>
 		<div class="row"><div class="col">
 		</div></div>
 		<div class="row"><div class="col">
 		좋아요
+		<i class="fa-regular fa-heart fa-beat red"></i> 
+		<span >?</span>
 		</div></div>
 		<div class="row"><div class="col">
 		모임탈퇴
@@ -75,8 +80,16 @@
 		모임장승계?(어떻게구현할지고민해보자)
 		</div></div>
 		<div class="row"><div class="col">
-		모임수정은 모임명 / 모임설명 / 여성전용해제만 가능하도록 하자!
+		정모 등록할 때 날짜 형식검사 필요함(지난날짜 검사, 너무 먼 미래 검사)
+		모임 가입할 때 여성전용은 여성만 가입하도록 ...조회한번해야함
+		
+		모임리스트에서 보여 줄 것
+		모임정보(전부), 모임인원(moim_member 카운트), 모임종목명, 모임지역명(dept1, dept2), 사진, 
+		좋아요수(member_like 카운트)
 		</div></div>
+		<c:if test="${moimDto.moimUpgrade == 'Y'}">
+			<span class="badge bg-info gender-check">프리미엄</span>
+		</c:if>
 		<c:if test="${moimDto.moimGenderCheck == 'Y'}">
 			<span class="badge bg-warning gender-check">여성전용</span>
 			<input type="checkbox" name="moimGenderCheck" style="display:none;">
@@ -114,8 +127,6 @@
 	</c:forEach>
 			<hr>
 				<a class="btn btn-primary" href="jungmo/create?moimNo=${moimDto.moimNo}">정모등록</a>
-				<a class="btn btn-primary" href="edit?moimNo=${moimDto.moimNo}">모임수정</a>
-
 			<hr>
 			<h1>정모 List</h1>
 			<!-- 			<button type="button" class="load-list">목록불러오기</button> -->
@@ -133,6 +144,17 @@
 						정모명 : ${jungmoList.jungmoListVO.jungmoTitle}
 						상태 : ${jungmoList.jungmoListVO.jungmoStatus}
 						인원 : ${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
+						날짜 : ${jungmoList.jungmoListVO.jungmoSchedule}
+						<h4 class="text-danger"> 
+						<c:choose>
+						<c:when test="${jungmoList.jungmoListVO.dday <= 0}">
+							D - Day
+						</c:when>
+						<c:otherwise>
+						D - ${jungmoList.jungmoListVO.dday}
+						</c:otherwise>
+						</c:choose>
+						</h4>
 					
 					
 					<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a>
@@ -205,7 +227,61 @@
     </div>
   </div>
 </div>
-			
+
+    
+    <c:if test="${sessionScope.name != null}">>
+    <script>
+    	//좋아요 처리
+    	//[1] 페이지가 로드되면 비동기 통신으로 좋아요 상태를 체크하여 하트 생성
+    	//[2] 하트에 클릭 이벤트를 설정하여 좋아요 처리가 가능하도록 구현
+    	$(function(){
+//     		var params = new URLSearchParams(location.search);
+//     		var moimNo = params.get("moimNo");
+//     		console.log(moimNo)
+    		$.ajax({
+    			url:"http://localhost:8080/rest/moim/likeCheck",
+    			method:"post",
+    			data:{moimNo : moimNo},
+    			success:function(response) {
+    				//response는 {"check":true, "count":0} 형태의 JSON이다
+    				if(response.check){
+    					$(".fa-heart").removeClass("fa-solid fa-regular")
+    										.addClass("fa-solid");		
+    				}
+    				else {
+    					$(".fa-heart").removeClass("fa-solid fa-regular").
+    										addClass("fa-regular");		
+    				}
+    				//전달받은 좋아요 개수를 하트 뒤의 span에 출력
+    				$(".fa-heart").next("span").text(response.count);
+    			}
+    		});
+
+    		//[2]
+    		$(".fa-heart").click(function() {
+    			$.ajax({
+    				url:"http://localhost:8080/rest/moim/likeAction",
+    				method:"post",
+    				data:{moimNo : moimNo},
+    				success:function(response) {
+    					if(response.check){
+    						$(".fa-heart").removeClass("fa-solid fa-regular")
+    											.addClass("fa-solid");		
+    					}
+    					else {
+    						$(".fa-heart").removeClass("fa-solid fa-regular").
+    											addClass("fa-regular");		
+    					}
+    					//전달받은 좋아요 개수를 하트 뒤의 span에 출력
+    					$(".fa-heart").next("span").text(response.count);
+    				}
+    			});
+    			
+    		});
+    	});
+    </script>
+
+    </c:if>	
 			
 <body>
 	<c:if test="${param.errorFlag != null}">
@@ -406,6 +482,8 @@
     $("#appBtn").click(function(){
         $("#applicationModal").modal("hide");
     });
+    
+
 
 //     $('.blockButton').click(function () {
 //         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴

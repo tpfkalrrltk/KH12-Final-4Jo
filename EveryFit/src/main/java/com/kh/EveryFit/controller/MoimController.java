@@ -32,6 +32,7 @@ import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.JungmoWithMembersVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -132,8 +133,11 @@ public class MoimController {
 //		//정모 목록
 //		model.addAttribute("jungmoList", jungmoDao.selectList(moimNo));		
 		//정모목록
-		model.addAttribute("jungmoTotalList", jungmoDao.selectTotalList(moimNo));
-		
+		List<JungmoWithMembersVO> jungmoTotalList = jungmoDao.selectTotalList(moimNo);
+	    for (JungmoWithMembersVO jungmoWithMembersVO : jungmoTotalList) {
+	        jungmoWithMembersVO.calculateDdays();
+	    }
+	    model.addAttribute("jungmoTotalList", jungmoTotalList);
 		return "moim/detail";
 		
 	}
@@ -185,13 +189,13 @@ public class MoimController {
 	public String jungmoCreate(
 			@ModelAttribute JungmoDto jungmoDto, 
 			@RequestParam MultipartFile attach,
-			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr) throws IllegalStateException, IOException {
+			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr,
+			HttpSession session) throws IllegalStateException, IOException {
 
 		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
 		
 		int jungmoNo = jungmoDao.sequence();
 		jungmoDto.setJungmoNo(jungmoNo);
-		
 		
 		try {
 	        // 문자열을 LocalDateTime으로 파싱
@@ -205,8 +209,18 @@ public class MoimController {
 	        // 예외 처리 로직 추가
 	    }
 		
-		jungmoDao.insert(jungmoDto);
+		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
+		int chatRoomNo = chatDao.sequence();
+		log.debug("chatRoomNo");
 		
+		String memberEmail = (String)session.getAttribute("name");
+		chatDao.insertChatRoom(chatRoomNo);
+		jungmoDto.setChatRoomNo(chatRoomNo);
+		jungmoDao.insert(jungmoDto);
+
+		//채팅참가자 추가
+		chatDao.addChatMember(chatRoomNo, memberEmail);
+				
 		//첨부파일등록(파일있을때)
 		if(!attach.isEmpty()) {
 			//첨부파일등록(파일이 있을때만)

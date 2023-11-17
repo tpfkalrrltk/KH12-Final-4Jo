@@ -21,4 +21,9 @@ public class JungmoWithMembersVO {
 	private JungmoListVO jungmoListVO;
 	private List<JungmoMemberListVO> jungmoMemberList;
 	
+    public void calculateDdays() {
+        if (jungmoListVO != null) {
+            jungmoListVO.calculateDday();
+        }
+    }
 }
