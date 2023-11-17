@@ -38,6 +38,7 @@ public class moimBoardRestController {
 	}
 
 	@PutMapping("/{moimBoardNo}")
+
 	public void edit(@PathVariable int moimBoardNo, @RequestBody MoimBoardDto moimBoardDto) {
 
 		moimBoardDao.edit(moimBoardDto);

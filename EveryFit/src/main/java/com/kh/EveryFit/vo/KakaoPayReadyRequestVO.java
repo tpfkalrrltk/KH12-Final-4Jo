@@ -14,4 +14,5 @@ public class KakaoPayReadyRequestVO {
 	public String partnerUserId;
 	public String itemName;
 	public int itemPrice;
+	public String payload;
 }

@@ -12,7 +12,11 @@ import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
+
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
+
 
 @Repository
 public class MoimDaoImpl implements MoimDao {
@@ -118,6 +122,16 @@ public class MoimDaoImpl implements MoimDao {
 	    params.put("moimNo", moimNo);
 	    params.put("memberEmail", memberEmail);
 		sqlSession.insert("moim.insertMoimMember", params);
+	}
+	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
+	@Override
+	public List<MoimMemberDto> selectAllMoimNo(String memberEmail) {
+		return sqlSession.selectList("moim.findMoimNoPerMemberEmailAndCrown", memberEmail);
+	}
+
+	@Override
+	public List<MoimTitleForPaymentVO> selectTitleMoimNo(String memberEmail) {
+		return sqlSession.selectList("moim.findMoimNoAndMoimTitlePerMemberEmailAndCrown", memberEmail);
 	}
 	
 	@Override

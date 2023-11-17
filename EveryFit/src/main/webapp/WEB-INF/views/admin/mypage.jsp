@@ -1,31 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<jsp:include page="../template/adminHeader.jsp"></jsp:include>
 
 
 
-<jsp:include page="../template/Header.jsp"></jsp:include>
 
 
 
-<style>
-.box {
-	margin: 20px;
-	padding: 30px;
-	border: 1px solid orange;
-	border-radius: 14px;
-}
 
-a {
-	text-decoration: none;
-	color: white;
-}
-</style>
 
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jquery cdn -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
 	$(function() {
@@ -68,6 +52,21 @@ a {
 	});
 </script>
 
+<style>
+.box {
+	margin: 20px;
+	padding: 30px;
+	border: 1px solid black;
+	border-radius: 14px;
+}
+
+a {
+	text-decoration: none;
+	color: white;
+}
+</style>
+
+
 <!-- ---------------------------------------------------------------------------------------- -->
 
 
@@ -76,11 +75,16 @@ a {
 		<div class="col-md-10 offset-md-1">
 
 
+			<div class="col-7 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
+				<h1 class="display-5 fw-bold">${adminMemberTarget.memberEmail}
+					정보</h1>
 
-			<div class="container text-center mt-5 box">
-				<div class="row">
+			</div>
+
+			<div class="container text-center mt-5 box bg-primary">
+				<div class="row ">
 					<div class="col align-self-start">
-						<div>
+						<div class="mt-5">
 							<img src="/images/profile.jpg"
 								style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden;">
 						</div>
@@ -91,21 +95,61 @@ a {
 					</div>
 
 
-					<div class="col align-self-center">
+					<div class="col align-self-center text-start text-light fw-bold">
 
-						<div>${memberDto.memberNick}</div>
-						<div>내 모임 : ${memberDto.memberMoimCount} 개</div>
+						<div class="row">
+							<div class="text-warning col-3">E-mail :</div>
+							<div class=" col-8">${adminMemberTarget.memberEmail}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Password : </div>
+							<div class=" col-8">${adminMemberTarget.memberPw}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Name : </div>
+							<div class=" col-8">${adminMemberTarget.memberName}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Nickname : </div>
+							<div class=" col-8">${adminMemberTarget.memberNick}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Gender : </div>
+							<div class=" col-8">${adminMemberTarget.memberGender}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3 pe-0">Phone Number :</div>
+							<div class=" col-8">${adminMemberTarget.memberContact}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Birth : </div>
+							<div class=" col-8">${adminMemberTarget.memberBirth}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Level : </div>
+							<div class=" col-8">${adminMemberTarget.memberLevel}</div>
+						</div>
+
+
+
 					</div>
 					<div class="col align-self-end">
 						<div>
-							<button class="btn btn-success">
+							<button class="btn btn-success w-100">
 								<a href="#">프리미엄 회원권</a>
 							</button>
 						</div>
 
 						<div>
-							<button class="btn btn-info mt-2">
-								<a href="/member/change">프로필 등록/수정</a>
+							<button class="btn btn-info mt-2 w-100">
+								<a href="/member/change">회원 정보 수정</a>
 							</button>
 						</div>
 
@@ -175,21 +219,6 @@ a {
 			</div>
 
 
-			<div class="container text-center mt-5 box">
-				<div class="d-flex">
-					<label>소개</label> <label style="margin-left: 10px;">모임</label> <label
-						style="margin-left: 10px;">정모</label> <label
-						style="margin-left: 10px;">리그</label>
-	
-
-					<div class="text-success">
-						<hr>
-					</div>
-
-
-				</div>
-			</div>
-
 		</div>
 	</div>
 </div>
@@ -229,5 +258,3 @@ a {
 
 
 <jsp:include page="../template/Footer.jsp"></jsp:include>
-
-

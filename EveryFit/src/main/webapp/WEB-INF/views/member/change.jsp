@@ -59,9 +59,43 @@ a {
 									<input type="password" class="form-control" name="memberPw"
 										value="${memberDto.memberPw}" disabled>
 								</div>
-								<div>
-									<button id="examplModal" class="btn btn-success ms-3">변경</button>
+								<button type="button" class="btn btn-info ms-2"
+							data-bs-toggle="modal" data-bs-target="#exampleModal">
+							비밀번호 변경</button>
+
+
+						<div class="modal fade" id="exampleModal" tabindex="-1" 
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호변경</h1>
+										<button type="button" class="btn-close" 
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+
+										<div class="container text-center mt-4">
+											<div>
+												기존비밀번호<input type="password" value="${memberDto.memberPw}">
+											</div>
+											<div>
+												바꿀비밀번호<input type="password" value="${memberDto.memberPw}">
+											</div>
+											<div>
+												바꾼비밀번호확인<input type="password" value="${memberDto.memberPw}">
+											</div>
+											<div>
+												<button type="button" class="btn btn-secondary mt-3"
+													data-bs-dismiss="modal">Close</button>
+												<button class="btn btn-warning mt-3 ms-3" id="changePasswordButton">변경</button>
+											</div>
+										</div>
+									</div>
 								</div>
+
+							</div>
+						</div>
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-center">
@@ -117,7 +151,7 @@ a {
 
 
 
-						<button type="button" class="btn btn-info mt-2"
+						<%-- <button type="button" class="btn btn-info mt-2"
 							data-bs-toggle="modal" data-bs-target="#exampleModal">
 							비밀번호 변경</button>
 
@@ -153,9 +187,7 @@ a {
 								</div>
 
 							</div>
-
-
-						</div>
+						</div> --%>
 					</div>
 				</div>
 

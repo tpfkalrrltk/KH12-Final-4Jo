@@ -149,6 +149,23 @@
 									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a>
 							</c:when>
 							<c:otherwise>
+
+							<c:forEach var="moimMemberDto" items="${list}">
+							<a href="pay/periodPurchase?productNo=2&moimNo=${moimMemberDto.moimNo}">
+							[${moimMemberDto.moimNo}] EeveryFIt 프리미엄 모임권 구매하기
+							</a>
+								<a href="/moim/detail?moimNo=${moimMemberDto.moimNo}">모임상세보기</a>
+							<br>
+							</c:forEach>
+
+							<c:forEach var="moimMember" items="${list2}">
+							<a href="pay/periodPurchase?productNo=2&moimNo=${moimMember.moimNo}">
+							[${moimMember.moimNo}]"${moimMember.moimTitle}" 모임에 대한<br> EeveryFIt 프리미엄 모임권 구매하기
+							</a>
+								(<a href="/moim/detail?moimNo=${moimMember.moimNo}">모임상세보기</a>)
+								
+							<br>
+							</c:forEach>
 								<a href="pay/periodPurchase?productNo=${productDto.productNo}"
 									class="ataglink"> EeveryFIt 프리미엄 모임권 구매하기 </a>
 							</c:otherwise>
