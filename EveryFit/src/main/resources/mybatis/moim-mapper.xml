@@ -364,7 +364,23 @@
 		select attach_no from jungmo_image where jungmo_no = #{jungmoNo}
 	</select>
 	
-
+	<!-- 모임 좋아요 -->
+	<insert id="insertMemberLike">
+		insert into member_like (moim_no, member_email) 
+		values(#{moimNo}, #{memberEmail})
+	</insert>
 	
+	<delete id="deleteMemberLike">
+		delete member_like where member_email = #{memberEmail} 
+		and moim_no = #{moimNo}
+	</delete>
 	
+	<select id="checkMemberLike" resultType="MemberLikeDto">
+		select * from member_like where member_email = #{memberEmail} 
+		and moim_no = #{moimNo} 
+	</select>
+	
+	<select id="countMemberLike" resultType="int">
+		select count(*) from member_like where moim_no = #{moimNo}
+	</select>
 </mapper>

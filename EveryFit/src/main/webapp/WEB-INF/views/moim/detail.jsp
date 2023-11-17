@@ -67,6 +67,8 @@
 		</div></div>
 		<div class="row"><div class="col">
 		좋아요
+		<i class="fa-regular fa-heart fa-beat red"></i> 
+		<span >?</span>
 		</div></div>
 		<div class="row"><div class="col">
 		모임탈퇴
@@ -205,7 +207,61 @@
     </div>
   </div>
 </div>
-			
+
+    
+    <c:if test="${sessionScope.name != null}">>
+    <script>
+    	//좋아요 처리
+    	//[1] 페이지가 로드되면 비동기 통신으로 좋아요 상태를 체크하여 하트 생성
+    	//[2] 하트에 클릭 이벤트를 설정하여 좋아요 처리가 가능하도록 구현
+    	$(function(){
+//     		var params = new URLSearchParams(location.search);
+//     		var moimNo = params.get("moimNo");
+//     		console.log(moimNo)
+    		$.ajax({
+    			url:"http://localhost:8080/rest/moim/likeCheck",
+    			method:"post",
+    			data:{moimNo : moimNo},
+    			success:function(response) {
+    				//response는 {"check":true, "count":0} 형태의 JSON이다
+    				if(response.check){
+    					$(".fa-heart").removeClass("fa-solid fa-regular")
+    										.addClass("fa-solid");		
+    				}
+    				else {
+    					$(".fa-heart").removeClass("fa-solid fa-regular").
+    										addClass("fa-regular");		
+    				}
+    				//전달받은 좋아요 개수를 하트 뒤의 span에 출력
+    				$(".fa-heart").next("span").text(response.count);
+    			}
+    		});
+
+    		//[2]
+    		$(".fa-heart").click(function() {
+    			$.ajax({
+    				url:"http://localhost:8080/rest/moim/likeAction",
+    				method:"post",
+    				data:{moimNo : moimNo},
+    				success:function(response) {
+    					if(response.check){
+    						$(".fa-heart").removeClass("fa-solid fa-regular")
+    											.addClass("fa-solid");		
+    					}
+    					else {
+    						$(".fa-heart").removeClass("fa-solid fa-regular").
+    											addClass("fa-regular");		
+    					}
+    					//전달받은 좋아요 개수를 하트 뒤의 span에 출력
+    					$(".fa-heart").next("span").text(response.count);
+    				}
+    			});
+    			
+    		});
+    	});
+    </script>
+
+    </c:if>	
 			
 <body>
 	<c:if test="${param.errorFlag != null}">
@@ -406,6 +462,8 @@
     $("#appBtn").click(function(){
         $("#applicationModal").modal("hide");
     });
+    
+
 
 //     $('.blockButton').click(function () {
 //         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴

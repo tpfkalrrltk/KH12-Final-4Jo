@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
@@ -126,6 +127,25 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public MoimMemberDto selectOneMyInfo(String memberEmail) {
 		return sqlSession.selectOne("moim.selectOneMyInfo", memberEmail);
+	}
+	
+	//모임 좋아요
+	@Override
+	public void memberLikeInsert(MemberLikeDto memberLikeDto) {
+		sqlSession.insert("moim.insertMemberLike", memberLikeDto);
+	}
+	@Override
+	public boolean memberLikeCheck(MemberLikeDto memberLikeDto) {
+		List<MemberLikeDto> list = sqlSession.selectList("moim.checkMemberLike", memberLikeDto);
+		return !list.isEmpty();
+	}
+	@Override
+	public boolean memberLikeDelete(MemberLikeDto memberLikeDto) {
+		return sqlSession.delete("moim.deleteMemberLike", memberLikeDto) > 0;
+	}
+	@Override
+	public int memberLikeCount(int moimNo) {
+		return sqlSession.selectOne("moim.countMemberLike", moimNo);
 	}
 	
 }

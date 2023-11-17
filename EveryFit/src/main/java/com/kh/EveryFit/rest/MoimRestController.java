@@ -1,5 +1,7 @@
 package com.kh.EveryFit.rest;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dao.MoimDao;
+import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.MemberLikeVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,13 +68,55 @@ public class MoimRestController {
 	    int locationNo = Integer.parseInt(String.valueOf(moimDto.getLocationNo()));
 	    int eventNo = Integer.parseInt(String.valueOf(moimDto.getEventNo()));
 
-	    // 변환된 값을 다시 yourDto에 설정
 	    moimDto.setMoimNo(moimNo);
 	    moimDto.setLocationNo(locationNo);
 	    moimDto.setEventNo(eventNo);
 
 		moimDao.updateMoimInfo(moimDto);
 		return "success";
+	}
+	
+	//모임 좋아요 기능
+	@RequestMapping("/likeCheck")
+	public MemberLikeVO likeCheck(@ModelAttribute MemberLikeDto memberLikeDto,
+						HttpSession session) {
+		String memberEmail = (String) session.getAttribute("name");
+		memberLikeDto.setMemberEmail(memberEmail);
+		
+		boolean isCheck = moimDao.memberLikeCheck(memberLikeDto);
+		int count = moimDao.memberLikeCount(memberLikeDto.getMoimNo());
+		
+		MemberLikeVO vo = new MemberLikeVO();
+		vo.setCheck(isCheck);
+		vo.setCount(count);
+
+		
+		return vo;
+	}
+	
+	@RequestMapping("/likeAction")
+	public MemberLikeVO likeAction(@ModelAttribute MemberLikeDto memberLikeDto,
+									HttpSession session) {
+		String memberEmail = (String)session.getAttribute("name");
+		memberLikeDto.setMemberEmail(memberEmail);
+
+		boolean isCheck = moimDao.memberLikeCheck(memberLikeDto);
+		log.debug("isCheck = {}", isCheck);
+		if (!isCheck) { // 체크되어있지 않다면
+		    moimDao.memberLikeInsert(memberLikeDto); // 체크설정
+		    log.debug("memberLikeDto = {}", memberLikeDto);
+		} else { // 이미 체크되어 있다면
+		    moimDao.memberLikeDelete(memberLikeDto); // 체크해제
+		}
+
+
+		int count = moimDao.memberLikeCount(memberLikeDto.getMoimNo());
+		
+		MemberLikeVO vo = new MemberLikeVO();
+		vo.setCheck(!isCheck);
+		vo.setCount(count);
+		
+		return vo;
 	}
 	
 	//모임회원차단
