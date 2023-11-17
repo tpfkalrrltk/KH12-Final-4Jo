@@ -43,9 +43,8 @@ public class AdminController {
 	public String moim(Model model, 
 			@ModelAttribute("adminMoimSearchVO") AdminMoimSearchVO adminMoimSearchVO) {
 		
-		model.addAttribute("adminMoimList", adminDao.adminMoimList());
-		
-	//	model.addAttribute("adminMoimList", adminDao.adminMoimSearch(adminMoimSearchVO));
+		//model.addAttribute("adminMoimList", adminDao.adminMoimList());
+		model.addAttribute("adminMoimList", adminDao.adminMoimSearch(adminMoimSearchVO));
 		return "admin/moimList";
 	}
 }
