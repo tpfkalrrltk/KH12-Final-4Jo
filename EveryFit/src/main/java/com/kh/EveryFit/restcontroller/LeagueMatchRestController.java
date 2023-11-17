@@ -39,7 +39,8 @@ public class LeagueMatchRestController {
 	}
 	
 	@PutMapping("/{leagueMatchNo}")
-	public void update(@RequestBody LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
+	public void update(@ModelAttribute LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
+		log.debug("leagueMatchDto = {}", leagueMatchDto);
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 	}
 	

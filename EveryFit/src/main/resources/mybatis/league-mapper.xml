@@ -270,7 +270,7 @@
                 league_match_away = #{leagueMatchDto.leagueMatchAway},
             </if>
             <if test="leagueMatchDto.leagueMatchDate != null">
-                league_match_date = #{leagueMatchDto.leagueMatchDate},
+                league_match_date = to_timestamp(#{leagueMatchDto.leagueMatchDate}, 'YYYY-MM-DD"T"HH24:MI'),
             </if>
             <if test="leagueMatchDto.leagueMatchHomeScore != null">
                 league_match_home_score = #{leagueMatchDto.leagueMatchHomeScore},
