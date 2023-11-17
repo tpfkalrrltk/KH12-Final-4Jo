@@ -12,6 +12,9 @@
 .member-profile {
 	width: 50px;
 }
+.profile-image {
+	width:500px;
+}
 
 </style>
 
@@ -61,7 +64,7 @@
 		모임신고
 		</div></div>
 		<div class="row"><div class="col">
-		<button class="moim-edit">모임수정</button>
+		<button class="moim-edit btn btn-primary">모임수정</button>
 		</div></div>
 		<div class="row"><div class="col">
 		</div></div>
@@ -77,8 +80,16 @@
 		모임장승계?(어떻게구현할지고민해보자)
 		</div></div>
 		<div class="row"><div class="col">
-		모임수정은 모임명 / 모임설명 / 여성전용해제만 가능하도록 하자!
+		정모 등록할 때 날짜 형식검사 필요함(지난날짜 검사, 너무 먼 미래 검사)
+		모임 가입할 때 여성전용은 여성만 가입하도록 ...조회한번해야함
+		
+		모임리스트에서 보여 줄 것
+		모임정보(전부), 모임인원(moim_member 카운트), 모임종목명, 모임지역명(dept1, dept2), 사진, 
+		좋아요수(member_like 카운트)
 		</div></div>
+		<c:if test="${moimDto.moimUpgrade == 'Y'}">
+			<span class="badge bg-info gender-check">프리미엄</span>
+		</c:if>
 		<c:if test="${moimDto.moimGenderCheck == 'Y'}">
 			<span class="badge bg-warning gender-check">여성전용</span>
 			<input type="checkbox" name="moimGenderCheck" style="display:none;">
@@ -116,8 +127,6 @@
 	</c:forEach>
 			<hr>
 				<a class="btn btn-primary" href="jungmo/create?moimNo=${moimDto.moimNo}">정모등록</a>
-				<a class="btn btn-primary" href="edit?moimNo=${moimDto.moimNo}">모임수정</a>
-
 			<hr>
 			<h1>정모 List</h1>
 			<!-- 			<button type="button" class="load-list">목록불러오기</button> -->
