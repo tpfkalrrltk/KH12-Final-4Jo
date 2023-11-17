@@ -244,7 +244,9 @@
     <!-- 리그경기 생성 -->
     <insert id="insertLeagueMatch">
         INSERT INTO league_match (league_match_no, league_no, league_match_home, league_match_away, league_match_date, league_match_location)
-        VALUES (#{leagueMatchNo}, #{leagueNo}, #{leagueMatchHome}, #{leagueMatchAway}, #{leagueMatchDate}, #{leagueMatchLocation})
+        VALUES (#{leagueMatchNo}, #{leagueNo}, #{leagueMatchHome}, #{leagueMatchAway}, 
+        to_timestamp(#{leagueMatchDate}, 'YYYY-MM-DD"T"HH24:MI'),
+        #{leagueMatchLocation})
     </insert>
     
     <!-- 리그경기 조회 -->

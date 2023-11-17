@@ -1,7 +1,5 @@
 package com.kh.EveryFit.dto;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +11,7 @@ public class LeagueMatchDto {
     private Integer leagueNo;
     private Integer leagueMatchHome; // league_team_no를 참조
     private Integer leagueMatchAway; // league_team_no를 참조
-    private Date leagueMatchDate;
+    private String leagueMatchDate;
     private Integer leagueMatchHomeScore; // Integer 타입으로 nullable 처리
     private Integer leagueMatchAwayScore; // Integer 타입으로 nullable 처리
     private String leagueMatchLocation;
