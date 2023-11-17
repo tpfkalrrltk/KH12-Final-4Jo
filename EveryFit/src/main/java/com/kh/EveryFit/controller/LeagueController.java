@@ -163,7 +163,13 @@ public class LeagueController {
 	@RequestMapping("/leagueMatch")
 	public String leagueMatch(@RequestParam int leagueNo, Model model) {
 		List<LeagueMatchDto> leagueMatchList = leagueDao.selectLeagueMatchList(leagueNo);
+		model.addAttribute("leagueMatchList", leagueMatchList);
 		return "league/leagueMatch";
+	}
+	
+	@GetMapping("/leagueMatchInsert")
+	public String leagueMatchInsert(@RequestParam int leagueNo, Model model) {
+		return "league/leagueMatchInsert";
 	}
 }
 
