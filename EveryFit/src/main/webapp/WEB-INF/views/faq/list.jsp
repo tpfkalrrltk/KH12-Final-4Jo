@@ -20,19 +20,15 @@
 	}
 
 	var number = 0;//특정 갯수만큼 반복하고 멈추게 하기 위해서
-
-		
-	
-
 </script>
 
 
-<body >
-	<div class="container " >
+<body>
+	<div class="container ">
 
 		<div class="row mt-5 p-5">
 			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-			 onload="hello()"	 >
+				onload="hello()">
 				<h1 class="display-5 fw-bold" id="introimg">FAQ</h1>
 			</div>
 		</div>
@@ -40,14 +36,12 @@
 
 		<div class="row">
 
+			<div class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+				<a href="add" class="text-light" style="text-decoration: none">
+					<h7 class="display-4"> <i class="fa-solid fa-plus"	id="addIcon"></i></h7>
+				</a>
+			</div>
 
-			<a href="add" class="text-light" style="text-decoration: none">
-				<div
-					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
-					<h7 class="display-4"> <i class="fa-solid fa-plus"
-						id="addIcon"></i></h7>
-				</div>
-			</a>
 
 		</div>
 

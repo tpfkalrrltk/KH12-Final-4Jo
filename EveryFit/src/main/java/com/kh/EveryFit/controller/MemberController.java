@@ -87,8 +87,8 @@ public class MemberController {
 	        return "redirect:login?error";
 	    }
 
-//	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
-	    boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
+	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
+//	    boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
 
 
 	    

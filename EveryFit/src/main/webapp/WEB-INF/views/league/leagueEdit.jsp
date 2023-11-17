@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
-
+<div class="row"><div class="col-md-8 offset-md-2">
 <div class="row mt-4"><div class="col">
 	<h1>${leagueDto.leagueNo}번 리그 수정</h1>       
 </div></div>
@@ -87,7 +87,7 @@
 	<button type="submit" class="btn btn-primary">수정</button>        
 </div></div>
 </form>
-
+</div></div>
 
 <script>
 $(function(){

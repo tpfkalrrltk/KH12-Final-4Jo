@@ -31,10 +31,6 @@ public class LeagueMatchRestController {
 		leagueDao.insertLeagueMatch(leagueMatchDto);
 	}
 	
-	@GetMapping("/")
-	public List<LeagueMatchDto> list(){
-		return leagueDao.selectLeagueMatchList();
-	}
 	
 	@GetMapping("/{leagueMatchNo}")
 	public LeagueMatchDto selectOne(@PathVariable int leagueMatchNo) {

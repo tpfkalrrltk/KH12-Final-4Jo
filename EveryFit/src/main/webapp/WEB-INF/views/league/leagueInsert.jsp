@@ -4,6 +4,7 @@
     
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
+<div class="row"><div class="col-md-8 offset-md-2">
 <div class="row">
 	<div class="col">
 		<h1>리그등록</h1>
@@ -65,7 +66,7 @@
     </div></div>
 </form>
 
-
+</div></div>
 
 <script>
 	$(".location-depth1").change(function(e){
