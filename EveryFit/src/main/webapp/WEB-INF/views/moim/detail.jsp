@@ -135,6 +135,17 @@
 						정모명 : ${jungmoList.jungmoListVO.jungmoTitle}
 						상태 : ${jungmoList.jungmoListVO.jungmoStatus}
 						인원 : ${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
+						날짜 : ${jungmoList.jungmoListVO.jungmoSchedule}
+						<h4 class="text-danger"> 
+						<c:choose>
+						<c:when test="${jungmoList.jungmoListVO.dday <= 0}">
+							D - Day
+						</c:when>
+						<c:otherwise>
+						D - ${jungmoList.jungmoListVO.dday}
+						</c:otherwise>
+						</c:choose>
+						</h4>
 					
 					
 					<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a>

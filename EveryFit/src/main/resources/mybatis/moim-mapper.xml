@@ -278,7 +278,8 @@
 	
 	<!-- 정모리스트(대표정보) -->
 	<select id="jungmoListAll" resultMap="jungmoWithMembersVO">
-		select * from jungmo_list where moim_no = #{moimNo}
+		select * from jungmo_list where moim_no = #{moimNo} 
+		and jungmo_schedule >= current_timestamp
 	</select>
 	
 	<!-- 정모번호 별 멤버리스트 -->

@@ -21,8 +21,7 @@
 						type="text" name="jungmoAddrLink"> 인원<input type="text"
 						name="jungmoCapacity"> 가격<input type="number"
 						name="jungmoPrice"> 일정<input type="datetime-local"
-						name="jungmoDto.jungmoScheduleStr">채팅방<input type="number"
-						name="chatRoomNo" value=1>
+						name="jungmoDto.jungmoScheduleStr">
 					<button type="submit" class="save-btn">등록하기</button>
 				</form>
 			</div>
