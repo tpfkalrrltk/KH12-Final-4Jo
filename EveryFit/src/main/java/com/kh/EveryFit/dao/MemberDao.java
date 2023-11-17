@@ -55,5 +55,7 @@ public interface MemberDao {
 //	void updateMemberLogin(String memberEmail);
 	
 	
+
+	
 	
 }

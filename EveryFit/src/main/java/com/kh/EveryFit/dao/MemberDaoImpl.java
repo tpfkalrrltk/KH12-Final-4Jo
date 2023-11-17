@@ -145,6 +145,14 @@ public class MemberDaoImpl implements MemberDao {
 		}
 		return null;
 	}
+
+	
+	
+
+	
+	
+	
+	
 }
 
 //	로그인 시간 갱신 
