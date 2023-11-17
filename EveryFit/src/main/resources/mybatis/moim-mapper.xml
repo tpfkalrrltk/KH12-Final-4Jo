@@ -37,22 +37,22 @@
 	<update id="editMoim">
 		update moim
 		<set>
-			<if test="MoimDto.locationNo != null">
+			<if test="locationNo != null">
 				location_no=#{locationNo},
 			</if>
-			<if test="MoimDto.eventNo != null">
+			<if test="eventNo != null">
 				event_no=#{eventNo},
 			</if>
-			<if test="MoimDto.moimTitle != null">
+			<if test="moimTitle != null">
 				moim_title=#{moimTitle},
 			</if>
-			<if test="MoimDto.moimContent != null">
+			<if test="moimContent != null">
 				moim_content=#{moimContent},
 			</if>
-			<if test="MoimDto.moimState != null">
-				moim_state#{moimState},
+			<if test="moimState != null">
+				moim_state = #{moimState},
 			</if>
-			<if test="MoimDto.moimGenderCheck != null">
+			<if test="moimGenderCheck != null">
 				moim_gender_check=#{moimGenderCheck}
 			</if>
 		</set>

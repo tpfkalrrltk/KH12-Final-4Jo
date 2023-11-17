@@ -22,7 +22,7 @@
 		<div class="col-md-10 offset-md-1">
 			<div class="jumbotron mt-5">
 				<h1 class="display-4 bg-primary rounded text-light p-3">${moimDto.moimTitle}</h1>
-				<p class="lead">${moimDto.moimContent}</p>
+				<div class="miom-content">${moimDto.moimContent}</div>
 				<hr class="my-4" />
 				<p>구현중입니다</p>
 					<div class="row mt-4">
@@ -51,13 +51,11 @@
 		${profile}
 		${moimDto}
 		<h1>모임 상세(사진, 모임명, 설명)</h1>
-		<div class="miom-content">
-		${moimDto.moimContent}
-		</div>
 		${locationDto.locationDepth1}
 		${locationDto.locationDepth2} ${eventDto.eventName}
 		<div class="row"><div class="col">
 		<a class="btn btn-primary" href="/default/${moimDto.chatRoomNo}">채팅방가기</a>
+		
 		</div></div>
 		<div class="row"><div class="col">
 		모임신고
@@ -183,13 +181,21 @@
       </div>
       <div class="modal-body">
       <form id="appInsert" method="post">
-      	<input type="text" name="moimTitle" value="">
-      	<input type="text" name="moimContent" value="">
-      	<select name="moimState">
+      	<input type="hidden" name="moimNo" value="${moimDto.moimNo}" >
+      	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}" >
+      	<input type="hidden" name="eventNo" value="${moimDto.eventNo}" >
+      	모임명 <input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}">
+      	모임설명 <input type="text" name="moimContent" data-original-value="${moimDto.moimContent}">
+      	모임상태 <select name="moimState" data-original-value="${moimDto.moimState}">
       		<option>모집중</option>
       		<option>마감</option>
       	</select>
-      	<input type="checkbox" name="moimGenderCheck" value="">
+      	<c:if test="${moimDto.moimGenderCheck == 'Y'}">
+      	여성전용해제<input type="checkbox"  id="moimGenderCheck" 
+      	name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
+      	data-original-value="${moimDto.moimGenderCheck}">
+      	</c:if>
+
       </form>
       </div>
       <div class="modal-footer">
@@ -274,6 +280,15 @@
 		});
 	});
 	
+	$("#moimGenderCheck").on("change", function() {
+	    // 체크박스가 체크되어 있다면 'N', 체크되어 있지 않다면 'Y' 값을 설정
+		if (this.checked) {
+			this.value = 'N';
+			alert("여성모임을 해제하면 다시 변경이 어렵습니다.");
+        } else {
+            this.checked = true; // 체크를 해제하지 못하게 함
+        }
+	});
 
 //     $(".gender-check").click(function(){
 //         // 여성전용을 나타내는 span이 클릭되면
@@ -302,31 +317,88 @@
 //             },
 //         });
 //     });
-    
+    var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
 	 $("#appBtn").click(function(){
-            // FormData 객체 생성
-            var formData = new FormData($("#appInsert")[0]);
 
-            // AJAX를 사용하여 서버로 데이터 전송
-            $.ajax({
-                url: "서버에_업로드_할_URL",
-                type: "POST",
-                processData: false,  // 데이터를 query string으로 변환하지 않음
-                contentType: false,  // 기본 컨텐츠 타입 설정 비활성화
-                data: formData,
-                success: function (data) {
-                    // 서버 응답에 따른 동작 수행
-                    console.log(data);
-                },
-                error: function (error) {
-                    // 오류 발생 시 동작 수행
-                    console.error(error);
-                }
-            });
-        });
+		 var formData = $("#appInsert").serialize();
+
+		 $.ajax({
+               url: "http://localhost:8080/rest/moim/infoChange",
+               type: "POST",
+               data: formData,
+               success: function (data) {
+                   // 서버 응답에 따른 동작 수행
+                  console.log(data); 
+             	    alert("변경완료");
+                	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+               },
+               error: function (error) {
+                   // 오류 발생 시 동작 수행
+                   console.error(error);
+                   console.error("에러");
+               }
+           });
+ 
+       });
+// $("#appBtn").click(function () {
+//   var dataToSend = {};
+
+//   // input, select 요소에 대해 처리
+//   $("#appInsert input, #appInsert select, #appInsert input[type='checkbox']").each(function () {
+//     var originalValue = $(this).data("original-value");
+//     var currentValue = $(this).val();
+
+//     // input 타입이 checkbox인 경우에 대한 처리
+//     if ($(this).is("input[type='checkbox']")) {
+//       currentValue = this.checked ? 'N' : 'Y';
+
+//     }
+
+//     // 입력값이 있고, 현재 값이 원래 값과 다르면 객체에 추가
+//     if (currentValue.length !== 0 && currentValue !== originalValue) {
+//       dataToSend[$(this).attr("name")] = currentValue;
+//     }
+//   });
+//   console.log(dataToSend);
+//   // AJAX를 사용하여 서버로 데이터 전송
+//   $.ajax({
+//     url: "http://localhost:8080/rest/moim/infoChange",
+//     type: "POST",
+//     data: dataToSend,
+//     success: function (data) {
+//       // 서버 응답에 따른 동작 수행
+//       console.log(data);
+//       alert("변경완료");
+//       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+//     },
+//     error: function (error) {
+//       // 오류 발생 시 동작 수행
+//       console.error(error);
+//       console.error("에러");
+//     }
+//   });
+// });
+
 	
 	
     $(".moim-edit").click(function(){
+        // 모든 input, select, checkbox 필드에 대해 초기화
+        $("#appInsert input:not([type='hidden']), #appInsert select").each(function () {
+          var originalValue = $(this).data("original-value");
+          if ($(this).is("select")) {
+            // select는 선택된 옵션으로 초기화
+            $(this).val(originalValue);
+          } 
+          else if ($(this).is("input[type='checkbox']")) {
+              // checkbox는 checked 상태로 초기화
+              $(this).prop("checked", originalValue === "N");
+          }
+          else {
+            // 나머지는 값으로 초기화
+            $(this).val(originalValue);
+          }
+        });
+    	
         $("#applicationModal").modal("show");
     });
 
