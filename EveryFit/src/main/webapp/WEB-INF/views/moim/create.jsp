@@ -62,7 +62,7 @@
 	모임설명<input type="text" name="moimContent" placeholder="${moimDto.moimContent}">
 	<input type="hidden" name="moimMemberCount" value=30>
 	
-	여성전용 <input type="checkbox" name="moimGenderCheck">
+	여성전용 <input type="checkbox" name="moimGenderCheck" id="moimGenderCheck">
 	<button type="submit">등록</button>
 </form>
 </div>
@@ -127,14 +127,14 @@
 			});
 		});
 	
-	$("[name=moimGenderCheck]").click(function(e){
-	    var isChecked = $(this).prop("checked");
+    $("#moimGenderCheck").change(function() {
+        if ($(this).is(":checked")) {
+            $(this).val("Y");
+        } else {
+            $(this).val("N");
+        }
 
-	    // 체크박스를 클릭하여 선택되었다면
-	    if (isChecked) {
-	        $(this).val(1);
-	    } else {
-	    	$(this).val(2);
-	    }
-	});
+        // Optional: 여기서 폼을 제출하거나 추가로 처리할 작업을 수행할 수 있습니다.
+        // $("#moimForm").submit();
+    });
  </script> 
