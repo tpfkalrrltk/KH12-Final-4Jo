@@ -14,32 +14,32 @@ a {
 
 
 <script>
+	/* 임시비밀번호  */
+	$("#checkEmail").click(function() {
+		const userEmail = $("#userEmail").val();
+		const sendEmail = document.forms["sendEmail"];
+		$.ajax({
+			type : 'post',
+			url : 'emailDuplication',
+			data : {
+				'memberEmail' : userEmail
+			},
+			dataType : "text",
+			success : function(result) {
+				if (result == "no") {
+					// 중복되는 것이 있다면 no == 일치하는 이메일이 있다!
+					alert('임시비밀번호를 전송 했습니다.');
+					sendEmail.submit();
+				} else {
+					alert('가입되지 않은 이메일입니다.');
+				}
 
-/* 임시비밀번호  */
-$("#checkEmail").click(function () {
-        const userEmail = $("#userEmail").val();
-        const sendEmail = document.forms["sendEmail"];
-        $.ajax({
-            type: 'post',
-            url: 'emailDuplication',
-            data: {
-                'memberEmail': userEmail
-            },
-            dataType: "text",
-            success: function (result) {
-                if(result == "no"){
-                    // 중복되는 것이 있다면 no == 일치하는 이메일이 있다!
-                    alert('임시비밀번호를 전송 했습니다.');
-                    sendEmail.submit();
-                }else {
-                    alert('가입되지 않은 이메일입니다.');
-                }
-
-            },error: function () {
-                console.log('에러 체크!!')
-            }
-        })
-    });
+			},
+			error : function() {
+				console.log('에러 체크!!')
+			}
+		})
+	});
 </script>
 
 
@@ -95,15 +95,15 @@ $("#checkEmail").click(function () {
 
 							<!-- <div class="col-md-4 offset-md-4 mt-2">
 								<span><a href="#">아이디 찾기</a> </span> | <span><a
-									href="/member/findPw">비밀번호 찾기</a></span> | <span>--><a
-									href="/member/join">회원가입</a></span>
-							</div> 
+									href="/member/findPw">비밀번호 찾기</a></span> | <span>-->
+							<!-- <a href="/member/join">회원가입</a></span> -->
+						</div>
 
 
-							<!-- 여기서부터 회원정보 찾기 -->
+						<!-- 여기서부터 회원정보 찾기 -->
 
-							<!--임시 비번 모달-->
-							<!-- <div id="findPw" class="modal fade">
+						<!--임시 비번 모달-->
+						<!-- <div id="findPw" class="modal fade">
 								<div class="modal-dialog modal-dialog-centered modal-login">
 									<div class="modal-content">
 										<div class="modal-body">
@@ -145,22 +145,29 @@ $("#checkEmail").click(function () {
 									</div>
 								</div>
 							</div> -->
-							<button type="button" class="btn btn-link" data-bs-toggle="modal"
-								data-bs-target="#findPw">비밀번호를 잊으셨나요?</button>
+						<button type="button" class="btn btn-link mt-3" data-bs-toggle="modal"
+							data-bs-target="#findPw"><a href="/#" class="text-info">아이디를 잊으셨나요?</a></button>
 
-							<!-- 여기까지  -->
+						<button type="button" class="btn btn-link" data-bs-toggle="modal"
+							data-bs-target="#findPw"><a href="/member/findPw" class="text-info">비밀번호를 잊으셨나요?</a></button>
+
+						<button type="button" class="btn btn-link" data-bs-toggle="modal"
+							data-bs-target="#findPw"><a href="/member/join" class="text-info">회원가입</a></button>
 
 
-							<div class="col-md-4 offset-md-4 mt-5 ">
-								<button type="submit" class="btn btn-success"
-									style="width: 350px;">login</button>
-							</div>
+						<!-- 여기까지  -->
 
+
+						<div class="col-md-4 offset-md-4 mt-3 ">
+							<button type="submit" class="btn btn-success"
+								style="width: 350px;">login</button>
 						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 

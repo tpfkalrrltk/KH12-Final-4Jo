@@ -27,7 +27,7 @@ public class MemberDto {
 //	private Date memberLogin;
 //	private Date memberPwChange;
 //	private int memberMoimProduce;
-//	private int memberMoimCount;
+	private int memberMoimCount;
 //	private char memberBlock;
 	
 	

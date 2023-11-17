@@ -12,17 +12,18 @@
 .box {
 	margin: 20px;
 	padding: 30px;
-	border: 1px solid black;
+	border: 1px solid orange;
 	border-radius: 14px;
 }
 
-a{
+a {
 	text-decoration: none;
-	color:white;
+	color: white;
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- jquery cdn -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -38,33 +39,33 @@ a{
 					modal.show();
 				});
 	});
-	
-	
-	
+
 	/* 비밀번호 변경  */
 	$(document).ready(function() {
-    $("#changePasswordButton").click(function() {
-        var newPassword = prompt("새로운 비밀번호를 입력하세요:");
-        if (newPassword !== null && newPassword !== "") {
-            changePassword(newPassword);
-        }
-    });
+		$("#changePasswordButton").click(function() {
+			var newPassword = prompt("새로운 비밀번호를 입력하세요:");
+			if (newPassword !== null && newPassword !== "") {
+				changePassword(newPassword);
+			}
+		});
 
-    function changePassword(newPassword) {
-        // 서버로 비밀번호 변경 요청을 보내는 AJAX 호출
-        $.ajax({
-            url: "/changePassword", // 비밀번호 변경을 처리하는 서버 엔드포인트 URL
-            type: "POST", // HTTP POST 요청
-            data: { newPassword: newPassword }, // 변경할 비밀번호
-            success: function(response) {
-                alert("비밀번호가 성공적으로 변경되었습니다.");
-            },
-            error: function(xhr, status, error) {
-                console.error("비밀번호 변경 실패: " + error);
-            }
-        });
-    }
-});
+		function changePassword(newPassword) {
+			// 서버로 비밀번호 변경 요청을 보내는 AJAX 호출
+			$.ajax({
+				url : "/changePassword", // 비밀번호 변경을 처리하는 서버 엔드포인트 URL
+				type : "POST", // HTTP POST 요청
+				data : {
+					newPassword : newPassword
+				}, // 변경할 비밀번호
+				success : function(response) {
+					alert("비밀번호가 성공적으로 변경되었습니다.");
+				},
+				error : function(xhr, status, error) {
+					console.error("비밀번호 변경 실패: " + error);
+				}
+			});
+		}
+	});
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -80,7 +81,8 @@ a{
 				<div class="row">
 					<div class="col align-self-start">
 						<div>
-							<img src="/images/profile.jpg" style="width:150px; height:150px; border-radius:70%; overflow:hidden;">
+							<img src="/images/profile.jpg"
+								style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden;">
 						</div>
 						<div class="mt-2">
 							<i class="fa-brands fa-mailchimp" style="color: #3f82ec;"></i>
@@ -92,18 +94,23 @@ a{
 					<div class="col align-self-center">
 
 						<div>${memberDto.memberNick}</div>
+						<div>내 모임 : ${memberDto.memberMoimCount} 개</div>
 					</div>
 					<div class="col align-self-end">
 						<div>
-							<button class="btn btn-success"><a href="#">프리미엄 회원권</a></button>
+							<button class="btn btn-success">
+								<a href="#">프리미엄 회원권</a>
+							</button>
 						</div>
-						
+
 						<div>
-							<button class="btn btn-info mt-2"><a href="/member/change">프로필 등록/수정</a></button>
+							<button class="btn btn-info mt-2">
+								<a href="/member/change">프로필 등록/수정</a>
+							</button>
 						</div>
-						
-							<div>
-						<!-- 	
+
+						<div>
+							<!-- 	
 						 Button trigger modal
 							<button type="button" class="btn btn-info mt-2"
 								data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -167,6 +174,21 @@ a{
 				</div>
 			</div>
 
+
+			<div class="container text-center mt-5 box">
+				<div class="d-flex">
+					<label>소개</label> <label style="margin-left: 10px;">모임</label> <label
+						style="margin-left: 10px;">정모</label> <label
+						style="margin-left: 10px;">리그</label>
+	
+
+					<div class="text-success">
+						<hr>
+					</div>
+
+
+				</div>
+			</div>
 
 		</div>
 	</div>
