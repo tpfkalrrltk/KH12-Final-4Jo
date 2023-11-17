@@ -34,26 +34,75 @@
 			</div>
 		</div>
 
-<div class="row">
-검색기능
+
+
+<div class="container-fluid">
+
+<form action="">
+<div class="row bg-primary rounded-top-3  text-light fw-bold pt-3">
+<div class="col">이메일 : <input class="form-control fw-bold text-primary" 
+ name="memberEmail" value="${adminMemberSearchVO.memberEmail}"></div>
+<div class="col">이름 : <input class="form-control fw-bold text-primary" 
+name="memberName" value="${adminMemberSearchVO.memberName}" ></div>
+<div class="col">닉네임 : <input class="form-control fw-bold text-primary" 
+name="memberNick" value="${adminMemberSearchVO.memberNick}"></div>
+<div class="col">전화번호 : <input class="form-control fw-bold text-primary"
+name="memberContact" value="${adminMemberSearchVO.memberContact}"></div>
+<div class="col">생년월일 : <input class="form-control fw-bold text-primary" type="date"
+name="memberbirthBegin" value="${adminMemberSearchVO.memberBirthBegin}"> ~
+<input class="form-control fw-bold text-primary"  type="date"
+name="memberbirthEnd" value="${adminMemberSearchVO.memberBirthEnd}">
 </div>
-		<div class="row">
+
+</div>
+
+
+
+
+<div class="row bg-primary rounded-bottom-3 text-light fw-bold pb-3">
+
+
+
+<div class="col">
+성별 : <select  class="form-select col  fw-bold text-primary" name="memberGenderList">
+<option value="">==Select==</option>
+<option>남성</option>
+<option>여성</option>
+</select></div>
+<div class="col">
+등급 : <select  class="form-select col  fw-bold text-primary" name="memberLevelList">
+<option value="">==Select==</option>
+<option>일반</option>
+<option>프리미엄</option>
+<option>관리자</option>
+</select>
+</div>
+<div class="col">
+정렬순서 : <select  class="form-select col  fw-bold text-primary" name="orderList">
+<option value="">==Select==</option>
+<option value="member_email asc">이메일</option>
+<option value="member_name asc">이름</option>
+<option value="member_nick asc">닉네임</option>
+<option value="member_contact asc">전화번호</option>
+<option value="member_birth asc">생년월일</option>
+<option value="member_level asc">등급</option>
+</select>
+</div>
+	<div class="row mt-3">
 			<div
-				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
-				<a href="#" class="text-light" style="text-decoration: none"> <h7
+				class="col-2 offset-10 text-center bg-primary rounded-3  text-light p-0">
+				<button type="submit" class="text-light bg-primary" style="border: 0"> <h7
 						class="display-4">
 					<i class="fa-solid fa-magnifying-glass fa-flip " id="addIcon"></i>
 					</h7>
-				</a>
+				</button>
 			</div>
-
-
-
+</div>
 		</div>
+</div>
+</form>
 
-
-
-		<table class="table table-hover row">
+		<table class="table table-hover row ms-1">
 			<thead>
 				<tr class=" table-primary text-center row mt-4">
 					<th class="col-2  fw-bold">이메일</th>

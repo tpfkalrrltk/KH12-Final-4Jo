@@ -12,7 +12,92 @@
 	</select>
 
 	<select id="adminMemberTarget" resultType="MemberDto">
-		select* from member where member_email = #{memberEmail}
+		select* from member
+		where member_email = #{memberEmail}
+	</select>
+
+
+
+	<!-- 회원 복합 검색 -->
+
+	<select id="adminMemberSearch" resultType="MemberDto">
+
+		<!-- <include refid="pagingHeader"></include> -->
+
+		select * from member
+		<where>
+
+			<if test="memberEmail != null">
+				and instr(member_email, #{memberEmail}) > 0
+			</if>
+
+			<if test="memberName !=null">
+				and instr(member_name, #{memberName}) > 0
+			</if>
+
+			<if test="memberNick != null">
+				and instr(member_nick,#{memberNick}) >0
+			</if>
+
+			<if test="memberContact != null">
+				and instr(member_contact, #{memberContact})>0
+			</if>
+
+			<choose>
+
+				<when
+					test="memberBirthBegin != null and memberBirthEnd != null">
+					and to_date(member_birth, 'YYYY-MM-DD') between
+					to_date(#{memberBirthBegin} || ' ' ||'00:00:00','YYYY-MM-DD
+					HH24:MI:SS')
+					and
+					to_date(#{memberBirthEnd} || ' ' ||'23:59:59',
+					'YYYY-MM-DD HH:24:MI:SS')
+				</when>
+				<when test="memberBirthBegin != null">
+<![CDATA[
+and to_date(member_birth, 'YYYY-MM-DD') >= 
+to_date(#{memberBirthBegin || ' ' ||'00:00:00','YYYY-MM-DD HH24:MI:SS'})
+]]>
+				</when>
+				<when test="memberBirthEnd != null">
+<![CDATA[
+and to_date(member_birth, 'YYYY-MM-DD') <=
+to_date(#{memberBirthEnd || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS'})
+]]>
+				</when>
+			</choose>
+
+			<if test="memberGenderList != null and memberGenderList.size() >0">
+				and member_gender in
+				<foreach collection="memberGenderList" open="(" close=")"
+					separator="," item="Gender">
+					#{Gender}
+				</foreach>
+			</if>
+
+			<if test="memberLevelList != null and memberLevelList.size()>0">
+				and member_level in
+				<foreach collection="memberLevelList" open="(" close=")"
+					separator="," item="Level">
+					#{Level}
+				</foreach>
+			</if>
+
+
+		
+
+
+		</where>
+		
+			<!-- 정렬 -->
+			<if test="orderList != null  and  orderList.size() >0">
+				order by
+				<foreach collection="orderList" separator="," item="order">
+					${order}
+				</foreach>
+			</if>
+
 	</select>
 
 </mapper>
