@@ -36,14 +36,14 @@
 
 		<div class="row">
 
-
-			<a href="add" class="text-light" style="text-decoration: none">
-				<div
-					class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+			<div
+				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+				<a href="add" class="text-light" style="text-decoration: none">
 					<h7 class="display-4"> <i class="fa-solid fa-plus"
 						id="addIcon"></i></h7>
-				</div>
-			</a>
+				</a>
+			</div>
+
 
 		</div>
 
@@ -60,9 +60,9 @@
 			</thead>
 
 			<tbody>
-			
-			
-			
+
+
+
 				<c:forEach items="${FreeBoardList}" var="FreeBoardList">
 
 					<tr class="text-center table- row">
@@ -72,12 +72,12 @@
 						<td class="col-5"><a
 							href="detail?freeBoardNo=${FreeBoardList.freeBoardNo}"
 							style="text-decoration: none" class="text-primary fw-bold">
-								${FreeBoardList.freeBoardTitle}
-								<c:if test="${FreeBoardList.freeBoardReplyCount>0}">
+								${FreeBoardList.freeBoardTitle} <c:if
+									test="${FreeBoardList.freeBoardReplyCount>0}">
 							[${FreeBoardList.freeBoardReplyCount}]
-								</c:if>	
-								</a></td>
-	
+								</c:if>
+						</a></td>
+
 
 						<c:choose>
 							<c:when test="${FreeBoardList.memberNick==null}">

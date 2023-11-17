@@ -282,7 +282,8 @@ body {
 							</h2>
 					</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item fw-bold" href="#"> (관리자)회원 관리 </a>
+							<a class="dropdown-item fw-bold" 
+							href="${pageContext.request.contextPath}/admin/member"> (관리자)회원 관리 </a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/moim/create">(관리자)모임
