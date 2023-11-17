@@ -5,7 +5,11 @@ import java.util.List;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
+
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
+
 
 public interface MoimDao {
 	//모임
@@ -40,6 +44,12 @@ public interface MoimDao {
 	//모임회원상태변경
 	void updateMoimMember(MoimMemberStatusVO vo);
 	
+
+	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
+	List<MoimMemberDto> selectAllMoimNo(String memberEmail);
+	List<MoimTitleForPaymentVO> selectTitleMoimNo(String memberEmail);
+
 	//세션값의 모임멤버레벨, 모임멤버상태 조회
 	MoimMemberDto selectOneMyInfo(String memberEmail);
+
 }

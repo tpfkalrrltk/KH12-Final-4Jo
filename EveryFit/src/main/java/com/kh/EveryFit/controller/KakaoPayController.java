@@ -1,6 +1,7 @@
 package com.kh.EveryFit.controller;
 
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.MemberDao;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dao.ProductDao;
+import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.dto.PaymentDto;
 import com.kh.EveryFit.dto.PeriodPaymentDto;
 import com.kh.EveryFit.dto.ProductDto;
@@ -27,6 +31,7 @@ import com.kh.EveryFit.vo.KakaoPayCancelResponseInPeriodVO;
 import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,10 +51,25 @@ public class KakaoPayController {
 	@Autowired
 	private MemberDao memberDao;
 	
+	@Autowired
+	private MoimDao moimDao;
 	
 	@GetMapping("/pay")
-	public String premium1(Model model, @RequestParam int productNo) {
+	public String premium1(Model model, @RequestParam int productNo, HttpSession session) {
 		model.addAttribute("productDto", productDao.oneOfList(productNo));
+		//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
+		String memberId = "KH12FD";
+		
+		//구매할사람이 포함된 모임정보 조회
+		List<MoimMemberDto> moimMemberDto= moimDao.selectAllMoimNo(memberId);
+		List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
+		//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
+		//가입된 모임 번호를 확인하여 VO에 저장
+		log.debug("moimMemberDto={}", moimMemberDto);
+		log.debug("moimTitleForPaymentVO={}", moimTitleForPaymentVO);
+		model.addAttribute("list", moimMemberDto);
+		model.addAttribute("list2", moimTitleForPaymentVO);
+		
 		return "pay/premium";
 	}
 	
@@ -60,13 +80,14 @@ public class KakaoPayController {
 				//상품정보를 이용하여 결제준비 요청
 				
 				//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
-				String memberId = (String) session.getAttribute("name");
+				String memberId = "KH12FD";
 				
 				KakaoPayReadyRequestVO request = KakaoPayReadyRequestVO.builder()
 						.itemName(productDto.getProductName())
 						.itemPrice(productDto.getProductPrice())
 						.partnerOrderId(UUID.randomUUID().toString())
 						.partnerUserId(memberId)
+						//.payload(String.valueOf(moimNo))
 						.build();
 				
 				KakaoPayReadyResponseVO response = kakaoPayService.ready(request);
@@ -113,26 +134,31 @@ public class KakaoPayController {
 							.build());
 					
 					//회원권 구매 후 member_moim_count (3->10) 디비 수정
-					String memberEmail = (String) session.getAttribute("name");
+					//String memberEmail = KH12FD;
+					String memberEmail = "KH12FD";
 					memberDao.updateMemberMoimCount(memberEmail);
 					
 					return "redirect:successResult";
 		}
 		
 		@RequestMapping("/pay/purchase/successResult")
-		public String purchaseSuccessResult() {
+		public String purchaseSuccessResult(HttpSession session) {
+
 			return "pay/successResult";
 		}
 		
 		@GetMapping("/pay/periodPurchase")
-		public String periodPurchase(HttpSession session, @RequestParam int productNo) throws URISyntaxException {
+		public String periodPurchase(HttpSession session, @RequestParam int productNo, Model model,int moimNo) throws URISyntaxException {
 			//상품정보 조회
 					ProductDto productDto = productDao.oneOfList(productNo);
 					//상품정보를 이용하여 결제준비 요청
 					
 					//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
-					String memberId = (String) session.getAttribute("name");
+					String memberId = "KH12FD";
 					
+
+					
+
 					KakaoPayReadyRequestVO request = KakaoPayReadyRequestVO.builder()
 							.itemName(productDto.getProductName())
 							.itemPrice(productDto.getProductPrice())
@@ -153,7 +179,7 @@ public class KakaoPayController {
 					
 					//플래시 벨류//디비에도 저장하기 위해서 추가적으로
 					session.setAttribute("productNo", productNo);
-					
+					session.setAttribute("moimNo", moimNo);
 					//결제페이지를 사용자에게 안내
 							return "redirect:"+response.getNextRedirectPcUrl();
 		}
@@ -164,6 +190,7 @@ public class KakaoPayController {
 						KakaoPayApproveRequestVO request = 
 								(KakaoPayApproveRequestVO) session.getAttribute("approve");
 						int productNo = (int) session.getAttribute("productNo");
+						int moimNo = (int) session.getAttribute("moimNo");
 						session.removeAttribute("approve");
 						session.removeAttribute("productNo");
 						
@@ -186,7 +213,12 @@ public class KakaoPayController {
 						paymentDao.insertToPeriodPayment(PeriodPaymentDto.builder()
 								.periodPaymentNo(paymentNo)
 								.periodPaymentSid(response.getSid())
+								.periodPaymentMoimNo(String.valueOf(moimNo))
 								.build());
+						//결제 승인이 완료되면 payment_member(결제한사람)으로 가입된 모임리스트를 조회
+						//moimDao.moimListByEmail(response.getPartnerUserId());
+						//moimDao.selectAllMoimNo(response.getPartnerUserId());
+						//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
 						
 						return "redirect:successResult";
 			}
@@ -198,7 +230,7 @@ public class KakaoPayController {
 			
 			@RequestMapping("pay/list")
 			public String list(HttpSession session, Model model) {
-				String memberId = (String) session.getAttribute("name");
+				String memberId = "KH12FD";
 				model.addAttribute("list", paymentDao.paymentListByMember(memberId));
 				log.debug("memberId={}",memberId);
 				log.debug("paymentDao={}",paymentDao.paymentListByMember(memberId));
