@@ -85,19 +85,44 @@ to_date(#{memberBirthEnd || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS'})
 			</if>
 
 
-		
-
-
 		</where>
-		
-			<!-- 정렬 -->
-			<if test="orderList != null  and  orderList.size() >0">
-				order by
-				<foreach collection="orderList" separator="," item="order">
-					${order}
-				</foreach>
-			</if>
+
+		<!-- 정렬 -->
+		<if test="orderList != null  and  orderList.size() >0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
 
 	</select>
+
+
+	<!-- 모임 목록 -->
+	<select id="adminMoimList" resultType="MoimDto">
+		select * from moim
+		order by
+		moim_no asc
+	</select>
+
+
+	<!-- 모임 복합 검색 -->
+	<select id="adminMoimSearch" resultType="MoimDto">
+		select * from moim
+
+		<where>
+			<if test="moim no !=null">
+				and instr(moim_no, #{moimNo})>0
+			</if>
+			<if test="moim no !=null">
+				and instr(moim_no, #{moimNo})>0
+			</if>
+
+		</where>
+
+
+	</select>
+
+
 
 </mapper>
