@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AdminMoimSearchVO {
-	private int moimNo;
-	private int locationNo;
-	private int eventNo;
+	private Integer moimNo;
+	private Integer locationNo;
+	private Integer eventNo;
 	private String moimTitle;
 	private String moimContent;
 	private Date moimTime;
@@ -31,4 +31,5 @@ public class AdminMoimSearchVO {
 	private List<String> moimUpgradeList;
 	private List<String> moimGenderCheckList;
 	private List<String> orderList;
+	private List<String> moimStateList;
 }

@@ -57,13 +57,13 @@
 				<when test="memberBirthBegin != null">
 <![CDATA[
 and to_date(member_birth, 'YYYY-MM-DD') >= 
-to_date(#{memberBirthBegin || ' ' ||'00:00:00','YYYY-MM-DD HH24:MI:SS'})
+to_date(#{memberBirthBegin} || ' ' ||'00:00:00','YYYY-MM-DD HH24:MI:SS')
 ]]>
 				</when>
 				<when test="memberBirthEnd != null">
 <![CDATA[
 and to_date(member_birth, 'YYYY-MM-DD') <=
-to_date(#{memberBirthEnd || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS'})
+to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 ]]>
 				</when>
 			</choose>
@@ -111,14 +111,72 @@ to_date(#{memberBirthEnd || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS'})
 		select * from moim
 
 		<where>
-			<if test="moim no !=null">
+			<if test="moimNo !=null">
 				and instr(moim_no, #{moimNo})>0
 			</if>
-			<if test="moim no !=null">
-				and instr(moim_no, #{moimNo})>0
+			<if test="moimTitle  !=null">
+				and instr(moim_title, #{moimTitle})>0
+			</if>
+			<if test="moimMemberCount  !=null">
+				and instr(moim_member_count, #{moimMemberCount})>0
 			</if>
 
+			<choose>
+				<when test="moimTimeStart != null and moimTimeEnd !=null ">
+					and to_date(moim_time, 'YYYY-MM-DD') between
+					to_date(#{moimTimeStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					HH24:MI:SS') and
+					to_date(#{moimTimeEnd} || ' ' || '23:59:59'
+					'YYYY-MM-DD HH24:MI:SS')
+				</when>
+				<when test="moimTimeStart != null">
+				<![CDATA[	
+				and to_date(moim_time, 'YYYY-MM-DD') >= 
+				to_date(#{moimTimeStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+				<when test="moimTimeEnd !=null">
+				<![CDATA[
+				and to_date(moim_time, 'YYYY-MM-DD') <=
+				to_date(#{moimTimeEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+
+			</choose>
+
+			<if test=" moimUpgradeList !=null and moimUpgradeList.size() >0">
+				and moim_upgrade in
+				<foreach collection="moimUpgradeList" open="(" close=")"
+					separator="," item="UpgradeList">
+					${UpgradeList}
+				</foreach>
+			</if>
+
+			<if
+				test="moimGenderCheckList != null and moimGenderCheckList.size() >0">
+				and moim_gender_check in
+				<foreach collection="moimGenderCheckList" open="(" close=")"
+					separator="," item="GenderList">
+					${GenderList}
+				</foreach>
+			</if>
+			<if test="moimStateList !=null and moimStateList.size()>0">
+				and moim_state in
+				<foreach collection="moimStateList" open="(" close=")"
+					separator="," item="StateList">
+					${StateList}
+				</foreach>
+			</if>
 		</where>
+
+
+		<if test="orderList !=null and orderList.size()>0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+
 
 
 	</select>

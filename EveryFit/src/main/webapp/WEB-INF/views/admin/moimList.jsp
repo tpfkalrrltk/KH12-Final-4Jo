@@ -42,27 +42,23 @@
 				<div class="row bg-primary rounded-top-3  text-light fw-bold pt-3">
 					<div class="col">
 						번호 : <input class="form-control fw-bold text-primary"
-							name="memberEmail" value="${adminMemberSearchVO.memberEmail}">
+							name="moimNo" value="${adminMoimSearchVO.moimNo}">
 					</div>
 					<div class="col">
 						모임 명 : <input class="form-control fw-bold text-primary"
-							name="memberName" value="${adminMemberSearchVO.memberName}">
-					</div>
-					<div class="col">
-						상태 : <input class="form-control fw-bold text-primary"
-							name="memberNick" value="${adminMemberSearchVO.memberNick}">
+							name="moimTitle" value="${adminMoimSearchVO.moimTitle}">
 					</div>
 					<div class="col">
 						인원 : <input class="form-control fw-bold text-primary"
-							name="memberContact" value="${adminMemberSearchVO.memberContact}">
+							name="moimMemberCount" value="${adminMoimSearchVO.moimMemberCount}">
 					</div>
 					<div class="col">
 						생성시간 : <input class="form-control fw-bold text-primary"
-							type="date" name="memberbirthBegin"
-							value="${adminMemberSearchVO.memberBirthBegin}"> ~ <input
+							type="date" name="moimTimeStart"
+							value="${adminMoimSearchVO.moimTimeStart}"> ~ <input
 							class="form-control fw-bold text-primary" type="date"
-							name="memberbirthEnd"
-							value="${adminMemberSearchVO.memberBirthEnd}">
+							name="moimTimeEnd"
+							value="${adminMoimSearchVO.moimTimeEnd}">
 					</div>
 
 				</div>
@@ -90,6 +86,15 @@
 							<option>N</option>
 						</select>
 					</div>
+					<div class="col">
+						상태: <select class="form-select col  fw-bold text-primary"
+							name="moimStateList">
+							<option value="">==Select==</option>
+							<option>모집중</option>
+							<option>정지</option>
+						</select>
+					</div>
+					
 					<div class="col">
 						정렬순서 : <select class="form-select col  fw-bold text-primary"
 							name="orderList">
