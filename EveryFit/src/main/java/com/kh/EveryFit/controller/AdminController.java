@@ -7,10 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.EveryFit.dao.AdminDao;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.vo.AdminMemberSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,9 +25,9 @@ public class AdminController {
 	AdminDao adminDao;
 
 	@RequestMapping("/member")
-	public String member(Model model) {
-		List<MemberDto>  adminMemberList = adminDao.adminMemberList();
-		model.addAttribute("adminMemberList", adminMemberList);
+	public String member(Model model , 
+			@ModelAttribute("adminMemberSearchVO") AdminMemberSearchVO adminMemberSearchVO) {
+		model.addAttribute("adminMemberList",adminDao.adminMemberSearch(adminMemberSearchVO) );
 		return "admin/memberList";
 	}
 	@RequestMapping("/member/mypage")
