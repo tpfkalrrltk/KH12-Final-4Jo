@@ -26,10 +26,10 @@
 	
 	<insert id="periodPaymentSave">
 	insert into period_payment(
-		period_payment_no, period_payment_sid
+		period_payment_no, period_payment_sid, period_payment_moim_no
 	) 
 	values(
-		#{periodPaymentNo}, #{periodPaymentSid}
+		#{periodPaymentNo}, #{periodPaymentSid}, #{periodPaymentMoimNo}
 	)
 	</insert>
 	
