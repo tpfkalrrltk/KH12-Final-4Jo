@@ -34,17 +34,15 @@
 		</div>
 
 
-		<div class="row">
 
-			<div
-				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+
+		<div class="row">
+			<div class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
 				<a href="add" class="text-light" style="text-decoration: none">
 					<h7 class="display-4"> <i class="fa-solid fa-plus"
 						id="addIcon"></i></h7>
 				</a>
 			</div>
-
-
 		</div>
 
 

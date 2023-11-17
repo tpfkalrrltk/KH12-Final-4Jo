@@ -96,15 +96,46 @@ a {
 
 
 					<div class="col align-self-center text-start text-light fw-bold">
-						<div>E-mail : ${adminMemberTarget.memberEmail}</div>
-						<div>Password : ${adminMemberTarget.memberPw}</div>
-						<div>Name : ${adminMemberTarget.memberName}</div>
-						<div>Nickname : ${adminMemberTarget.memberNick}</div>
-						<div>Gender : ${adminMemberTarget.memberGender}</div>
-						<div>Phone number : ${adminMemberTarget.memberContact}</div>
-						<div>Birth : ${adminMemberTarget.memberBirth}</div>
-						<div>Level : ${adminMemberTarget.memberLevel}</div>
 
+						<div class="row">
+							<div class="text-warning col-3">E-mail :</div>
+							<div class=" col-8">${adminMemberTarget.memberEmail}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Password : </div>
+							<div class=" col-8">${adminMemberTarget.memberPw}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Name : </div>
+							<div class=" col-8">${adminMemberTarget.memberName}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Nickname : </div>
+							<div class=" col-8">${adminMemberTarget.memberNick}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Gender : </div>
+							<div class=" col-8">${adminMemberTarget.memberGender}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3 pe-0">Phone Number :</div>
+							<div class=" col-8">${adminMemberTarget.memberContact}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Birth : </div>
+							<div class=" col-8">${adminMemberTarget.memberBirth}</div>
+						</div>
+
+						<div class="row">
+							<div class="text-warning col-3">Level : </div>
+							<div class=" col-8">${adminMemberTarget.memberLevel}</div>
+						</div>
 
 
 
@@ -227,5 +258,3 @@ a {
 
 
 <jsp:include page="../template/Footer.jsp"></jsp:include>
-
-
