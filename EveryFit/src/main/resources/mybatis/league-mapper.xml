@@ -155,7 +155,7 @@
         UPDATE league_team
         <set>
             <if test="leagueTeamDto.leagueTeamMatchCount != null">
-                league_team_match_count = #{leagueTeamDto.leagueTeamMatchCount},
+                league_team_match_count = league_team_win + league_team_draw + league_team_lose,
             </if>
             <if test="leagueTeamDto.leagueTeamWin != null">
                 league_team_win = #{leagueTeamDto.leagueTeamWin},
@@ -173,7 +173,10 @@
                 league_team_d = #{leagueTeamDto.leagueTeamD},
             </if>
             <if test="leagueTeamDto.leagueTeamGD != null">
-                league_team_gd = #{leagueTeamDto.leagueTeamGD},
+                league_team_gd = league_team_g - league_team_d,
+            </if>
+            <if test="leagueTeamDto.leagueTeamPoint != null">
+                league_team_point = (league_team_win * 3) + league_team_draw;
             </if>
         </set>
         WHERE league_team_no = #{leagueTeamNo}

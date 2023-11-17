@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dto.LeagueMatchDto;
+import com.kh.EveryFit.dto.LeagueTeamDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +41,28 @@ public class LeagueMatchRestController {
 	
 	@PutMapping("/{leagueMatchNo}")
 	public void update(@ModelAttribute LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
-		log.debug("leagueMatchDto = {}", leagueMatchDto);
+		LeagueMatchDto originLeagueMatchDto = leagueDao.selectOneLeagueMatch(leagueMatchNo);
+		LeagueTeamDto homeDto = leagueDao.selectOneLeagueTeam(leagueMatchDto.getLeagueMatchHome());
+		LeagueTeamDto AwayDto = leagueDao.selectOneLeagueTeam(leagueMatchDto.getLeagueMatchAway());
+		int homeScore = leagueMatchDto.getLeagueMatchHomeScore();
+		int awayScore = leagueMatchDto.getLeagueMatchAwayScore();
+		
+		if(originLeagueMatchDto.getLeagueMatchHomeScore()==null) {
+			homeDto.setLeagueTeamMatchCount(homeDto.getLeagueTeamMatchCount()+1);
+			
+		}
+		
+		
+		if(homeScore > awayScore) {
+			
+		}
+		else if (homeScore < awayScore) {
+			
+		}
+		else {
+			
+		}
+		
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 	}
 	

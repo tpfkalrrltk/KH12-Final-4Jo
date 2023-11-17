@@ -185,7 +185,6 @@ $(".edit-btn").click(function(e){
 		type:"get",
 		url:"http://localhost:8080/leagueMatch/" + leagueMatchNo,
 		success:function(response){
-			alert("조회성공");
 			
 			$("#matchEditModal input").each(function() {
                 var inputName = $(this).attr('name');
