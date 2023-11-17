@@ -34,11 +34,10 @@
 			</div>
 		</div>
 
-
+<div class="row">
+검색기능
+</div>
 		<div class="row">
-
-
-
 			<div
 				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
 				<a href="#" class="text-light" style="text-decoration: none"> <h7
