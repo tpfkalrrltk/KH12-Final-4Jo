@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.EveryFit.dao.AdminDao;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
+import com.kh.EveryFit.vo.AdminMoimSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,18 +24,28 @@ public class AdminController {
 
 	@Autowired
 	AdminDao adminDao;
+	
 
 	@RequestMapping("/member")
-	public String member(Model model , 
-			@ModelAttribute("adminMemberSearchVO") AdminMemberSearchVO adminMemberSearchVO) {
-		model.addAttribute("adminMemberList",adminDao.adminMemberSearch(adminMemberSearchVO) );
+	public String member(Model model, @ModelAttribute("adminMemberSearchVO") AdminMemberSearchVO adminMemberSearchVO) {
+		model.addAttribute("adminMemberList", adminDao.adminMemberSearch(adminMemberSearchVO));
 		return "admin/memberList";
 	}
+
 	@RequestMapping("/member/mypage")
-	public String memberMypage(String memberEmail,
-			Model model) {
+	public String memberMypage(String memberEmail, Model model) {
 		MemberDto memberDto = adminDao.adminMemberTarget(memberEmail);
-		model.addAttribute("adminMemberTarget",memberDto);
+		model.addAttribute("adminMemberTarget", memberDto);
 		return "admin/mypage";
+	}
+
+	@RequestMapping("/moim")
+	public String moim(Model model, 
+			@ModelAttribute("adminMoimSearchVO") AdminMoimSearchVO adminMoimSearchVO) {
+		
+		model.addAttribute("adminMoimList", adminDao.adminMoimList());
+		
+	//	model.addAttribute("adminMoimList", adminDao.adminMoimSearch(adminMoimSearchVO));
+		return "admin/moimList";
 	}
 }

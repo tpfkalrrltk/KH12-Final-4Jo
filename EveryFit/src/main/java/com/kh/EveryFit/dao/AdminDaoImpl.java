@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
+import com.kh.EveryFit.vo.AdminMoimSearchVO;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -30,6 +32,17 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public List<MemberDto> adminMemberSearch(AdminMemberSearchVO adminMemberSearchVO) {
 		List<MemberDto> list = sqlSession.selectList("admin.adminMemberSearch", adminMemberSearchVO);
+		return list;
+	}
+
+	@Override
+	public List<MoimDto> adminMoimList() {
+		return sqlSession.selectList("admin.adminMoimList");
+	}
+
+	@Override
+	public List<MoimDto> adminMoimSearch(AdminMoimSearchVO adminMoimSearchVO) {
+		List<MoimDto> list = sqlSession.selectList("admin.adminMoimSearch", adminMoimSearchVO);
 		return list;
 	}
 
