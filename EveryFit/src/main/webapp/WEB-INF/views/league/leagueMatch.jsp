@@ -21,6 +21,9 @@
 		<div class="row">
 			<div class="col">
 				${matchDto.leagueMatchHome}
+				<div class="row"><div class="col">
+					<h2>${matchDto.leagueMatchHomeScore}</h2>
+				</div></div>
 			</div>
 			<div class="col">
 				<div class="row"><div class="col">
@@ -30,9 +33,25 @@
 					<button type="button" class="btn btn-primary edit-btn" 
 						data-league-match-no="${matchDto.leagueMatchNo}">경기수정</button>
 				</div></div>
+				<div class="row text-center"><div class="col p-2">
+					<button type="button" class="btn btn-primary result-btn" 
+						data-league-match-no="${matchDto.leagueMatchNo}">
+						<c:choose>
+							<c:when test="${matchDto.leagueMatchHomeScore == null && matchDto.leagueMatchAwayScore == null}">
+								결과등록
+							</c:when>
+							<c:otherwise>
+								결과수정
+							</c:otherwise>
+						</c:choose>
+					</button>
+				</div></div>
 			</div>
 			<div class="col">
 				${matchDto.leagueMatchAway}
+				<div class="row"><div class="col">
+					<h2>${matchDto.leagueMatchAwayScore}</h2>
+				</div></div>
 			</div>
 		</div>
 		</c:forEach>
@@ -48,6 +67,56 @@
 			</div>
 			<div class="modal-body">
 				<form class="leagueMatchEditForm">
+					<input type="hidden" name="leagueMatchNo" value="">
+					<input type="hidden" name="leagueNo" value="">
+					<div class="row">
+						<div class="col">
+							<label class="form-label">홈팀</label> 
+							<input class="form-control" name="leagueMatchHome" value="">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label class="form-label">어웨이팀</label> 
+							<input class="form-control" name="leagueMatchAway" value="">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label class="form-label">경기일정</label> 
+							<input type="datetime-local" class="form-control"
+								name="leagueMatchDate" value="">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<label class="form-label">장소</label> 
+							<input class="form-control" name="leagueMatchLocation" value="">
+						</div>
+					</div>
+					<div class="row mt-4">
+						<div class="col">
+							<button type="button" class="btn btn-primary w-100 match-edit-btn">수정</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary closeModal">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 경기 결과 입력 모달 -->
+<div class="modal" id="matchResultModal" data-bs-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">경기결과입력</h4>
+			</div>
+			<div class="modal-body">
+				<form class="leagueMatchResultForm">
 					<input type="hidden" name="leagueMatchNo" value="">
 					<input type="hidden" name="leagueNo" value="">
 					<div class="row">
@@ -72,28 +141,15 @@
 								name="leagueMatchAwayScore" value="">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col">
-							<label class="form-label">경기일정</label> 
-							<input type="datetime-local" class="form-control"
-								name="leagueMatchDate" value="">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<label class="form-label">장소</label> 
-							<input class="form-control" name="leagueMatchLocation" value="">
-						</div>
-					</div>
 					<div class="row mt-4">
 						<div class="col">
-							<button type="button" class="btn btn-primary w-100 match-edit-btn">수정</button>
+							<button type="button" class="btn btn-primary w-100 match-result-btn">결과등록</button>
 						</div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary closeMatchInsertModal">닫기</button>
+				<button type="button" class="btn btn-secondary closeModal">닫기</button>
 			</div>
 		</div>
 	</div>
@@ -142,7 +198,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary closeMatchInsertModal">닫기</button>
+				<button type="button" class="btn btn-secondary closeModal">닫기</button>
 			</div>
 		</div>
 	</div>
@@ -153,12 +209,7 @@ $(".insert-btn").click(function(){
 	$("#matchInsertModal").modal('show');
 });
 
-$(".edit-btn").click(function(){
-	$("#matchEditModal").modal('show');
-});
-
-$(".closeMatchInsertModal").click(function(){
-	$("#matchInsertModal").modal('hide');  
+$(".closeModal").click(function(){
 	location.reload();
 });
 
@@ -180,6 +231,7 @@ $(".match-submit-btn").click(function(){
 });
 
 $(".edit-btn").click(function(e){
+	$("#matchEditModal").modal('show');
 	var leagueMatchNo = $(this).data('league-match-no');
 	$.ajax({
 		type:"get",
@@ -197,6 +249,26 @@ $(".edit-btn").click(function(e){
 	})
 });
 
+//경기결과 입력버튼(모달띄우기)
+$(".result-btn").click(function(){
+	$("#matchResultModal").modal('show');
+	var leagueMatchNo = $(this).data('league-match-no');
+	$.ajax({
+		type:"get",
+		url:"http://localhost:8080/leagueMatch/" + leagueMatchNo,
+		success:function(response){
+			$("#matchResultModal input").each(function() {
+                var inputName = $(this).attr('name');
+                $(this).val(response[inputName]);
+            });
+		},
+		error:function(error){
+			alert("오류가 발생했습니다.")
+		}
+	})
+});
+
+
 $(".match-edit-btn").click(function(){
 	var formData = $(".leagueMatchEditForm").serialize();
 	var leagueMatchNo = $(".leagueMatchEditForm input[name='leagueMatchNo']").val();
@@ -205,7 +277,7 @@ $(".match-edit-btn").click(function(){
 		url:"http://localhost:8080/leagueMatch/" + leagueMatchNo,
 		data:formData,
 		success:function(response){
-			alert("등록되었습니다.");
+			alert("수정되었습니다.");
 // 			 $(".leagueMatchForm input:not([type='hidden'])").val('');
 		},
 		error:function(error){
@@ -213,6 +285,25 @@ $(".match-edit-btn").click(function(){
 		}
 	});
 });
+
+//경기 결과 등록하기(통신)
+$(".match-result-btn").click(function(){
+	var formData = $(".leagueMatchResultForm").serialize();
+	var leagueMatchNo = $(".leagueMatchResultForm input[name='leagueMatchNo']").val();
+	$.ajax({
+		type:"put",
+		url:"http://localhost:8080/leagueMatch/result/" + leagueMatchNo,
+		data:formData,
+		success:function(response){
+			alert("등록되었습니다.");
+			location.reload();
+		},
+		error:function(error){
+			alert("오류가 발생했습니다.")
+		}
+	});
+});
+
 
 </script>
 <%@ include file="/WEB-INF/views/template/Footer.jsp"%>

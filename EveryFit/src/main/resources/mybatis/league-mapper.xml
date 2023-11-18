@@ -154,9 +154,6 @@
     <update id="updateLeagueTeam">
         UPDATE league_team
         <set>
-            <if test="leagueTeamDto.leagueTeamMatchCount != null">
-                league_team_match_count = league_team_win + league_team_draw + league_team_lose,
-            </if>
             <if test="leagueTeamDto.leagueTeamWin != null">
                 league_team_win = #{leagueTeamDto.leagueTeamWin},
             </if>
@@ -172,14 +169,17 @@
             <if test="leagueTeamDto.leagueTeamD != null">
                 league_team_d = #{leagueTeamDto.leagueTeamD},
             </if>
-            <if test="leagueTeamDto.leagueTeamGD != null">
-                league_team_gd = league_team_g - league_team_d,
-            </if>
-            <if test="leagueTeamDto.leagueTeamPoint != null">
-                league_team_point = (league_team_win * 3) + league_team_draw;
-            </if>
         </set>
         WHERE league_team_no = #{leagueTeamNo}
+    </update>
+    
+    <!-- 리그팀 상태 자동 계산 업데이트 -->
+    <update id="leagueTeamCalculate">
+    	update league_team
+    	set league_team_match_count = league_team_win + league_team_draw + league_team_lose,
+    	league_team_gd = league_team_g - league_team_d,
+    	league_team_point = (league_team_win * 3) + league_team_draw
+    	where league_team_no = #{leagueTeamNo}
     </update>
    
 	<!-- 리그팀 상태 수정 -->
@@ -259,7 +259,7 @@
     
     <!-- 리그경기 리스트 조회 -->
     <select id="listLeagueMatch" resultType="LeagueMatchDto">
-        SELECT * FROM league_match order by league_match_no desc
+        SELECT * FROM league_match order by league_match_no asc
     </select>
     
     <!-- 리그경기 업데이트 -->
