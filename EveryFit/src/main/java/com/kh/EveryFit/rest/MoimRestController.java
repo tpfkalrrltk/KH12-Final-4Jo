@@ -1,5 +1,12 @@
 package com.kh.EveryFit.rest;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +14,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.EveryFit.configuration.FileUploadProperties;
+import com.kh.EveryFit.dao.AttachDao;
+import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dao.MoimDao;
+import com.kh.EveryFit.dto.AttachDto;
+import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.MemberLikeVO;
@@ -25,22 +39,13 @@ public class MoimRestController {
 	
 	@Autowired private JungmoDao jungmoDao;
 	@Autowired private MoimDao moimDao;
+	@Autowired private ChatDao chatDao;
+	@Autowired private AttachDao attachDao;
 	
 	//모임프로필사진 등록/삭제
 	//정모프로필사진 등록/삭제
 	//모임수정
 	
-//	//정모 등록
-//	@PostMapping("/create")
-//	public void create(@ModelAttribute JungmoDto jungmoDto) {
-//		//정모등록
-//		
-//		int jungmoNo = jungmoDao.sequence();
-//		jungmoDto.setJungmoNo(jungmoNo);
-//			
-//		jungmoDao.insert(jungmoDto);
-//	}
-
 	//정모 수정
 //	@PostMapping("/edit")
 //	public void edit(@ModelAttribute JungmoDto jungmoDto) {
@@ -61,6 +66,18 @@ public class MoimRestController {
 //	public String genderCheck(@ModelAttribute genderCheckVO vo) {
 //		moimDao.updateMoimInfo(vo);
 //	}
+	
+	@Autowired
+	private FileUploadProperties props;
+	
+	private File dir;
+	
+	//모든 로딩이 끝나면 자동으로 실행되는 메소드
+	@PostConstruct
+	public void init() {
+		dir = new File(props.getHome());
+		dir.mkdirs();
+	}
 	
 	@PostMapping("/infoChange")
 	public String infoChange(@ModelAttribute MoimDto moimDto) {
@@ -117,6 +134,65 @@ public class MoimRestController {
 		vo.setCount(count);
 		
 		return vo;
+	}
+	
+	//정모등록
+	@PostMapping("/jungmo/create")
+	public String create(
+			@ModelAttribute JungmoDto jungmoDto, 
+			@RequestParam MultipartFile attach,
+			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr,
+			HttpSession session) throws IllegalStateException, IOException {
+
+		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
+		
+		int jungmoNo = jungmoDao.sequence();
+		jungmoDto.setJungmoNo(jungmoNo);
+		
+		try {
+	        // 문자열을 LocalDateTime으로 파싱
+	        LocalDateTime localDateTime = LocalDateTime.parse(jungmoScheduleStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+
+	        // LocalDateTime을 java.sql.Timestamp으로 변환
+	        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(localDateTime);
+
+	        jungmoDto.setJungmoSchedule(timestamp);
+	    } catch (DateTimeParseException e) {
+	        // 예외 처리 로직 추가
+	    }
+		
+		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
+		int chatRoomNo = chatDao.sequence();
+		log.debug("chatRoomNo");
+		
+		String memberEmail = (String)session.getAttribute("name");
+		chatDao.insertChatRoom(chatRoomNo);
+		jungmoDto.setChatRoomNo(chatRoomNo);
+		jungmoDao.insert(jungmoDto);
+
+		//채팅참가자 추가
+		chatDao.addChatMember(chatRoomNo, memberEmail);
+				
+		//첨부파일등록(파일있을때)
+		if(!attach.isEmpty()) {
+			//첨부파일등록(파일이 있을때만)
+			int attachNo = attachDao.sequence();
+
+			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+			attach.transferTo(target);
+			
+
+			AttachDto attachDto = new AttachDto();
+			attachDto.setAttachNo(attachNo);
+			attachDto.setAttachName(attach.getOriginalFilename());
+			attachDto.setAttachSize(attach.getSize());
+			attachDto.setAttachType(attach.getContentType());
+			attachDao.insert(attachDto);
+
+			//연결(파일이 있을때만)
+			moimDao.insertJungmoProfile(jungmoNo, attachNo);
+		}
+		return "success";
 	}
 	
 	//모임회원차단

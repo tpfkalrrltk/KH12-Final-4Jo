@@ -128,7 +128,10 @@
 		</div>
 	</c:forEach>
 			<hr>
-				<a class="btn btn-primary" href="jungmo/create?moimNo=${moimDto.moimNo}">정모등록</a>
+<!-- 	<a class="btn btn-primary jungmo-create"  -->
+<%-- 	href="detail?moimNo=${moimDto.moimNo}">정모등록</a>  --%>
+		
+			<button class="btn btn-primary jungmo-create"  type="button">정모등록</button>
 			<hr>
 			<h1>정모 List</h1>
 			<!-- 			<button type="button" class="load-list">목록불러오기</button> -->
@@ -160,10 +163,16 @@
 						</h4>
 					
 					
-					<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a>
-					<a class="btn btn-primary" href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">참가</a>
-					<a class="btn btn-warning" href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
-					<a class="btn btn-warning" href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모취소</a>
+<%-- 					<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
+					<button class="btn btn-primary jungmo-edit" type="button"
+					data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"
+					>정모수정</button>
+					<a class="btn btn-primary" 
+					href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">참가</a>
+					<a class="btn btn-warning" 
+					href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
+					<a class="btn btn-warning" 
+					href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모취소</a>
                         
                         <div class="row">
                         <div class="col">
@@ -206,7 +215,7 @@
       <div class="modal-body">
       <!-- 모임 수정내용 -->
       <div class="moim-edit-inputs" style="display: none;">
-      <form id="appInsert" method="post">
+      <form id="appInsert" method="post" autocomplete="off">
       	<input type="hidden" name="moimNo" value="${moimDto.moimNo}"  class="form-control">
       	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}"  class="form-control">
       	<input type="hidden" name="eventNo" value="${moimDto.eventNo}"  class="form-control">
@@ -227,14 +236,37 @@
       	</c:if>
       </form>
       </div>
-      <!--   -->
-      <div class="jungmo-create-inputs" style="display: none;">
+      <!-- 정모 등록 내용 -->
+      <div id="jungmoInsert" class="jungmo-create-inputs" style="display: none;">
+		<form id="jungmoInsertForm" autocomplete="off" enctype="multipart/form-data" >
+			<div class="preview-wrapper1"></div>
+			<input type="file" name="attach" accept="image/*" multiple id="attach-selector" class="form-control">
+			<input type="hidden" name="moimNo" value="${moimDto.moimNo}">
+			<label class="form-label">정모명</label>
+			<input type="text" name="jungmoTitle" class="form-control jungmo-create-inputs"> 
+			<label class="form-label">장소</label>
+			<input type="text" name="jungmoAddr" class="form-control jungmo-create-inputs"> 
+			<label class="form-label">장소url</label>
+			<input type="text" name="jungmoAddrLink" class="form-control jungmo-create-inputs"> 
+			<label class="form-label">인원</label>
+			<input type="text" name="jungmoCapacity" class="form-control jungmo-create-inputs"> 
+			<label class="form-label">가격</label>
+			<input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs"> 
+			<label class="form-label jungmo-create-inputs">일정</label>
+			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" class=>
+		</form>
       </div>
+      
+	<!-- 정모 수정 내용 -->
+	<div class="jungmo-edit-inputs" style="display: none;">
+    </div>
       
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary" id="appBtn">수정</button>
+        <button type="button" class="btn btn-primary" id="appBtn">모임수정</button>
+        <button type="button" class="btn btn-primary" id="jungmoInsertBtn">정모등록</button>
+        <button type="button" class="btn btn-primary" id="jungmoEditBtn">정모수정</button>
       </div>
     </div>
   </div>
@@ -315,6 +347,7 @@
 	    </script>
 	</c:if>
 </body>
+
 <script>
 
 // 	$(document).ready(function () {
@@ -332,6 +365,8 @@
 		var form = new FormData();
 		form.append("attach", input.files[0]);
 		form.append("moimNo", moimNo);
+		//만일 정모이미지를 변경한다면?
+// 		form.append("jungmoNo", jungmoNo);
 		
 		$.ajax({
 			url:"http://localhost:8080/rest/attach/upload",
@@ -406,7 +441,8 @@
 //         });
 //     });
     var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
-	 $("#appBtn").click(function(){
+	 
+    $("#appBtn").click(function(){
 
 		 var formData = $("#appInsert").serialize();
 
@@ -418,7 +454,7 @@
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
              	    alert("변경완료");
-                	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
                },
                error: function (error) {
                    // 오류 발생 시 동작 수행
@@ -428,6 +464,34 @@
            });
  
        });
+    
+    $("#jungmoInsertBtn").click(function(){
+
+    	var formData = new FormData(document.getElementById("jungmoInsertForm"));
+    	
+		 $.ajax({
+               url: "http://localhost:8080/rest/moim/jungmo/create",
+               type: "POST",
+               data: formData,
+               contentType: false,
+               processData: false,
+               success: function (data) {
+                   // 서버 응답에 따른 동작 수행
+                  console.log(data); 
+             	    alert("등록완료");
+                	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+               },
+               error: function (error) {
+                   // 오류 발생 시 동작 수행
+                   console.error(error);
+                   console.error("에러");
+               }
+           });
+ 
+       });
+    
+    
+    
 // $("#appBtn").click(function () {
 //   var dataToSend = {};
 
@@ -467,8 +531,7 @@
 //   });
 // });
 
-	
-	
+	//모달창으로 모임 수정
     $(".moim-edit").click(function(){
         // 모든 input, select, checkbox 필드에 대해 초기화
         $("#appInsert input:not([type='hidden']), #appInsert select").each(function () {
@@ -495,8 +558,72 @@
         $("#applicationModal").modal("hide");
     });
     
+    //모임수정버튼 눌렀을 때 모달창 띄우고 나머지 숨김
+    $('.moim-edit').click(function () {
+    	$("#applicationModal").modal("show");
+        $('.moim-edit-inputs').show();
+        $('.jungmo-create-inputs').hide();
+        $('.jungmo-edit-inputs').hide();
+        $('#appBtn').text('수정'); // 버튼 텍스트를 '수정'으로 변경
+        $('.modal-title').text('모임수정'); // 버튼 텍스트를 '수정'으로 변경
+      });
+    //정모등록버튼 눌렀을 때 
+    $('.jungmo-create').click(function () {
+    	$('.jungmo-create-inputs input[type!="hidden"]').val('');
+    	$("#applicationModal").modal("show");
+        $('.moim-edit-inputs').hide();
+        $('.jungmo-create-inputs').show();
+        $('.jungmo-edit-inputs').hide();
+        $('#appBtn').text('등록'); // 버튼 텍스트를 '등록'으로 변경
+        $('.modal-title').text('정모등록'); // 버튼 텍스트를 '수정'으로 변경
+      });
+    
+    //정모수정버튼 눌렀을 때
+    $('.jungmo-edit').click(function () {
+    	$("#applicationModal").modal("show");
+        $('.moim-edit-inputs').hide();
+        $('.jungmo-create-inputs').hide();
+        $('.jungmo-edit-inputs').show();
+        $('#appBtn').text('수정'); // 버튼 텍스트를 '수정'으로 변경
+        $('.modal-title').text('정모수정'); // 버튼 텍스트를 '수정'으로 변경
+      });
 
+    //사진 미리보기
+    $(function(){
+        $("#attach-selector").change(function(){
+        	 $(".preview-wrapper1").empty();
+        	
+        	 if(this.files.length == 0) {
+                //초기화
+                return;
+            }
+            
 
+            //파일 미리보기는 서버 업로드와 관련이 없다
+            //- 서버에 올릴거면 따로 처리를 또 해야 한다
+
+            //[1] 자동으로 생성되는 미리보기 주소를 연결
+//             for(let i=0; i < this.files.length; i++) {
+//                 $("<img>").attr("src", URL.createObjectURL(this.files[i]))
+//                                 .css("max-width", "300px")
+//                                 .appendTo(".preview-wrapper1");
+//             }
+            
+            //[2] 직접 읽어서 내용을 설정하는 방법
+            let reader = new FileReader();
+            reader.onload = ()=>{
+                $("<img>").attr("src", reader.result)//data;로 시작하는 엄청많은 실제이미지 글자
+                                .css("max-width", "300px")
+                                .appendTo(".preview-wrapper1");
+            };
+            for(let i=0; i < this.files.length; i++) {
+                reader.readAsDataURL(this.files[i]);
+            }
+        });
+    });
+    
+    
+    
 //     $('.blockButton').click(function () {
 //         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴
 //         var memberEmail = $(this).data('member-email');

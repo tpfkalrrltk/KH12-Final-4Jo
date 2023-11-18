@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -178,14 +179,16 @@ public class MoimController {
 		vo.setMoimNo(moimNo);
 		moimDao.updateMoimMember(vo);
 		redirectAttributes.addAttribute("approval", true);
-		return "redirect:detail?moimNo="+moimNo;
+		return "moim/detail?moimNo="+moimNo;
 	}
 	@GetMapping("/jungmo/create")
-	public String jungmoCreate(@RequestParam int moimNo) {
-		return "moim/jungmoCreate";
+	public String jungmoCreate(@RequestParam int moimNo, Model model) {
+	    model.addAttribute("keepModalAndReturn", true);
+	    model.addAttribute("redirectUrl", "/moim/detail?moimNo=" + moimNo);
+		return "redirect:detail?moimNo="+moimNo;
 	}
 	
-	@PostMapping("/jungmo/create")
+	@RequestMapping(value = "/jungmo/create", method = RequestMethod.POST)
 	public String jungmoCreate(
 			@ModelAttribute JungmoDto jungmoDto, 
 			@RequestParam MultipartFile attach,
