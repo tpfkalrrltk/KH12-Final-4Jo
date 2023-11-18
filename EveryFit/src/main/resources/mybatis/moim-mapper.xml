@@ -385,7 +385,6 @@
 	<select id="countMemberLike" resultType="int">
 		select count(*) from member_like where moim_no = #{moimNo}
 	</select>
-<!-- </mapper> -->
 
 
 	<!-- 회원EMAIL이 모임장으로 가입된 MOIM 번호 조회 -->
