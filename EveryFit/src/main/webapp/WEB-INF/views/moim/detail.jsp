@@ -163,7 +163,7 @@
 						</h4>
 					
 					
-<%-- 					<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
+<%-- 			<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
 					<button class="btn btn-primary jungmo-edit" type="button"
 					data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"
 					>정모수정</button>
@@ -242,6 +242,7 @@
 			<div class="preview-wrapper1"></div>
 			<input type="file" name="attach" accept="image/*" multiple id="attach-selector" class="form-control">
 			<input type="hidden" name="moimNo" value="${moimDto.moimNo}">
+			<input type="hidden" name="jungmoNo" value="">
 			<label class="form-label">정모명</label>
 			<input type="text" name="jungmoTitle" class="form-control jungmo-create-inputs"> 
 			<label class="form-label">장소</label>
@@ -253,7 +254,7 @@
 			<label class="form-label">가격</label>
 			<input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs"> 
 			<label class="form-label jungmo-create-inputs">일정</label>
-			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" class=>
+			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" class="from-control">
 		</form>
       </div>
       
@@ -275,6 +276,8 @@
     
     <c:if test="${sessionScope.name != null}">>
     <script>
+    
+		var moimNo = "${moimDto.moimNo}";
     	//좋아요 처리
     	//[1] 페이지가 로드되면 비동기 통신으로 좋아요 상태를 체크하여 하트 생성
     	//[2] 하트에 클릭 이벤트를 설정하여 좋아요 처리가 가능하도록 구현
@@ -282,6 +285,7 @@
 //     		var params = new URLSearchParams(location.search);
 //     		var moimNo = params.get("moimNo");
 //     		console.log(moimNo)
+
     		$.ajax({
     			url:"http://localhost:8080/rest/moim/likeCheck",
     			method:"post",
@@ -354,7 +358,6 @@
 // 	    loadJungmoList();
 // 	});
 	    // 클라이언트 측에서 errorFlag를 확인하여 alert를 띄웁니다.
-
 	var moimNo = "${moimDto.moimNo}";
 	$(".profile-chooser").change(function(){
 
@@ -464,13 +467,22 @@
            });
  
        });
-    
+    //등록버튼을 눌렀을 때는 insert해주기
     $("#jungmoInsertBtn").click(function(){
 
     	var formData = new FormData(document.getElementById("jungmoInsertForm"));
-    	
+//     	var isCreate = !$("input[name='attach']").val();
+// 	    var isCreate = $("input[name='attach']").val();
+	
+// 	    // 조건에 따라 필요한 처리를 수행합니다.
+// 	    if (isCreate) {
+//     		// create 작업일 경우
+		    formData.delete("jungmoNo");  // jungmoNo를 제거합니다.
+// 		}
+
 		 $.ajax({
-               url: "http://localhost:8080/rest/moim/jungmo/create",
+//                url:"http://localhost:8080/rest/moim/jungmo/" + (isCreate ? "create" : "edit"),
+               url:"http://localhost:8080/rest/moim/jungmo/create",
                type: "POST",
                data: formData,
                contentType: false,
@@ -489,6 +501,78 @@
            });
  
        });
+    //정모 수정 버튼을 누르면 jungmoNo를 먼저 보내서 확인하게한다.....
+    //정보를 조회해서 있으면 그 값을 append 해서 input창에 넣어주고
+    //수정하면 뭐 수정된 입력값을 보내게 되겠지?
+    //수정하기 버튼을 눌렀을 때 그 값을 update!
+    
+    //수정하기버튼을 눌렀을 때는 update --> 이걸 이제 3항연산자로 한번에 해버리기
+    $("#jungmoEditBtn").click(function(){
+
+    	var formData = new FormData(document.getElementById("jungmoInsertForm"));
+    	
+		 $.ajax({
+               url: "http://localhost:8080/rest/moim/jungmo/edit",
+               type: "POST",
+               data: formData,
+               contentType: false,
+               processData: false,
+               success: function (data) {
+                   // 서버 응답에 따른 동작 수행
+                  console.log(data); 
+             	    alert("수정완료");
+                	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+               },
+               error: function (error) {
+                   // 오류 발생 시 동작 수행
+                   console.error(error);
+                   console.error("에러");
+               }
+           });
+ 
+       });
+    
+    $('.jungmo-edit').click(function () {
+        // 클릭된 버튼에서 data-jungmo-no 속성을 가져옴
+        var jungmoNo = $(this).data('jungmo-no');
+
+        // AJAX 요청 보내기
+        $.ajax({
+            url: "http://localhost:8080/rest/moim/jungmo/check",
+            type: "POST",
+            data: { jungmoNo: jungmoNo },
+            success: function (data) {
+                // 서버 응답에 따른 동작 수행
+                console.log(data);
+                $('input[name="jungmoNo"]').val(data.jungmoDto.jungmoNo).attr('placeholder', 'Enter jungmo No');
+                $('input[name="jungmoTitle"]').val(data.jungmoDto.jungmoTitle).attr('placeholder', 'Enter jungmo title');
+                $('input[name="jungmoAddr"]').val(data.jungmoDto.jungmoAddr).attr('placeholder', 'Enter jungmo address');
+                $('input[name="jungmoAddrLink"]').val(data.jungmoDto.jungmoAddrLink).attr('placeholder', 'Enter jungmo address link');
+                $('input[name="jungmoCapacity"]').val(data.jungmoDto.jungmoCapacity).attr('placeholder', 'Enter jungmo capacity');
+                $('input[name="jungmoPrice"]').val(data.jungmoDto.jungmoPrice).attr('placeholder', 'Enter jungmo price');
+
+                var scheduleDate = new Date(data.jungmoDto.jungmoSchedule);
+                var formattedDate = scheduleDate.toISOString().substring(0, 16);
+                $('input[name="jungmoDto.jungmoScheduleStr"]').val(formattedDate).attr('placeholder', 'Enter jungmo schedule');
+                
+                if (data.attachNo) {
+                    // 이미지 다운로드 URL을 생성
+                    var imageUrl = "/rest/attach/download?attachNo=" + data.attachNo;
+
+                    // 미리보기 엘리먼트에 이미지 추가
+                    $("<img>").attr("src", imageUrl)
+                               .css("max-width", "300px")
+                               .appendTo(".preview-wrapper1");
+                }
+                
+            },
+            error: function (error) {
+                // 오류 발생 시 동작 수행
+                console.error(error);
+                console.error("에러");
+            }
+        });
+    });
     
     
     
@@ -582,8 +666,7 @@
     $('.jungmo-edit').click(function () {
     	$("#applicationModal").modal("show");
         $('.moim-edit-inputs').hide();
-        $('.jungmo-create-inputs').hide();
-        $('.jungmo-edit-inputs').show();
+        $('.jungmo-create-inputs').show();
         $('#appBtn').text('수정'); // 버튼 텍스트를 '수정'으로 변경
         $('.modal-title').text('정모수정'); // 버튼 텍스트를 '수정'으로 변경
       });

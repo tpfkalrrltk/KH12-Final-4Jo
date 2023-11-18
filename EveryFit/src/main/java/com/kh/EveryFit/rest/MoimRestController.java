@@ -27,6 +27,7 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.JungmoDetailVO;
 import com.kh.EveryFit.vo.MemberLikeVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +47,6 @@ public class MoimRestController {
 	//정모프로필사진 등록/삭제
 	//모임수정
 	
-	//정모 수정
-//	@PostMapping("/edit")
-//	public void edit(@ModelAttribute JungmoDto jungmoDto) {
-//		jungmoDao.edit(jungmoDto);
-//	}
 	//정모 목록
 //	@PostMapping("/list")
 //	public List<JungmoListByMoimNoVO> list(@RequestParam int moimNo) {
@@ -193,6 +189,61 @@ public class MoimRestController {
 			moimDao.insertJungmoProfile(jungmoNo, attachNo);
 		}
 		return "success";
+	}
+	
+	@RequestMapping("/jungmo/check")
+	public JungmoDetailVO jungmoCheck(@RequestParam int jungmoNo) {
+		//정모번호로 정모정보조회
+		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		//정모번호로 프로필사진 조회
+		int attachNo = moimDao.findJungmoProfile(jungmoNo);
+		
+		JungmoDetailVO vo = new JungmoDetailVO();
+		vo.setJungmoDto(jungmoDto);
+		vo.setAttachNo(attachNo);
+		return vo;
+	}
+	
+	//정모 수정
+	@PostMapping("/jungmo/edit")
+	public void edit(@ModelAttribute JungmoDto jungmoDto,
+			@RequestParam MultipartFile attach,
+			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr) throws IllegalStateException, IOException {
+
+		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
+			
+		try {
+	        // 문자열을 LocalDateTime으로 파싱
+	        LocalDateTime localDateTime = LocalDateTime.parse(jungmoScheduleStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+
+	        // LocalDateTime을 java.sql.Timestamp으로 변환
+	        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(localDateTime);
+
+	        jungmoDto.setJungmoSchedule(timestamp);
+	    } catch (DateTimeParseException e) {
+	        // 예외 처리 로직 추가
+	    }
+		//첨부파일등록(파일있을때)
+		if(!attach.isEmpty()) {
+			//첨부파일등록(파일이 있을때만)
+			int attachNo = attachDao.sequence();
+
+			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+			attach.transferTo(target);
+			
+
+			AttachDto attachDto = new AttachDto();
+			attachDto.setAttachNo(attachNo);
+			attachDto.setAttachName(attach.getOriginalFilename());
+			attachDto.setAttachSize(attach.getSize());
+			attachDto.setAttachType(attach.getContentType());
+			attachDao.insert(attachDto);
+
+			//연결(파일이 있을때만)
+			moimDao.insertJungmoProfile(jungmoDto.getJungmoNo(), attachNo);
+		}
+		
+		jungmoDao.edit(jungmoDto);
 	}
 	
 	//모임회원차단
