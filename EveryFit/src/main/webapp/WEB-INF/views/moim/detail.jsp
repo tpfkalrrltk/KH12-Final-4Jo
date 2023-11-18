@@ -23,6 +23,8 @@
 <div class="container-fluid mb-5 pb-5">
 	<div class="row">
 		<div class="col-md-10 offset-md-1">
+		
+		
 			<div class="jumbotron mt-5">
 				<h1 class="display-4 bg-primary rounded text-light p-3">${moimDto.moimTitle}</h1>
 				<div class="miom-content">${moimDto.moimContent}</div>
@@ -47,8 +49,8 @@
 			</div>
 
 
-			<div class="card border-primary mb-3 items-center" style="max-width: 50rem;">
-				<div class="card-body">
+	<div class="card border-primary mb-3 items-center" style="max-width: 50rem;">
+		<div class="card-body">
 
 
 		${profile}
@@ -188,13 +190,12 @@
 				</div>
 			</c:forEach>
 		</div>
-
 	</div>
 </div>
-
-				</div>
-			</div>
+</div>
+</div>
 			
+<!-- 모달창 -->
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -203,6 +204,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+      <!-- 모임 수정내용 -->
+      <div class="moim-edit-inputs" style="display: none;">
       <form id="appInsert" method="post">
       	<input type="hidden" name="moimNo" value="${moimDto.moimNo}"  class="form-control">
       	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}"  class="form-control">
@@ -222,8 +225,12 @@
       	name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
       	data-original-value="${moimDto.moimGenderCheck}" class="form-check-input`">
       	</c:if>
-
       </form>
+      </div>
+      <!--   -->
+      <div class="jungmo-create-inputs" style="display: none;">
+      </div>
+      
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
