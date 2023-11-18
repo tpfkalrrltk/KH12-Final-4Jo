@@ -145,6 +145,7 @@
 						상태 : ${jungmoList.jungmoListVO.jungmoStatus}
 						인원 : ${jungmoList.jungmoListVO.memberCount} / ${jungmoList.jungmoListVO.jungmoCapacity}
 						날짜 : ${jungmoList.jungmoListVO.jungmoSchedule}
+						채팅방가기 <a class="btn btn-primary" href="/default/${jungmoList.jungmoListVO.chatRoomNo}">입장</a> 
 						<h4 class="text-danger"> 
 						<c:choose>
 						<c:when test="${jungmoList.jungmoListVO.dday <= 0}">
@@ -198,31 +199,35 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">모임 정보 수정</h5>
+        <h5 class="modal-title" id="exampleModalLabel ">모임 정보 수정</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <form id="appInsert" method="post">
-      	<input type="hidden" name="moimNo" value="${moimDto.moimNo}" >
-      	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}" >
-      	<input type="hidden" name="eventNo" value="${moimDto.eventNo}" >
-      	모임명 <input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}">
-      	모임설명 <input type="text" name="moimContent" data-original-value="${moimDto.moimContent}">
-      	모임상태 <select name="moimState" data-original-value="${moimDto.moimState}">
+      	<input type="hidden" name="moimNo" value="${moimDto.moimNo}"  class="form-control">
+      	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}"  class="form-control">
+      	<input type="hidden" name="eventNo" value="${moimDto.eventNo}"  class="form-control">
+      	<label class="form-label">모임명</label> 
+      	<input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}" class="form-control">
+      	<label class="form-label">모임소개</label> 
+      	<input type="text" name="moimContent" data-original-value="${moimDto.moimContent}" class="form-control">
+      	<label class="form-label">모임상태</label> 
+      	<select name="moimState" data-original-value="${moimDto.moimState}" class="form-select">
       		<option>모집중</option>
       		<option>마감</option>
       	</select>
       	<c:if test="${moimDto.moimGenderCheck == 'Y'}">
-      	여성전용해제<input type="checkbox"  id="moimGenderCheck" 
+      	<label class="form-check-label">여성전용모임해제</label>
+      	<input type="checkbox"  id="moimGenderCheck" 
       	name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
-      	data-original-value="${moimDto.moimGenderCheck}">
+      	data-original-value="${moimDto.moimGenderCheck}" class="form-check-input`">
       	</c:if>
 
       </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary" id="appBtn">등록</button>
+        <button type="button" class="btn btn-primary" id="appBtn">수정</button>
       </div>
     </div>
   </div>
