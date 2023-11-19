@@ -561,8 +561,8 @@
 
                     // 미리보기 엘리먼트에 이미지 추가
                     $("<img>").attr("src", imageUrl)
-                               .css("max-width", "300px")
-                               .appendTo(".preview-wrapper1");
+                          .css("max-width", "300px")
+                          .appendTo(".preview-wrapper1");
                 }
                 
             },
@@ -634,12 +634,15 @@
           }
         });
     	
-        $("#applicationModal").modal("show");
+//         $("#applicationModal").modal("show");
+		Modal.show();
     });
 
     // 등록 버튼 클릭 시 모달 닫기
     $("#appBtn").click(function(){
-        $("#applicationModal").modal("hide");
+//         $("#applicationModal").modal("hide");
+		Modal.hide;
+		
     });
     
     //모임수정버튼 눌렀을 때 모달창 띄우고 나머지 숨김
@@ -664,6 +667,7 @@
     
     //정모수정버튼 눌렀을 때
     $('.jungmo-edit').click(function () {
+    	$(".preview-wrapper1").empty();
     	$("#applicationModal").modal("show");
         $('.moim-edit-inputs').hide();
         $('.jungmo-create-inputs').show();

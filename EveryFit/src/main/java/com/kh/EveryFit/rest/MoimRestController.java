@@ -240,6 +240,7 @@ public class MoimRestController {
 			attachDao.insert(attachDto);
 
 			//연결(파일이 있을때만)
+			moimDao.deleteJungmoProfile(jungmoDto.getJungmoNo());
 			moimDao.insertJungmoProfile(jungmoDto.getJungmoNo(), attachNo);
 		}
 		
