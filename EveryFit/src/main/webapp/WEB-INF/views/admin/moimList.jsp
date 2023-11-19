@@ -145,26 +145,26 @@
 				<c:forEach items="${adminMoimList}" var="AdminMoimList">
 					<tr class="text-center table- row">
 						<td class="col-2"><a
-							href="${pageContext.request.contextPath}/admin/moim/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">
 								${AdminMoimList.moimNo}</a></td>
 						<td class="col-2"><a
-							href="${pageContext.request.contextPath}/admin/member/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">${AdminMoimList.moimTitle}</a></td>
 						<td class="col-2"><a
-							href="${pageContext.request.contextPath}/admin/member/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">${AdminMoimList.moimState}</a></td>
 						<td class="col-1"><a
-							href="${pageContext.request.contextPath}/admin/member/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">${AdminMoimList.moimGenderCheck}</a></td>
 						<td class="col-2"><a
-							href="${pageContext.request.contextPath}/admin/member/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">${AdminMoimList.moimMemberCount}</a></td>
 						<td class="col-2"><a
-							href="${pageContext.request.contextPath}/admin/member/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">${AdminMoimList.moimTime}</a></td>
 						<td class="col-1"><a
-							href="${pageContext.request.contextPath}/admin/member/mypage?memberEmail=${AdminMoimList.moimNo}"
+							href="${pageContext.request.contextPath}/admin/moim/detail?moimNo=${AdminMoimList.moimNo}"
 							style="text-decoration: none" class="text-primary fw-bold">${AdminMoimList.moimUpgrade}</a></td>
 
 

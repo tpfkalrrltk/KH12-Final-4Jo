@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.EveryFit.dao.AdminDao;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
 
@@ -46,5 +47,14 @@ public class AdminController {
 		//model.addAttribute("adminMoimList", adminDao.adminMoimList());
 		model.addAttribute("adminMoimList", adminDao.adminMoimSearch(adminMoimSearchVO));
 		return "admin/moimList";
+	}
+	
+	@RequestMapping("/jungmo")
+	public String jungmo(Model model, 
+			@ModelAttribute("adminJungmoSearchVO") AdminJungmoSearchVO adminJungmoSearchVO) {
+		
+		//model.addAttribute("adminJungmoList", adminDao.adminMoimList());
+		model.addAttribute("adminJungmoList", adminDao.adminJungmoSearch(adminJungmoSearchVO));
+		return "admin/jungmoList";
 	}
 }
