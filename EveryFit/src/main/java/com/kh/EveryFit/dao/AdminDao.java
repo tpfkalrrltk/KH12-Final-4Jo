@@ -2,8 +2,10 @@ package com.kh.EveryFit.dao;
 
 import java.util.List;
 
+import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
 
@@ -22,6 +24,12 @@ public interface AdminDao {
 	List<MoimDto>adminMoimList();
 	
 	List<MoimDto> adminMoimSearch(AdminMoimSearchVO adminMoimSearchVO);
+
+	
+	//정모
+	List<JungmoDto> adminJungmoList();
+	
+	List<JungmoDto>  adminJungmoSearch(AdminJungmoSearchVO adminJungmoSearchVO);
 	
 	
 }

@@ -148,7 +148,7 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 				and moim_upgrade in
 				<foreach collection="moimUpgradeList" open="(" close=")"
 					separator="," item="UpgradeList">
-					${UpgradeList}
+					#{UpgradeList}
 				</foreach>
 			</if>
 
@@ -157,14 +157,14 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 				and moim_gender_check in
 				<foreach collection="moimGenderCheckList" open="(" close=")"
 					separator="," item="GenderList">
-					${GenderList}
+					#{GenderList}
 				</foreach>
 			</if>
 			<if test="moimStateList !=null and moimStateList.size()>0">
 				and moim_state in
 				<foreach collection="moimStateList" open="(" close=")"
 					separator="," item="StateList">
-					${StateList}
+					#{StateList}
 				</foreach>
 			</if>
 		</where>
@@ -177,10 +177,69 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 			</foreach>
 		</if>
 
-
-
 	</select>
 
+	<!-- 정모 -->
+
+	<select id="adminJungmoList" resultType="JungmoDto">
+		select * from jungmo
+		order by
+		jungmo_no asc
+	</select>
+
+	<select id="adminJungmoSearch" resultType="JungmoDto">
+		select * from jungmo
+		<where>
+			<if test="jungmoNo != null">
+				and instr(jungmo_no, #{jungmoNo}) > 0
+			</if>
+			<if test="moimNo != null">
+				and instr(moim_no, #{moimNo}) > 0
+			</if>
+			<if test="jungmoTitle != null">
+				and instr(jungmo_title, #{jungmoTitle}) > 0
+			</if>
+			<if test="jungmoCapacity != null">
+				and instr(jungmo_capacity, #{jungmoCapacity}) > 0
+			</if>
+			<if test="jungmoPrice != null">
+				and instr(jungmo_price, #{jungmoPrice}) > 0
+			</if>
+			<choose>
+				<when
+					test="jungmoScheduleStart != null and jungmoScheduleEnd !=null ">
+					and to_date(jungmo_schedule, 'YYYY-MM-DD') between
+					to_date(#{jungmoScheduleStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					HH24:MI:SS') and
+					to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59'
+					'YYYY-MM-DD HH24:MI:SS')
+				</when>
+				<when test="jungmoScheduleStart != null">
+				<![CDATA[	
+				and to_date(jungmo_schedule, 'YYYY-MM-DD') >= 
+				to_date(#{jungmoScheduleStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+				<when test="jungmoScheduleEnd !=null">
+				<![CDATA[
+				and to_date(moim_time, 'YYYY-MM-DD') <=
+				to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+
+			</choose>
+
+
+
+		</where>
+
+		<if test="orderList != null and orderList.size() >0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+	</select>
 
 
 </mapper>

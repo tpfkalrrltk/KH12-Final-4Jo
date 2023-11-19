@@ -6,8 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
 
@@ -17,7 +19,6 @@ public class AdminDaoImpl implements AdminDao {
 	@Autowired
 	SqlSession sqlSession;
 
-	// 관리자 기능
 	@Override
 	public List<MemberDto> adminMemberList() {
 
@@ -43,6 +44,18 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public List<MoimDto> adminMoimSearch(AdminMoimSearchVO adminMoimSearchVO) {
 		List<MoimDto> list = sqlSession.selectList("admin.adminMoimSearch", adminMoimSearchVO);
+		return list;
+	}
+	
+	
+	@Override
+	public List<JungmoDto> adminJungmoList() {
+		return sqlSession.selectList("admin.adminMoimList");
+	}
+
+	@Override
+	public List<JungmoDto> adminJungmoSearch(AdminJungmoSearchVO adminJungmoSearchVO) {
+		List<JungmoDto> list = sqlSession.selectList("admin.adminJungmoSearch", adminJungmoSearchVO);
 		return list;
 	}
 

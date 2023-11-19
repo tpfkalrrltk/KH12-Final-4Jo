@@ -288,6 +288,10 @@ body {
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/admin/moim">(관리자)모임
 								관리</a>
+								<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/admin/jungmo">(관리자)정모
+								관리</a>
 
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold" href="/league/leagueList">(관리자)리그
