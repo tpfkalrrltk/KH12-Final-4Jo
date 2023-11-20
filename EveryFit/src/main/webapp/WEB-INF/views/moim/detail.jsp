@@ -561,7 +561,7 @@
         maxDate.setMonth(maxDate.getMonth() + 1);
 
         // 입력 값이 날짜 및 시간 형식이 아니거나, 범위를 벗어난 경우 알림 표시
-        if (!new Date(inputValue) < currentDate || new Date(inputValue) > maxDate) {
+        if (!(new Date(inputValue) > currentDate && new Date(inputValue) <= maxDate)) {
             confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
             return;
         } else {
