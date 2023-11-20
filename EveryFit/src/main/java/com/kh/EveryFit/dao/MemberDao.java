@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LocationDto;
-import com.kh.EveryFit.dto.MemberBlockDto;
 import com.kh.EveryFit.dto.MemberDto;
 
 public interface MemberDao {
@@ -13,7 +12,7 @@ public interface MemberDao {
 	
 	List<MemberDto> selectList();
 
-	MemberDto slelctOne(String memberEmail);
+	
 
 	List<MemberDto> searchList(String memberNick);
 
@@ -39,14 +38,13 @@ public interface MemberDao {
 
 	//회원 개인정보변경 
 	void updateMemberInfo(MemberDto inputDto);
-
-	
-	
 	void changeMemberInfo(MemberDto memberDto);
+	
+	//비밀정보 변경
+	void changePw(MemberDto memberDto);
 
 	MemberDto selectOneByMemberNick(String memberNick);
 
-	void deleteProfile(String memberId);
 	
 	
 	MemberDto login(MemberDto dto);
@@ -57,6 +55,9 @@ public interface MemberDao {
 
 	// 회원권 구매 후 member_moim_count (3->10) 수정 
 	boolean updateMemberMoimCount(String memberEmail);
-
 	
+	//프로필 관련 기능
+		void insertProfile(String memberEmail, int attachNo);
+		boolean deleteProfile(String memberEmail);
+		Integer findProfile(String memberEmail);
 }

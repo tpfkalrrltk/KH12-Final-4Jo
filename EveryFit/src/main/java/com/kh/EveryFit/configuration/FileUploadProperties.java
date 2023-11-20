@@ -10,4 +10,5 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "custom.fileupload")
 public class FileUploadProperties {
 	private String home;
+	private String homeMac;
 }
