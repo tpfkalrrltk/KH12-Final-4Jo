@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -31,7 +32,9 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
+import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.vo.JungmoWithMembersVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,11 +73,11 @@ public class MoimController {
 	
 	@PostMapping("/create")
 	public String create(@ModelAttribute MoimDto moimDto,
-			@RequestParam MultipartFile attach, HttpSession session) throws IllegalStateException, IOException {
+			@RequestParam MultipartFile attach, HttpSession session) throws IllegalStateException, IOException {	
+		
 		int moimNo = moimDao.sequence();
 		moimDto.setMoimNo(moimNo);
-		
-		
+
 		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
 		int chatRoomNo = chatDao.sequence();
 		log.debug("chatRoomNo");
@@ -89,6 +92,7 @@ public class MoimController {
 		chatDao.addChatMember(chatRoomNo, memberEmail);
 		//모임등록한 사람의 아이디를 moim_member 테이블에 insert 하기!
 		moimDao.addMoimJang(moimNo, memberEmail);
+		
 		//모임등록한사람의 등급은 모임장으로 하자
 		//첨부파일등록(파일있을때)
 		if(!attach.isEmpty()) {
@@ -120,6 +124,8 @@ public class MoimController {
 		model.addAttribute("moimDto", moimDto);
 		//회원목록(moim_member)
 		model.addAttribute("memberList", moimDao.selectAllMoimMembers(moimNo));
+		//회원목록(모임장이 보는 회원목록)
+		model.addAttribute("memberListForMoimJang", moimDao.selectAllMoimMembersForMoimJang(moimNo));
 		//모임지역
 		LocationDto locationDto = memberDao.selectOneByLocationNo(moimDto.getLocationNo());
 		model.addAttribute("locationDto", locationDto);
@@ -132,8 +138,11 @@ public class MoimController {
 //		//정모 목록
 //		model.addAttribute("jungmoList", jungmoDao.selectList(moimNo));		
 		//정모목록
-		model.addAttribute("jungmoTotalList", jungmoDao.selectTotalList(moimNo));
-		
+		List<JungmoWithMembersVO> jungmoTotalList = jungmoDao.selectTotalList(moimNo);
+	    for (JungmoWithMembersVO jungmoWithMembersVO : jungmoTotalList) {
+	        jungmoWithMembersVO.calculateDdays();
+	    }
+	    model.addAttribute("jungmoTotalList", jungmoTotalList);
 		return "moim/detail";
 		
 	}
@@ -176,22 +185,65 @@ public class MoimController {
 		redirectAttributes.addAttribute("approval", true);
 		return "redirect:detail?moimNo="+moimNo;
 	}
-	@GetMapping("/jungmo/create")
-	public String jungmoCreate(@RequestParam int moimNo) {
-		return "moim/jungmoCreate";
+	
+	//모임가입
+	@RequestMapping("/member/join")
+	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
+		
+		String memberEmail = (String)session.getAttribute("name");
+		MemberDto memberDto = memberDao.selectOne(memberEmail);
+		MoimDto moimDto = moimDao.selectOne(moimNo);
+		
+		//그 회원의 가입 모임수를 체크해야함
+		int moimCount = memberDto.getMemberMoimCount();
+		//회원의 레벨이 일반일 때는 3개까지
+		//회원의 레벨이 프리미엄이면 몇개까지지?
+		boolean isOver = memberDto.getMemberLevel().equals("일반") && moimCount == 3;
+		boolean isPrimiumOver = memberDto.getMemberLevel().equals("프리미엄") && moimCount == 10;
+		if(isOver || isPrimiumOver) {
+			//jsp에서 오버됐다는 팝업창을 띄워주면 됨
+			return "redircet:over";
+		}
+		
+		//여성전용 모임일 경우에 여성회원인지 확인 필요
+		if(moimDto.getMoimGenderCheck().equals("Y")) { //여성전용모임
+			if(memberDto.getMemberGender().equals("F")) { //여성회원인지 검사
+				moimDao.addMoimMember(moimNo, memberEmail);
+				memberDto.setMemberMoimCount(moimCount + 1);
+			}
+			else {
+				//jsp에서 여성회원만 가입 가능하다는 팝업창을 띄워주면 됨
+				return "redirect:error";
+			}
+		}
+		else {
+			moimDao.addMoimMember(moimNo, memberEmail);			
+			memberDto.setMemberMoimCount(moimCount + 1);
+		}
+		
+		
+		moimDao.addMoimMember(moimNo, memberEmail);
+		return "redirect:/";
 	}
 	
-	@PostMapping("/jungmo/create")
+	@GetMapping("/jungmo/create")
+	public String jungmoCreate(@RequestParam int moimNo, Model model) {
+	    model.addAttribute("keepModalAndReturn", true);
+	    model.addAttribute("redirectUrl", "/moim/detail?moimNo=" + moimNo);
+		return "redirect:detail?moimNo="+moimNo;
+	}
+	
+	@RequestMapping(value = "/jungmo/create", method = RequestMethod.POST)
 	public String jungmoCreate(
 			@ModelAttribute JungmoDto jungmoDto, 
 			@RequestParam MultipartFile attach,
-			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr) throws IllegalStateException, IOException {
+			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr,
+			HttpSession session) throws IllegalStateException, IOException {
 
 		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
 		
 		int jungmoNo = jungmoDao.sequence();
 		jungmoDto.setJungmoNo(jungmoNo);
-		
 		
 		try {
 	        // 문자열을 LocalDateTime으로 파싱
@@ -205,8 +257,18 @@ public class MoimController {
 	        // 예외 처리 로직 추가
 	    }
 		
-		jungmoDao.insert(jungmoDto);
+		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
+		int chatRoomNo = chatDao.sequence();
+		log.debug("chatRoomNo");
 		
+		String memberEmail = (String)session.getAttribute("name");
+		chatDao.insertChatRoom(chatRoomNo);
+		jungmoDto.setChatRoomNo(chatRoomNo);
+		jungmoDao.insert(jungmoDto);
+
+		//채팅참가자 추가
+		chatDao.addChatMember(chatRoomNo, memberEmail);
+				
 		//첨부파일등록(파일있을때)
 		if(!attach.isEmpty()) {
 			//첨부파일등록(파일이 있을때만)

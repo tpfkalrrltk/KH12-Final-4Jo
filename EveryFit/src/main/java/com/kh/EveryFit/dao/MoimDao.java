@@ -2,10 +2,15 @@ package com.kh.EveryFit.dao;
 
 import java.util.List;
 
+import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
+
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
+
 
 public interface MoimDao {
 	//모임
@@ -19,6 +24,8 @@ public interface MoimDao {
 	
 	//모임회원
 	List<MoimMemberDto> selectAllMoimMembers(int moimNo);
+	//모임장이보는모임회원
+	List<MoimMemberDto> selectAllMoimMembersForMoimJang(int moimNo);
 	
 	//회원이 가입한 모임 확인용
 	List<MoimDto> moimListByEmail(String memberEmail);
@@ -40,6 +47,24 @@ public interface MoimDao {
 	//모임회원상태변경
 	void updateMoimMember(MoimMemberStatusVO vo);
 	
+
+	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
+	List<MoimMemberDto> selectAllMoimNo(String memberEmail);
+	List<MoimTitleForPaymentVO> selectTitleMoimNo(String memberEmail);
+
 	//세션값의 모임멤버레벨, 모임멤버상태 조회
 	MoimMemberDto selectOneMyInfo(String memberEmail);
+
+	
+	//모임 좋아요
+	void memberLikeInsert(MemberLikeDto memberLikeDto);
+	boolean memberLikeDelete(MemberLikeDto memberLikeDto);
+	boolean  memberLikeCheck(MemberLikeDto memberLikeDto);
+	int memberLikeCount(int moimNo);
+	//좋아요 누른 모임 확인하는건 나중에....
+	
+	//프리미엄 모임 결제 후, 모임의 상태를 프리미엄으로 변경(N->Y)
+	boolean upgradeToPrimium(MoimDto moimDto);
+
+
 }

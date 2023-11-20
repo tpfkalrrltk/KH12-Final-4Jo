@@ -34,6 +34,12 @@
 .ataglink:hover {
 	background-color: #0056b3;
 }
+
+    .disabled-link {
+        pointer-events: none;
+        color: #999; /* 비활성화된 링크의 색상을 변경할 수 있습니다. */
+        text-decoration: none; /* 비활성화된 링크에 밑줄을 제거할 수 있습니다. */
+    }
 </style>
 <div class="m-5 p-5">
 	<div class="container-fluid m-5 p-5">
@@ -107,7 +113,7 @@
 									</div>
 								</div>
 								<div class="row">
-					<div class="col-2">
+					<div class="col-2 mt-5">
 
 						<div class="row">
 							<div class="col">
@@ -121,10 +127,10 @@
 
 					<div class="col-8">
 						<div class="row">
-							<div class="col">가입모임 개수 증가</div>
+							<div class="col  mt-5">모임 사용 가능 일수 늘리기</div>
 						</div>
 						<div class="row">
-							<div class="col">모임 가입 최대 10개까지 늘리기 (일반 회원은 모임 가입 최대 3개입니다)
+							<div class="col">비활성화 해제 (일반 모임은 1달 후 비활성화로 변경됩니다.)
 							</div>
 						</div>
 					</div>
@@ -145,16 +151,71 @@
 					<div class="col text-center">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
+							<c:if test="${memberDto.memberLevel != '프리미엄'}">
 								<a href="pay/purchase?productNo=${productDto.productNo}"
 									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a>
+							</c:if>
+								<c:if test="${memberDto.memberLevel == '프리미엄'}">
+								<span style="color: red;">
+								${memberDto.memberEmail} 님은 이미 프리미엄 회원입니다.
+								이용해 주셔서 감사합니다
+								</span>	
+							</c:if>
 							</c:when>
 							<c:otherwise>
-								<a href="pay/periodPurchase?productNo=${productDto.productNo}"
-									class="ataglink"> EeveryFIt 프리미엄 모임권 구매하기 </a>
+
+<%-- 							<c:forEach var="moimMemberDto" items="${list}">
+							<a href="pay/periodPurchase?productNo=2&moimNo=${moimMemberDto.moimNo}">
+							[${moimMemberDto.moimNo}] EeveryFIt 프리미엄 모임권 구매하기
+							</a>
+								<a href="/moim/detail?moimNo=${moimMemberDto.moimNo}">모임상세보기</a>
+							<br>
+							</c:forEach> --%>
+
+							<c:forEach var="MoimDtoList" items="${MoimDtoList}">
+							<c:if test="${MoimDtoList.moimUpgrade eq 'N'}" >
+							
+							
+							
+
+							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
+							class="ataglink mb-1">
+							<%-- [${MoimDtoList.moimNo}] --%>[${MoimDtoList.moimTitle}] 모임에 대한 EeveryFIt 프리미엄 모임권 구매하기
+							
+							</a>
+								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>)
+								
+							<br>
+							
+							</c:if>
+							
+														<c:if test="${MoimDtoList.moimUpgrade eq 'Y'}" >
+							
+							
+							
+
+							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
+							class="ataglink mb-1 disabled-link">
+							<%-- [${MoimDtoList.moimNo}] --%>[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다
+							
+							</a>
+								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>)
+								
+							<br>
+							
+							</c:if>
+							</c:forEach>
+
 							</c:otherwise>
 						</c:choose>
 					</div>
 				</div>
+[${memberDto.memberEmail}] - ${memberDto.memberLevel}
+<c:forEach var="MoimDtoList" items="${MoimDtoList}">
+
+[${MoimDtoList.moimTitle}] - ${MoimDtoList.moimUpgrade}
+
+</c:forEach>
 
 
 

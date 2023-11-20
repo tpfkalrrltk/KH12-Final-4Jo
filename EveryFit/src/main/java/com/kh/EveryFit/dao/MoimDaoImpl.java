@@ -8,10 +8,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
+
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
+
 
 @Repository
 public class MoimDaoImpl implements MoimDao {
@@ -39,9 +44,16 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.update("moim.editMoim", moimDto) > 0;
 	}
 	
+	//모임회원목록1
 	@Override
 	public List<MoimMemberDto> selectAllMoimMembers(int moimNo) {
 		return sqlSession.selectList("moim.moimMemberList", moimNo);
+	}
+	
+	//모임회원목록2
+	@Override
+	public List<MoimMemberDto> selectAllMoimMembersForMoimJang(int moimNo) {
+		return sqlSession.selectList("moim.moimMemberListForMoimJang", moimNo);
 	}
 	
 	@Override
@@ -118,6 +130,16 @@ public class MoimDaoImpl implements MoimDao {
 	    params.put("memberEmail", memberEmail);
 		sqlSession.insert("moim.insertMoimMember", params);
 	}
+	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
+	@Override
+	public List<MoimMemberDto> selectAllMoimNo(String memberEmail) {
+		return sqlSession.selectList("moim.findMoimNoPerMemberEmailAndCrown", memberEmail);
+	}
+
+	@Override
+	public List<MoimTitleForPaymentVO> selectTitleMoimNo(String memberEmail) {
+		return sqlSession.selectList("moim.findMoimNoAndMoimTitlePerMemberEmailAndCrown", memberEmail);
+	}
 	
 	@Override
 	public void updateMoimMember(MoimMemberStatusVO vo) {	
@@ -126,6 +148,30 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public MoimMemberDto selectOneMyInfo(String memberEmail) {
 		return sqlSession.selectOne("moim.selectOneMyInfo", memberEmail);
+	}
+	
+	//모임 좋아요
+	@Override
+	public void memberLikeInsert(MemberLikeDto memberLikeDto) {
+		sqlSession.insert("moim.insertMemberLike", memberLikeDto);
+	}
+	@Override
+	public boolean memberLikeCheck(MemberLikeDto memberLikeDto) {
+		List<MemberLikeDto> list = sqlSession.selectList("moim.checkMemberLike", memberLikeDto);
+		return !list.isEmpty();
+	}
+	@Override
+	public boolean memberLikeDelete(MemberLikeDto memberLikeDto) {
+		return sqlSession.delete("moim.deleteMemberLike", memberLikeDto) > 0;
+	}
+	@Override
+	public int memberLikeCount(int moimNo) {
+		return sqlSession.selectOne("moim.countMemberLike", moimNo);
+	}
+
+	@Override
+	public boolean upgradeToPrimium(MoimDto moimDto) {
+		return sqlSession.update("moim.upgradeToPrimium", moimDto) > 0;
 	}
 	
 }

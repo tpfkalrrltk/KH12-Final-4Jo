@@ -12,7 +12,258 @@
 	</select>
 
 	<select id="adminMemberTarget" resultType="MemberDto">
-		select* from member where member_email = #{memberEmail}
+		select* from member
+		where member_email = #{memberEmail}
 	</select>
 
+
+
+	<!-- 회원 복합 검색 -->
+
+	<select id="adminMemberSearch" resultType="MemberDto">
+
+		<!-- <include refid="pagingHeader"></include> -->
+
+		select * from member
+		<where>
+
+			<if test="memberEmail != null">
+				and instr(member_email, #{memberEmail}) > 0
+			</if>
+
+			<if test="memberName !=null">
+				and instr(member_name, #{memberName}) > 0
+			</if>
+
+			<if test="memberNick != null">
+				and instr(member_nick,#{memberNick}) >0
+			</if>
+
+			<if test="memberContact != null">
+				and instr(member_contact, #{memberContact})>0
+			</if>
+
+			<choose>
+
+				<when
+					test="memberBirthBegin != null and memberBirthEnd != null">
+					and to_date(member_birth, 'YYYY-MM-DD') between
+					to_date(#{memberBirthBegin} || ' ' ||'00:00:00','YYYY-MM-DD
+					HH24:MI:SS')
+					and
+					to_date(#{memberBirthEnd} || ' ' ||'23:59:59',
+					'YYYY-MM-DD HH:24:MI:SS')
+				</when>
+				<when test="memberBirthBegin != null">
+<![CDATA[
+and to_date(member_birth, 'YYYY-MM-DD') >= 
+to_date(#{memberBirthBegin} || ' ' ||'00:00:00','YYYY-MM-DD HH24:MI:SS')
+]]>
+				</when>
+				<when test="memberBirthEnd != null">
+<![CDATA[
+and to_date(member_birth, 'YYYY-MM-DD') <=
+to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+]]>
+				</when>
+			</choose>
+
+			<if test="memberGenderList != null and memberGenderList.size() >0">
+				and member_gender in
+				<foreach collection="memberGenderList" open="(" close=")"
+					separator="," item="Gender">
+					#{Gender}
+				</foreach>
+			</if>
+
+			<if test="memberLevelList != null and memberLevelList.size()>0">
+				and member_level in
+				<foreach collection="memberLevelList" open="(" close=")"
+					separator="," item="Level">
+					#{Level}
+				</foreach>
+			</if>
+
+
+		</where>
+
+		<!-- 정렬 -->
+		<if test="orderList != null  and  orderList.size() >0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+
+	</select>
+
+
+	<!-- 모임 목록 -->
+	<select id="adminMoimList" resultType="MoimDto">
+		select * from moim  where moim_state in '모집중'
+		order by
+		moim_no desc
+	</select>
+
+
+	<!-- 모임 복합 검색 -->
+	<select id="adminMoimSearch" resultType="MoimDto">
+		select * from moim
+
+		<where>
+			<if test="moimNo !=null">
+				and instr(moim_no, #{moimNo})>0
+			</if>
+			<if test="moimTitle  !=null">
+				and instr(moim_title, #{moimTitle})>0
+			</if>
+			<if test="moimMemberCount  !=null">
+				and instr(moim_member_count, #{moimMemberCount})>0
+			</if>
+
+			<choose>
+				<when test="moimTimeStart != null and moimTimeEnd !=null ">
+					and to_date(moim_time, 'YYYY-MM-DD') between
+					to_date(#{moimTimeStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					HH24:MI:SS') and
+					to_date(#{moimTimeEnd} || ' ' || '23:59:59'
+					'YYYY-MM-DD HH24:MI:SS')
+				</when>
+				<when test="moimTimeStart != null">
+				<![CDATA[	
+				and to_date(moim_time, 'YYYY-MM-DD') >= 
+				to_date(#{moimTimeStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+				<when test="moimTimeEnd !=null">
+				<![CDATA[
+				and to_date(moim_time, 'YYYY-MM-DD') <=
+				to_date(#{moimTimeEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+
+			</choose>
+
+			<if test=" moimUpgradeList !=null and moimUpgradeList.size() >0">
+				and moim_upgrade in
+				<foreach collection="moimUpgradeList" open="(" close=")"
+					separator="," item="UpgradeList">
+					#{UpgradeList}
+				</foreach>
+			</if>
+
+			<if
+				test="moimGenderCheckList != null and moimGenderCheckList.size() >0">
+				and moim_gender_check in
+				<foreach collection="moimGenderCheckList" open="(" close=")"
+					separator="," item="GenderList">
+					#{GenderList}
+				</foreach>
+			</if>
+			<if test="moimStateList !=null and moimStateList.size()>0">
+				and moim_state in
+				<foreach collection="moimStateList" open="(" close=")"
+					separator="," item="StateList">
+					#{StateList}
+				</foreach>
+			</if>
+		</where>
+
+
+		<if test="orderList !=null and orderList.size()>0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+
+	</select>
+
+	<!-- 정모 -->
+
+	<select id="adminJungmoList" resultType="JungmoDto">
+		select * from jungmo
+		order by
+		jungmo_no asc
+	</select>
+
+	<select id="adminJungmoSearch" resultType="JungmoDto">
+		select * from jungmo
+		<where>
+			<if test="jungmoNo != null">
+				and instr(jungmo_no, #{jungmoNo}) > 0
+			</if>
+			<if test="moimNo != null">
+				and instr(moim_no, #{moimNo}) > 0
+			</if>
+			<if test="jungmoTitle != null">
+				and instr(jungmo_title, #{jungmoTitle}) > 0
+			</if>
+			<if test="jungmoCapacity != null">
+				and instr(jungmo_capacity, #{jungmoCapacity}) > 0
+			</if>
+			<if test="jungmoPrice != null">
+				and instr(jungmo_price, #{jungmoPrice}) > 0
+			</if>
+			<choose>
+				<when
+					test="jungmoScheduleStart != null and jungmoScheduleEnd !=null ">
+					and to_date(jungmo_schedule, 'YYYY-MM-DD') between
+					to_date(#{jungmoScheduleStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					HH24:MI:SS') and
+					to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59'
+					'YYYY-MM-DD HH24:MI:SS')
+				</when>
+				<when test="jungmoScheduleStart != null">
+				<![CDATA[	
+				and to_date(jungmo_schedule, 'YYYY-MM-DD') >= 
+				to_date(#{jungmoScheduleStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+				<when test="jungmoScheduleEnd !=null">
+				<![CDATA[
+				and to_date(moim_time, 'YYYY-MM-DD') <=
+				to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+
+			</choose>
+
+
+
+		</where>
+
+		<if test="orderList != null and orderList.size() >0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 메인 홈페이지 -->
+
+	<select id="findMoimProfile" resultType="AttachDto">
+		select * from attach 
+		where attach_no = ( 
+		select attach_no from moim_image 
+		where moim_no = #{moimNo})
+	</select>
+	
+		<select id="moimProfileList" resultType="int">
+		select moim_no from moim_image 
+	</select>
+	
+	<select id="PremiumMoimList" resultType="MoimDto">
+		select * from moim where moim_upgrade in 'Y' and moim_state in '모집중'
+		order by
+		moim_no desc
+	</select>
+	
+		<select id="GenderCheckMoimList" resultType="MoimDto">
+		select * from moim where moim_gender_check in 'Y' and moim_state in '모집중'
+		order by
+		moim_no desc
+	</select>
+	
 </mapper>

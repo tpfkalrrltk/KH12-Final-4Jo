@@ -101,6 +101,9 @@
 		<if test="memberApproval != null">
 		moim_member_status = '승인' 
 		</if>
+        <if test="moimJangTransfer != null">
+        moim_member_level = '모임장' 
+        </if>
 		</set>
 		where member_email = #{memberEmail} 
 		and moim_no = #{moimNo} 
@@ -278,7 +281,8 @@
 	
 	<!-- 정모리스트(대표정보) -->
 	<select id="jungmoListAll" resultMap="jungmoWithMembersVO">
-		select * from jungmo_list where moim_no = #{moimNo}
+		select * from jungmo_list where moim_no = #{moimNo} 
+		and jungmo_schedule >= current_timestamp
 	</select>
 	
 	<!-- 정모번호 별 멤버리스트 -->
@@ -365,6 +369,52 @@
 	</select>
 	
 
+	<!-- 모임 좋아요 -->
+	<insert id="insertMemberLike">
+		insert into member_like (moim_no, member_email) 
+		values(#{moimNo}, #{memberEmail})
+	</insert>
 	
+	<delete id="deleteMemberLike">
+		delete member_like where member_email = #{memberEmail} 
+		and moim_no = #{moimNo}
+	</delete>
 	
+	<select id="checkMemberLike" resultType="MemberLikeDto">
+		select * from member_like where member_email = #{memberEmail} 
+		and moim_no = #{moimNo} 
+	</select>
+	
+	<select id="countMemberLike" resultType="int">
+		select count(*) from member_like where moim_no = #{moimNo}
+	</select>
+
+
+	<!-- 회원EMAIL이 모임장으로 가입된 MOIM 번호 조회 -->
+	<select id="findMoimNoPerMemberEmailAndCrown" resultType="MoimMemberDto">
+		select * from moim_member where member_email = #{MemberEmail} and moim_member_level = '모임장'
+	</select>
+
+	
+	<!-- 회원EMAIL이 모임장으로 가입된 MOIM 번호, 이름 조회 -->
+	<select id="findMoimNoAndMoimTitlePerMemberEmailAndCrown" resultType="MoimTitleForPaymentVO">
+		select p.member_email, p.moim_no, 
+               p.moim_member_level, p.moim_member_status, 
+               pp.moim_title 
+               from moim_member p
+               left outer join moim pp 
+               on 
+               p.moim_no = pp.moim_no 
+               where member_email = #{MemberEmail} and moim_member_level = '모임장'
+	</select>
+	
+	<!-- 프리미엄 모임 결제 후, 모임의 상태를 프리미엄으로 변경(N->Y) -->
+	<update id="upgradeToPrimium">
+		update moim set 
+		moim_upgrade ='Y' 
+		where moim_no = #{moimNo} 
+	</update>
 </mapper>
+
+
+

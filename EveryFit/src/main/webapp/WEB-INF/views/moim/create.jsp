@@ -4,21 +4,19 @@
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
-
+<style>
+    textarea {
+        resize: none;
+    }
+</style>
 <title>등록해보기</title>
 
-<c:choose>
-	<c:when test="${moimDto != null}">
-		<h1>모임수정</h1>
-<div class="container-fluid col-8 offset-2">
-<div class="row mt-4">
-<div class="card border-primary mb-3" style="max-width: 100rem;">
-</div></div></div>
-	</c:when>
-	<c:otherwise>
+
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="row">
+      <div class="col">
 		<h1>모임등록</h1>
-	</c:otherwise>
-</c:choose>
 
 <div class="row mt-4">
 	<c:if test="${profile != null}">
@@ -52,21 +50,38 @@
     </div></div>
 
      <br>
-     종목 
-     <select name="eventNo">
-         <c:forEach var="event" items="${eventList}">
-             <option value="${event.eventNo}">${event.eventName}</option>
-         </c:forEach>
-     </select>
-	모임명<input type="text" name="moimTitle" placeholder="${moimDto.moimTitle}">
-	모임설명<input type="text" name="moimContent" placeholder="${moimDto.moimContent}">
-	<input type="hidden" name="moimMemberCount" value=30>
-	
-	여성전용 <input type="checkbox" name="moimGenderCheck">
-	<button type="submit">등록</button>
+	<div class="row mt-4"><div class="col">
+		<label class="form-label">종목</label>
+		     <select name="eventNo"  class="form-select">
+		         <c:forEach var="event" items="${eventList}">
+		             <option value="${event.eventNo}">${event.eventName}</option>
+		         </c:forEach>
+		     </select>
+	</div></div>
+		<label class="form-label">모임명</label>
+		<input type="text" name="moimTitle" class="form-control">
+		<label class="form-label">모임설명</label>
+		<textarea rows="5" class="form-control" name="moimContent"></textarea>
+		<label class="form-label">정원</label>
+		<input type="number" name="moimMemberCount" value=30 readonly>
+		<label class="form-label">여성전용</label>
+		<input type="checkbox"  id="moimGenderCheck" 
+		name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
+		data-original-value="${moimDto.moimGenderCheck}" class="form-check-input`">
+		<label class="form-label"></label>
+	<div class="row">
+	<div class="col">
+	<button type="submit" class="btn btn-primary">등록</button>
+	</div>
+	</div>
 </form>
 </div>
 
+
+</div>
+</div>
+</div>
+</div>
 
 <script>
 		
@@ -78,19 +93,7 @@
                 //초기화
                 return;
             }
-            
 
-            //파일 미리보기는 서버 업로드와 관련이 없다
-            //- 서버에 올릴거면 따로 처리를 또 해야 한다
-
-            //[1] 자동으로 생성되는 미리보기 주소를 연결
-//             for(let i=0; i < this.files.length; i++) {
-//                 $("<img>").attr("src", URL.createObjectURL(this.files[i]))
-//                                 .css("max-width", "300px")
-//                                 .appendTo(".preview-wrapper1");
-//             }
-            
-            //[2] 직접 읽어서 내용을 설정하는 방법
             let reader = new FileReader();
             reader.onload = ()=>{
                 $("<img>").attr("src", reader.result)//data;로 시작하는 엄청많은 실제이미지 글자
@@ -127,14 +130,45 @@
 			});
 		});
 	
-	$("[name=moimGenderCheck]").click(function(e){
-	    var isChecked = $(this).prop("checked");
-
-	    // 체크박스를 클릭하여 선택되었다면
-	    if (isChecked) {
-	        $(this).val(1);
+    $("#moimGenderCheck").change(function() {
+    //여성회원전용 체크박스를 선택하면 ajax로 회원 세션을 넘겨서 
+    //그 회원의 정보를 조회 한 후 여성이라면 체크 가능하도록
+  	var memberEmail = "${sessionScope.name}";
+	    if ($(this).is(":checked")) {
+	        // 여성회원 전용 체크박스가 체크되었을 때만 Ajax 요청을 보냄
+	        $.ajax({
+	            type: "POST",
+	            url: "http://localhost:8080/rest/moim/checkGender", // 서버 엔드포인트 URL을 적절히 수정
+	            data: { memberEmail : memberEmail }, // 필요한 데이터를 전송 (세션 등)
+	            success: function(response) {
+	                // 서버에서의 응답을 확인하여 처리
+	                if (response === "female") {
+	                    // 여성인 경우에만 체크를 가능하도록 처리
+	                    $("#moimGenderCheck").prop("disabled", false);
+	                } else {
+	                    // 여성이 아닌 경우 체크를 비활성화
+	                    $("#moimGenderCheck").prop("checked", false);
+	                    alert("여성 회원만 해당 옵션을 선택할 수 있습니다.");
+	                }
+	            },
+	            error: function(error) {
+	                console.error("Ajax 요청 중 에러 발생:", error);
+	            }
+	        });
 	    } else {
-	    	$(this).val(2);
+	        // 체크가 해제되면 체크를 가능하도록 해제
+	        $("#moimGenderCheck").prop("disabled", false);
 	    }
-	});
+     
+        if ($(this).is(":checked")) {
+            $(this).val("Y");
+        } else {
+            $(this).val("N");
+        }
+
+    });
+    
+    
+    
+    
  </script> 

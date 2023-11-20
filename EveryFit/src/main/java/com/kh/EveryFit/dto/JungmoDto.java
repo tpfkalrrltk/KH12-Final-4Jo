@@ -1,6 +1,8 @@
 package com.kh.EveryFit.dto;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +26,6 @@ public class JungmoDto {
     public void setJungmoSchedule(java.sql.Timestamp timestamp) {
         this.jungmoSchedule = timestamp;
     }
+    
+    
 }

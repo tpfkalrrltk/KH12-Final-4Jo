@@ -286,7 +286,11 @@ body {
 							href="${pageContext.request.contextPath}/admin/member"> (관리자)회원 관리 </a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/moim/create">(관리자)모임
+								href="${pageContext.request.contextPath}/admin/moim">(관리자)모임
+								관리</a>
+								<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/admin/jungmo">(관리자)정모
 								관리</a>
 
 							<div class="dropdown-divider"></div>
