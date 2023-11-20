@@ -41,34 +41,68 @@ public class LeagueMatchRestController {
 	
 	@PutMapping("/{leagueMatchNo}")
 	public void update(@ModelAttribute LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
-		LeagueMatchDto originLeagueMatchDto = leagueDao.selectOneLeagueMatch(leagueMatchNo);
-		LeagueTeamDto homeDto = leagueDao.selectOneLeagueTeam(leagueMatchDto.getLeagueMatchHome());
-		LeagueTeamDto AwayDto = leagueDao.selectOneLeagueTeam(leagueMatchDto.getLeagueMatchAway());
-		int homeScore = leagueMatchDto.getLeagueMatchHomeScore();
-		int awayScore = leagueMatchDto.getLeagueMatchAwayScore();
-		
-		if(originLeagueMatchDto.getLeagueMatchHomeScore()==null) {
-			homeDto.setLeagueTeamMatchCount(homeDto.getLeagueTeamMatchCount()+1);
-			
-		}
-		
-		
-		if(homeScore > awayScore) {
-			
-		}
-		else if (homeScore < awayScore) {
-			
-		}
-		else {
-			
-		}
-		
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 	}
 	
 	@DeleteMapping("/{leagueMatchNo}")
 	public void delete(@PathVariable int leagueMatchNo) {
 		leagueDao.deleteLeagueMatch(leagueMatchNo);
+	}
+	
+	@PutMapping("/result/{leagueMatchNo}")
+	public void updateResult(@ModelAttribute LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
+		LeagueMatchDto originMatchDto = leagueDao.selectOneLeagueMatch(leagueMatchNo);
+		boolean isEdit = originMatchDto.getLeagueMatchAwayScore() != null;
+		LeagueTeamDto homeDto = leagueDao.selectOneLeagueTeam(leagueMatchDto.getLeagueMatchHome());
+		LeagueTeamDto awayDto = leagueDao.selectOneLeagueTeam(leagueMatchDto.getLeagueMatchAway());
+		int homeScore = leagueMatchDto.getLeagueMatchHomeScore();
+		int awayScore = leagueMatchDto.getLeagueMatchAwayScore();
+
+		if(isEdit) {
+			int originHomeScore = originMatchDto.getLeagueMatchHomeScore();
+			int originAwayScore = originMatchDto.getLeagueMatchAwayScore();
+			homeDto.setLeagueTeamG(homeDto.getLeagueTeamG() - originHomeScore);
+			homeDto.setLeagueTeamD(homeDto.getLeagueTeamD() - originAwayScore);
+			awayDto.setLeagueTeamG(awayDto.getLeagueTeamG() - originAwayScore);
+			awayDto.setLeagueTeamD(awayDto.getLeagueTeamD() - originHomeScore);
+			if(originHomeScore > originAwayScore) {
+				homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() - 1);
+				awayDto.setLeagueTeamLose(awayDto.getLeagueTeamLose() - 1);
+			}
+			else if(originHomeScore < originAwayScore) {
+				awayDto.setLeagueTeamWin(awayDto.getLeagueTeamWin() - 1);
+				homeDto.setLeagueTeamLose(homeDto.getLeagueTeamLose() - 1);
+			}
+			else {
+				awayDto.setLeagueTeamDraw(awayDto.getLeagueTeamDraw() - 1);
+				homeDto.setLeagueTeamDraw(homeDto.getLeagueTeamDraw() - 1);
+			}
+		}
+		
+		
+		homeDto.setLeagueTeamG(homeDto.getLeagueTeamG() + homeScore);
+		homeDto.setLeagueTeamD(homeDto.getLeagueTeamD() + awayScore);
+		awayDto.setLeagueTeamG(awayDto.getLeagueTeamG() + awayScore);
+		awayDto.setLeagueTeamD(awayDto.getLeagueTeamD() + homeScore);
+		
+		if(homeScore > awayScore) {
+			homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() + 1);
+			awayDto.setLeagueTeamLose(awayDto.getLeagueTeamLose() + 1);
+		}
+		else if(homeScore < awayScore) {
+			homeDto.setLeagueTeamLose(homeDto.getLeagueTeamLose() + 1);
+			awayDto.setLeagueTeamWin(awayDto.getLeagueTeamWin() + 1);
+		}
+		else {
+			homeDto.setLeagueTeamDraw(homeDto.getLeagueTeamDraw() + 1);
+			awayDto.setLeagueTeamDraw(awayDto.getLeagueTeamDraw() + 1);
+		}
+		
+		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
+		leagueDao.updateLeagueTeam(homeDto, homeDto.getLeagueTeamNo());
+		leagueDao.updateLeagueTeam(awayDto, awayDto.getLeagueTeamNo());
+		leagueDao.leagueTeamCalculate(homeDto.getLeagueTeamNo());
+		leagueDao.leagueTeamCalculate(awayDto.getLeagueTeamNo());
 	}
 	
 }
