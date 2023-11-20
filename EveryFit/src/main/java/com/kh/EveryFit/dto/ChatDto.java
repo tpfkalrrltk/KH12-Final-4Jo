@@ -15,4 +15,6 @@ public class ChatDto {
 	private String chatMentionTarget;
 	private String chatContent;
 	private Date chatTime;
+	private String memberNick;
+	private Integer attachNo;
 }

@@ -1,6 +1,8 @@
 package com.kh.EveryFit.websocket;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatWebsocketServer extends TextWebSocketHandler {
 	
 	private ChatRoomVO waitingRoom = new ChatRoomVO();
+//	private ChatRoomVO room = new ChatRoomVO();
 	private Set<ClientVO> members = new CopyOnWriteArraySet<>();
 	
 	@Autowired private ChannelService channelService;
@@ -39,14 +42,18 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		waitingRoom.enter(session);
+		
 		ClientVO clientVO = new ClientVO(session);
-		MemberDto memberDto = memberDao.selectOne(clientVO.getMemberEmail());
-		if(memberDto != null) {
-			clientVO.setMemberNick(memberDto.getMemberNick());
-		}
-		members.add(clientVO);
-		sendClientList();
+		waitingRoom.enter(clientVO);
+//		MemberDto memberDto = memberDao.selectOne(clientVO.getMemberEmail());
+//		if(memberDto != null) {
+//			clientVO.setMemberNick(memberDto.getMemberNick());
+//		}
+////		members.add(clientVO);
+//		room.enter(clientVO);
+//		sendClientList();
+//		TextMessage message = new TextMessage(LocalDateTime.now().toString());	
+//		session.sendMessage(message);
 	}
 	
 	@Override
@@ -79,9 +86,9 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 	}
 	
 	//채팅이력을보내줌
-	public void sendMessageList(ClientVO client) throws IOException {
-
-	}
+//	public void sendMessageList(ClientVO client) throws IOException {
+//		
+//	}
 
 	
 	@Override
@@ -95,39 +102,71 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		Integer chatRoomNo = Integer.parseInt(chatRoomNoString);
 		
 		log.debug("chatRoomNo={}", chatRoomNo);
-//		if(chatRoomNo == null) {
-//			Integer newRoomNo = chatDao.sequence();
-//			channelService.createRoom(newRoomNo);						
-//		}
 		
 		ClientVO client = new ClientVO(session);
 		
+		MemberDto memberDto = memberDao.selectOne(client.getMemberEmail());
+		if(memberDto != null) {
+			client.setMemberNick(memberDto.getMemberNick());
+		}
+		members.add(client);
+//		room.enter(client);
+
 		boolean isJoin = params.get("type").equals("join");
 		log.debug("isjoin? = {}", isJoin);
+		
 		if(isJoin) { //입장이면!
-			
+			sendClientList();
 			//같은아이디면 차단
+//			channelService.sendMessageList(chatRoomNo, message);
 			
-			members.add(client);
+			List<ChatDto> list = chatDao.list(chatRoomNo);
+			for(ChatDto dto : list) {
+				Map<String, Object> map = new HashMap<>();
+				Date chatTime = dto.getChatTime();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String formattedChatTime = dateFormat.format(chatTime);
+				map.put("content", dto.getChatContent());
+				map.put("memberEmail", dto.getMemberEmail());
+				map.put("memberNick", dto.getMemberNick());
+				map.put("chatTime", formattedChatTime);
+				map.put("attachNo", dto.getAttachNo());
+				log.debug("입장map={}", map);
+				String messageJson = mapper.writeValueAsString(map);
+				TextMessage mss = new TextMessage(messageJson);
+				client.send(mss);
+			}
 			log.debug("방에 입장");
 		
 		}
-//		log.debug("members = {}", members);			
 		
 		boolean isMessage = params.get("type").equals("message"); //메시지면
 		log.debug("isMessage = {}", isMessage);
 		
-		
+		//메시지면!
 		if(isMessage) {
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("memberEmail", client.getMemberEmail());
+//			map.put("memberNick", client.getMemberNick());
+//			map.put("content", params.get("content"));
+//			log.debug("map={}", map);
+//			String messageJson = mapper.writeValueAsString(map);
+//			TextMessage tm = new TextMessage(messageJson);
+//			for(ClientVO c : members) {
+//				c.send(tm);
+//			}
 			Map<String, Object> map = new HashMap<>();
-			map.put("memberEmail", client.getMemberEmail());
-			map.put("memberNick", client.getMemberNick());
-			map.put("content", params.get("content"));
-			String messageJson = mapper.writeValueAsString(map);
-			TextMessage tm = new TextMessage(messageJson);
-			for(ClientVO c : members) {
-				c.send(tm);
+			for (ClientVO member : members) {
+			    map.put("memberEmail", member.getMemberEmail());
+			    map.put("memberNick", member.getMemberNick());
+			    map.put("attachNo", member.getAttachNo());
+			    map.put("content", params.get("content"));
+			    log.debug("map={}", map);
+			    String messageJson = mapper.writeValueAsString(map);
+			    TextMessage tm = new TextMessage(messageJson);
+			    member.send(tm);
 			}
+		
 			
 		chatDao.insert(ChatDto.builder()
 				.chatContent((String)params.get("content"))
@@ -160,5 +199,6 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		 */
 		
 	}
+
 	
 }
