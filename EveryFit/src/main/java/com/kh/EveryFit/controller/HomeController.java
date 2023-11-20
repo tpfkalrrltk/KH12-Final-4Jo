@@ -50,6 +50,7 @@ public class HomeController {
 		model.addAttribute("moimProfileList", adminDao.moimProfileList());
 		model.addAttribute("PremiumMoimList", adminDao.PremiumMoimList());
 		model.addAttribute("GenderCheckMoimList", adminDao.GenderCheckMoimList());
+
 		return "/home";
 	}
 

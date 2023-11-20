@@ -82,7 +82,73 @@
 		document.querySelector("#directionality").animate(mainFrames,
 				mainOptions);
 
-	});
+	
+		    
+
+		});
+
+
+
+	
+	
+	
+	$(function() {
+		 // 모임 번호 가져오기
+        var moimNo = $(".premium-btn").data("moim-no");
+        
+        $.ajax({
+            url: window.contextPath+"/rest/memberCount",
+            method: "post",
+            data: { moimNo: moimNo },
+            success: function(response) {
+            	$(".premium-btn").parents(
+                ".memberCount").text(response);
+            },
+            error: function (xhr, status, error) {
+            	
+            },
+            
+        });
+    });
+	
+	
+	$(function() {
+		 // 모임 번호 가져오기
+       var moimNo = $(".New-btn").data("moim-no");
+       
+       $.ajax({
+           url: window.contextPath+"/rest/memberCount",
+           method: "post",
+           data: { moimNo: moimNo },
+           success: function(response) {
+        	   $(".New-btn").parents(
+               ".memberCount").text(response);
+           },
+           error: function (xhr, status, error) {
+           	
+           },
+           
+       });
+   });
+	
+	
+	$(function() {
+		 // 모임 번호 가져오기
+       var moimNo = $(".Gender-btn").data("moim-no");
+       
+       $.ajax({
+           url: window.contextPath+"/rest/memberCount",
+           method: "post",
+           data: { moimNo: moimNo },
+           success: function(response) {
+           	$(".memberCount").text(response);
+           },
+           error: function (xhr, status, error) {
+           	
+           },
+           
+       });
+   });
 </script>
 <style>
 body {
@@ -160,19 +226,20 @@ body {
 								<div class="row">
 									<div class="col-4 offset-6 p-0">
 										<p class="card-text text-end ">
-											<small>인원 ${PremiumMoimList.moimMemberCount} / </small>
+											<small class="memberCount"> </small>
 										</p>
 									</div>
 									<div class="col ">
 										<small>
-											<p class="text-primary m-0 ">30</p>
+											<p class="text-primary m-0 ">/   ${PremiumMoimList.moimMemberCount}</p>
 										</small>
 
 									</div>
 								</div>
 							</div>
 
-							<a class="btn btn-primary btn-lg fw-bold" href="" role="button">Join</a>
+							<a class="btn btn-primary btn-lg fw-bold premium-btn" href=""
+								role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
 						</div>
 					</div>
 				</div>
@@ -223,19 +290,19 @@ body {
 							<div class="row">
 								<div class="col-4 offset-6 p-0">
 									<p class="card-text text-end ">
-										<small>인원 ${NewMoimList.moimMemberCount} / </small>
+										<small class=""> </small>
 									</p>
 								</div>
 								<div class="col ">
 									<small>
-										<p class="text-primary m-0 ">30</p>
+										<p class="text-primary m-0 "> / ${NewMoimList.moimMemberCount}</p>
 									</small>
 
 								</div>
 							</div>
 						</div>
 
-						<a class="btn btn-primary btn-lg fw-bold" href="" role="button">Join</a>
+						<a class="btn btn-primary btn-lg fw-bold New-btn" href="" role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
 					</div>
 				</div>
 			</div>
@@ -281,25 +348,25 @@ body {
 
 						<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
 						<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
-						
-						<div class="container">
-								<div class="row">
-									<div class="col-4 offset-6 p-0">
-										<p class="card-text text-end ">
-											<small>인원 ${GenderCheckMoimList.moimMemberCount} / </small>
-										</p>
-									</div>
-									<div class="col ">
-										<small>
-											<p class="text-primary m-0 ">30</p>
-										</small>
 
-									</div>
+						<div class="container">
+							<div class="row">
+								<div class="col-4 offset-6 p-0">
+									<p class="card-text text-end ">
+										<small>인원 ${GenderCheckMoimList.moimMemberCount} / </small>
+									</p>
+								</div>
+								<div class="col ">
+									<small>
+										<p class="text-primary m-0 ">${GenderCheckMoimList.moimMemberCount}</p>
+									</small>
+
 								</div>
 							</div>
-						
-						
-						<a class="btn btn-primary btn-lg fw-bold" href="" role="button">Join</a>
+						</div>
+
+
+						<a class="btn btn-primary btn-lg fw-bold Gender-btn" href="" role="button">Join</a>
 					</div>
 				</div>
 			</div>

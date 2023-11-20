@@ -91,4 +91,9 @@ public class AdminDaoImpl implements AdminDao {
 		return sqlSession.selectList("admin.GenderCheckMoimList");
 	}
 
+	@Override
+	public Integer moimMemberCount(int moimNo) {
+		return sqlSession.selectOne("moim.moimMemberCount",moimNo);
+	}
+
 }
