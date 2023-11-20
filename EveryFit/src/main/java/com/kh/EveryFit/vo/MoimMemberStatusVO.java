@@ -12,6 +12,7 @@ public class MoimMemberStatusVO {
 	private String memberBlock;
 	private String memberApproval;
 	private String memberUnBlock;
+	private String memberTransfer;
 	private int moimNo;
 	
 }

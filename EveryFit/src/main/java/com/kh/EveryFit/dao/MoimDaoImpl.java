@@ -169,4 +169,9 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.selectOne("moim.countMemberLike", moimNo);
 	}
 	
+	@Override
+	public boolean deleteMoimMember(MoimMemberDto dto) {
+		return sqlSession.delete("moim.exitMoimMember", dto) > 0;
+	}
+	
 }

@@ -140,7 +140,9 @@
 		<h1 class="text-primary">
 		<a href="board/list?moimNo=${moimDto.moimNo}"
 		class="btn btn-primary">게시판가기</a>
-		</h1>		
+		</h1>	
+		
+		<a href="member/exit?moimNo=${moimDto.moimNo}" class="btn btn-danger">탈퇴</a>	
 		
 		<h1>회원목록</h1>
 		<c:choose>
@@ -150,10 +152,10 @@
 				<div class="card-body">
 					<c:choose>
 						<c:when test="${moimMemberDto.attachNo != null}">
-						<img class="member-profile rounded-circle" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
+						<img class="member-profile rounded-circle" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMember.memberEmail}">
 						</c:when>
 						<c:otherwise>
-						<img class="member-profile rounded-circle bg-primary" src="/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
+						<img class="member-profile rounded-circle bg-primary" src="/images/user.png" data-target="menu-${moimMember.memberEmail}">
 					</c:otherwise>
 					</c:choose>
 					${moimMemberDto.memberEmail}
@@ -184,6 +186,8 @@
 					        href="memberApproval?memberEmail=${moimMember.memberEmail}&moimNo=${moimMember.moimNo}" >승인</a>
 					        <a class="dropdown-item" 
 					        href="memberBlock?memberEmail=${moimMember.memberEmail}&moimNo=${moimMember.moimNo}">차단</a>
+					        <a class="dropdown-item" 
+					        href="memberTransfer?memberEmail=${moimMember.memberEmail}&moimNo=${moimMember.moimNo}">모임장권한넘기기</a>
 					        <a class="dropdown-item" 
 					        href="/member/mypage?memberEmail=${moimMember.memberEmail}">회원상세페이지</a>
 					    </div>
@@ -327,7 +331,9 @@
 			<label class="form-label">가격</label>
 			<input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs"> 
 			<label class="form-label jungmo-create-inputs">일정</label>
-			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" class="from-control">
+			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" 
+			id="jungmoScheduleStr" 
+			class="from-control">
 		</form>
       </div>
       
@@ -420,6 +426,12 @@
 	<c:if test="${param.approval != null}">
 	    <script>
 	    alert("승인완료");
+	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+	    </script>
+	</c:if>
+	<c:if test="${param.transfer != null}">
+	    <script>
+	    alert("권한넘기기완료");
 	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
 	    </script>
 	</c:if>
@@ -542,7 +554,23 @@
        });
     //등록버튼을 눌렀을 때는 insert해주기
     $("#jungmoInsertBtn").click(function(){
+    
+        var inputValue = $('#jungmoScheduleStr').val();
+        var currentDate = new Date();
+        var maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 1);
 
+        // 입력 값이 날짜 및 시간 형식이 아니거나, 범위를 벗어난 경우 알림 표시
+        if (!new Date(inputValue) < currentDate || new Date(inputValue) > maxDate) {
+            confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
+            return;
+        } else {
+            // 유효한 경우 정모 등록 로직 수행
+            // 예: 정모 등록 폼 제출, 서버에 데이터 전송 등
+            // 예시로 콘솔에 메시지 출력
+            console.log('정모를 등록합니다.');
+        }
+    	
     	var formData = new FormData(document.getElementById("jungmoInsertForm"));
 //     	var isCreate = !$("input[name='attach']").val();
 // 	    var isCreate = $("input[name='attach']").val();
@@ -574,6 +602,7 @@
            });
  
        });
+    
     //정모 수정 버튼을 누르면 jungmoNo를 먼저 보내서 확인하게한다.....
     //정보를 조회해서 있으면 그 값을 append 해서 input창에 넣어주고
     //수정하면 뭐 수정된 입력값을 보내게 되겠지?
@@ -581,7 +610,23 @@
     
     //수정하기버튼을 눌렀을 때는 update --> 이걸 이제 3항연산자로 한번에 해버리기
     $("#jungmoEditBtn").click(function(){
+        var inputValue = $('#jungmoScheduleStr').val();
+        var currentDate = new Date();
+        var maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 1);
 
+        // 입력 값이 날짜 및 시간 형식이 아니거나, 범위를 벗어난 경우 알림 표시
+        if (!new Date(inputValue) < currentDate || new Date(inputValue) > maxDate) {
+            confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
+            return;
+        } else {
+            // 유효한 경우 정모 등록 로직 수행
+            // 예: 정모 등록 폼 제출, 서버에 데이터 전송 등
+            // 예시로 콘솔에 메시지 출력
+            console.log('정모를 등록합니다.');
+        }
+    	
+    	
     	var formData = new FormData(document.getElementById("jungmoInsertForm"));
     	
 		 $.ajax({
@@ -595,6 +640,8 @@
                   console.log(data); 
              	    alert("수정완료");
                 	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                	
+                	
                },
                error: function (error) {
                    // 오류 발생 시 동작 수행
@@ -783,10 +830,11 @@
     $('.member-profile').click(function(e) {
         // 클릭한 이미지의 data-target 값을 가져옴
         var targetId = $(this).data('target');
-
+        var escapedId = '#' + CSS.escape(targetId);
+		console.log(escapedId);
         // 클릭한 이미지와 연결된 메뉴만 표시
         $('.popup-menu').hide();
-        $('#' + targetId).toggle();
+        $(escapedId).toggle();
 
         // 이벤트 전파 방지 (부모에 대한 클릭 이벤트 전파를 막음)
         e.stopPropagation();
@@ -798,6 +846,7 @@
         $('.popup-menu').hide();
     });
     
+
     
 //     $('.blockButton').click(function () {
 //         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴

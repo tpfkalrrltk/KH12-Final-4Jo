@@ -46,6 +46,8 @@ public interface MoimDao {
 	void addMoimMember(int moimNo, String memberEmail);
 	//모임회원상태변경
 	void updateMoimMember(MoimMemberStatusVO vo);
+	//모임회원탈퇴
+	boolean deleteMoimMember(MoimMemberDto dto);
 	
 
 	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회

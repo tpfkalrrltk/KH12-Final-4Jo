@@ -101,13 +101,18 @@
 		<if test="memberApproval != null">
 		moim_member_status = '승인' 
 		</if>
-        <if test="moimJangTransfer != null">
+        <if test="memberTransfer != null">
         moim_member_level = '모임장' 
         </if>
 		</set>
 		where member_email = #{memberEmail} 
 		and moim_no = #{moimNo} 
 	</update>
+	
+	<!-- 모임 회원 탈퇴 -->
+	<delete id="exitMoimMember">
+		delete moim_member where moim_no = #{moimNo} and member_email = #{memberEmail}
+	</delete>
 	
 	<!-- 이메일로 회원이 가입한 모임 목록 조회 -->
 	<select id="moimListByEmail" resultType="MoimDto">
