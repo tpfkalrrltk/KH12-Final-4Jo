@@ -101,6 +101,9 @@
 		<if test="memberApproval != null">
 		moim_member_status = '승인' 
 		</if>
+        <if test="moimJangTransfer != null">
+        moim_member_level = '모임장' 
+        </if>
 		</set>
 		where member_email = #{memberEmail} 
 		and moim_no = #{moimNo} 

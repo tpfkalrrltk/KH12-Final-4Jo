@@ -44,9 +44,16 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.update("moim.editMoim", moimDto) > 0;
 	}
 	
+	//모임회원목록1
 	@Override
 	public List<MoimMemberDto> selectAllMoimMembers(int moimNo) {
 		return sqlSession.selectList("moim.moimMemberList", moimNo);
+	}
+	
+	//모임회원목록2
+	@Override
+	public List<MoimMemberDto> selectAllMoimMembersForMoimJang(int moimNo) {
+		return sqlSession.selectList("moim.moimMemberListForMoimJang", moimNo);
 	}
 	
 	@Override
