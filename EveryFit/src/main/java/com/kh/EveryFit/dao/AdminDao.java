@@ -39,4 +39,10 @@ public interface AdminDao {
 	List<MoimDto> moimProfileList();
 	
 	
+	//메인홈페이지 목록
+	List<MoimDto> NewMoimList();
+	List<MoimDto> PremiumMoimList();
+	List<MoimDto> GenderCheckMoimList();
+	
+	
 }

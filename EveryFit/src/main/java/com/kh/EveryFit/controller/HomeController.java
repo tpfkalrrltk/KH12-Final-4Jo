@@ -46,11 +46,10 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home(Model model) {
-			model.addAttribute("moimList", adminDao.adminMoimList());
-			model.addAttribute("moimProfileList", adminDao.moimProfileList());
-			log.debug("모임목록 ={}",adminDao.moimProfileList());
-
-
+		model.addAttribute("NewMoimList", adminDao.NewMoimList());
+		model.addAttribute("moimProfileList", adminDao.moimProfileList());
+		model.addAttribute("PremiumMoimList", adminDao.PremiumMoimList());
+		model.addAttribute("GenderCheckMoimList", adminDao.GenderCheckMoimList());
 		return "/home";
 	}
 
@@ -58,11 +57,10 @@ public class HomeController {
 	@RequestMapping("/image")
 	public ResponseEntity<ByteArrayResource> image(@RequestParam int moimNo) throws IOException {
 
-		
 		AttachDto attachDto = adminDao.findImage(moimNo);
-		//if(attachDto == null) {
-	//	return ResponseEntity.notFound().build();
-		//}
+		// if(attachDto == null) {
+		// return ResponseEntity.notFound().build();
+		// }
 		MoimDto moimDto = moimDao.selectOne(moimNo);
 		moimDto.setImage(true);
 		String home = "C:/upload/kh12fd";
@@ -72,7 +70,7 @@ public class HomeController {
 		byte[] data = FileUtils.readFileToByteArray(target);
 
 		ByteArrayResource resource = new ByteArrayResource(data);
-		//System.out.println(attachDto.getAttachName());
+		// System.out.println(attachDto.getAttachName());
 
 		return ResponseEntity.ok()
 
@@ -82,7 +80,5 @@ public class HomeController {
 						.filename(attachDto.getAttachName(), StandardCharsets.UTF_8).build().toString())
 				.body(resource);
 	}
-	
-	
 
 }
