@@ -76,4 +76,19 @@ public class AdminDaoImpl implements AdminDao {
 		return sqlSession.selectList("admin.moimProfileList");
 	}
 
+	@Override
+	public List<MoimDto> NewMoimList() {
+		return sqlSession.selectList("admin.adminMoimList");
+	}
+
+	@Override
+	public List<MoimDto> PremiumMoimList() {
+		return sqlSession.selectList("admin.PremiumMoimList");
+	}
+
+	@Override
+	public List<MoimDto> GenderCheckMoimList() {
+		return sqlSession.selectList("admin.GenderCheckMoimList");
+	}
+
 }
