@@ -22,9 +22,14 @@
         	#{leagueStart}, #{leagueEnd}, #{chatRoomNo}, #{locationNo}, #{leagueTeamCount}, #{leagueRoasterCount})
     </insert>
     
-    <!-- 리그조회 -->
+    <!-- 리그목록조회 -->
     <select id="listLeague" resultType="LeagueListDto">
     	select * from league_list_view order by league_no desc
+    </select>
+    
+    <!-- 그냥 리그 목록 조회 -->
+    <select id="listLeagueDto" resultType="LeagueDto">
+    	select * from league order by league_no desc
     </select>
     
     <!-- 리그 메인 조회 -->
@@ -337,5 +342,9 @@
     <delete id="deleteLeagueRoaster">
         DELETE FROM league_team_roaster WHERE league_team_roaster_no = #{leagueTeamRoasterNo}
     </delete>
+    
+    <insert id="insertLeagueImage">
+    	insert into league_image(league_no, attach_no) values(#{leagueNo}, #{attachNo})
+    </insert>
     
 </mapper>    

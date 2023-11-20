@@ -22,12 +22,13 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap"
 	rel="stylesheet">
+
+<!-- datetimepicker -->	
+<link rel="stylesheet" href="/css/jquery.datetimepicker.min.css" />
 	
+<link rel="preload" href="webfont-path" as="font" crossorigin />
 	
-	<link rel="preload" href="webfont-path" as="font" crossorigin />
-	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 <script>
   WebFont.load({
     google: {
@@ -107,11 +108,20 @@ body {
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/litera/bootstrap.min.css"
 	rel="stylesheet">
+	
+	
+	
 <!--     폰트어썸 -->
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- datetimepicker -->	
+<script src="/js/jquery.datetimepicker.full.min.js"></script>
+    
+<!-- 모먼트.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
 <!--     전용 CDN -->
 <link rel="stylesheet" type="text/css" href="/css/EveryFit-layout.css">
 <!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
@@ -119,6 +129,13 @@ body {
 <!-- Bootstrap JS (including Popper.js) -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+	
 </head>
 
 
@@ -146,6 +163,7 @@ body {
 		;
 		return i;
 	}
+	
 </script>
 
 

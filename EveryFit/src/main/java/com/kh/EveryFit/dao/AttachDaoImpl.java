@@ -32,4 +32,9 @@ public class AttachDaoImpl implements AttachDao{
 		return sqlSession.update("attach.delete", attachNo) > 0;
 	}
 	
+	@Override
+	public AttachDto selectOneleague(int leagueNo) {
+		return sqlSession.selectOne("attach.findLeague", leagueNo);
+	}
+	
 }
