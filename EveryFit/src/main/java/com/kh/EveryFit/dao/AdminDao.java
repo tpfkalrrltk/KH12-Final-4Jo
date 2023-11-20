@@ -25,6 +25,8 @@ public interface AdminDao {
 	List<MoimDto>adminMoimList();
 	
 	List<MoimDto> adminMoimSearch(AdminMoimSearchVO adminMoimSearchVO);
+	
+	Integer moimMemberCount(int moimNo);
 
 	
 	//정모
