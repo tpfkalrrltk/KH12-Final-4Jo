@@ -63,6 +63,8 @@ public interface MoimDao {
 	int memberLikeCount(int moimNo);
 	//좋아요 누른 모임 확인하는건 나중에....
 	
+	//프리미엄 모임 결제 후, 모임의 상태를 프리미엄으로 변경(N->Y)
+	boolean upgradeToPrimium(MoimDto moimDto);
 
 
 }

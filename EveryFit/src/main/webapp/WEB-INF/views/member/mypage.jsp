@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 
@@ -98,9 +98,17 @@ a {
 					</div>
 					<div class="col align-self-end">
 						<div>
-							<button class="btn btn-success">
-								<a href="#">프리미엄 회원권</a>
+						
+		<c:if test="${memberDto.memberLevel == '프리미엄'}">
+			<span class="badge bg-info gender-check">프리미엄 회원</span>
+		</c:if>
+		
+				<c:if test="${memberDto.memberLevel != '프리미엄'}">
+				<button class="btn btn-info mt-2">
+								<a href="/pay?productNo=1">프리미엄 회원권 구매 하러가기</a>
 							</button>
+
+		</c:if>
 						</div>
 
 						<div>

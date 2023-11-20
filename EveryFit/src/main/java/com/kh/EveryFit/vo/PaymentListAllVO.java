@@ -23,4 +23,5 @@ public class PaymentListAllVO {
 	private Date periodPaymentStart;
 	private Date periodPaymentEnd;
 	private String periodPaymentStatus;
+	private int periodPaymentMoimNo;
 }

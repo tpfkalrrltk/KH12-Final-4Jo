@@ -130,7 +130,8 @@
 	<update id="changeMemberMoimCount">
 		update member
 		set
-			member_moim_count = 10
+			member_moim_count = 10,
+			member_level='프리미엄'
 		where member_email = #{memberEmail}
 	</update>
 	</mapper>
