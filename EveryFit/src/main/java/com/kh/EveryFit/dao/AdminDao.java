@@ -2,6 +2,7 @@ package com.kh.EveryFit.dao;
 
 import java.util.List;
 
+import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
@@ -30,6 +31,12 @@ public interface AdminDao {
 	List<JungmoDto> adminJungmoList();
 	
 	List<JungmoDto>  adminJungmoSearch(AdminJungmoSearchVO adminJungmoSearchVO);
+
+	
+	//사진불러오기
+	AttachDto findImage(int moimNo);
+
+	List<MoimDto> moimProfileList();
 	
 	
 }

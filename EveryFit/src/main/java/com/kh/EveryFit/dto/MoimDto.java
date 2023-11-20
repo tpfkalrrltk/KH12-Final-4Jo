@@ -21,4 +21,6 @@ public class MoimDto {
     private String moimGenderCheck;
     private int chatRoomNo;
     
+    
+    private boolean image;
 }
