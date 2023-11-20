@@ -40,6 +40,21 @@
 
 <title>모임 상세페이지</title>
 
+<div class="modal" id="myModal" 
+tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 모달 내용 -->
+      <div class="modal-body">
+        <!-- 여기에 모달 내용을 추가하세요 -->
+       
+        <a href="/pay?productNo=2">결제하세요!</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container-fluid mb-5 pb-5">
 	<div class="row">
 		<div class="col-md-10 offset-md-1">
@@ -564,11 +579,6 @@
         if (!(new Date(inputValue) > currentDate && new Date(inputValue) <= maxDate)) {
             confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
             return;
-        } else {
-            // 유효한 경우 정모 등록 로직 수행
-            // 예: 정모 등록 폼 제출, 서버에 데이터 전송 등
-            // 예시로 콘솔에 메시지 출력
-            console.log('정모를 등록합니다.');
         }
     	
     	var formData = new FormData(document.getElementById("jungmoInsertForm"));
@@ -616,14 +626,9 @@
         maxDate.setMonth(maxDate.getMonth() + 1);
 
         // 입력 값이 날짜 및 시간 형식이 아니거나, 범위를 벗어난 경우 알림 표시
-        if (!new Date(inputValue) < currentDate || new Date(inputValue) > maxDate) {
+        if (!(new Date(inputValue) > currentDate && new Date(inputValue) <= maxDate)) {
             confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
             return;
-        } else {
-            // 유효한 경우 정모 등록 로직 수행
-            // 예: 정모 등록 폼 제출, 서버에 데이터 전송 등
-            // 예시로 콘솔에 메시지 출력
-            console.log('정모를 등록합니다.');
         }
     	
     	
@@ -846,8 +851,24 @@
         $('.popup-menu').hide();
     });
     
-
+    var Modal2 = new bootstrap.Modal(document.getElementById('myModal'));
+ 
     
+    if (${moimDto.moimState == '비활성화'}) {
+    	Modal2.show();
+    }    
+    $(document).on('click', '.modal', function(e){
+    	if(e.target !== this) return; //모달 내부를 클릭한 경우에는 닫히지 않도록 함
+    	Modal2.show();
+    });
+    
+    $(document).on('keydown', function(e) {
+        if (e.which === 27) { // 27은 ESC 키 코드
+            if (${moimDto.moimState == '비활성화'}) {
+            	Modal2.show();
+            }    
+        }
+      });
 //     $('.blockButton').click(function () {
 //         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴
 //         var memberEmail = $(this).data('member-email');
