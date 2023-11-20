@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,14 +17,17 @@ import lombok.NoArgsConstructor;
 public class ChatRoomVO {
 	
     private Integer chatRoomNo;
-    //@Builder.Default
-    
+    @Builder.Default
     private Set<ClientVO> members = new CopyOnWriteArraySet<>();
-	
-    public void enter(WebSocketSession session) {
-    	ClientVO client = new ClientVO(session);
+
+    //수정 전
+//    public void enter(WebSocketSession session) {
+//    	ClientVO client = new ClientVO(session);
+//    	members.add(client);
+//	}
+    public void enter(ClientVO client) {
     	members.add(client);
-	}
+    }
 	public void exit(WebSocketSession session) {
 		members.remove(session);
 	}
