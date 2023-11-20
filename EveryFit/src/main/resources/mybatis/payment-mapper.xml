@@ -100,7 +100,8 @@
                 pp.period_payment_sid,
                 pp.period_payment_start,
                 pp.period_payment_end,
-                pp.period_payment_status
+                pp.period_payment_status,
+                pp.period_payment_moim_no
             FROM 
                 payment p
             LEFT outer JOIN

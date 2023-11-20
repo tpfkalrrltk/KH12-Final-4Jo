@@ -37,7 +37,7 @@ span {
 					$(".btn-send").prop("disabled", false);
 					$(".btn-send").find(".fa-spinner").hide();
 					$(".btn-send").find("span").text("보내기");
-					// window.alert("이메일 확인하세요");
+					window.alert("이메일 확인하세요");
 
 					$(".cert-wrapper").show();
 					window.email = email;
@@ -81,6 +81,23 @@ span {
 					});
 				});
 	});
+	
+	
+	/* 옵션값가져오기  */
+	$(document).ready(function(){
+		  $("#country").change(function(){
+		    // Value값 가져오기
+		    var val = $("#country :selected").val();
+		    // Text값 가져오기
+		    var text = $("#country :selected").text();
+		    // Index가져오기
+		    var index = $("#country :selected").index();
+		    
+		    $("#value").val(val);
+		    $("#text").val(text);
+		  });
+		});
+		
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -156,9 +173,21 @@ span {
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start">
-								성별<select class="form-select">
+								성별<select class="form-select country" >
+									<option>선택하세요.</option>
 									<option>man</option>
 									<option>woman</option>
+								</select>
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								관심종목<select class="form-select">
+									<option>선택하세요.</option>
+									<option>축구</option>
+									<option>야구</option>
+									<option>달리기</option>
+									<option>필라테스</option>
+									<option>요가</option>
 								</select>
 							</div>
 

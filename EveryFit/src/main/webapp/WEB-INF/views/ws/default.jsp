@@ -54,7 +54,6 @@
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
 				
-				${sessionScope.name}
 <!-- 				<div class="row"> -->
 <!-- 						<h2 class="bg-primary text-light p-3 text-start rounded"> -->
 <!-- 							 채팅방 -->
@@ -143,7 +142,9 @@
 				if(myId == data.clients[i].memberEmail){
 					$("<li>")
 					.addClass("list-group-item d-flex justify-content-between align-items-center")
-					.append($("<span>").text(data.clients[i].memberEmail))
+					.append($("<span>")
+							.text(data.clients[i].memberNick)
+							.data("member-email", data.clients[i].memberEmail)) 
 // 					.append(
 // 						$("<span>").addClass("badge bg-danger badge-pill").text(data.clients[i].memberLevel)		
 // 		 			)
@@ -152,10 +153,7 @@
 			else {
 				$("<li>")
 				.addClass("list-group-item d-flex justify-content-between align-items-center")
-				.append($("<label>").text(data.clients[i].memberEmail))
-				.append(
-					$("<span>").addClass("badge bg-primary badge-pill").text(data.clients[i].memberLevel)		
-	 			)
+				.append($("<label>").text(data.clients[i].memberNick).data("member-email", data.clients[i].memberEmail))	
 				.appendTo(ul);
 			} 
 			}			
@@ -210,9 +208,11 @@
 // 		    $(".message-input").focus();
 // 		});
 	$(".client-list").on("click", ".list-group-item label", function() {
-    var memberEmail = $(this).text();
+    var memberNick = $(this).text();
+    var memberEmail = $(this).find("label").data("member-email");
     var messageInput = $(".message-input");
     var currentMessage = messageInput.val();
+    console.log("Clicked memberEmail:", memberEmail);
 
     // 현재 입력값이 비어 있지 않다면, 공백과 함께 memberEmail를 추가합니다.
     if (currentMessage.length > 0) {

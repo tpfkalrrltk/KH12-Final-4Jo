@@ -9,4 +9,5 @@ public interface AttachDao {
 	boolean delete(int attach_no);
 	AttachDto selectOne(int attach_no);
 	AttachDto selectOneleague(int leagueNo);
+
 }

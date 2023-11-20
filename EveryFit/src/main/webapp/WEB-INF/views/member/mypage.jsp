@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 
 <jsp:include page="../template/Header.jsp"></jsp:include>
@@ -22,10 +24,7 @@ a {
 }
 </style>
 
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jquery cdn -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
 <script>
 	$(function() {
@@ -66,6 +65,58 @@ a {
 			});
 		}
 	});
+	
+
+	/* imgae */
+	$(function(){
+	//파일이 바뀌면 프로필을 업로드하고 이미지 교체
+	$(".profile-chooser").change(function(){
+		//선택된 파일이 있는지 확인하고 없으면 중단
+		//var input = document.querySelector(".profile-chooser");
+		//var input = $(".profile-chooser")[0];
+		var input = this;
+		if(input.files.length == 0) return;
+		
+		//ajax로 multipart 업로드
+		var form = new FormData();
+		form.append("attach", input.files[0]);
+		
+		$.ajax({
+			url:window.contextPath+"/rest/member/upload",
+			method:"post",
+			processData:false,
+			contentType:false,
+			data:form,
+			dataType:"json",
+			success:function(response){
+				//응답 형태 - { "attachNo" : 7 }
+				console.log(response);
+				
+				//프로필 이미지 교체
+				$(".profile-image").attr("src", 
+					"/rest/member/download?attachNo="+response.attachNo);
+			},
+			error:function(){
+				window.alert("통신 오류 발생\n잠시 후 다시 시도해주세요");
+			},
+		});
+	});
+	//삭제아이콘을 누르면 프로필이 제거되도록 구현
+	$(".profile-delete").click(function(){
+		//확인창
+		var choice = window.confirm("정말 프로필을 지우시겠습니까?");
+		if(choice == false) return;
+		
+		//삭제요청
+		$.ajax({
+			url:window.contextPath+"/rest/member/delete",
+			method:"post",
+			success:function(response){
+				$(".profile-image").attr("src", "/images/user.png");
+			},
+		});
+	});
+});
 </script>
 
 <!-- ---------------------------------------------------------------------------------------- -->
@@ -81,13 +132,25 @@ a {
 				<div class="row">
 					<div class="col align-self-start">
 						<div>
-							<img src="/images/profile.jpg"
-								style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden;">
-						</div>
-						<div class="mt-2">
-							<i class="fa-brands fa-mailchimp" style="color: #3f82ec;"></i>
+							<c:choose>
+								<c:when test="${profile == null }">
+
+									<img src="/images/profile.png" class="image image-circle image-border profile-image"
+										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
+								</c:when>
+								<c:otherwise>
+									<img src="/rest/memeber/download?attachNo=${profile}"
+										class="image image-circle image-border profile-image"
+										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
+								</c:otherwise>
+							</c:choose>
+							<label> <input type="file" class="profile-chooser " accept="image/*" style="display: none;">
+								 <i class="fa-solid fa-camera blue fa-2x"></i> 
+							</label>
+								 <i class="fa-solid fa-trash-can red fa-2x profile-delete"></i>
 
 						</div>
+						<div class="mt-2"></div>
 					</div>
 
 
@@ -98,9 +161,17 @@ a {
 					</div>
 					<div class="col align-self-end">
 						<div>
-							<button class="btn btn-success">
-								<a href="#">프리미엄 회원권</a>
+						
+		<c:if test="${memberDto.memberLevel == '프리미엄'}">
+			<span class="badge bg-info gender-check">프리미엄 회원</span>
+		</c:if>
+		
+				<c:if test="${memberDto.memberLevel != '프리미엄'}">
+				<button class="btn btn-info mt-2">
+								<a href="/pay?productNo=1">프리미엄 회원권 구매 하러가기</a>
 							</button>
+
+		</c:if>
 						</div>
 
 						<div>
@@ -180,7 +251,7 @@ a {
 					<label>소개</label> <label style="margin-left: 10px;">모임</label> <label
 						style="margin-left: 10px;">정모</label> <label
 						style="margin-left: 10px;">리그</label>
-	
+
 
 					<div class="text-success">
 						<hr>

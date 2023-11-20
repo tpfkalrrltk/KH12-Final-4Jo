@@ -168,5 +168,15 @@ public class MoimDaoImpl implements MoimDao {
 	public int memberLikeCount(int moimNo) {
 		return sqlSession.selectOne("moim.countMemberLike", moimNo);
 	}
+
+	@Override
+	public boolean upgradeToPrimium(MoimDto moimDto) {
+		return sqlSession.update("moim.upgradeToPrimium", moimDto) > 0;
+	}
+	
+	@Override
+	public boolean deleteMoimMember(MoimMemberDto dto) {
+		return sqlSession.delete("moim.exitMoimMember", dto) > 0;
+	}
 	
 }

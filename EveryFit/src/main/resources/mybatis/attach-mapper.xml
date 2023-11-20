@@ -37,8 +37,21 @@
 	
 	<delete id="delete">
 		delete attach where attach_no=#{attachNo}
+
+	<delete id="deleteProfile">
+		delete member_image where member_email=#{memberEmail}
 	</delete>
 	
+	<insert id="insertProfile">
+		insert into member_image(member_email, attach_no) values(#{memberEmail}, #{attachNo})
+	</insert>
+	
+	
+	  <select id="findProfile" resultType="Integer">
+        SELECT attach_no
+        FROM member_image
+        WHERE member_Email = #{memberEmail}
+    </select>
 	
 </mapper>
     

@@ -2,6 +2,7 @@ package com.kh.EveryFit.websocket;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -15,7 +16,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.EveryFit.dao.ChatDao;
+import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.ChatDto;
+import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.service.ChannelService;
 import com.kh.EveryFit.vo.ChatRoomVO;
 import com.kh.EveryFit.vo.ClientVO;
@@ -32,11 +35,16 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 	@Autowired private ChannelService channelService;
 	@Autowired private ObjectMapper mapper = new ObjectMapper(); 
 	@Autowired private ChatDao chatDao;
+	@Autowired private MemberDao memberDao;
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		waitingRoom.enter(session);
 		ClientVO clientVO = new ClientVO(session);
+		MemberDto memberDto = memberDao.selectOne(clientVO.getMemberEmail());
+		if(memberDto != null) {
+			clientVO.setMemberNick(memberDto.getMemberNick());
+		}
 		members.add(clientVO);
 		sendClientList();
 	}
@@ -55,20 +63,26 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		//1. clients를 전송 가능한 형태(JSON 문자열)로 변환한다
 //		ObjectMapper mapper = new ObjectMapper();
 		
+
 		Map<String, Object> data = new HashMap<>();
 		//data.put("clients", clients);//전체회원명단(null이 문제가됨)
 		data.put("clients", members);//로그인한 회원명단
-		log.debug("members = {}", members);
 		String clientJson = mapper.writeValueAsString(data);
+		log.debug("clientJson = {}", clientJson);
 		
 		//2. 모든 사용자에게 전송
 		TextMessage message = new TextMessage(clientJson);
 		for(ClientVO client : members) {
-			log.debug("여기는?members = {}", members);
 			client.send(message);
 		}
 		
 	}
+	
+	//채팅이력을보내줌
+	public void sendMessageList(ClientVO client) throws IOException {
+
+	}
+
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -107,6 +121,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		if(isMessage) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("memberEmail", client.getMemberEmail());
+			map.put("memberNick", client.getMemberNick());
 			map.put("content", params.get("content"));
 			String messageJson = mapper.writeValueAsString(map);
 			TextMessage tm = new TextMessage(messageJson);

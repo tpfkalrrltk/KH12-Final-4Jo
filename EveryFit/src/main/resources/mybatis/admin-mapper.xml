@@ -100,9 +100,9 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 
 	<!-- 모임 목록 -->
 	<select id="adminMoimList" resultType="MoimDto">
-		select * from moim
+		select * from moim  where moim_state in '모집중'
 		order by
-		moim_no asc
+		moim_no desc
 	</select>
 
 
@@ -241,5 +241,29 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		</if>
 	</select>
 
+	<!-- 메인 홈페이지 -->
 
+	<select id="findMoimProfile" resultType="AttachDto">
+		select * from attach 
+		where attach_no = ( 
+		select attach_no from moim_image 
+		where moim_no = #{moimNo})
+	</select>
+	
+		<select id="moimProfileList" resultType="int">
+		select moim_no from moim_image 
+	</select>
+	
+	<select id="PremiumMoimList" resultType="MoimDto">
+		select * from moim where moim_upgrade in 'Y' and moim_state in '모집중'
+		order by
+		moim_no desc
+	</select>
+	
+		<select id="GenderCheckMoimList" resultType="MoimDto">
+		select * from moim where moim_gender_check in 'Y' and moim_state in '모집중'
+		order by
+		moim_no desc
+	</select>
+	
 </mapper>
