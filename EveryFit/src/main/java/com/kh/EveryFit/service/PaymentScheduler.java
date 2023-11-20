@@ -29,7 +29,7 @@ public class PaymentScheduler {
 	@Autowired
 	private PeriodKakaoPayProperties periodProperties;
 	
-	//@Scheduled(cron = "0 */1 * * * *")
+	@Scheduled(cron = "0 */1 * * * *")
 	private void periodPayment() throws URISyntaxException {
 		List<PaymentListAllVO> list = paymentDao.selectListAll();
 		for (PaymentListAllVO paymentListAllVO : list) {

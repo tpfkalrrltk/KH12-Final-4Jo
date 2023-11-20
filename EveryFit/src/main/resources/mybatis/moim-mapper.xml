@@ -407,6 +407,13 @@
                p.moim_no = pp.moim_no 
                where member_email = #{MemberEmail} and moim_member_level = '모임장'
 	</select>
+	
+	<!-- 프리미엄 모임 결제 후, 모임의 상태를 프리미엄으로 변경(N->Y) -->
+	<update id="upgradeToPrimium">
+		update moim set 
+		moim_upgrade ='Y' 
+		where moim_no = #{moimNo} 
+	</update>
 </mapper>
 
 

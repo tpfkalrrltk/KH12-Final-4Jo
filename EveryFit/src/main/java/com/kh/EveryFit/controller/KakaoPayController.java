@@ -17,6 +17,7 @@ import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dao.ProductDao;
+import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.dto.PaymentDto;
@@ -32,6 +33,7 @@ import com.kh.EveryFit.vo.KakaoPayCancelResponseVO;
 import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+import com.kh.EveryFit.vo.PaymentListAllVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,18 +60,24 @@ public class KakaoPayController {
 	public String premium1(Model model, @RequestParam int productNo, HttpSession session) {
 		model.addAttribute("productDto", productDao.oneOfList(productNo));
 		//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
-		String memberId = "KH12FD";
+		String memberId = (String)session.getAttribute("name");
 		
 		//구매할사람이 포함된 모임정보 조회
 		List<MoimMemberDto> moimMemberDto= moimDao.selectAllMoimNo(memberId);
 		List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
+		List<MoimDto> MoimDto= moimDao.moimListByEmail(memberId);
+		MemberDto memberDto = memberDao.slelctOne(memberId);
+		//List<PaymentListAllVO> PaymentListAllVO = paymentDao.paymentListByMember(memberId);
 		//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
 		//가입된 모임 번호를 확인하여 VO에 저장
 		log.debug("moimMemberDto={}", moimMemberDto);
 		log.debug("moimTitleForPaymentVO={}", moimTitleForPaymentVO);
-		model.addAttribute("list", moimMemberDto);
+		//model.addAttribute("list", moimMemberDto);
+		//model.addAttribute("list",PaymentListAllVO);
 		model.addAttribute("list2", moimTitleForPaymentVO);
-		
+		model.addAttribute("MoimDtoList", MoimDto);
+		model.addAttribute(memberDto);
+
 		return "pay/premium";
 	}
 	
@@ -80,7 +88,7 @@ public class KakaoPayController {
 				//상품정보를 이용하여 결제준비 요청
 				
 				//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
-				String memberId = "KH12FD";
+				String memberId = (String)session.getAttribute("name");
 				
 				KakaoPayReadyRequestVO request = KakaoPayReadyRequestVO.builder()
 						.itemName(productDto.getProductName())
@@ -135,7 +143,7 @@ public class KakaoPayController {
 					
 					//회원권 구매 후 member_moim_count (3->10) 디비 수정
 					//String memberEmail = KH12FD;
-					String memberEmail = "KH12FD";
+					String memberEmail = (String)session.getAttribute("name");
 					memberDao.updateMemberMoimCount(memberEmail);
 					
 					return "redirect:successResult";
@@ -154,7 +162,7 @@ public class KakaoPayController {
 					//상품정보를 이용하여 결제준비 요청
 					
 					//session에서 회원정보 가져오기 partnerUserId에 회원정보 넣기
-					String memberId = "KH12FD";
+					String memberId = (String)session.getAttribute("name");
 					
 
 					
@@ -193,7 +201,7 @@ public class KakaoPayController {
 						int moimNo = (int) session.getAttribute("moimNo");
 						session.removeAttribute("approve");
 						session.removeAttribute("productNo");
-						
+						session.removeAttribute("moimNo");
 						request.setPgToken(pg_token);//토큰 추가
 						
 						//결제 승인 요청
@@ -213,13 +221,14 @@ public class KakaoPayController {
 						paymentDao.insertToPeriodPayment(PeriodPaymentDto.builder()
 								.periodPaymentNo(paymentNo)
 								.periodPaymentSid(response.getSid())
+								//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
 								.periodPaymentMoimNo(String.valueOf(moimNo))
 								.build());
-						//결제 승인이 완료되면 payment_member(결제한사람)으로 가입된 모임리스트를 조회
-						//moimDao.moimListByEmail(response.getPartnerUserId());
-						//moimDao.selectAllMoimNo(response.getPartnerUserId());
-						//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
-						
+
+						//moim 테이블에 프리미엄 모임 상태를 N->Y로 변경
+						moimDao.upgradeToPrimium(MoimDto.builder()
+								.moimNo(moimNo)
+								.build());
 						return "redirect:successResult";
 			}
 			
@@ -230,7 +239,7 @@ public class KakaoPayController {
 			
 			@RequestMapping("pay/list")
 			public String list(HttpSession session, Model model) {
-				String memberId = "KH12FD";
+				String memberId = (String)session.getAttribute("name");
 				model.addAttribute("list", paymentDao.paymentListByMember(memberId));
 				log.debug("memberId={}",memberId);
 				log.debug("paymentDao={}",paymentDao.paymentListByMember(memberId));
