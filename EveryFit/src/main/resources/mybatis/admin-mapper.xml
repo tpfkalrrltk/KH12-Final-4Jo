@@ -241,5 +241,17 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		</if>
 	</select>
 
+	<!-- 메인 홈페이지 -->
 
+	<select id="findMoimProfile" resultType="AttachDto">
+		select * from attach 
+		where attach_no = ( 
+		select attach_no from moim_image 
+		where moim_no = #{moimNo})
+	</select>
+	
+		<select id="moimProfileList" resultType="int">
+		select moim_no from moim_image 
+	</select>
+	
 </mapper>

@@ -14,6 +14,6 @@ int freeBoardNo;
 String freeBoardTitle, freeBoardContent, freeBoardCategory;
 String memberEmail, memberNick;
 int freeBoardReplyCount;
-private boolean image;
+
 	
 }
