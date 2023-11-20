@@ -22,9 +22,11 @@ import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
 import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.JungmoDao;
+import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.JungmoDto;
+import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.JungmoDetailVO;
@@ -42,6 +44,7 @@ public class MoimRestController {
 	@Autowired private MoimDao moimDao;
 	@Autowired private ChatDao chatDao;
 	@Autowired private AttachDao attachDao;
+	@Autowired private MemberDao memberDao;
 	
 	//모임프로필사진 등록/삭제
 	//정모프로필사진 등록/삭제
@@ -57,11 +60,7 @@ public class MoimRestController {
 //	public List<JungmoMemberListVO> memberList(@RequestParam int jungmoNo) {
 //		return jungmoDao.selectListByJungmoNo(jungmoNo);
 //	}
-	
-//	@PostMapping("/genderCheck")
-//	public String genderCheck(@ModelAttribute genderCheckVO vo) {
-//		moimDao.updateMoimInfo(vo);
-//	}
+
 	
 	@Autowired
 	private FileUploadProperties props;
@@ -245,6 +244,18 @@ public class MoimRestController {
 		}
 		
 		jungmoDao.edit(jungmoDto);
+	}
+	
+	//여성모임 확인
+	@PostMapping("/checkGender")
+	public String genderCheck(@RequestParam String memberEmail) {
+		MemberDto memberDto = memberDao.selectOne(memberEmail);
+		if(memberDto.getMemberGender().equals("F")) {
+			return "female";
+		}
+		else {
+			return "male";
+		}
 	}
 	
 	//모임회원차단

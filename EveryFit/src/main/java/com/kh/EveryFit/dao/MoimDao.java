@@ -24,6 +24,8 @@ public interface MoimDao {
 	
 	//모임회원
 	List<MoimMemberDto> selectAllMoimMembers(int moimNo);
+	//모임장이보는모임회원
+	List<MoimMemberDto> selectAllMoimMembersForMoimJang(int moimNo);
 	
 	//회원이 가입한 모임 확인용
 	List<MoimDto> moimListByEmail(String memberEmail);
@@ -60,6 +62,7 @@ public interface MoimDao {
 	boolean  memberLikeCheck(MemberLikeDto memberLikeDto);
 	int memberLikeCount(int moimNo);
 	//좋아요 누른 모임 확인하는건 나중에....
+	
 
 
 }
