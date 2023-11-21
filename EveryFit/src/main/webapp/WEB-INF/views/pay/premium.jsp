@@ -40,6 +40,12 @@
         color: #999; /* 비활성화된 링크의 색상을 변경할 수 있습니다. */
         text-decoration: none; /* 비활성화된 링크에 밑줄을 제거할 수 있습니다. */
     }
+    .box {
+	margin: 20px;
+	padding: 30px;
+	border: 1px solid orange;
+	border-radius: 14px;
+}
 </style>
 
 <!-- 회원 멤버쉽 모달 코드 추가 -->
@@ -98,7 +104,50 @@
 </div>
 
 
+<!-- -------------------------------------------------------------------------------------------- -->
+<div class="container-fluid ">
+	<div class="row">
+		<div class="col-md-10 offset-md-1">
 
+
+			<div class="d-flex  ">
+				<div class="box w-100">
+					<div>
+						<label>결제상품 정보</label>
+						<h2>adsa</h2>
+					</div>
+				</div>
+
+				<div class="box p-2 flex-shrink-1 w-50">
+					<label>kakaoPay</label>
+				</div>
+			</div>
+
+
+			<div class="d-flex ">
+				<div class="box w-100">
+					<div>
+						<label>회원정보</label>
+						<div class="text-start mt-3">
+							<label>이름</label> <input type="text"
+											class="form-control cert-input">
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+
+
+<!-- -------------------------------------------------------------------------------------------- -->
 <div class="m-5 p-5">
 	<div class="container-fluid m-5 p-5">
 		<div class="row">
