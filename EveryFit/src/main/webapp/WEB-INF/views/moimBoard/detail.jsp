@@ -18,7 +18,8 @@
 		</div>
 
 		<div class="row">
-				<a href="/moim/board/list?moimNo=${moimBoardDto.moimNo}" >
+				<a href="/moim/board/list?moimNo=${moimBoardDto.moimNo}"  
+					style="text-decoration: none" class="text-end btn-light fw-bold  p-4">
 					목록으로 돌아가기
 				</a>
 		</div>

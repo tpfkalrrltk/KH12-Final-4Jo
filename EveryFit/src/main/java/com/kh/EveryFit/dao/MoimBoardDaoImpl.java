@@ -63,6 +63,12 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 	public List<MoimBoardDto> listByMoimNoSortedByCategory(int moimNo, String category) {
 		return sqlSession.selectList("MoimBoard.listByMoimNoSortedByCategory", Map.of("moimNo", moimNo, "category", category));
 	}
+
+	@Override
+	public void updateMoimBoardReplyCount(int moimBoardNo) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 
