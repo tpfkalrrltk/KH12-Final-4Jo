@@ -1,191 +1,192 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <jsp:include page="../template/Header.jsp"></jsp:include>
-        <!DOCTYPE html>
-        <html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="../template/Header.jsp"></jsp:include>
+<!DOCTYPE html>
+<html>
 
-        <head>
-            <meta charset="UTF-8">
-            <title>에브리핏</title>
-        </head>
+<head>
+<meta charset="UTF-8">
+<title>에브리핏</title>
+</head>
 
-        <style>
-            textarea {
-                width: 100%;
-                height: 6.5em;
-                border: none;
-                resize: none;
-            }
-        </style>
-
-
-        <script>
-            $(function () {
-                $(".reply-insert-form").submit(function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: window.contextPath + "/rest/freeBoardReply/add",
-                        method: "post",
-                        data: $(e.target).serialize(),
-                        success: function (response) {
-                            console.log(response);
-                            $("[name=freeBoardReplyContent]").val("");
-                            reloadList();
-                        }
-                    });
-                });
-
-                reloadList();
-                function reloadList() {
-                    var params = new URLSearchParams(location.search);
-                    var freeBoardNo = params.get("freeBoardNo");
-                    var memberId = "${sessionScope.name}";
-
-                    $
-                        .ajax({
-                            url: window.contextPath + "/rest/freeBoardReply/list",
-                            method: "post",
-                            data: {
-                                freeBoardNo: freeBoardNo
-                            },
-                            success: function (response) {
-                                $(".reply-list").empty();
-                                for (var i = 0; i < response.length; i++) {
-                                    var reply = response[i];
-                                    var template = $("#reply-template").html();
-                                    var htmlTemplate = $.parseHTML(template);
-
-                                    $(htmlTemplate).find(".replyWriter").text(
-                                        reply.memberEmail || "unknown");
-                                    $(htmlTemplate).find(".replyContent").text(
-                                        reply.freeBoardReplyContent);
-
-                                    $(htmlTemplate).find(".freeBoardReplyNo").text(
-                                        reply.freeBoardReplyNo);
-
-                                    if (memberId.length == 0
-                                        || memberId != reply.memberEmail) {
-
-                                        $(htmlTemplate).find(".replyButton")
-                                            .empty();
-                                    }
-                                    $(htmlTemplate)
-                                        .find(".btn-delete")
-                                        .attr("data-reply-no",
-                                            reply.freeBoardReplyNo)
-                                        .click(
-                                            function (e) {
-                                                var freeBoardReplyNo = $(
-                                                    this).attr(
-                                                        "data-reply-no");
-                                                $
-                                                    .ajax({
-                                                        url: window.contextPath
-                                                            + "/rest/freeBoardReply/delete",
-                                                        method: "post",
-                                                        data: {
-                                                            freeBoardReplyNo: freeBoardReplyNo
-                                                        },
-                                                        success: function (
-                                                            response) {
-                                                            reloadList();
-                                                        },
-                                                    });
-                                            });
-
-                                    $(htmlTemplate)
-                                        .find(".btn-edit")
-                                        .attr("data-reply-no",
-                                            reply.freeBoardReplyNo)
-                                        .click(
-                                            function () {
-                                                var editTemplate = $(
-                                                    "#reply-edit-template")
-                                                    .html();
-                                                var editHtmlTemplate = $
-                                                    .parseHTML(editTemplate);
-
-                                                var freeBoardReplyNo = $(
-                                                    this).attr(
-                                                        "data-reply-no");
-
-                                                var freeBoardReplyContent = $(
-                                                    this)
-                                                    .parents(
-                                                        ".view-container")
-                                                    .find(
-                                                        ".replyContent")
-                                                    .val();
-
-                                                $(editHtmlTemplate)
-                                                    .find(
-                                                        "[name=freeBoardReplyNo]")
-                                                    .val(
-                                                        freeBoardReplyNo);
-                                                $(editHtmlTemplate)
-                                                    .find(
-                                                        "[name=freeBoardReplyContent]")
-                                                    .val(
-                                                        freeBoardReplyContent);
-
-                                                $(editHtmlTemplate)
-                                                    .find(".btn-cancel")
-                                                    .click(
-                                                        function () {
-                                                            $(this)
-                                                                .parents(
-                                                                    ".edit-container")
-                                                                .prev(
-                                                                    ".view-container")
-                                                                .show();
-                                                            $(this)
-                                                                .parents(
-                                                                    ".edit-container")
-                                                                .remove();
-                                                        });
-
-                                                $(editHtmlTemplate)
-                                                    .submit(
-                                                        function (e) {
-
-                                                            e
-                                                                .preventDefault();
-                                                            $
-                                                                .ajax({
-                                                                    url: window.contextPath
-                                                                        + "/rest/freeBoardReply/edit",
-                                                                    method: "post",
-                                                                    data: $(
-                                                                        e.target)
-                                                                        .serialize(),
-                                                                    success: function (
-                                                                        response) {
-
-                                                                        reloadList();
-                                                                    }
-                                                                });
-                                                        });
-                                                $(this)
-                                                    .parents(
-                                                        ".view-container")
-                                                    .hide()
-                                                    .after(
-                                                        editHtmlTemplate);
-                                            });
-                                    $(".reply-list").append(htmlTemplate);
-                                }
-                            },
-                        });
-                }
-            });
-        </script>
+<style>
+textarea {
+	width: 100%;
+	height: 6.5em;
+	border: none;
+	resize: none;
+}
+</style>
 
 
+<script>
+	$(function() {
+		$(".reply-insert-form").submit(function(e) {
+			e.preventDefault();
+			$.ajax({
+				url : window.contextPath + "/rest/freeBoardReply/add",
+				method : "post",
+				data : $(e.target).serialize(),
+				success : function(response) {
+					console.log(response);
+					$("[name=freeBoardReplyContent]").val("");
+					reloadList();
+				}
+			});
+		});
 
+		reloadList();
+		function reloadList() {
+			var params = new URLSearchParams(location.search);
+			var freeBoardNo = params.get("freeBoardNo");
+			var memberId = "${sessionScope.name}";
+
+			$
+					.ajax({
+						url : window.contextPath + "/rest/freeBoardReply/list",
+						method : "post",
+						data : {
+							freeBoardNo : freeBoardNo
+						},
+						success : function(response) {
+							$(".reply-list").empty();
+							for (var i = 0; i < response.length; i++) {
+								var reply = response[i];
+								var template = $("#reply-template").html();
+								var htmlTemplate = $.parseHTML(template);
+
+								$(htmlTemplate).find(".replyWriter").text(
+										reply.memberEmail || "unknown");
+								$(htmlTemplate).find(".replyContent").text(
+										reply.freeBoardReplyContent);
+
+								$(htmlTemplate).find(".freeBoardReplyNo").text(
+										reply.freeBoardReplyNo);
+
+								if (memberId.length == 0
+										|| memberId != reply.memberEmail) {
+
+									$(htmlTemplate).find(".replyButton")
+											.empty();
+								}
+								$(htmlTemplate)
+										.find(".btn-delete")
+										.attr("data-reply-no",
+												reply.freeBoardReplyNo)
+										.click(
+												function(e) {
+													var freeBoardReplyNo = $(
+															this).attr(
+															"data-reply-no");
+													$
+															.ajax({
+																url : window.contextPath
+																		+ "/rest/freeBoardReply/delete",
+																method : "post",
+																data : {
+																	freeBoardReplyNo : freeBoardReplyNo
+																},
+																success : function(
+																		response) {
+																	reloadList();
+																},
+															});
+												});
+
+								$(htmlTemplate)
+										.find(".btn-edit")
+										.attr("data-reply-no",
+												reply.freeBoardReplyNo)
+										.click(
+												function() {
+													var editTemplate = $(
+															"#reply-edit-template")
+															.html();
+													var editHtmlTemplate = $
+															.parseHTML(editTemplate);
+
+													var freeBoardReplyNo = $(
+															this).attr(
+															"data-reply-no");
+
+													var freeBoardReplyContent = $(
+															this)
+															.parents(
+																	".view-container")
+															.find(
+																	".replyContent")
+															.val();
+
+													$(editHtmlTemplate)
+															.find(
+																	"[name=freeBoardReplyNo]")
+															.val(
+																	freeBoardReplyNo);
+													$(editHtmlTemplate)
+															.find(
+																	"[name=freeBoardReplyContent]")
+															.val(
+																	freeBoardReplyContent);
+
+													$(editHtmlTemplate)
+															.find(".btn-cancel")
+															.click(
+																	function() {
+																		$(this)
+																				.parents(
+																						".edit-container")
+																				.prev(
+																						".view-container")
+																				.show();
+																		$(this)
+																				.parents(
+																						".edit-container")
+																				.remove();
+																	});
+
+													$(editHtmlTemplate)
+															.submit(
+																	function(e) {
+
+																		e
+																				.preventDefault();
+																		$
+																				.ajax({
+																					url : window.contextPath
+																							+ "/rest/freeBoardReply/edit",
+																					method : "post",
+																					data : $(
+																							e.target)
+																							.serialize(),
+																					success : function(
+																							response) {
+
+																						reloadList();
+																					}
+																				});
+																	});
+													$(this)
+															.parents(
+																	".view-container")
+															.hide()
+															.after(
+																	editHtmlTemplate);
+												});
+								$(".reply-list").append(htmlTemplate);
+							}
+						},
+					});
+		}
+	});
+</script>
 
 
 
-        <script id="reply-template" type="text/template">
+
+
+
+<script id="reply-template" type="text/template">
 		<div class="row bg-primary view-container container" 
 style="border-width: 0px 0px 1px 0px ; border-style: solid ;  border-color: white;" >
 
@@ -226,7 +227,7 @@ style="border-width: 0px 0px 1px 0px ; border-style: solid ;  border-color: whit
 		</div>
 
 </script>
-        <script id="reply-edit-template" type="text/template">
+<script id="reply-edit-template" type="text/template">
 
 		<form class="reply-edit-form edit-container   row bg-light">
 		<input type="hidden" name="freeBoardReplyNo" value="?">
@@ -256,125 +257,133 @@ placeholder="수정 내용을 적어주세요">
 
 
 
-        <body>
-            <div class="container ">
+<body>
+	<div class="container ">
 
-                <div class="row mt-5 p-5">
-                    <div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
+		<div class="row mt-5 p-5">
+			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
 
-                        <h1 class="display-5 fw-bold">${freeBoardDto.freeBoardTitle}</h1>
-                    </div>
-                </div>
+				<h1 class="display-5 fw-bold">${freeBoardDto.freeBoardTitle}</h1>
+			</div>
+		</div>
 
-
-
-                <div class="row">
-
-                    <div class="col-1 offset-9">
-
-                        <a href="edit?freeBoardNo=${freeBoardDto.freeBoardNo}" class="text-light"
-                            style="text-decoration: none">
-                            <div class="text-center bg-info rounded-3  text-light">
-                                <h7 class="display-5"> <i class="fa-solid fa-gear"></i></h7>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-1">
-                        <a href="delete?freeBoardNo=${freeBoardDto.freeBoardNo}" class="text-light"
-                            style="text-decoration: none">
-                            <div class="text-center bg-danger rounded-3  text-light">
-                                <h7 class="display-5"> <i class="fa-solid fa-trash-can"></i></h7>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-8 offset-2">
-
-                    <table class="table">
-                        <tr class="table-primary text-center ">
-                            <th class="fw-bold">번호</th>
-                            <th class="fw-bold">카테고리</th>
-                            <th class="fw-bold">제목</th>
-                            <th class="fw-bold">닉네임</th>
-                        </tr>
-                        <tr class="text-center">
-
-                            <td class="fw-bold text-primary">${freeBoardDto.freeBoardNo}</td>
-                            <td class="fw-bold text-primary">${freeBoardDto.freeBoardCategory}</td>
-                            <td class="fw-bold text-primary">${freeBoardDto.freeBoardTitle}</td>
-                            <td class="fw-bold text-primary">${freeBoardDto.memberNick}</td>
-                        </tr>
+		<div class="row">
+			<a href="/freeBoard/list"
+				style="text-decoration: none"
+				class="text-end btn-light fw-bold  p-4"> 목록으로 돌아가기 </a>
+		</div>
 
 
-                    </table>
+		<div class="row">
+
+			<div class="col-1 offset-9">
+
+				<a href="edit?freeBoardNo=${freeBoardDto.freeBoardNo}"
+					class="text-light" style="text-decoration: none">
+					<div class="text-center bg-info rounded-3  text-light">
+						<h7 class="display-5"> <i class="fa-solid fa-gear"></i></h7>
+					</div>
+				</a>
+			</div>
+			<div class="col-1">
+				<a href="delete?freeBoardNo=${freeBoardDto.freeBoardNo}"
+					class="text-light" style="text-decoration: none">
+					<div class="text-center bg-danger rounded-3  text-light">
+						<h7 class="display-5"> <i class="fa-solid fa-trash-can"></i></h7>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-3">
+		<div class="col-8 offset-2">
+
+			<table class="table">
+				<tr class="table-primary text-center ">
+					<th class="fw-bold">번호</th>
+					<th class="fw-bold">카테고리</th>
+					<th class="fw-bold">제목</th>
+					<th class="fw-bold">닉네임</th>
+				</tr>
+				<tr class="text-center">
+
+					<td class="fw-bold text-primary">${freeBoardDto.freeBoardNo}</td>
+					<td class="fw-bold text-primary">${freeBoardDto.freeBoardCategory}</td>
+					<td class="fw-bold text-primary">${freeBoardDto.freeBoardTitle}</td>
+					<td class="fw-bold text-primary">${freeBoardDto.memberNick}</td>
+				</tr>
 
 
-                    <table class="table">
-                        <tr class="table table-primary text-center">
-                            <th class="fw-bold ">내용</th>
-
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-primary">
-                                <div>
-                                    <c:choose>
-                                        <c:when test="${freeBoardImage == null}">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img src="/freeBoard/rest/attach/download?attachNo=${freeBoardImage}"
-                                                class="rounded profile-image">
-                                        </c:otherwise>
-                                    </c:choose>
-                                    ${freeBoardDto.freeBoardContent}
-                                </div>
-
-                            </td>
-
-                        </tr>
+			</table>
 
 
-                    </table>
+			<table class="table">
+				<tr class="table table-primary text-center">
+					<th class="fw-bold ">내용</th>
 
-                    <div class="row  ps-2 ms-2">
-                        <div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light" style="height: 100px">
+				</tr>
+				<tr>
+					<td class="fw-bold text-primary">
+						<div>
+							<c:choose>
+								<c:when test="${freeBoardImage == null}">
+								</c:when>
+								<c:otherwise>
+									<img
+										src="/freeBoard/rest/attach/download?attachNo=${freeBoardImage}"
+										class="rounded profile-image">
+								</c:otherwise>
+							</c:choose>
+							${freeBoardDto.freeBoardContent}
+						</div>
 
-                            <h1 class="display-5 fw-bold ms-4">Comment</h1>
-                        </div>
-                    </div>
+					</td>
 
-                    <div class="container reply-list"></div>
-
-
-                    <c:if test="${sessionScope.name != null }">
-
-                        <form class="reply-insert-form p-2 m-2" method="post">
-                            <input type="hidden" name="freeBoardNo" value="${freeBoardDto.freeBoardNo}">
-                            <div class="row ">
-                                <textarea class="form-input  bg-primary  text-light fw-bold "
-                                    name="freeBoardReplyContent" rows="4"></textarea>
-                            </div>
-                            <div class="row">
-                                <button type="submit"
-                                    class="btn btn-positive w-50 bg-primary text-light fw-bold mt-3 offset-3">
-                                    <i class="fa-solid fa-pen text-light"></i>Comment insert
-                                </button>
-                            </div>
-                        </form>
-
-                    </c:if>
+				</tr>
 
 
-                </div>
-            </div>
+			</table>
+
+			<div class="row  ps-2 ms-2">
+				<div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light"
+					style="height: 100px">
+
+					<h1 class="display-5 fw-bold ms-4">Comment</h1>
+				</div>
+			</div>
+
+			<div class="container reply-list"></div>
 
 
-            </div>
+			<c:if test="${sessionScope.name != null }">
+
+				<form class="reply-insert-form p-2 m-2" method="post">
+					<input type="hidden" name="freeBoardNo"
+						value="${freeBoardDto.freeBoardNo}">
+					<div class="row ">
+						<textarea class="form-input  bg-primary  text-light fw-bold "
+							name="freeBoardReplyContent" rows="4"></textarea>
+					</div>
+					<div class="row">
+						<button type="submit"
+							class="btn btn-positive w-50 bg-primary text-light fw-bold mt-3 offset-3">
+							<i class="fa-solid fa-pen text-light"></i>Comment insert
+						</button>
+					</div>
+				</form>
+
+			</c:if>
 
 
-        </body>
+		</div>
+	</div>
 
-        </html>
-        <jsp:include page="../template/Footer.jsp"></jsp:include>
+
+	</div>
+
+
+</body>
+
+</html>
+<jsp:include page="../template/Footer.jsp"></jsp:include>
