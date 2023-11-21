@@ -10,9 +10,11 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.dto.ReportDto;
 import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
+import com.kh.EveryFit.vo.AdminReportSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,6 +96,18 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public Integer moimMemberCount(int moimNo) {
 		return sqlSession.selectOne("moim.moimMemberCount",moimNo);
+	}
+
+	@Override
+	public List<ReportDto> reportList() {
+		
+		return sqlSession.selectList("admin.ReportList");
+	}
+
+	@Override
+	public List<ReportDto> adminReportSearch(AdminReportSearchVO adminReportSearchVO) {
+		List<ReportDto> list = sqlSession.selectList("admin.adminReportSearch", adminReportSearchVO);
+		return list;
 	}
 
 }
