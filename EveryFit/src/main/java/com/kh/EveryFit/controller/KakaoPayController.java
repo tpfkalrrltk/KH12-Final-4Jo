@@ -250,7 +250,11 @@ public class KakaoPayController {
 				List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
 				List<MoimDto> MoimDto= moimDao.moimListByEmail(memberId);
 				MemberDto memberDto = memberDao.selectOne(memberId);
+
 				model.addAttribute("PaymentListByMemberVO",PaymentListByMemberVO);
+
+				
+
 				model.addAttribute("list2", moimTitleForPaymentVO);
 				model.addAttribute("MoimDtoList", MoimDto);
 				model.addAttribute(memberDto);

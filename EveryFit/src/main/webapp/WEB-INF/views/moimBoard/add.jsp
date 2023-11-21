@@ -19,7 +19,8 @@
 		</div>
 
 		<div class="row">
-				<a href="/moim/board/list?moimNo=${param.moimNo}" >목록으로 돌아가기
+				<a href="/moim/board/list?moimNo=${param.moimNo}" 
+				style="text-decoration: none" class="text-end btn-light fw-bold">목록으로 돌아가기
 				</a>
 		</div>
 
@@ -30,10 +31,11 @@
 			<div class="col">
 				<form action="add" method="post">
 				
-				<input type="text" name="moimNo" value = "${param.moimNo}" style="width : 450px;">
+				<input type="hidden" name="moimNo" value = "${param.moimNo}" style="width : 450px;" 
+				class="form-control  fw-bold bg-primary text-light">
 					<div class="row">
 						<div class="col-5">
-							카테고리 : <select  name="moimBoardCategory">
+							<p class="text-primary fw-bold">카테고리 : </p><select  name="moimBoardCategory"class="form-select  fw-bold bg-primary text-light">
 								<option>공지사항</option>
 								<option>가입인사</option>
 								<option>모임후기</option>
@@ -44,33 +46,33 @@
 					
 					<div class="row">
 						<div class="col">
-							제목 :
+						<p class="text-primary fw-bold">제목 : </p>
 						</div>
 					</div>
 					
 					<div class="row">
 						<div class="col-2">
-							<input type="text" name="moimBoardTitle" style="width : 450px;">
+							<input type="text" name="moimBoardTitle" style="width : 450px;" class="form-control  fw-bold bg-primary text-light">
 						</div>
 					</div>
 
 
 
 					<div class="row">
-						<div class="col">
-							내용 :
+						<div class="col ">
+					<p class="text-primary fw-bold">내용 : </p>
 						</div>
 					</div>
 					
 					<div class="row">
 						<div class="col">
-							<textarea rows="30" cols="52" name="moimBoardContent"></textarea>
+							<textarea rows="30" cols="52" name="moimBoardContent" class="form-control  fw-bold bg-primary text-light"></textarea>
 						</div>
 						
 					</div>
 					
 					
-					<button type="submit" class="btn btn-primary">등록</button>
+					<button type="submit" class="btn btn-primary w-100 mt-5">등록</button>
 				</form>
 
 			</div>

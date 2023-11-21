@@ -29,7 +29,7 @@ public class MoimBoradController {
 	@RequestMapping("/list")
 	public String list(Model model, @RequestParam(name = "moimNo") int moimNo,
 			@RequestParam(name = "sortByCategory", required = false) String category) {
-		log.debug("sortByCategory={}", category);
+
 		List<MoimBoardDto> boardList;
 		if (category != null && !category.isEmpty()) {
 	        // 카테고리에 따라 정렬된 목록을 가져오는 로직 추가	
@@ -68,7 +68,6 @@ public class MoimBoradController {
 	@RequestMapping("/detail")
 	public String detail(Model model, @RequestParam int moimBoardNo) {
 		MoimBoardDto moimBoardDto = moimBoardDao.selelctOne(moimBoardNo);
-		log.debug("moimBoardDto={}", moimBoardDto);
 		model.addAttribute("moimBoardDto", moimBoardDto);
 		return "moimBoard/detail";
 	}

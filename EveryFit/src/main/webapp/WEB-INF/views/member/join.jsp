@@ -174,7 +174,7 @@ span {
 
 							<div class="col-md-4 offset-md-4 text-start">
 								성별<select class="form-select country" >
-									<option>선택하세요.</option>
+									<option>성별</option>
 									<option>man</option>
 									<option>woman</option>
 								</select>
@@ -182,12 +182,12 @@ span {
 
 							<div class="col-md-4 offset-md-4 text-start">
 								관심종목<select class="form-select">
-									<option>선택하세요.</option>
+									<option>종목선택</option>
+									<option>육상</option>
 									<option>축구</option>
+									<option>테니스</option>
 									<option>야구</option>
-									<option>달리기</option>
-									<option>필라테스</option>
-									<option>요가</option>
+									<option>농구</option>
 								</select>
 							</div>
 

@@ -72,6 +72,13 @@ textarea {
 				<h1 class="display-5 fw-bold">등록</h1>
 			</div>
 		</div>
+		
+			<div class="row">
+				<a href="/freeBoard/list" 
+				style="text-decoration: none" class="text-end btn-light fw-bold">목록으로 돌아가기
+				</a>
+		</div>
+		
 
 		<div class="row">
 			<div class="col-5 offset-1">

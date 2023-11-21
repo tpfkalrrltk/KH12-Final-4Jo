@@ -24,24 +24,26 @@
 	$(function() {
 
 		let keyframes = [ {
-			opacity : 0,
-			transform : "translate(-100px, 0)"
+			opacity : 1,
+			transform : "translate(0px, 0)"
 		}, {
-			opacity : 0.5,
-			transform : "translate(-100px, 0)"
+			opacity : 0.2,
+			transform : "translate(-50px, 0)"
 		}, {
 			opacity : 1,
 			transform : "translate(0px, 0)"
 		} ];
 		let options = {
 			delay : 0000,
-			duration : 2500,
-			easing : "ease-in",
-			//iterations: Infinity,
+			duration : 3000,
+			easing : "ease-in-out",
+			iterations : Infinity,
 			fill : "forwards"
 		};
 		document.querySelector("#Premium").animate(keyframes, options);
-		document.querySelector(".Premium").animate(keyframes, options);
+		document.querySelector("#NowMoim").animate(keyframes, options);
+		document.querySelector("#GenderCheck").animate(keyframes, options);
+	
 
 		var nystories = document.querySelector("p").offsetTop;
 		window.onscroll = function() {
@@ -81,10 +83,6 @@
 		document.querySelector("#main-text2").animate(mainFrames, mainOptions);
 		document.querySelector("#directionality").animate(mainFrames,
 				mainOptions);
-
-	
-		    
-
 		});
 
 
@@ -93,22 +91,32 @@
 	
 	
 	$(function() {
-		 // 모임 번호 가져오기
-        var moimNo = $(".premium-btn").data("moim-no");
+		
+		// 모임 번호 가져오기
+        for(var i =0; i<${PremiumMoimList.size()}; i++){	
+        	var moimNo = new Array();
+        	moimNo[i] = $(".premium-btn").data("moim-no");
+             console.log(moimNo)
+
+        	   $.ajax({
+                   url: window.contextPath+"/rest/memberCount",
+                   method: "post",
+                   data: { moimNo: moimNo },
+                   success: function(response) {
+                   	console.log(response)
+                   	$(".premium-btn").parents(
+                       ".memberCount").text(response);
+                   },
+                   error: function (xhr, status, error) {
+
+                   },    
+               });
+        	
+        	   
+        }
+     
         
-        $.ajax({
-            url: window.contextPath+"/rest/memberCount",
-            method: "post",
-            data: { moimNo: moimNo },
-            success: function(response) {
-            	$(".premium-btn").parents(
-                ".memberCount").text(response);
-            },
-            error: function (xhr, status, error) {
-            	
-            },
-            
-        });
+        
     });
 	
 	
@@ -187,28 +195,26 @@ body {
 
 
 		<div class="row mt-5 p-5 ">
+
 			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light "
 				id="Premium">
 				<h1 class="display-5 fw-bold">Premium</h1>
+
 			</div>
 		</div>
 
 
+
 		<div class="row align-items-center m-5">
-
-
-
 
 			<c:forEach var="PremiumMoimList" items="${PremiumMoimList}"
 				varStatus="loopStatus" end="7">
 				<div class="col pe-0 ">
-					<div class="card border-primary mb-3 w-100 Premium"
+					<div class="card border-primary mb-3 w-100 Premium bg-primary"
 						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold ">Moim
+						<div class="card-header bg-light text-primary fw-bold ">Moim
 							No.${PremiumMoimList.moimNo}</div>
 						<div class="card-body ">
-
-
 							<div class="text-center">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${PremiumMoimList.moimNo}">
@@ -217,29 +223,27 @@ body {
 									class="rounded profile-image" width="100%" height="200px">
 								</a>
 							</div>
-
-
-							<h4 class="card-title text-primary">${PremiumMoimList.moimTitle}</h4>
-							<p class="card-text lead">${PremiumMoimList.moimContent}</p>
-
+							<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle}</h4>
+							<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent}</p>
 							<div class="container">
 								<div class="row">
 									<div class="col-4 offset-6 p-0">
-										<p class="card-text text-end ">
-											<small class="memberCount"> </small>
+										<p class="card-text text-end text-light  ">
+											<small class="memberCount "> 현재 인원 ${PremiumMoimList.memberCount}</small>
 										</p>
 									</div>
 									<div class="col ">
 										<small>
-											<p class="text-primary m-0 ">/   ${PremiumMoimList.moimMemberCount}</p>
+											<p class="text-light  m-0 ">/
+												${PremiumMoimList.moimMemberCount}</p>
 										</small>
 
 									</div>
 								</div>
 							</div>
 
-							<a class="btn btn-primary btn-lg fw-bold premium-btn" href=""
-								role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
+							<a class="btn bg-light text-primary btn-lg fw-bold premium-btn"
+								href="" role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
 						</div>
 					</div>
 				</div>
@@ -247,7 +251,7 @@ body {
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 		</div>
 		<div class="row contaner-fluid  auto-width m-5">
-			</c:if>
+		</c:if>
 		</c:forEach>
 
 	</div>
@@ -255,7 +259,8 @@ body {
 
 
 	<div class="row mt-5 p-5">
-		<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
+		<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+			id="NowMoim">
 			<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
 		</div>
 	</div>
@@ -290,19 +295,21 @@ body {
 							<div class="row">
 								<div class="col-4 offset-6 p-0">
 									<p class="card-text text-end ">
-										<small class=""> </small>
+										<small class="">현재 인원 ${NewMoimList.memberCount} </small>
 									</p>
 								</div>
 								<div class="col ">
 									<small>
-										<p class="text-primary m-0 "> / ${NewMoimList.moimMemberCount}</p>
+										<p class="text-primary m-0 ">/
+											${NewMoimList.moimMemberCount}</p>
 									</small>
 
 								</div>
 							</div>
 						</div>
 
-						<a class="btn btn-primary btn-lg fw-bold New-btn" href="" role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
+						<a class="btn btn-primary btn-lg fw-bold New-btn" href=""
+							role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
 					</div>
 				</div>
 			</div>
@@ -318,7 +325,8 @@ body {
 
 
 	<div class="row mt-5 p-5">
-		<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
+		<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+			id="GenderCheck">
 			<h1 class="display-5 fw-bold">여성전용 모임</h1>
 		</div>
 	</div>
@@ -353,12 +361,12 @@ body {
 							<div class="row">
 								<div class="col-4 offset-6 p-0">
 									<p class="card-text text-end ">
-										<small>인원 ${GenderCheckMoimList.moimMemberCount} / </small>
+										<small>현재 인원 ${GenderCheckMoimList.memberCount}  </small>
 									</p>
 								</div>
 								<div class="col ">
 									<small>
-										<p class="text-primary m-0 ">${GenderCheckMoimList.moimMemberCount}</p>
+										<p class="text-primary m-0 "> /  ${GenderCheckMoimList.moimMemberCount}</p>
 									</small>
 
 								</div>
@@ -366,7 +374,8 @@ body {
 						</div>
 
 
-						<a class="btn btn-primary btn-lg fw-bold Gender-btn" href="" role="button">Join</a>
+						<a class="btn btn-primary btn-lg fw-bold Gender-btn" href=""
+							role="button">Join</a>
 					</div>
 				</div>
 			</div>

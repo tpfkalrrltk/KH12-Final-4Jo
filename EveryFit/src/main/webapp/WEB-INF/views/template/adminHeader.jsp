@@ -22,20 +22,21 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap"
 	rel="stylesheet">
-	
-	
-	<link rel="preload" href="webfont-path" as="font" crossorigin />
-	
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+
+<link rel="preload" href="webfont-path" as="font" crossorigin />
+
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 <script>
-  WebFont.load({
-    google: {
-      families: ['Noto Sans KR', 'Noto Sans KR']
-    }
-  });
+	WebFont.load({
+		google : {
+			families : [ 'Noto Sans KR', 'Noto Sans KR' ]
+		}
+	});
 </script>
-	
+
 <style>
 @font-face {
 	font-family: 'Noto Sans KR', sans-serif;
@@ -158,7 +159,7 @@ body {
 		data-bs-theme="dark">
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
-				width="110px"/></a>
+				width="110px" /></a>
 
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarColor01"
@@ -168,9 +169,9 @@ body {
 			</button>
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav me-auto">
-				
-				
-			
+
+
+
 					<c:choose>
 						<c:when test="${sessionScope.name==null}">
 
@@ -194,7 +195,7 @@ body {
 
 						</c:otherwise>
 					</c:choose>
-							<li class="nav-item">
+					<li class="nav-item">
 						<h1>
 							<a class="nav-link ms-3" href="/member/join"> <i
 								class="fa-solid fa-user-plus mt-2"></i> <span
@@ -202,12 +203,12 @@ body {
 							</a>
 						</h1>
 					</li>
-					
-					
+
+
 					<li class="nav-item">
 						<h1>
-							<a class="nav-link ms-3" href=/member/mypage> 
-							<i class="fa-solid fa-user-gear mt-2"></i>
+							<a class="nav-link ms-3" href=/member/mypage> <i
+								class="fa-solid fa-user-gear mt-2"></i>
 							</a>
 						</h1>
 					</li>
@@ -284,13 +285,14 @@ body {
 							</h2>
 					</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item fw-bold" 
-							href="${pageContext.request.contextPath}/admin/member"> (관리자)회원 관리 </a>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/admin/member">
+								(관리자)회원 관리 </a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/admin/moim">(관리자)모임
 								관리</a>
-								<div class="dropdown-divider"></div>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/admin/jungmo">(관리자)정모
 								관리</a>
@@ -298,6 +300,9 @@ body {
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold" href="/league/leagueList">(관리자)리그
 								관리</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/admin/report">(관리자)신고 목록</a>
 						</div></li>
 
 
@@ -309,7 +314,7 @@ body {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님 환영합니다.</div>
+									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
 									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
 								</h5>
 							</li>
@@ -322,25 +327,25 @@ body {
 					</c:choose>
 				</ul>
 				<div class="d-flex">
-				<div class="nav-item ms-5 me-3  bg-light rounded-3 "
-					style="margin-left: 5500">
-					<h6 class="text-primary fw-bold ">Now Time</h6>
-					<div id="txt" class="text-primary fw-bold">
-						<h5></h5>
+					<div class="nav-item ms-5 me-3  bg-light rounded-3 "
+						style="margin-left: 5500">
+						<h6 class="text-primary fw-bold ">Now Time</h6>
+						<div id="txt" class="text-primary fw-bold">
+							<h5></h5>
+						</div>
 					</div>
 				</div>
-			</div>
-			
-			<form class="d-flex">
-				<input class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
-					type="search" placeholder="Search" style="height: 52px">
-				<button class="btn btn-light   text-primary mt-3  fw-bold"
-					type="submit"  style="height: 52px">Search</button>
-			</form>
+
+				<form class="d-flex">
+					<input
+						class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
+						type="search" placeholder="Search" style="height: 52px">
+					<button class="btn btn-light   text-primary mt-3  fw-bold"
+						type="submit" style="height: 52px">Search</button>
+				</form>
 			</div>
 		</div>
 	</nav>
-
 <body onload="startTime()">
 	<div class="p-5 m-5"></div>
 	<div id='wrapper'>

@@ -15,6 +15,7 @@ import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
+import com.kh.EveryFit.vo.AdminReportSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +26,6 @@ public class AdminController {
 
 	@Autowired
 	AdminDao adminDao;
-	
 
 	@RequestMapping("/member")
 	public String member(Model model, @ModelAttribute("adminMemberSearchVO") AdminMemberSearchVO adminMemberSearchVO) {
@@ -41,20 +41,25 @@ public class AdminController {
 	}
 
 	@RequestMapping("/moim")
-	public String moim(Model model, 
-			@ModelAttribute("adminMoimSearchVO") AdminMoimSearchVO adminMoimSearchVO) {
-		
-		//model.addAttribute("adminMoimList", adminDao.adminMoimList());
+	public String moim(Model model, @ModelAttribute("adminMoimSearchVO") AdminMoimSearchVO adminMoimSearchVO) {
+
+		// model.addAttribute("adminMoimList", adminDao.adminMoimList());
 		model.addAttribute("adminMoimList", adminDao.adminMoimSearch(adminMoimSearchVO));
 		return "admin/moimList";
 	}
-	
+
 	@RequestMapping("/jungmo")
-	public String jungmo(Model model, 
-			@ModelAttribute("adminJungmoSearchVO") AdminJungmoSearchVO adminJungmoSearchVO) {
-		
-		//model.addAttribute("adminJungmoList", adminDao.adminJungmoList());
+	public String jungmo(Model model, @ModelAttribute("adminJungmoSearchVO") AdminJungmoSearchVO adminJungmoSearchVO) {
+
+		// model.addAttribute("adminJungmoList", adminDao.adminJungmoList());
 		model.addAttribute("adminJungmoList", adminDao.adminJungmoSearch(adminJungmoSearchVO));
 		return "admin/jungmoList";
 	}
+
+	@RequestMapping("/report")
+	public String report(Model model, @ModelAttribute("adminReportSearchVO") AdminReportSearchVO adminReportSearchVO) {
+		model.addAttribute("adminReportList", adminDao.adminReportSearch(adminReportSearchVO));
+		return "admin/reportList";
+	}
+
 }
