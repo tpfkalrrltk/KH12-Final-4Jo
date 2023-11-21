@@ -16,4 +16,6 @@ public interface MoimBoardDao {
 	List<MoimBoardDto> listByMoimCategory(MoimBoardDto moimBoardDto);
 	boolean edit(MoimBoardDto moimBoardDto);
 	List<MoimBoardDto> listByMoimNoSortedByCategory(int moimNo, String category);
+
+	void updateMoimBoardReplyCount(int moimBoardNo);
 }

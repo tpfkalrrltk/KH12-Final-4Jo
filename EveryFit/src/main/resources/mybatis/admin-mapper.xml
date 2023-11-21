@@ -99,10 +99,15 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 
 
 	<!-- 모임 목록 -->
-	<select id="adminMoimList" resultType="MoimDto">
-		select * from moim  where moim_state in '모집중'
+	<select id="adminMoimList" resultType="AdminMoimMemberCountVO">
+		select m.*
+		,nvl(mml.member_count, 0) member_count from moim m left outer join (
+		select moim_no, count(*) member_count from moim_member_list group by
+		moim_no )
+		mml on m.moim_no = mml.moim_no where moim_state in '모집중'
 		order by
-		moim_no desc
+		m.moim_no
+		desc
 	</select>
 
 
@@ -230,8 +235,19 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 			</choose>
 
 
+			<if test="jungmoStateList !=null and jungmoStateList.size()>0">
+				and jungmo_status in
+				<foreach collection="jungmoStateList" open="(" close=")"
+					separator="," item="StateList">
+					#{StateList}
+				</foreach>
+			</if>
+
 
 		</where>
+
+
+
 
 		<if test="orderList != null and orderList.size() >0">
 			order by
@@ -244,26 +260,106 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 	<!-- 메인 홈페이지 -->
 
 	<select id="findMoimProfile" resultType="AttachDto">
-		select * from attach 
-		where attach_no = ( 
-		select attach_no from moim_image 
-		where moim_no = #{moimNo})
+		select * from attach
+		where attach_no = (
+		select attach_no from moim_image
+		where moim_no =
+		#{moimNo})
 	</select>
-	
-		<select id="moimProfileList" resultType="int">
-		select moim_no from moim_image 
+
+	<select id="moimProfileList" resultType="int">
+		select moim_no from
+		moim_image
 	</select>
-	
-	<select id="PremiumMoimList" resultType="MoimDto">
-		select * from moim where moim_upgrade in 'Y' and moim_state in '모집중'
-		order by
-		moim_no desc
+
+	<select id="PremiumMoimList" resultType="AdminMoimMemberCountVO">
+		select m.* 
+		,nvl(mml.member_count, 0) member_count from moim m left outer 
+		join ( 
+		select moim_no, count(*) member_count from moim_member_list group by 
+		moim_no 
+		) 
+		mml on m.moim_no = mml.moim_no where moim_upgrade in 'Y' and 
+		moim_state 
+		in '모집중' order by 
+		DBMS_RANDOM.RANDOM 
 	</select>
-	
-		<select id="GenderCheckMoimList" resultType="MoimDto">
-		select * from moim where moim_gender_check in 'Y' and moim_state in '모집중'
-		order by
-		moim_no desc
+
+	<select id="GenderCheckMoimList" resultType="AdminMoimMemberCountVO">
+		select m.* ,nvl(mml.member_count, 0) member_count from moim m left outer
+		join (
+		select moim_no, count(*) member_count from moim_member_list group by moim_no
+		)
+		mml on m.moim_no = mml.moim_no  where moim_gender_check in 'Y' and
+		moim_state in '모집중' order by
+		DBMS_RANDOM.RANDOM
+
 	</select>
-	
+
+
+	<!-- 신고 -->
+	<select id="ReportList" resultType="ReportDto">
+		select * from report order by
+		report_no dsec
+	</select>
+
+	<select id="adminReportSearch" resultType="ReportDto">
+		select * from report
+
+
+
+		<where>
+
+
+			<if test="reportNo != null">
+				and instr(report_no, #{reportNo}) > 0
+			</if>
+			<if test="reportContent != null">
+				and instr(report_content, #{reportContent}) > 0
+			</if>
+
+
+			<choose>
+				<when test="reportTimeStart != null and reportTimeEnd !=null ">
+					and to_date(report_time, 'YYYY-MM-DD') between
+					to_date(#{reportTimeStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					HH24:MI:SS') and
+					to_date(#{reportTimeEnd} || ' ' || '23:59:59'
+					'YYYY-MM-DD HH24:MI:SS')
+				</when>
+				<when test="reportTimeStart != null">
+				<![CDATA[	
+				and to_date(report_time, 'YYYY-MM-DD') >= 
+				to_date(#{reportTimeStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+				<when test="reportTimeEnd !=null">
+				<![CDATA[
+				and to_date(report_time, 'YYYY-MM-DD') <=
+				to_date(#{reportTimeEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+
+			</choose>
+
+		</where>
+		<if test="orderList != null and orderList.size() >0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+	</select>
+
+	<!-- 모임 멤버 카운트 -->
+	<select id="memberCount" resultType="AdminMoimMemberCountVO">
+		select
+		m.* ,
+		nvl(mml.member_count, 0) member_count
+		from moim m left outer join (
+		select moim_no, count(*) member_count from moim_member_list group by
+		moim_no
+		) mml on m.moim_no = mml.moim_no
+	</select>
+
 </mapper>

@@ -15,6 +15,7 @@ import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.error.NoTargetException;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueMatchListVO;
 import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -243,5 +244,10 @@ public class LeagueDaoImpl implements LeagueDao{
 	@Override
 	public List<LeagueDto> selectLeagueDtoList() {
 		return sqlSession.selectList("league.listLeagueDto");
+	}
+	
+	@Override
+	public List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo) {
+		return sqlSession.selectList("league.listLeagueMatchListVO", leagueNo);
 	}
 }

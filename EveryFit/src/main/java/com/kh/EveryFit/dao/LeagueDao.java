@@ -9,6 +9,7 @@ import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueMatchListVO;
 import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 public interface LeagueDao {
@@ -60,6 +61,7 @@ public interface LeagueDao {
 	void updateLeagueMatch(int leagueMatchNo, LeagueMatchDto leagueMatchDto);
 	void deleteLeagueMatch(int leagueMatchNo);
 	List<LeagueMatchDto> selectLeagueMatchList(int leagueNo);
+	List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo);
 	
 	
 	
