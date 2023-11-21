@@ -414,6 +414,13 @@
 		moim_upgrade ='Y' 
 		where moim_no = #{moimNo} 
 	</update>
+	
+		<!-- 프리미엄 모임 구독 취소하면, 모임의 상태를 일반 으로 변경(Y->N) -->
+	<update id="upgradeToNotPrimium">
+		update moim set 
+		moim_upgrade ='N' 
+		where moim_no = #{moimNo}
+	</update>
 </mapper>
 
 

@@ -50,7 +50,7 @@
 
 				<div class="row">
 					<div class="col">
-						<h1 class="text-center border">${productDto.productName}</h1>
+						<h1 class="text-center">${productDto.productName}</h1>
 					</div>
 				</div>
 				
@@ -59,10 +59,12 @@
 					<div class="col">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
-								<h3 class="text-center border">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
+								<h3 class="text-center">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
+								
 							</c:when>
 							<c:otherwise>
-								<h3 class="text-center border">EeveryFIt 프리미엄 모임으로 업그레이드 해보세요!</h3>
+								<h3 class="text-center">EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</h3>
+								
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -72,39 +74,42 @@
 					<div class="col">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
-								<span class="text-center border">EeveryFIt 프리미엄 회원권은 한번
+								<span class="text-center ms-5">EeveryFit 프리미엄 회원권은 한번
 							결제하면 평생 이용이 가능합니다.</span>
 								<div class="row">
 									<div class="col text-center">
-										<img src="/images/memberCard.png" class="main-image img-thumbnail text-center">
+										<img src="/images/memberCard.png" class="main-image text-center">
 									</div>
 								</div>
 								<div class="row">
-					<div class="col-2">
+					<div class="col-1">
 
 						<div class="row">
 							<div class="col">
-								<h1 class="text-center mt-3 ms-3">
-									<i class="fa-regular fa-face-grin-stars"></i>
+								<h1 class="text-center mt-3 ms-5">
+								
+									<i class="fa-regular fa-hand-point-right"></i>
 								</h1>
 							</div>
 						</div>
 
 					</div>
 
-					<div class="col-8">
+					<div class="col-10">
 						<div class="row">
-							<div class="col">가입모임 개수 증가</div>
+							<div class="col ms-5 mt-3 ">가입모임 개수 증가</div>
 						</div>
 						<div class="row">
-							<div class="col">모임 가입 최대 10개까지 늘리기 (일반 회원은 모임 가입 최대 3개입니다)
+							<div class="col ms-5">모임 가입 최대 10개까지 늘리기<br>
+							(일반 회원은 최대 3개의 모임에 가입이 가능합니다)
 							</div>
+							
 						</div>
 					</div>
 				</div>
 							</c:when>
 							<c:otherwise>
-								<span class="text-center border">
+								<span class="text-center ms-5">
 								EeveryFIt 프리미엄 모임권 구독은 매월/매년 자동결제되고 언제든 해지가능합니다.
 								</span>
 								<div class="row">
@@ -156,8 +161,8 @@
 									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a>
 							</c:if>
 								<c:if test="${memberDto.memberLevel == '프리미엄'}">
-								<span style="color: red;">
-								${memberDto.memberEmail} 님은 이미 프리미엄 회원입니다.
+								<span style="color: red; text-bold">
+								${memberDto.memberEmail} 님은 이미 "프리미엄" 회원입니다.
 								이용해 주셔서 감사합니다
 								</span>	
 							</c:if>
@@ -210,13 +215,20 @@
 						</c:choose>
 					</div>
 				</div>
-[${memberDto.memberEmail}] - ${memberDto.memberLevel}
+				
+<hr>
+<나중에삭제하겠음>
+				<div class="row">
+					<div class="col">
+					<회원권>
+						[${memberDto.memberEmail}] - ${memberDto.memberLevel} <br>
 <c:forEach var="MoimDtoList" items="${MoimDtoList}">
-
-[${MoimDtoList.moimTitle}] - ${MoimDtoList.moimUpgrade}
+<모임권>
+[${MoimDtoList.moimTitle}] - ${MoimDtoList.moimUpgrade}<br>
 
 </c:forEach>
-
+					</div>
+				</div>
 
 
 			</div>
