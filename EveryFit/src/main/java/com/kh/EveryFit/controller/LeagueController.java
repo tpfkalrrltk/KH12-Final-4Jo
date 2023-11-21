@@ -3,6 +3,8 @@ package com.kh.EveryFit.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.EveryFit.component.DateFormatUtils;
 import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
 import com.kh.EveryFit.dao.ChatDao;
@@ -31,6 +34,7 @@ import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
+import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueListDto;
 import com.kh.EveryFit.dto.LeagueMatchDto;
@@ -126,8 +130,19 @@ public class LeagueController {
 	}
 	
 	@RequestMapping("leagueGuide")
-	public String leagueGuide(@RequestParam int leagueNo, Model model) {
+	public String leagueGuide(@RequestParam int leagueNo, Model model) throws ParseException {
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+		EventDto eventDto = memberDao.selectOneByEventNo(leagueDto.getEventNo());
+		LocationDto locationDto = memberDao.selectOneByLocationNo(leagueDto.getLocationNo());
+		LeagueApplicationDto applicationDto = leagueDao.selectOneLeagueApplication(leagueNo);
+		if(applicationDto!=null) {
+			Date applicationStart = DateFormatUtils.parseStringToDate(applicationDto.getLeagueApplicationStart());
+			Date applicationEnd = DateFormatUtils.parseStringToDate(applicationDto.getLeagueApplicationEnd());
+			model.addAttribute("applicationStart", applicationStart);
+			model.addAttribute("applicationEnd", applicationEnd);
+		}
+		model.addAttribute("locationDto", locationDto);
+		model.addAttribute("eventDto", eventDto);
 		model.addAttribute("leagueDto",leagueDto);
 		return "league/leagueGuide";
 	}

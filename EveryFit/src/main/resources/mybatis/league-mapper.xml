@@ -264,7 +264,7 @@
     
     <!-- 리그경기 리스트 조회 -->
     <select id="listLeagueMatch" resultType="LeagueMatchDto">
-        SELECT * FROM league_match order by league_match_no asc
+        SELECT * FROM league_match where league_no = #{leagueNo} order by league_match_no asc
     </select>
     
     <!-- 리그경기 업데이트 -->

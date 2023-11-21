@@ -6,52 +6,58 @@
 <mapper namespace="attach">
 
 	<select id="sequence" resultType="int">
-		select attach_seq.nextval from dual
+		select attach_seq.nextval from
+		dual
 	</select>
-	
+
 	<insert id="insert">
 		insert into attach
-			(
-			attach_no, 
-			attach_name, 
-			attach_type, 
-			attach_size
-			) 
-			values
-			(
-			#{attachNo},
-			#{attachName},
-			#{attachType},
-			#{attachSize}
-			)
+		(
+		attach_no,
+		attach_name,
+		attach_type,
+		attach_size
+		)
+		values
+		(
+		#{attachNo},
+		#{attachName},
+		#{attachType},
+		#{attachSize}
+		)
 	</insert>
-	
+
 	<select id="find" resultType="AttachDto">
-		select * from attach where attach_no = #{attchNo}
+		select * from attach where
+		attach_no = #{attchNo}
 	</select>
-	
+
 	<select id="findLeague" resultType="AttachDto">
-		select * from attach where attach_no = 
-		(select attach_no from league_image where league_no = #{leagueNo})
+		select * from attach where
+		attach_no =
+		(select attach_no from league_image where league_no =
+		#{leagueNo})
 	</select>
-	
+
 	<delete id="delete">
 		delete attach where attach_no=#{attachNo}
-
+	</delete>
+	
 	<delete id="deleteProfile">
 		delete member_image where member_email=#{memberEmail}
 	</delete>
-	
+
 	<insert id="insertProfile">
-		insert into member_image(member_email, attach_no) values(#{memberEmail}, #{attachNo})
+		insert into member_image(member_email, attach_no) values(#{memberEmail},
+		#{attachNo})
 	</insert>
-	
-	
-	  <select id="findProfile" resultType="Integer">
-        SELECT attach_no
-        FROM member_image
-        WHERE member_Email = #{memberEmail}
-    </select>
-	
+
+
+	<select id="findProfile" resultType="Integer">
+		SELECT attach_no
+		FROM member_image
+		WHERE member_Email = #{memberEmail}
+	</select>
+
 </mapper>
     
