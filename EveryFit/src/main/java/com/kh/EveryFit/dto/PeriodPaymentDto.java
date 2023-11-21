@@ -17,5 +17,5 @@ public class PeriodPaymentDto {
 	private Date periodPaymentStart;
 	private Date periodPaymentEnd;
 	private String periodPaymentStatus;
-	private String periodPaymentMoimNo;
+	private int periodPaymentMoimNo;
 }

@@ -222,7 +222,7 @@ public class KakaoPayController {
 								.periodPaymentNo(paymentNo)
 								.periodPaymentSid(response.getSid())
 								//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
-								.periodPaymentMoimNo(String.valueOf(moimNo))
+								.periodPaymentMoimNo(moimNo)
 								.build());
 
 						//moim 테이블에 프리미엄 모임 상태를 N->Y로 변경
@@ -240,7 +240,16 @@ public class KakaoPayController {
 			@RequestMapping("pay/list")
 			public String list(HttpSession session, Model model) {
 				String memberId = (String)session.getAttribute("name");
+				List<MoimMemberDto> moimMemberDto= moimDao.selectAllMoimNo(memberId);
+				List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
+				List<MoimDto> MoimDto= moimDao.moimListByEmail(memberId);
+				MemberDto memberDto = memberDao.slelctOne(memberId);
+				
+				model.addAttribute("list2", moimTitleForPaymentVO);
+				model.addAttribute("MoimDtoList", MoimDto);
+				model.addAttribute(memberDto);
 				model.addAttribute("list", paymentDao.paymentListByMember(memberId));
+				
 				log.debug("memberId={}",memberId);
 				log.debug("paymentDao={}",paymentDao.paymentListByMember(memberId));
 				return "pay/list";
@@ -285,7 +294,11 @@ public class KakaoPayController {
 						.periodPaymentStatus("N")
 						.periodPaymentNo(periodPaymentNo)
 						.build());
+				//모임테이블의 moim_upgrade가 Y->N으로 변경
 				
+				moimDao.upgradeToNotPrimium(MoimDto.builder()
+						.moimNo(periodPaymentDto.getPeriodPaymentMoimNo())
+						.build());
 				log.debug("비활성화 완료");
 				return "redirect:list";
 			}

@@ -285,9 +285,11 @@ body {
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/pay?productNo=1">
-								프리미엄회원권(테스트용) </a> <a class="dropdown-item fw-bold"
+								프리미엄회원권 </a> <a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/pay?productNo=2">
-								프리미엄회원권(테스트용) </a>
+								프리미엄모임권 </a> <a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/pay/list">
+								나의결제내역리스트 </a>
 						</div></li>
 
 
