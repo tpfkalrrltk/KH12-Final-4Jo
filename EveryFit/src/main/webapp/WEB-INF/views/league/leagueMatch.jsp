@@ -158,14 +158,19 @@
 					<input type="hidden" name="leagueNo" value="${param.leagueNo}">
 					<div class="row">
 						<div class="col">
-							<label class="form-label">홈팀</label> <input class="form-control"
-								name="leagueMatchHome">
+							<label class="form-label">홈팀</label>
+							<select class="form-select" name="leagueMatchHome">
+								<option value="">홈팀선택</option>
+								
+							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label class="form-label">어웨이팀</label> <input
-								class="form-control" name="leagueMatchAway">
+							<label class="form-label">어웨이팀</label> 
+							<select class="form-select" name="leagueMatchAway">
+								<option value="">홈팀선택</option>
+							</select>
 						</div>
 					</div>
 					<div class="row">

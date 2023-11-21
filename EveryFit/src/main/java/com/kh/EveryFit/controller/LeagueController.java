@@ -232,6 +232,8 @@ public class LeagueController {
 	@RequestMapping("/leagueMatch")
 	public String leagueMatch(@RequestParam int leagueNo, Model model) {
 		List<LeagueMatchListVO> leagueMatchList = leagueDao.selectLeagueMatchVOList(leagueNo);
+		List<LeagueTeamDto> leagueTeamList = leagueDao.listLeagueTeamByLeague(leagueNo);
+		model.addAttribute("leagueTeamList", leagueTeamList);
 		model.addAttribute("leagueMatchList", leagueMatchList);
 		return "league/leagueMatch";
 	}
