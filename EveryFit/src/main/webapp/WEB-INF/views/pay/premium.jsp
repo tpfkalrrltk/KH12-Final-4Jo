@@ -41,16 +41,74 @@
         text-decoration: none; /* 비활성화된 링크에 밑줄을 제거할 수 있습니다. */
     }
 </style>
+
+<!-- 회원 멤버쉽 모달 코드 추가 -->
+<div class="modal fade" id="membershipPurchaseModal" tabindex="-1" role="dialog" aria-labelledby="membershipPurchaseModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%; width: 50%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="membershipPurchaseModalLabel">프리미엄 회원권 구매 확인</h5>
+        
+          
+      </div>
+      <div class="modal-body">
+      ※ 프리미엄 회원권 이용약관 ※ <br>
+       - EeveryFIt 프리미엄 회원권은 결제 버튼을 누르면 카카오페이로 결제 됩니다.<br>
+       - EeveryFit 프리미엄 회원권은 한번 결제하면 평생 이용이 가능합니다.
+ <hr>
+     <p id="membershipPriceText" class="text-primary"></p>
+     <p id="membershipText" class="text-primary"></p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <a href="#" id="membershipPurchaseLink" class="btn btn-primary">결제</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 모달 코드 추가 -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%; width: 50%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="purchaseModalLabel">프리미엄 모임권 구매 확인</h5>
+        
+          
+      </div>
+      <div class="modal-body">
+      ※ 구독이용약관 ※ <br>
+       - EeveryFIt 프리미엄 모임권은 결제 버튼을 누르면 카카오페이로 결제 됩니다.<br>
+       - EeveryFIt 프리미엄 모임권을 구독하시면 매월 자동결제됩니다.<br>
+       - 나의결재내역리스트에서 언제든 구독 취소가 가능합니다.<br>
+       - 정기구독 특성상 최초 1회의 결제금액은 과금되며 환불이 불가능합니다.<br>
+       - 이용권에 대한 기능은 임의로 변경될 수 있습니다.<br>
+       - 회원 탈퇴 시 구독해지가 자동으로 되지 않으니 반드시 구독 취소 부탁드립니다.<br>
+       <hr>
+        <p id="activationDateInfo" class="text-primary"></p>
+        <p id="moimTitleText" class="text-primary"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <a href="#" id="purchaseLink" class="btn btn-primary">결제</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <div class="m-5 p-5">
 	<div class="container-fluid m-5 p-5">
 		<div class="row">
-			<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+			<div class="col-md-6 offset-md-4 col-sm-10 offset-sm-1">
 
 
 
 				<div class="row">
 					<div class="col">
-						<h1 class="text-center">${productDto.productName}</h1>
+						<h1 class="text-start">${productDto.productName}</h1>
 					</div>
 				</div>
 				
@@ -59,11 +117,11 @@
 					<div class="col">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
-								<h3 class="text-center">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
+								<h3 class="text-start">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
 								
 							</c:when>
 							<c:otherwise>
-								<h3 class="text-center">EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</h3>
+								<h3 class="text-start">EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</h3>
 								
 							</c:otherwise>
 						</c:choose>
@@ -74,10 +132,10 @@
 					<div class="col">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
-								<span class="text-center ms-5">EeveryFit 프리미엄 회원권은 한번
+								<span class="text-start">EeveryFit 프리미엄 회원권은 한번
 							결제하면 평생 이용이 가능합니다.</span>
 								<div class="row">
-									<div class="col text-center">
+									<div class="col text-start">
 										<img src="/images/memberCard.png" class="main-image text-center">
 									</div>
 								</div>
@@ -86,7 +144,7 @@
 
 						<div class="row">
 							<div class="col">
-								<h1 class="text-center mt-3 ms-5">
+								<h1 class="text-start mt-3 ms-5">
 								
 									<i class="fa-regular fa-hand-point-right"></i>
 								</h1>
@@ -109,34 +167,33 @@
 				</div>
 							</c:when>
 							<c:otherwise>
-								<span class="text-center ms-5">
-								EeveryFIt 프리미엄 모임권 구독은 매월/매년 자동결제되고 언제든 해지가능합니다.
-								</span>
 								<div class="row">
-									<div class="col text-center">
-										<img src="/images/moinCard.png" class="main-image img-thumbnail text-center">
+									<div class="col text-start">
+										<img src="/images/moinCard.png" class="main-image img-thumbnail text-start">
 									</div>
 								</div>
 								<div class="row">
-					<div class="col-2 mt-5">
+					<div class="col-1">
 
-						<div class="row">
 							<div class="col">
-								<h1 class="text-center mt-3 ms-3">
-									<i class="fa-regular fa-face-grin-stars"></i>
+								<h1 class="text-start mt-3">
+								
+									<i class="fa-regular fa-hand-point-right mt-3 "></i>
 								</h1>
 							</div>
-						</div>
 
 					</div>
 
-					<div class="col-8">
-						<div class="row">
-							<div class="col  mt-5">모임 사용 가능 일수 늘리기</div>
+					<div class="col-10">
+											<div class="row">
+<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
+모임 비활성화 해제</div>
 						</div>
 						<div class="row">
-							<div class="col">비활성화 해제 (일반 모임은 1달 후 비활성화로 변경됩니다.)
+<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
+							(일반 모임은 1달 후 비활성화 됩니다. <br>프리미엄 모임권 결제 시, 비활성화 해제)
 							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -153,12 +210,15 @@
 
 
 				<div class="row mt-3">
-					<div class="col text-center">
+					<div class="col text-start">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
 							<c:if test="${memberDto.memberLevel != '프리미엄'}">
-								<a href="pay/purchase?productNo=${productDto.productNo}"
-									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a>
+								<%-- <a href="pay/purchase?productNo=${productDto.productNo}"
+									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a> --%>
+									<a href="#"
+							class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModalForMembership('${productDto.productNo}' , '${productDto.productPrice}')"
+   data-toggle="modal" data-target="#membershipModal">EeveryFIt 프리미엄 회원권 구매하기 </a>
 							</c:if>
 								<c:if test="${memberDto.memberLevel == '프리미엄'}">
 								<span style="color: red; text-bold">
@@ -167,29 +227,26 @@
 								</span>	
 							</c:if>
 							</c:when>
+							
 							<c:otherwise>
-
-<%-- 							<c:forEach var="moimMemberDto" items="${list}">
-							<a href="pay/periodPurchase?productNo=2&moimNo=${moimMemberDto.moimNo}">
-							[${moimMemberDto.moimNo}] EeveryFIt 프리미엄 모임권 구매하기
-							</a>
-								<a href="/moim/detail?moimNo=${moimMemberDto.moimNo}">모임상세보기</a>
-							<br>
-							</c:forEach> --%>
 
 							<c:forEach var="MoimDtoList" items="${MoimDtoList}">
 							<c:if test="${MoimDtoList.moimUpgrade eq 'N'}" >
 							
 							
-							
+						<div class="row">
+<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
 
-							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
-							class="ataglink mb-1">
-							<%-- [${MoimDtoList.moimNo}] --%>[${MoimDtoList.moimTitle}] 모임에 대한 EeveryFIt 프리미엄 모임권 구매하기
+		<%-- 					<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}" --%>
+							<a href="#"
+							class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModal('${MoimDtoList.moimNo}' , '${MoimDtoList.moimTitle}')"
+   data-toggle="modal" data-target="#purchaseModal">
+							[${MoimDtoList.moimTitle}] 모임에 대한 프리미엄 모임 이용권<br> 매월 ${productDto.productPrice}원 (부가세 포함)<br>
 							
 							</a>
-								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>)
-								
+<%-- 								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
+											</div>	
+							</div>
 							<br>
 							
 							</c:if>
@@ -198,14 +255,16 @@
 							
 							
 							
-
+						<div class="row">
+<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
 							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
-							class="ataglink mb-1 disabled-link">
-							<%-- [${MoimDtoList.moimNo}] --%>[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다
-							
+							class="ataglink mb-1 disabled-link w-50 text-center">
+							[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다
 							</a>
-								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>)
-								
+<%-- 							(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
+
+							</div>	
+							</div>
 							<br>
 							
 							</c:if>
@@ -235,4 +294,54 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+  // 링크 설정 및 모달 열기 함수
+  function setPurchaseLinkAndOpenModal(moimNo, moimTitle) {
+    var purchaseLink = "pay/periodPurchase?productNo=2&moimNo=" + moimNo;
+    $("#purchaseLink").attr("href", purchaseLink);
+    $("#purchaseModal").modal("show");
+    var currentDate = getCurrentDate();
+    var activationDate = addMonths(currentDate, 1); // 현재 날짜에서 1달을 더한 날짜 계산
+
+    // 활성화 날짜 정보를 모달에 출력
+    document.getElementById("activationDateInfo").innerHTML = "지금 구매시, [" +
+      activationDate.getFullYear() + "년 " +
+      (activationDate.getMonth() + 1) + "월 " +
+      activationDate.getDate() + "] 일까지 모임권이 활성화됩니다.";
+    //할당된 JavaScript 변수를 사용하여 모임 제목 출력
+   // var moimTitle = moimNo;
+    document.getElementById("moimTitleText").innerText = "["+moimTitle+"] 모임에 대한 프리미엄 1달 모임권을 구매하시겠습니까?";
+  }
+//모달 닫기 함수
+  function closeModal() {
+    $("#purchaseModal").modal("hide");
+  }
+  
+//현재 날짜를 가져오는 함수
+  function getCurrentDate() {
+    var currentDate = new Date();
+    return currentDate;
+  }
+
+  // 날짜를 더하는 함수
+function addMonths(date, months) {
+  var result = new Date(date);
+  result.setMonth(date.getMonth() + months);
+  return result;
+}
+// 회원권 링크 설정 및 모달 열기 함수
+function setPurchaseLinkAndOpenModalForMembership(productNo, productPrice) {
+  var purchaseLink = "pay/purchase?productNo=" + productNo;
+  $("#membershipPurchaseLink").attr("href", purchaseLink);
+  $("#membershipPurchaseModal").modal("show");
+  document.getElementById("membershipPriceText").innerText = "프리미엄 회원권의 가격은 "+productPrice+" 원입니다.";
+  document.getElementById("membershipText").innerText = "프리미엄  회원권을 구매하시겠습니까?";
+}
+</script>
+
+
+
+
 <%@ include file="../template/Footer.jsp"%>
