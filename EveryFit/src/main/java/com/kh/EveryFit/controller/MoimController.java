@@ -34,6 +34,7 @@ import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
@@ -186,6 +187,20 @@ public class MoimController {
 		return "redirect:detail?moimNo="+moimNo;
 	}
 	
+	//모임장 권한 넘기기
+	@RequestMapping("/memberTransfer")
+	public String memberTransfer(@RequestParam String memberEmail,
+				@RequestParam int moimNo, RedirectAttributes redirectAttributes) {
+		MoimMemberStatusVO vo = new MoimMemberStatusVO();
+		vo.setMemberTransfer("memberTransfer");
+		vo.setMemberEmail(memberEmail);
+		vo.setMoimNo(moimNo);
+		moimDao.updateMoimMember(vo);
+		redirectAttributes.addAttribute("transfer", true);
+		return "redirect:detail?moimNo="+moimNo;
+		
+	}
+	
 	//모임가입
 	@RequestMapping("/member/join")
 	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
@@ -223,6 +238,19 @@ public class MoimController {
 		
 		
 		moimDao.addMoimMember(moimNo, memberEmail);
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/member/exit")
+	public String jungmoExit(@RequestParam int moimNo,
+			HttpSession session) {
+		String memberEmail = (String)session.getAttribute("name");
+		
+		MoimMemberDto moimMemberDto = new MoimMemberDto();
+		moimMemberDto.setMoimNo(moimNo);
+		moimMemberDto.setMemberEmail(memberEmail);
+		
+		moimDao.deleteMoimMember(moimMemberDto);
 		return "redirect:/";
 	}
 	

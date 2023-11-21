@@ -21,6 +21,8 @@ public interface LeagueDao {
 	void updateLeague(int leagueNo, LeagueDto leagueDto);
 	LeagueDto selectOneLeague(int leagueNo);
 	void deleteLeague(int leagueNo);
+	void insertLeagueImage(int leagueNo, int attachNo);
+	List<LeagueDto> selectLeagueDtoList();
 	
 	//리그참여팀 관련
 	List<LeagueTeamDto> selectLeagueTeamList();
@@ -58,6 +60,8 @@ public interface LeagueDao {
 	void updateLeagueMatch(int leagueMatchNo, LeagueMatchDto leagueMatchDto);
 	void deleteLeagueMatch(int leagueMatchNo);
 	List<LeagueMatchDto> selectLeagueMatchList(int leagueNo);
+	
+	
 	
 	
 

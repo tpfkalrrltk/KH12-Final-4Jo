@@ -1,7 +1,10 @@
 package com.kh.EveryFit.websocket;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -15,7 +18,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.EveryFit.dao.ChatDao;
+import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.ChatDto;
+import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.service.ChannelService;
 import com.kh.EveryFit.vo.ChatRoomVO;
 import com.kh.EveryFit.vo.ClientVO;
@@ -27,18 +32,28 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatWebsocketServer extends TextWebSocketHandler {
 	
 	private ChatRoomVO waitingRoom = new ChatRoomVO();
+//	private ChatRoomVO room = new ChatRoomVO();
 	private Set<ClientVO> members = new CopyOnWriteArraySet<>();
 	
 	@Autowired private ChannelService channelService;
 	@Autowired private ObjectMapper mapper = new ObjectMapper(); 
 	@Autowired private ChatDao chatDao;
+	@Autowired private MemberDao memberDao;
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		waitingRoom.enter(session);
+		
 		ClientVO clientVO = new ClientVO(session);
-		members.add(clientVO);
-		sendClientList();
+		waitingRoom.enter(clientVO);
+//		MemberDto memberDto = memberDao.selectOne(clientVO.getMemberEmail());
+//		if(memberDto != null) {
+//			clientVO.setMemberNick(memberDto.getMemberNick());
+//		}
+////		members.add(clientVO);
+//		room.enter(clientVO);
+//		sendClientList();
+//		TextMessage message = new TextMessage(LocalDateTime.now().toString());	
+//		session.sendMessage(message);
 	}
 	
 	@Override
@@ -55,20 +70,26 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		//1. clients를 전송 가능한 형태(JSON 문자열)로 변환한다
 //		ObjectMapper mapper = new ObjectMapper();
 		
+
 		Map<String, Object> data = new HashMap<>();
 		//data.put("clients", clients);//전체회원명단(null이 문제가됨)
 		data.put("clients", members);//로그인한 회원명단
-		log.debug("members = {}", members);
 		String clientJson = mapper.writeValueAsString(data);
+		log.debug("clientJson = {}", clientJson);
 		
 		//2. 모든 사용자에게 전송
 		TextMessage message = new TextMessage(clientJson);
 		for(ClientVO client : members) {
-			log.debug("여기는?members = {}", members);
 			client.send(message);
 		}
 		
 	}
+	
+	//채팅이력을보내줌
+//	public void sendMessageList(ClientVO client) throws IOException {
+//		
+//	}
+
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -81,38 +102,71 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		Integer chatRoomNo = Integer.parseInt(chatRoomNoString);
 		
 		log.debug("chatRoomNo={}", chatRoomNo);
-//		if(chatRoomNo == null) {
-//			Integer newRoomNo = chatDao.sequence();
-//			channelService.createRoom(newRoomNo);						
-//		}
 		
 		ClientVO client = new ClientVO(session);
 		
+		MemberDto memberDto = memberDao.selectOne(client.getMemberEmail());
+		if(memberDto != null) {
+			client.setMemberNick(memberDto.getMemberNick());
+		}
+		members.add(client);
+//		room.enter(client);
+
 		boolean isJoin = params.get("type").equals("join");
 		log.debug("isjoin? = {}", isJoin);
+		
 		if(isJoin) { //입장이면!
-			
+			sendClientList();
 			//같은아이디면 차단
+//			channelService.sendMessageList(chatRoomNo, message);
 			
-			members.add(client);
+			List<ChatDto> list = chatDao.list(chatRoomNo);
+			for(ChatDto dto : list) {
+				Map<String, Object> map = new HashMap<>();
+				Date chatTime = dto.getChatTime();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String formattedChatTime = dateFormat.format(chatTime);
+				map.put("content", dto.getChatContent());
+				map.put("memberEmail", dto.getMemberEmail());
+				map.put("memberNick", dto.getMemberNick());
+				map.put("chatTime", formattedChatTime);
+				map.put("attachNo", dto.getAttachNo());
+				log.debug("입장map={}", map);
+				String messageJson = mapper.writeValueAsString(map);
+				TextMessage mss = new TextMessage(messageJson);
+				client.send(mss);
+			}
 			log.debug("방에 입장");
 		
 		}
-//		log.debug("members = {}", members);			
 		
 		boolean isMessage = params.get("type").equals("message"); //메시지면
 		log.debug("isMessage = {}", isMessage);
 		
-		
+		//메시지면!
 		if(isMessage) {
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("memberEmail", client.getMemberEmail());
+//			map.put("memberNick", client.getMemberNick());
+//			map.put("content", params.get("content"));
+//			log.debug("map={}", map);
+//			String messageJson = mapper.writeValueAsString(map);
+//			TextMessage tm = new TextMessage(messageJson);
+//			for(ClientVO c : members) {
+//				c.send(tm);
+//			}
 			Map<String, Object> map = new HashMap<>();
-			map.put("memberEmail", client.getMemberEmail());
-			map.put("content", params.get("content"));
-			String messageJson = mapper.writeValueAsString(map);
-			TextMessage tm = new TextMessage(messageJson);
-			for(ClientVO c : members) {
-				c.send(tm);
+			for (ClientVO member : members) {
+			    map.put("memberEmail", member.getMemberEmail());
+			    map.put("memberNick", member.getMemberNick());
+			    map.put("attachNo", member.getAttachNo());
+			    map.put("content", params.get("content"));
+			    log.debug("map={}", map);
+			    String messageJson = mapper.writeValueAsString(map);
+			    TextMessage tm = new TextMessage(messageJson);
+			    member.send(tm);
 			}
+		
 			
 		chatDao.insert(ChatDto.builder()
 				.chatContent((String)params.get("content"))
@@ -145,5 +199,6 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		 */
 		
 	}
+
 	
 }

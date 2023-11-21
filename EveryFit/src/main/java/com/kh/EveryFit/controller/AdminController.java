@@ -53,7 +53,7 @@ public class AdminController {
 	public String jungmo(Model model, 
 			@ModelAttribute("adminJungmoSearchVO") AdminJungmoSearchVO adminJungmoSearchVO) {
 		
-		//model.addAttribute("adminJungmoList", adminDao.adminMoimList());
+		//model.addAttribute("adminJungmoList", adminDao.adminJungmoList());
 		model.addAttribute("adminJungmoList", adminDao.adminJungmoSearch(adminJungmoSearchVO));
 		return "admin/jungmoList";
 	}

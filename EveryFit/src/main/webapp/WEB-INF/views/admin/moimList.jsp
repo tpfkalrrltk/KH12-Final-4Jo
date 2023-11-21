@@ -49,7 +49,7 @@
 							name="moimTitle" value="${adminMoimSearchVO.moimTitle}">
 					</div>
 					<div class="col">
-						인원 : <input class="form-control fw-bold text-primary"
+						인원 : <input class="form-control fw-bold tet-primary"
 							name="moimMemberCount" value="${adminMoimSearchVO.moimMemberCount}">
 					</div>
 					<div class="col">

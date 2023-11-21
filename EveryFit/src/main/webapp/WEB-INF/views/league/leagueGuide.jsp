@@ -10,10 +10,10 @@
 	<div class="col">
 		매니저 : ${leagueDto.leagueManager}
 	</div>
-	<div class="col">
-		
-	</div>
 </div>
+<div class="row mt-4"><div class="col">
+	<img src="/league/leagueImage?leagueNo=${leagueDto.leagueNo}">
+</div></div>
 <div class="row mt-4"><div class="col">
 	${leagueDto.leagueDetail}       
 </div></div>

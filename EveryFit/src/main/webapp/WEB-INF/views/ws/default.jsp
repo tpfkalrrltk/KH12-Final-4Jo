@@ -46,6 +46,10 @@
 			left:0;
 		}
 	}
+	
+	.profile-image {
+		width: 50px;
+	}
 	</style>
 </head>
 
@@ -54,7 +58,6 @@
         <div class="row mt-4">
             <div class="col-md-10 offset-md-1">
 				
-				${sessionScope.name}
 <!-- 				<div class="row"> -->
 <!-- 						<h2 class="bg-primary text-light p-3 text-start rounded"> -->
 <!-- 							 채팅방 -->
@@ -131,31 +134,37 @@
 	
 	socket.onmessage = function(e){
 		var data = JSON.parse(e.data); //JSON 문자열을 자바스크립트 객체로 해석( <--> JSON.stringify()
-		
 		// 사용자가 접속하거나 종료했을 때 서버에서 오는 데이터로 목록을 갱신
 		// 사용자가 메세지를 보냇을 때 서 버에서 이를 전체에게 전달한다
 		//data.clients에 회원 목록이 있다
+
+		
 		if(data.clients) { //목록처리
 			$(".client-list").empty();
-			console.log(data.clients);
+// 			console.log(data.clients);
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
+		        var memberImage = $("<img>")
+				        .addClass("profile-image rounded bg-primary")
+				        .attr("src", data.clients[i].attachNo != null ?
+				                "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.clients[i].attachNo :
+				                "/images/user.png");
 				if(myId == data.clients[i].memberEmail){
 					$("<li>")
+					.prepend(memberImage)
 					.addClass("list-group-item d-flex justify-content-between align-items-center")
-					.append($("<span>").text(data.clients[i].memberEmail))
-// 					.append(
-// 						$("<span>").addClass("badge bg-danger badge-pill").text(data.clients[i].memberLevel)		
-// 		 			)
+					.append(memberImage)
+					.append($("<span>")
+							.text(data.clients[i].memberNick)
+							.data("member-email", data.clients[i].memberEmail)) 
 					.appendTo(ul);
 				}
 			else {
-				$("<li>")
+				$("<li>").prepend(memberImage)
 				.addClass("list-group-item d-flex justify-content-between align-items-center")
-				.append($("<label>").text(data.clients[i].memberEmail))
-				.append(
-					$("<span>").addClass("badge bg-primary badge-pill").text(data.clients[i].memberLevel)		
-	 			)
+				.append(memberImage)
+				.append($("<label>").text(data.clients[i].memberNick)
+						.data("member-email", data.clients[i].memberEmail))	
 				.appendTo(ul);
 			} 
 			}			
@@ -176,24 +185,43 @@
 // 		}
 			}
 			else {
-				memberEmail = $("<span>").text(data.memberEmail);			
+// 				memberEmail = $("<span>").text(data.memberEmail);			
+				memberNick = $("<span>").text(data.memberNick);			
 			}
 		
-		var memberLevel = $("<strong>").text(data.memberLevel)
-											.addClass("badge bg-primary badge-pill ms-2");
+		console.log(data.attachNo);
+		if (data.attachNo != null) {
+		    var imgSrc = "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.attachNo;
+		} else {
+		    var imgSrc = "/images/user.png";
+		}
+
+		var memberImage = $("<img>")
+	    .attr("src", imgSrc)
+	    .addClass("rounded profile-image");
+		
+		var memberNick = $("<strong>").text(data.memberNick)
+											.addClass("ms-2")
+											.prepend(memberImage);
+		console.log(memberNick);
 		var content = $("<div>").text(data.content);
-		 
+		var chatTime = new Date(data.chatTime);
+		
 		if(myId==data.memberEmail){
-             $("<div>").addClass("mt-4").addClass("text-end").append(memberEmail)
-             .append(memberLevel)
+             $("<div>").addClass("mt-4").addClass("text-end")
+             .append(memberNick)
+//              .append(memberEmail)
              .append(content)
+             .append("<span class='timestamp'>" + data.chatTime + "</span>")
              .appendTo(".message-list");
 		 }
 		 else {
 			$("<div>")
 			.addClass("rounded mt-2")
-			.append(memberEmail)
+// 			.append(memberEmail)
+			.append(memberNick)
 			.append(content)
+			.append("<span class='timestamp'>" + data.chatTime + "</span>")
 			.appendTo(".message-list");				 			 
 		 }
 
@@ -210,9 +238,11 @@
 // 		    $(".message-input").focus();
 // 		});
 	$(".client-list").on("click", ".list-group-item label", function() {
-    var memberEmail = $(this).text();
+    var memberNick = $(this).text();
+    var memberEmail = $(this).find("label").data("member-email");
     var messageInput = $(".message-input");
     var currentMessage = messageInput.val();
+    console.log("Clicked memberEmail:", memberEmail);
 
     // 현재 입력값이 비어 있지 않다면, 공백과 함께 memberEmail를 추가합니다.
     if (currentMessage.length > 0) {
@@ -283,6 +313,13 @@
 	//전송 버튼을 클릭하면 입력한 메세지를 가져와서 서버로 전달
 	$(".send-btn").click(sendMessage);
 	
+	
+	function getCurrentDateTime() {
+	    const now = new Date();
+	    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+	    return now.toLocaleDateString('ko-KR', options);
+	}
+
 </script>
 </body>
 

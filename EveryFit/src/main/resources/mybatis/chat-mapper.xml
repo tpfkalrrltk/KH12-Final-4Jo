@@ -24,7 +24,10 @@
 	</insert>
 	
 	<select id="list" resultType="ChatDto">
-		select * from chat 
+		select c.*, m.member_nick, mi.attach_no from chat c left outer join member m 
+		on c.member_email = m.member_email 
+		left outer join member_image mi
+		on m.member_email = mi.member_email 
 		where chat_room_no = #{chatRoomNo} 
 		order by chat_no asc
 	</select>

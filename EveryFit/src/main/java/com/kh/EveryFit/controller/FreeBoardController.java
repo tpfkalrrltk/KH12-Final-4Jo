@@ -75,9 +75,15 @@ public class FreeBoardController {
 		if (!attach.isEmpty()) { // 파일이 있으면
 			// 파일 삭제
 			Integer findImageNo = freeBoardDao.findImage(freeBoardDto.getFreeBoardNo());
+			
+			
+			
 			String home = "C:/upload/kh12fd";
 			File dir = new File(home, "freeBoard");
 			dir.mkdirs();
+			
+			
+			
 			if (findImageNo != null) {
 				attachDao.delete(findImageNo);
 
