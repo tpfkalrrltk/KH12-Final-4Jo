@@ -332,7 +332,7 @@ data-backdrop="static">
       <div id="jungmoInsert" class="jungmo-create-inputs" style="display: none;">
 		<form id="jungmoInsertForm" autocomplete="off" enctype="multipart/form-data" >
 			<div class="preview-wrapper1"></div>
-			<input type="file" name="attach" accept="image/*" multiple id="attach-selector" class="form-control">
+			<input type="file" name="attach" accept="image/*" multiple id="attach-selector" class="form-control jungmo-create-inputs">
 			<input type="hidden" name="moimNo" value="${moimDto.moimNo}">
 			<input type="hidden" name="jungmoNo" value="">
 			<label class="form-label">정모명</label>
@@ -669,16 +669,16 @@ data-backdrop="static">
             success: function (data) {
                 // 서버 응답에 따른 동작 수행
                 console.log(data);
-                $('input[name="jungmoNo"]').val(data.jungmoDto.jungmoNo).attr('placeholder', 'Enter jungmo No');
-                $('input[name="jungmoTitle"]').val(data.jungmoDto.jungmoTitle).attr('placeholder', '정모명을 입력하세요');
-                $('input[name="jungmoAddr"]').val(data.jungmoDto.jungmoAddr).attr('placeholder', '장소를 입력하세요');
-                $('input[name="jungmoAddrLink"]').val(data.jungmoDto.jungmoAddrLink).attr('placeholder', '장소 url을 입력하세요');
-                $('input[name="jungmoCapacity"]').val(data.jungmoDto.jungmoCapacity).attr('placeholder', '인원을 입력하세요');
-                $('input[name="jungmoPrice"]').val(data.jungmoDto.jungmoPrice).attr('placeholder', '회비를 입력하세요');
+                $('input[name="jungmoNo"]').val(data.jungmoDto.jungmoNo);
+                $('input[name="jungmoTitle"]').val(data.jungmoDto.jungmoTitle);
+                $('input[name="jungmoAddr"]').val(data.jungmoDto.jungmoAddr);
+                $('input[name="jungmoAddrLink"]').val(data.jungmoDto.jungmoAddrLink);
+                $('input[name="jungmoCapacity"]').val(data.jungmoDto.jungmoCapacity);
+                $('input[name="jungmoPrice"]').val(data.jungmoDto.jungmoPrice);
 
                 var scheduleDate = new Date(data.jungmoDto.jungmoSchedule);
                 var formattedDate = scheduleDate.toISOString().substring(0, 16);
-                $('input[name="jungmoDto.jungmoScheduleStr"]').val(formattedDate).attr('placeholder', 'Enter jungmo schedule');
+                $('input[name="jungmoDto.jungmoScheduleStr"]').val(formattedDate);
                 
                 if (data.attachNo) {
                     // 이미지 다운로드 URL을 생성
@@ -699,7 +699,9 @@ data-backdrop="static">
         });
     });
     
-    
+    $("#applicationModal").on('hidden.bs.modal', function(){
+        location.reload();
+     });
     
 // $("#appBtn").click(function () {
 //   var dataToSend = {};
@@ -783,6 +785,7 @@ data-backdrop="static">
     //정모등록버튼 눌렀을 때 
     $('.jungmo-create').click(function () {
     	$('.jungmo-create-inputs input[type!="hidden"]').val('');
+    	$('.jungmo-create-inputs input[type ="file"]').val('');
     	$("#applicationModal").modal("show");
         $('.moim-edit-inputs').hide();
         $('.jungmo-create-inputs').show();
@@ -854,6 +857,7 @@ data-backdrop="static">
     var Modal2 = new bootstrap.Modal(document.getElementById('myModal'));
  
     
+    //모임이 비활성화 일 때 화면 막기
     if (${moimDto.moimState == '비활성화'}) {
     	Modal2.show();
     }    
