@@ -6,9 +6,11 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.dto.ReportDto;
 import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
+import com.kh.EveryFit.vo.AdminReportSearchVO;
 
 public interface AdminDao {
 	//관리자 기능
@@ -46,5 +48,9 @@ public interface AdminDao {
 	List<MoimDto> PremiumMoimList();
 	List<MoimDto> GenderCheckMoimList();
 	
+	
+	//신고
+	List<ReportDto> reportList();
+	List<ReportDto> adminReportSearch(AdminReportSearchVO adminReportSearchVO);
 	
 }
