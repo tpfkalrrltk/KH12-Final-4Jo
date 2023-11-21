@@ -108,7 +108,7 @@
 	//- onmessage : 서버에서 메세지가 전송되는 경우 실행하는 함수를 설정하는 자리
 
 	var currentURL = window.location.href;
-
+	var lastMessageDate = null;
 	// URL을 '/'로 나누고, 마지막 부분을 가져오기
 	var urlParts = currentURL.split('/');
 	var chatRoomNo = urlParts[urlParts.length - 1];
@@ -137,8 +137,6 @@
 		// 사용자가 접속하거나 종료했을 때 서버에서 오는 데이터로 목록을 갱신
 		// 사용자가 메세지를 보냇을 때 서 버에서 이를 전체에게 전달한다
 		//data.clients에 회원 목록이 있다
-
-		
 		if(data.clients) { //목록처리
 			$(".client-list").empty();
 // 			console.log(data.clients);
@@ -149,6 +147,7 @@
 				        .attr("src", data.clients[i].attachNo != null ?
 				                "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.clients[i].attachNo :
 				                "/images/user.png");
+		        
 				if(myId == data.clients[i].memberEmail){
 					$("<li>")
 					.prepend(memberImage)
@@ -167,8 +166,8 @@
 						.data("member-email", data.clients[i].memberEmail))	
 				.appendTo(ul);
 			} 
-			}			
 			ul.appendTo(".client-list");
+			}			
 		}
 		else if(data.content) {//메세지처리
 			var memberEmail;
@@ -189,7 +188,8 @@
 				memberNick = $("<span>").text(data.memberNick);			
 			}
 		
-		console.log(data.attachNo);
+		
+		console.log(data);
 		if (data.attachNo != null) {
 		    var imgSrc = "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.attachNo;
 		} else {
@@ -202,7 +202,9 @@
 		
 		var memberNick = $("<strong>").text(data.memberNick)
 											.addClass("ms-2")
-											.prepend(memberImage);
+		if (myId !== data.memberEmail) {
+		    memberNick.prepend(memberImage);
+		}
 		console.log(memberNick);
 		var content = $("<div>").text(data.content);
 		var chatTime = new Date(data.chatTime);
@@ -212,7 +214,7 @@
              .append(memberNick)
 //              .append(memberEmail)
              .append(content)
-             .append("<span class='timestamp'>" + data.chatTime + "</span>")
+              .append("<span class='timestamp'>" + formatTime(chatTime) + "</span>")
              .appendTo(".message-list");
 		 }
 		 else {
@@ -221,7 +223,7 @@
 // 			.append(memberEmail)
 			.append(memberNick)
 			.append(content)
-			.append("<span class='timestamp'>" + data.chatTime + "</span>")
+			.append("<span class='timestamp'>" + formatTime(chatTime) + "</span>")
 			.appendTo(".message-list");				 			 
 		 }
 
@@ -314,12 +316,47 @@
 	$(".send-btn").click(sendMessage);
 	
 	
-	function getCurrentDateTime() {
-	    const now = new Date();
-	    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-	    return now.toLocaleDateString('ko-KR', options);
+	// Date 객체를 특정 포맷으로 변환하는 함수
+	function formatTime(date) {
+	    var options = {
+	        year: 'numeric', month: 'numeric', day: 'numeric',
+	        hour: 'numeric', minute: 'numeric', second: 'numeric',
+	        hour12: false // 24시간 형식
+	    };
+	    return date.toLocaleDateString('ko-KR', options);
 	}
 
+	
+	// 현재 날짜를 포함하는 레이블을 반환하는 함수
+	function getDateLabel(date) {
+	    var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+	    return date.toLocaleDateString('ko-KR', options);
+	}
+
+// 	// 두 날짜가 같은 날인지 확인하는 함수
+// 	function isSameDay(date1, date2) {
+// 	    return date1.getDate() === date2.getDate() &&
+// 	        date1.getMonth() === date2.getMonth() &&
+// 	        date1.getFullYear() === date2.getFullYear();
+// 	}
+	
+	
+// 	function displayMessage(data) {
+// 	    var chatTime = new Date(data.chatTime);
+
+// 	    if (!lastMessageDate || !isSameDay(chatTime, lastMessageDate)) {
+// 	        // 마지막 메시지의 날짜와 현재 메시지의 날짜가 다를 경우
+// 	        // 현재 메시지의 날짜를 표시
+//         var dateLabel = getDateLabel(chatTime);
+//         $("<div>")
+//             .addClass("rounded mt-2")
+//             .text(dateLabel)
+//             .appendTo(".message-list");
+
+// 	        // 현재 메시지의 날짜를 lastMessageDate에 업데이트
+// 	        lastMessageDate = chatTime;
+// 	    }
+// 	}
 </script>
 </body>
 

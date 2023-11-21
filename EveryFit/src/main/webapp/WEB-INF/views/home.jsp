@@ -157,6 +157,9 @@
            
        });
    });
+	
+	
+	
 </script>
 <style>
 body {
@@ -190,9 +193,6 @@ body {
 
 
 	<div class="container-fluid ">
-
-
-
 
 		<div class="row mt-5 p-5 ">
 
@@ -242,8 +242,10 @@ body {
 								</div>
 							</div>
 
-							<a class="btn bg-light text-primary btn-lg fw-bold premium-btn"
-								href="" role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
+
+							<a class="btn btn-primary btn-lg fw-bold premium-btn" href="moim/member/join?moimNo=${PremiumMoimList.moimNo}"
+								role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
+
 						</div>
 					</div>
 				</div>
@@ -395,6 +397,21 @@ body {
 </div>
 </div>
 
+
+<body>
+<c:if test="${param.over != null}">
+   <script>
+   alert("가입 가능한 모임 개수가 초과되었습니다.");
+   window.location.href = "/";
+   </script>
+</c:if>
+<c:if test="${param.check != null}">
+   <script>
+   alert("여성 회원만 가입이 가능합니다.");
+   window.location.href = "/";
+   </script>
+</c:if>
+</body>
 
 
 <%@ include file="template/Footer.jsp"%>

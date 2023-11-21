@@ -29,7 +29,7 @@
 		left outer join member_image mi
 		on m.member_email = mi.member_email 
 		where chat_room_no = #{chatRoomNo} 
-		order by chat_no asc
+		order by chat_time asc
 	</select>
 	
 	<select id="sequence" resultType="int">
