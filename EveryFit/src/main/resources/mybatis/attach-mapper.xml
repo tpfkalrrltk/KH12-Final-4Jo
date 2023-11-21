@@ -43,7 +43,6 @@
 		delete attach where attach_no=#{attachNo}
 	</delete>
 
-	
 	<delete id="deleteProfile">
 		delete member_image where
 		member_email=#{memberEmail}

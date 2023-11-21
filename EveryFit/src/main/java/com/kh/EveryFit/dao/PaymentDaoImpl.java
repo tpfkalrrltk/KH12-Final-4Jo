@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.EveryFit.dto.PaymentDto;
 import com.kh.EveryFit.dto.PeriodPaymentDto;
 import com.kh.EveryFit.vo.PaymentListAllVO;
+import com.kh.EveryFit.vo.PaymentListByMemberVO;
 
 @Repository
 public class PaymentDaoImpl implements PaymentDao{
@@ -79,6 +80,10 @@ public class PaymentDaoImpl implements PaymentDao{
 		
 	}
 
+	@Override
+	public List<PaymentListByMemberVO> selectPaymentListByMember(String memberId) {
+		return sqlSession.selectList("payment.paymentListByMember", memberId);
+	}
 }
 
 

@@ -122,8 +122,22 @@
 		update period_payment set period_payment_status = #{periodPaymentStatus}, 
 		period_payment_sid = #{periodPaymentSid} where period_payment_no = #{periodPaymentNo}
 	</update>
-
-
+	
+<!-- 정기결제 취소를 위해 정기결제중인 리스트 띄우기 -->
+<select id="paymentListByMember" resultType="PaymentListByMemberVO">
+        SELECT 
+        m.MOIM_NO , 
+        m.MOIM_TITLE , 
+        m.MOIM_UPGRADE , 
+        mm.MEMBER_EMAIL, 
+        mm.MOIM_MEMBER_LEVEL,
+        p.PERIOD_PAYMENT_NO,
+        p.PERIOD_PAYMENT_STATUS 
+        FROM 
+        moim m LEFT OUTER JOIN moim_member mm 
+		ON m.MOIM_NO = mm.MOIM_NO LEFT outer JOIN period_payment p ON m.MOIM_NO = p.PERIOD_PAYMENT_MOIM_NO 
+	WHERE mm.MEMBER_EMAIL = #{memberEmail} AND m.MOIM_UPGRADE = 'Y' AND p.PERIOD_PAYMENT_STATUS = 'Y'
+	</select>
 
 
 
