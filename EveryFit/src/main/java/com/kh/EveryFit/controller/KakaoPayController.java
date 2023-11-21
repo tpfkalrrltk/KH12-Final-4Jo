@@ -66,7 +66,7 @@ public class KakaoPayController {
 		List<MoimMemberDto> moimMemberDto= moimDao.selectAllMoimNo(memberId);
 		List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
 		List<MoimDto> MoimDto= moimDao.moimListByEmail(memberId);
-		MemberDto memberDto = memberDao.slelctOne(memberId);
+		MemberDto memberDto = memberDao.selectOne(memberId);
 		//List<PaymentListAllVO> PaymentListAllVO = paymentDao.paymentListByMember(memberId);
 		//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
 		//가입된 모임 번호를 확인하여 VO에 저장
