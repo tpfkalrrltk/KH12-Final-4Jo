@@ -233,7 +233,7 @@ style="border-width: 0px 0px 1px 0px ; border-style: solid ;  border-color: whit
 		<input type="hidden" name="freeBoardReplyNo" value="?">
 		<div class="row flex-container p-0 m-0">
 			<div class="row" style = "width = 1062px" >
-				<textarea name="freeBoardReplyContent" class="form-input  bg-primary" rows="4"  
+				<textarea name="freeBoardReplyContent" class="form-input  bg-primary text-light" rows="4"  
 placeholder="수정 내용을 적어주세요">
 </textarea>
 			</div>
