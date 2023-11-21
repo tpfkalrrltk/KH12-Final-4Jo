@@ -13,6 +13,7 @@ import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.ReportDto;
 import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
+import com.kh.EveryFit.vo.AdminMoimMemberCountVO;
 import com.kh.EveryFit.vo.AdminMoimSearchVO;
 import com.kh.EveryFit.vo.AdminReportSearchVO;
 
@@ -107,6 +108,12 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public List<ReportDto> adminReportSearch(AdminReportSearchVO adminReportSearchVO) {
 		List<ReportDto> list = sqlSession.selectList("admin.adminReportSearch", adminReportSearchVO);
+		return list;
+	}
+
+	@Override
+	public List<AdminMoimMemberCountVO> memberCount() {
+		List<AdminMoimMemberCountVO> list = sqlSession.selectList("admin.memberCount");
 		return list;
 	}
 
