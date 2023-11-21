@@ -37,12 +37,12 @@ import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueListDto;
-import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueMatchListVO;
 import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -231,7 +231,7 @@ public class LeagueController {
 	
 	@RequestMapping("/leagueMatch")
 	public String leagueMatch(@RequestParam int leagueNo, Model model) {
-		List<LeagueMatchDto> leagueMatchList = leagueDao.selectLeagueMatchList(leagueNo);
+		List<LeagueMatchListVO> leagueMatchList = leagueDao.selectLeagueMatchVOList(leagueNo);
 		model.addAttribute("leagueMatchList", leagueMatchList);
 		return "league/leagueMatch";
 	}

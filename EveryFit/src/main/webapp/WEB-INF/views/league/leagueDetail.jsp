@@ -11,17 +11,12 @@
       </div>
     </div>
     <hr>
-    <div class="row">
-      <div class="col">
+    <div class="row text-end">
+      <div class="col p-1">
         <button type="button" class="btn btn-primary" id="loadLeagueTeamList">신청팀 관리</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
         <a class="btn btn-secondary" href="leagueMatch?leagueNo=${leagueDto.leagueNo}">경기일정관리</a>
       </div>
     </div>
-    
     <div class="row mt-4">
       <div class="col">
         <h3>리그 순위</h3>
@@ -49,7 +44,7 @@
             <c:forEach var="vo" items="${rankList}">
               <tr>
                 <td>${vo.leagueTeamRank}</td>
-                <td>${vo.leagueTeamNo}</td>
+                <td>${vo.leagueTeamName}</td>
                 <td>${vo.leagueTeamMatchCount}</td>
                 <td>${vo.leagueTeamWin}</td>
                 <td>${vo.leagueTeamLose}</td>
