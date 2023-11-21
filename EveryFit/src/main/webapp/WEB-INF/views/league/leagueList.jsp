@@ -4,6 +4,8 @@
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
+
+
 <span class="m-5 p-5"></span>
 <div class="row"><div class="col-md-8 offset-md-2 mt-5">
 <h1 class="m-5 p-5">리그 목록</h1>
@@ -97,13 +99,13 @@
       	<div class="row">
       		<div class="col">
       			<label class="form-label">접수시작</label>
-      			<input type="datetime-local" name="leagueApplicationStart">
+      			<input type="text" name="leagueApplicationStart" id="applicationStart">
       		</div>
       	</div>
       	<div class="row">
       		<div class="col">
       			<label class="form-label">접수마감</label>
-      			<input type="datetime-local" name="leagueApplicationEnd">
+      			<input type="text" name="leagueApplicationEnd" id="applicationEnd">
       		</div>
       	</div>
       </form>
@@ -118,7 +120,6 @@
 
 <script>
 $(function(){
-	
 	$("[name=locationDepth1]").change(function(e){
 		var locationDepth1 = e.target.value;
 		$.ajax({
@@ -142,21 +143,27 @@ $(function(){
 	});
 	
 	var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
+	
 	$(".edit-application").click(function(e){
 		var leagueNo = $(this).data('league-no');
+		loadApplication(leagueNo);	
+	});
+	
+	function loadApplication(leagueNo){
 		$.ajax({
 			url:"http://localhost:8080/rest/league/findLeagueApplication",
 			type:"post",
 			data:{leagueNo:leagueNo},
 			success:function(data){
+				console.log(data);
 				if(data==false){
 					$("#actionType").val("add");
 				}
 				else{
 					$("#actionType").val("edit");
 					$("#leagueApplicationNo").val(data.leagueApplicationNo);
-					$("#appInsert input[name='leagueApplicationStart']").val(data.leagueApplicationStart);
-					$("#appInsert input[name='leagueApplicationEnd']").val(data.leagueApplicationEnd);
+					$("#appInsert input[name='leagueApplicationStart']").val(convertToDefault(data.leagueApplicationStart));
+					$("#appInsert input[name='leagueApplicationEnd']").val(convertToDefault(data.leagueApplicationEnd));
 				}
 				Modal.show();
 			},
@@ -165,10 +172,27 @@ $(function(){
 			}
 		})
 		$("#appInsert input[name='leagueNo']").val(leagueNo);
+	};
+	
+	$("#applicationModal").on('hidden.bs.modal', function(){
+		location.reload();
 	});
 	
 	$("#appBtn").click(function(){
+		var applicationStart = $("#appInsert input[name='leagueApplicationStart']").val();
+		var applicationEnd = $("#appInsert input[name='leagueApplicationEnd']").val();
+	
+		if(applicationStart > applicationEnd) {
+			alert('시작일과 마감일을 확인해주세요');
+			return;
+		}
+		
+		$("#appInsert input[name='leagueApplicationStart']").val(convertToLocal(applicationStart));
+		$("#appInsert input[name='leagueApplicationEnd']").val(convertToLocal(applicationEnd));
+		
 		var formData = $("#appInsert").serialize();
+		
+		
 		var url = ($("#actionType").val() === "add") ? "http://localhost:8080/rest/league/addLeagueApplication" : "http://localhost:8080/rest/league/updateLeagueApplication";
 		$.ajax({
 			url:url,
@@ -184,5 +208,36 @@ $(function(){
 			}
 		});
 	});
+	
+	$("#applicationStart").datetimepicker({
+		step:30,
+		minDate:0, 
+		useCurrent:false, 
+		onClose: function(e) {
+			console.log(e);
+			 $("#applicationEnd").datetimepicker('setOptions', {minDate:e});
+		},
+	});
+	
+	
+	$("#applicationEnd").datetimepicker({
+		step:30,
+		useCurrent:false
+	});
+	
+	function convertToLocal(dateTime){
+		var dateObject = new Date(dateTime + 'Z');
+		var formattedDate = dateObject.toISOString().slice(0, 16);
+		return formattedDate;
+	}
+	
+	function convertToDefault(dateTime){
+		var dateObject = new Date(dateTime);
+	    var utcDate = new Date(dateObject.getUTCFullYear(), dateObject.getUTCMonth(), dateObject.getUTCDate(), dateObject.getUTCHours(), dateObject.getUTCMinutes());
+	    var momentDate = moment(utcDate);
+	    var resultDate = momentDate.format("Y/MM/DD H:ss");
+	    return resultDate;
+	}
+	
 });
 </script>

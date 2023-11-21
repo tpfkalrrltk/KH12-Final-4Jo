@@ -30,6 +30,14 @@
 		select * from attach where attach_no = #{attchNo}
 	</select>
 	
+	<select id="findLeague" resultType="AttachDto">
+		select * from attach where attach_no = 
+		(select attach_no from league_image where league_no = #{leagueNo})
+	</select>
+	
+	<delete id="delete">
+		delete attach where attach_no=#{attachNo}
+
 	<delete id="deleteProfile">
 		delete member_image where member_email=#{memberEmail}
 	</delete>

@@ -1,10 +1,19 @@
 package com.kh.EveryFit.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +21,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.EveryFit.configuration.FileUploadProperties;
+import com.kh.EveryFit.dao.AttachDao;
+import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
+import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueListDto;
@@ -37,6 +51,8 @@ public class LeagueController {
 	@Autowired private LeagueDao leagueDao;
 	@Autowired private MemberDao memberDao;
 	@Autowired private MoimDao moimDao;
+	@Autowired private AttachDao attachDao;
+	@Autowired private ChatDao chatDao;
 	
 	@RequestMapping("/leagueList")
 	public String leagueList(Model model,@ModelAttribute(name="vo") LeagueListVO vo) {
@@ -58,16 +74,54 @@ public class LeagueController {
 		return "league/leagueInsert";
 	}
 	
+	@Autowired
+	private FileUploadProperties props;
+	
+	private File dir;
+	
+	//모든 로딩이 끝나면 자동으로 실행되는 메소드
+	@PostConstruct
+	public void init() {
+		dir = new File(props.getHome());
+		dir.mkdirs();
+	}
+	
 	@PostMapping("/leagueInsert")
-	public String leagueInsert(@ModelAttribute LeagueDto leagueDto, HttpSession session) {
+	public String leagueInsert(@ModelAttribute LeagueDto leagueDto, 
+								@RequestParam MultipartFile attach, 
+								HttpSession session) throws IllegalStateException, IOException {
 		//String leagueManager = (String)session.getAttribute("name");
 		String leagueManager = "leaguetest1";
 		int leagueNo = leagueDao.leagueSequence();
+		int chatRoomNo = chatDao.sequence();
+		chatDao.insertChatRoom(chatRoomNo);
 		
 		leagueDto.setLeagueManager(leagueManager);
 		leagueDto.setLeagueNo(leagueNo);
-		leagueDto.setChatRoomNo(1);
+		leagueDto.setChatRoomNo(chatRoomNo);
 		leagueDao.insertLeague(leagueDto);
+		
+		chatDao.addChatMember(chatRoomNo, leagueManager);
+		if(!attach.isEmpty()) {
+			//첨부파일등록(파일이 있을때만)
+			int attachNo = attachDao.sequence();
+
+			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+			attach.transferTo(target);
+			
+			AttachDto attachDto = new AttachDto();
+			attachDto.setAttachNo(attachNo);
+			attachDto.setAttachName(attach.getOriginalFilename());
+			attachDto.setAttachSize(attach.getSize());
+			attachDto.setAttachType(attach.getContentType());
+			attachDao.insert(attachDto);
+
+			//연결(파일이 있을때만)
+			leagueDao.insertLeagueImage(leagueNo, attachNo);
+		}
+		
+		
+		
 		return "redirect:leagueGuide?leagueNo="+leagueNo;
 	}
 	
@@ -171,5 +225,32 @@ public class LeagueController {
 	public String leagueMatchInsert(@RequestParam int leagueNo, Model model) {
 		return "league/leagueMatchInsert";
 	}
+	
+	@RequestMapping("/leagueImage")
+	public ResponseEntity<ByteArrayResource> 
+							download(@RequestParam int leagueNo) throws IOException {
+		AttachDto attachDto = attachDao.selectOneleague(leagueNo);
+		
+		if(attachDto == null) {
+			return ResponseEntity.notFound().build(); //404반환
+		}
+		
+		File target = new File(dir, String.valueOf(attachDto.getAttachNo()));
+		
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				.contentLength(attachDto.getAttachSize())
+				.header(HttpHeaders.CONTENT_TYPE, attachDto.getAttachType())
+				.header(HttpHeaders.CONTENT_DISPOSITION, 
+					ContentDisposition.attachment()
+					.filename(attachDto.getAttachName(), StandardCharsets.UTF_8)
+					.build().toString()
+				)
+				.body(resource);
+	}
+	
 }
 

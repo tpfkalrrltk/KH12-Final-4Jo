@@ -233,4 +233,15 @@ public class LeagueDaoImpl implements LeagueDao{
 	public void leagueTeamCalculate(int leagueTeamNo) {
 		sqlSession.update("league.leagueTeamCalculate", leagueTeamNo);
 	}
+	
+	@Override
+	public void insertLeagueImage(int leagueNo, int attachNo) {
+		Map<String, Object> param = Map.of("leagueNo", leagueNo, "attachNo", attachNo);
+		sqlSession.insert("league.insertLeagueImage", param);
+	}
+	
+	@Override
+	public List<LeagueDto> selectLeagueDtoList() {
+		return sqlSession.selectList("league.listLeagueDto");
+	}
 }

@@ -30,8 +30,16 @@
 					${matchDto.leagueMatchDate}
 				</div></div>
 				<div class="row text-center"><div class="col p-2">
-					<button type="button" class="btn btn-primary edit-btn" 
-						data-league-match-no="${matchDto.leagueMatchNo}">경기수정</button>
+					<c:choose>
+						<c:when test="${matchDto.leagueMatchHomeScore == null && matchDto.leagueMatchAwayScore == null}">
+							<button type="button" class="btn btn-primary edit-btn" 
+								data-league-match-no="${matchDto.leagueMatchNo}">경기수정</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn btn-primary edit-btn" 
+								data-league-match-no="${matchDto.leagueMatchNo}" disabled>경기완료</button>
+						</c:otherwise>
+					</c:choose>
 				</div></div>
 				<div class="row text-center"><div class="col p-2">
 					<button type="button" class="btn btn-primary result-btn" 
@@ -278,6 +286,7 @@ $(".match-edit-btn").click(function(){
 		data:formData,
 		success:function(response){
 			alert("수정되었습니다.");
+			location.reload();
 // 			 $(".leagueMatchForm input:not([type='hidden'])").val('');
 		},
 		error:function(error){

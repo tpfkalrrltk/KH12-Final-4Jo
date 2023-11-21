@@ -10,7 +10,7 @@
 		<h1>리그등록</h1>
 	</div>
 </div>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 	<div class="row mt-4"><div class="col">
 		<label class="form-label">종목</label>
         <select class="form-select" name="eventNo">
@@ -55,11 +55,15 @@
     </div></div>
     <div class="row mt-4"><div class="col">
 		<label class="form-label">최대 참여 가능 팀</label>
-        <input type="number" class="form-control" name="leagueTeamCount">
+        <input type="number" class="form-control" name="leagueTeamCount" min="1">
     </div></div>
     <div class="row mt-4"><div class="col">
 		<label class="form-label">로스터 등록 정원</label>
-        <input type="number" class="form-control" name="leagueRoasterCount">
+        <input type="number" class="form-control" name="leagueRoasterCount" min="1">
+    </div></div>
+    <div class="row mt-4"><div class="col">
+		<label class="form-label">리그 사진</label>
+        <input type="file" name="attach" accept="image/*">
     </div></div>
     <div class="row mt-4"><div class="col">
         <button type="submit" class="btn btn-primary">리그등록</button>
