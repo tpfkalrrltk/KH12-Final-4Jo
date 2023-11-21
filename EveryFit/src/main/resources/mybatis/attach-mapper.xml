@@ -42,14 +42,16 @@
 	<delete id="delete">
 		delete attach where attach_no=#{attachNo}
 	</delete>
+
 	
 	<delete id="deleteProfile">
-		delete member_image where member_email=#{memberEmail}
+		delete member_image where
+		member_email=#{memberEmail}
 	</delete>
 
 	<insert id="insertProfile">
-		insert into member_image(member_email, attach_no) values(#{memberEmail},
-		#{attachNo})
+		insert into member_image(member_email, attach_no)
+		values(#{memberEmail}, #{attachNo})
 	</insert>
 
 
