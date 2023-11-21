@@ -124,7 +124,7 @@ body {
 
 <!--     전용 CDN -->
 <link rel="stylesheet" type="text/css" href="/css/EveryFit-layout.css">
-<link rel="stylesheet" type="text/css" href="/css/test.css">
+<!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
 
 <!-- Bootstrap JS (including Popper.js) -->
 <script
