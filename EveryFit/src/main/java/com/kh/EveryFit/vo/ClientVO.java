@@ -19,7 +19,7 @@ import lombok.ToString;
 // 웹소켓 통신에서 사용자를 조금 더 편하게 관리하기 위한 클래스
 @Data
 @EqualsAndHashCode(of = "session") //session필드가 동일하면 같은 객체라고 생각해라!
-@ToString(of = {"memberEmail", "memberLevel", "memberNick"}) // 출력할 때 작성한 항목만 출력해라!
+@ToString(of = {"memberEmail", "memberLevel", "memberNick", "attachNo"}) // 출력할 때 작성한 항목만 출력해라!
 public class ClientVO {
 
 	@Autowired
@@ -30,6 +30,7 @@ public class ClientVO {
 	private String memberEmail;
 	private String memberLevel;
 	private String memberNick;
+	private Integer attachNo;
 	
 	public ClientVO(WebSocketSession session) {
 		this.session = session;
