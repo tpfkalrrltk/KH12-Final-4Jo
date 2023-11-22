@@ -177,6 +177,16 @@
 		회원이 모임 등록할 때 회원등급을 조회해서 
 		이미 등록된 모임개수확인 후 초과하지않았으면 등록 아니면 반려 
 	-->
+	<!-- 가입한 모임의 count 확인 -->
+	<select id="moimCountByMemberEmail" resultType="Integer">
+		select count(*) from moim_member where member_email = #{memberEmail} 
+	</select>
+	
+	<!-- 모임 중복가입 방지를 위한 조회구문 -->
+	<select id="moimMemberCheckByMemberEmail" resultType="int">
+		select moim_no from moim_member 
+		where member_email = #{memberEmail} 
+	</select>
 
 	<!-- 정모CRUD -->
 	
