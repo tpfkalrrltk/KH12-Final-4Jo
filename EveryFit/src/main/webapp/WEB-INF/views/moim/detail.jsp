@@ -58,14 +58,14 @@ data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- 모달 내용 -->
-      <div class="modal-body">
-        <!-- 여기에 모달 내용을 추가하세요 -->
-       
-        <a href="/pay?productNo=2">결제하세요!</a>
+      <div class="myModal-body p-4">
+        <span class="col">모임 생성 후 30일이 지나 모임이 비활성화 되었습니다. </span><br>
+        <span class="col"><a href="/pay?productNo=2">프리미엄 모임권으로 업그레이드하세요!</a></span>
       </div>
     </div>
   </div>
 </div>
+
 
 <div class="container-fluid">
 	<div class="row">
@@ -141,7 +141,9 @@ data-backdrop="static" data-keyboard="false">
 					        <a class="dropdown-item" 
 					        href="memberTransfer?memberEmail=${moimMember.memberEmail}&moimNo=${moimMember.moimNo}">모임장권한넘기기</a>
 					        <a class="dropdown-item" 
-					        href="/member/mypage?memberEmail=${moimMember.memberEmail}">회원상세페이지</a>
+<%-- 					        href="/member/mypage?memberEmail=${moimMember.memberEmail}" --%>
+					        data-target="menu-${moimMember.memberEmail}" onclick="getMemberInfo('${moimMember.memberEmail}')"
+					        >회원상세페이지</a>
 					    </div>
 					</div>
 					${moimMember.memberEmail}
@@ -230,7 +232,7 @@ data-backdrop="static" data-keyboard="false">
 				<div class="card mb-3">
 					<div class="card-body">
 					<div class="col-4">
-						<img class="jungmo-image object-fit-cover" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
+						<img class="jungmo-image rounded object-fit-cover" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
 					</div>
 					<div class="col-8">
 <%-- 						${jungmoList} --%>
@@ -354,8 +356,8 @@ data-backdrop="static" data-keyboard="false">
 		</form>
       </div>
       
-	<!-- 정모 수정 내용 -->
-	<div class="jungmo-edit-inputs" style="display: none;">
+	<!-- 회원 정보 내용 -->
+	<div class="moim-member-info" style="display: none;">
     </div>
       
       </div>
@@ -583,6 +585,7 @@ data-backdrop="static" data-keyboard="false">
             confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
             return;
         }
+        
     	
     	var formData = new FormData(document.getElementById("jungmoInsertForm"));
 //     	var isCreate = !$("input[name='attach']").val();
@@ -877,6 +880,44 @@ data-backdrop="static" data-keyboard="false">
         }
       });
     
+    
+    function getMemberInfo(memberEmail) {
+        $.ajax({
+            url: "http://localhost:8080/rest/moim/member/info", // 실제 API 엔드포인트로 변경해야 합니다.
+            type: 'GET',
+            data: { memberEmail: memberEmail, moimNo: moimNo },
+            success: function(response) {
+                // 회원 정보를 표시할 HTML 요소를 선택
+                var memberInfoContainer = $('.moim-member-info');
+
+                // 받아온 회원 정보를 HTML에 추가
+                memberInfoContainer.empty(); // 기존 내용 비우기
+
+                // 프로필 이미지 추가
+                if (response.attachNo !== null) {
+                    var profileImage = $('<img>')
+                        .addClass('member-profile rounded-circle')
+                        .attr('src', '/rest/attach/download?attachNo=' + response.attachNo);
+                    memberInfoContainer.append(profileImage);
+                }
+
+                memberInfoContainer.append('<p>이메일: ' + response.memberEmail + '</p>');
+                memberInfoContainer.append('<p>닉네임: ' + response.memberNick + '</p>');
+                memberInfoContainer.append('<p>모임 멤버 레벨: ' + response.moimMemberLevel + '</p>');
+                memberInfoContainer.append('<p>모임 멤버 상태: ' + response.moimMemberStatus + '</p>');
+                // ... 추가적인 정보를 필요에 따라 추가
+
+                // 모달 열기 등의 특정 동작 수행
+                // 예시: 모달이 Bootstrap의 modal인 경우
+                $('.modal-title').text('모임회원 정보');
+                $('.moim-member-info').show();
+                Modal.show();
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    }
 
 //     $('.blockButton').click(function () {
 //         // 클릭된 버튼의 데이터 속성을 통해 이메일 값을 가져옴

@@ -58,7 +58,8 @@ public interface MoimDao {
 
 	//세션값의 모임멤버레벨, 모임멤버상태 조회
 	MoimMemberDto selectOneMyInfo(String memberEmail);
-
+	MoimMemberDto findMoimMemberInfo(String memberEmail, Integer moimNo);
+	
 	
 	//모임 좋아요
 	void memberLikeInsert(MemberLikeDto memberLikeDto);

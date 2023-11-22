@@ -8,16 +8,21 @@
     textarea {
         resize: none;
     }
+    .preview-wrapper1 {
+    	object-fit:cover;
+    }
 </style>
 <title>등록해보기</title>
 
 
-<div class="row">
-  <div class="col-md-8 offset-md-2">
+  <div class="col-md-6 offset-md-3">
     <div class="row">
       <div class="col">
-		<h1>모임등록</h1>
-
+		<div class="row mt-2">
+		<div class="col-6 offset-3 text-center">
+		<h1>모임개설</h1>
+		</div>
+		</div>
 <div class="row mt-4">
 	<c:if test="${profile != null}">
 	<img src="/rest/attach/download?attachNo=${profile}"
@@ -25,60 +30,78 @@
 	</c:if>
 <!--  라벨을 만들고 파일선택창을 숨김 -->
 <form method="post" enctype="multipart/form-data" autocomplete="off" >
-	<div class="row mt-4">
-		<label>
-		<input type="file" name="attach" accept="image/*" multiple id="attach-selector" >
-		
-		<i class="fa-solid fa-user fa-2x"></i>
-		</label>
-		<i class="fa-solid fa-trash-can fa-2x profile-delete"></i>
-		<div class="preview-wrapper1"></div>
-	</div>
 
-    <div class="row mt-4"><div class="col">
-		<label class="form-label">시/도</label>
+	<div class="row mt-4 mb-4">
+		<div class="col-6 offset-3">
+		<label>
+		<input type="file" name="attach" accept="image/*" multiple id="attach-selector" style="display:none;">
+		
+		<img src="/images/image.png" class="w-100 image">
+		</label>
+		<div class="preview-wrapper1"></div>
+		</div>
+		</div>
+	
+		<div class="row mt-2">
+		<div class="col-3 text-end"><label class="form-label ">모임명</label></div>
+		<div class="col-6"><input type="text" name="moimTitle" class="form-control"></div>
+		</div>
+		
+		<div class="row mt-2">
+		<div class="col-3 text-end">
+		<label class="form-label">시/도</label></div>
+		<div class="col-6">
 		<select class="form-select location-depth1">
 			<option value="">시/도</option>
 			<c:forEach var="locationDto" items="${locationList}">
 				<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
 			</c:forEach>
-		</select>
-		<label class="form-label">구/시 선택</label>
-		<select class="form-select" name="locationNo">
+		</select></div>
+		</div>
+		<div class="row mt-2"><div class="col-3 text-end">
+		<label class="form-label">구/시 선택</label></div>
+		<div class="col-6"><select class="form-select" name="locationNo">
 			<option value="">시/도</option>
 		</select>
-    </div></div>
+  		</div></div>
 
-     <br>
-	<div class="row mt-4"><div class="col">
-		<label class="form-label">종목</label>
-		     <select name="eventNo"  class="form-select">
+		<div class="row mt-2">
+		<div class="col-3 text-end"><label class="form-label">종목</label></div>
+		<div class="col-6">
+		<select name="eventNo"  class="form-select">
 		         <c:forEach var="event" items="${eventList}">
 		             <option value="${event.eventNo}">${event.eventName}</option>
 		         </c:forEach>
 		     </select>
-	</div></div>
-		<label class="form-label">모임명</label>
-		<input type="text" name="moimTitle" class="form-control">
-		<label class="form-label">모임설명</label>
-		<textarea rows="5" class="form-control" name="moimContent"></textarea>
-		<label class="form-label">정원</label>
-		<input type="number" name="moimMemberCount" value=30 readonly>
-		<label class="form-label">여성전용</label>
+		</div>
+		</div>
+		
+		<div class="row mt-2">
+<!-- 	 	<div class="col-3 text-end"><label class="form-label">모임설명</label></div> -->
+	 	<div class="col-6 offset-3"><textarea rows="5" class="form-control" name="moimContent">모임소개</textarea></div>
+	 	</div>
+		<div class="row mt-2">
+	 	<div class="col-3 offset-3 text-end p-2"><label class="form-label">정원(~30명)</label></div>
+	 	<div class="col-3">
+	 	<input type="number" name="moimMemberCount"  class="form-control"></div>
+	 	</div>
+		<div class="row mt-2">
+	 	<div class="col-6 offset-3 text-end"><label class="form-label">여성전용</label>
 		<input type="checkbox"  id="moimGenderCheck" 
 		name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
-		data-original-value="${moimDto.moimGenderCheck}" class="form-check-input`">
-		<label class="form-label"></label>
-	<div class="row">
-	<div class="col">
-	<button type="submit" class="btn btn-primary">등록</button>
-	</div>
-	</div>
+		data-original-value="${moimDto.moimGenderCheck}" class="form-check-input">
+		</div>
+	 	</div>
+		<div class="row mt-2">
+		<div class="col-6 offset-3">
+		<button type="submit" class="btn btn-primary w-100">등록</button>
+		</div>
+	 	</div>
+
 </form>
 </div>
 
 
-</div>
 </div>
 </div>
 </div>
@@ -97,12 +120,15 @@
             let reader = new FileReader();
             reader.onload = ()=>{
                 $("<img>").attr("src", reader.result)//data;로 시작하는 엄청많은 실제이미지 글자
-                                .css("max-width", "300px")
+//                                 .css("max-width", "300px")
+								.addClass("w-100, img-thumbnail")
                                 .appendTo(".preview-wrapper1");
             };
             for(let i=0; i < this.files.length; i++) {
                 reader.readAsDataURL(this.files[i]);
             }
+            
+            $(".image").hide();
         });
     });
 	
