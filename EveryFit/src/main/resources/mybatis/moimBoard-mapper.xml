@@ -5,21 +5,32 @@
 
 <mapper namespace="MoimBoard">
 
+	<select id="sysdate" resultType="Date">
+		select TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL
+	</select>
+
+
 	<insert id="add">
 		insert into moim_board (
 		moim_board_no,
 		moim_no,
 		member_email,
+		member_nick,
 		moim_board_title,
 		moim_board_content,
-		moim_board_category )
+		moim_board_category,
+		moim_board_time
+		)
 		values(
 		#{moimBoardNo},
 		#{moimNo},
 		#{memberEmail},
+		#{memberNick},
 		#{moimBoardTitle},
 		#{moimBoardContent},
-		#{moimBoardCategory})
+		#{moimBoardCategory},
+		sysdate
+		)
 	</insert>
 
 	<select id="sequence" resultType="int">
@@ -53,39 +64,46 @@
 	</update>
 
 	<delete id="delete">
-		delete moim_board where moim_board_no = #{moimBoardNo}
+		delete moim_board where moim_board_no =
+		#{moimBoardNo}
 	</delete>
 
 	<select id="selectOne" resultType="MoimBoardDto">
 		select * from moim_board where
 		moim_board_no = #{moimBoardNo}
-		
+
 	</select>
-<!-- 모임 번호에 따른 모임 게시판 목록 -->
+	<!-- 모임 번호에 따른 모임 게시판 목록 -->
 	<select id="listByMoimNo" resultType="MoimBoardDto">
-		SELECT * FROM moim_board WHERE moim_no= #{moimNo}
-		   ORDER BY moim_board_no DESC
+		SELECT * FROM moim_board
+		WHERE moim_no= #{moimNo}
+		ORDER BY moim_board_no DESC
 	</select>
 
-<!-- 모임번호와 카테고리에 따른 모임 게시판 목록 -->
+	<!-- 모임번호와 카테고리에 따른 모임 게시판 목록 -->
 	<select id="listByMoimCategory" resultType="MoimBoardDto">
-		SELECT * FROM moim_board WHERE moim_no= #{moimNo} AND moim_board_no_category = #{moimBoardCategory} 
-		
-		   ORDER BY moim_board_no DESC
+		SELECT * FROM
+		moim_board WHERE moim_no= #{moimNo} AND moim_board_no_category =
+		#{moimBoardCategory}
+
+		ORDER BY moim_board_no DESC
 	</select>
 
-<!-- 모임번호와 카테고리에 따른 모임 게시판 목록2 -->	
-	<select id="listByMoimNoSortedByCategory" resultType="MoimBoardDto">
-    SELECT * FROM moim_board
-    WHERE moim_no = #{moimNo}
-      AND moim_board_category = #{category}
-    ORDER BY moim_board_no DESC
-</select>
+	<!-- 모임번호와 카테고리에 따른 모임 게시판 목록2 -->
+	<select id="listByMoimNoSortedByCategory"
+		resultType="MoimBoardDto">
+		SELECT * FROM moim_board
+		WHERE moim_no = #{moimNo}
+		AND
+		moim_board_category = #{category}
+		ORDER BY moim_board_no DESC
+	</select>
 
 
 	<update id="replyCount">
 		update moim_board set moim_board_reply_count= (
-		select count(*) from moim_board_reply where moim_board_no = #{moimBoardNo})
+		select count(*) from moim_board_reply where moim_board_no =
+		#{moimBoardNo})
 		where moim_board_no =#{moimBoardNo}
 	</update>
 
@@ -100,25 +118,26 @@
 	</select>
 
 	<select id="selectListBySearchPage" resultType="MoimBoardDto"
-	parameterType="map">
-	SELECT * FROM
-	(SELECT * FROM moim_board
-	where 
-	instr(${type},#{keyword})>0 and  moim_no = #{moimNo} 
-	ORDER BY moim_board_no DESC)
-	WHERE ROWNUM
-	between #{begin}
-	and #{end}
-	
-	
+		parameterType="map">
+		SELECT * FROM
+		(SELECT * FROM moim_board
+		where
+		instr(${type},#{keyword})>0 and moim_no = #{moimNo}
+		ORDER BY
+		moim_board_no DESC)
+		WHERE ROWNUM
+		between #{begin}
+		and #{end}
+
+
 	</select>
 
-<select id="selectListByPage" resultType="MoimBoardDto"
+	<select id="selectListByPage" resultType="MoimBoardDto"
 		parameterType="map">
 
 		select * from ( select rownum rn, TMP.* from(
 		select *
-		from moim_board where moim_no = 	#{moimNo} order by moim_board_no desc
+		from moim_board where moim_no = #{moimNo} order by moim_board_no desc
 		)TMP
 		) where rn between
 		#{begin}
@@ -131,25 +150,29 @@
 
 	<insert id="connect">
 		insert into moim_board_image
-		( moim_board_no, attach_no) values(#{moimBoardNo}, #{attachNo})
+		( moim_board_no,
+		attach_no) values(#{moimBoardNo}, #{attachNo})
 
 
 	</insert>
 
 	<select id="findImage" resultType="Integer">
-	select attach_no from moim_board_image where moim_board_no = #{moimBoardNo}
+		select attach_no from
+		moim_board_image where moim_board_no = #{moimBoardNo}
 	</select>
 
 
-	<insert id="insertMoimBoardImage" >
+	<insert id="insertMoimBoardImage">
 		insert into moim_board_image
-		(moim_board_no, attach_no) values(#{moimBoardNo}, #{attachNo})	
+		(moim_board_no,
+		attach_no) values(#{moimBoardNo}, #{attachNo})
 	</insert>
 
-	
+
 
 	<delete id="deleteMoimBoardImage">
-		delete moim_board_image where moim_board_no = #{moimBoardNo}
+		delete moim_board_image where moim_board_no =
+		#{moimBoardNo}
 	</delete>
 
 </mapper>

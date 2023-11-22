@@ -2,6 +2,7 @@ package com.kh.EveryFit.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -90,6 +91,9 @@ public class MoimBoradController {
 		String memberEmail = (String) session.getAttribute("name");
 		moimBoardDto.setMoimBoardNo(moimBoardNo);
 		moimBoardDto.setMemberEmail(memberEmail);
+		String memberNick = (String) session.getAttribute("nickName");
+		moimBoardDto.setMemberNick(memberNick);
+
 	
 		moimBoardDao.add(moimBoardDto);
 

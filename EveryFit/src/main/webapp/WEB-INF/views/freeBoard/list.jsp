@@ -53,8 +53,9 @@
 				<tr class=" table-primary text-center row mt-4">
 					<th class="col-2  fw-bold">번호</th>
 					<th class="col-2  fw-bold">카테고리</th>
-					<th class="col-5  fw-bold">제목</th>
-					<th class="col-3  fw-bold">닉네임</th>
+					<th class="col-2  fw-bold">제목</th>
+					<th class="col-2  fw-bold">닉네임</th>
+					<th class="col-4  fw-bold">작성시간</th>
 				</tr>
 			</thead>
 
@@ -70,24 +71,23 @@
 
 						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardNo}</td>
 						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardCategory}</td>
-						<td class="col-5 text-primary fw-bold">
-								${FreeBoardList.freeBoardTitle} <c:if
-									test="${FreeBoardList.freeBoardReplyCount>0}">
-							[${FreeBoardList.freeBoardReplyCount}]
-								</c:if>
-						</a></td>
-
+						<td class="col-2 text-primary fw-bold">
+							${FreeBoardList.freeBoardTitle} <c:if
+								test="${FreeBoardList.freeBoardReplyCount>0}">
+								<small>[${FreeBoardList.freeBoardReplyCount}]</small>
+							</c:if> </a>
+						</td>
 
 						<c:choose>
 							<c:when test="${FreeBoardList.memberNick==null}">
-								<td class="col-3 text-primary fw-bold">--탈퇴한 회원--</td>
+								<td class="col-2 text-primary fw-bold">--탈퇴한 회원--</td>
 							</c:when>
 
 							<c:otherwise>
-								<td class="col-3 text-primary fw-bold">${FreeBoardList.memberNick}</td>
+								<td class="col-2 text-primary fw-bold">${FreeBoardList.memberNick}</td>
 							</c:otherwise>
 						</c:choose>
-
+						<td class="col-4 text-primary fw-bold">${FreeBoardList.freeBoardTime}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

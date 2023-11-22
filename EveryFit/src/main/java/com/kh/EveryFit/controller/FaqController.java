@@ -2,6 +2,7 @@ package com.kh.EveryFit.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -74,6 +75,9 @@ public class FaqController {
 		faqDto.setFaqNo(faqNo);
 		String memberEmail =  (String) session.getAttribute("name");
 		faqDto.setMemberEmail(memberEmail);
+		String memberNick = (String) session.getAttribute("nickName");
+		faqDto.setMemberNick(memberNick);
+
 
 		faqDao.add(faqDto);
 		

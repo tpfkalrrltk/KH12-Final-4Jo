@@ -1,5 +1,7 @@
 package com.kh.EveryFit.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FaqDto {
 
-	String memberEmail, faqTitle,faqDetail,faqCategory;
-	int faqNo;
+ private	String memberEmail, faqTitle,faqDetail,faqCategory, memberNick;
+ private	int faqNo;
+ private	Date faqTime;
 }

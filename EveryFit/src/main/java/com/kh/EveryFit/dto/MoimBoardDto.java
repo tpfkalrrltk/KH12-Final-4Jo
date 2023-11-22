@@ -1,5 +1,7 @@
 package com.kh.EveryFit.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MoimBoardDto {
-	int moimBoardNo, moimNo;
-	String memberEmail, moimBoardTitle, moimBoardContent,moimBoardCategory;
+	private int moimBoardNo, moimNo;
+	private 	String memberEmail, moimBoardTitle, moimBoardContent,moimBoardCategory, memberNick;
 	
-	int moimBoardReplyCount;
+	private int moimBoardReplyCount;
+	private Date moimBoardTime;
 
 }

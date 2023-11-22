@@ -1,5 +1,6 @@
 package com.kh.EveryFit.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -190,6 +191,8 @@ public class FreeBoardImpl implements FreeBoardDao {
 		sqlSession.insert("freeBoard.insertFreeBoardImage", params);
 
 	}
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.kh.EveryFit.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -178,6 +179,11 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 		} else {
 			return selectListByPage(boardVO.getPage(), moimNo);
 		}
+	}
+
+	@Override
+	public Date sysdate() {
+		return sqlSession.selectOne("MoimBoard.sysdate");
 	}
 	
 	

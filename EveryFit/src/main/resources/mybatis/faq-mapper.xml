@@ -9,20 +9,28 @@
 		desc
 	</select>
 
+	<select id="sysdate" resultType="Date">
+		select TO_CHAR(SYSDATE,'YYYYMMDD') FROM DUAL
+	</select>
+
 	<insert id="add">
 		insert into faq(
 		faq_no,
 		member_email,
+		member_nick,
 		faq_title,
 		faq_detail,
-		faq_category
+		faq_category,
+		faq_time
 		)
 		values(
 		#{faqNo},
 		#{memberEmail},
+		#{memberNick},
 		#{faqTitle},
 		#{faqDetail},
-		#{faqCategory}
+		#{faqCategory},
+		sysdate
 		)
 	</insert>
 

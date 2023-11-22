@@ -1,5 +1,6 @@
 package com.kh.EveryFit.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.kh.EveryFit.dto.FreeBoardDto;
@@ -15,6 +16,8 @@ public interface MoimBoardDao {
 	boolean delete(int moimBoardNo);
 
 	int sequence();
+	
+	Date sysdate();
 
 	MoimBoardDto selelctOne(int moimBoardNo);
 
