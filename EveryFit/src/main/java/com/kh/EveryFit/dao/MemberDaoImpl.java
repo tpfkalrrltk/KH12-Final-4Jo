@@ -54,9 +54,9 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public void edit(String memberEmail, MemberDto memberDto) {
-		Map<String, Object> param = Map.of("memberEmail", memberEmail, "memberDto", memberDto);
-		int result = sqlSession.update("member.change", param);
+	public void edit(String memberEmail, String memberPw) {
+		Map<String, Object> param = Map.of("memberEmail", memberEmail, "memberPw", memberPw);
+		int result = sqlSession.update("member.changePw", param);
 //		log.debug("param={}",param);
 	}
 
@@ -115,16 +115,24 @@ public class MemberDaoImpl implements MemberDao {
 		sqlSession.selectOne("member.eventFind", inputDto);
 	}
 
-	@Override
-	public void changeMemberInfo(MemberDto memberDto) {
-		sqlSession.update("member.changeMemberInfo", memberDto);
-	}
+//	@Override
+//	public void changeMemberInfo(MemberDto memberDto) {
+//		sqlSession.update("member.changeMemberInfo", memberDto);
+//	}
 
 	@Override
 	public void changePw(MemberDto memberDto) {
 		String origin = memberDto.getMemberPw();
 		String encrypt = encoder.encode(origin);
 		memberDto.setMemberPw(encrypt);
+		sqlSession.update("member.changePw", memberDto);
+	}
+	
+	@Override
+	public void changeMemberInfo(MemberDto memberDto) {
+//		String origin = memberDto.getMemberPw();
+//		String encrypt = encoder.encode(origin);
+//		memberDto.setMemberPw(encrypt);
 		sqlSession.update("member.changePw", memberDto);
 	}
 

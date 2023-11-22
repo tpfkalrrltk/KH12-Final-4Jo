@@ -191,41 +191,78 @@ public class MemberController {
 		//비밀번호 변경 
 		@GetMapping("/changePw")
 			public String changePw(HttpSession session, Model model){
+//			String memberEmail = (String) session.getAttribute("name");//아이디 꺼내오는 
+//			MemberDto memberDto = memberDao.selectOne(memberEmail);//로그인한 현재회원 정보 
+//			model.addAttribute("memberDto",memberDto);//로그인된 회원정보를 model에 넘긴다 
+			return "/member/changePw";
+		}
+		@PostMapping("/changePw")
+		public String changePw(HttpSession session,
+		                        @RequestParam String originPw,
+		                        @RequestParam String changePw,
+		                        Model model) {
+		    String memberEmail = (String) session.getAttribute("name");
+		    MemberDto findDto = memberDao.selectOne(memberEmail);
+
+		    // 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
+		    if (encoder.matches(originPw, findDto.getMemberPw())) {
+		        // 새로운 비밀번호를 암호화
+		        String encryptedNewPassword = encoder.encode(changePw);
+
+		        // 암호화된 비밀번호를 DTO에 설정
+		        findDto.setMemberPw(encryptedNewPassword);
+
+		        // customerDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
+		        memberDao.edit(memberEmail, changePw);
+
+		        // 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
+		        session.invalidate();
+
+		        return "/member/login";
+		    } else {
+		        model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
+		        return "redirect:memberchangePw?error";
+		    }
+		}
+			
+		
+		@GetMapping("/memberChangePw")
+		public String memberChangePw(HttpSession session, Model model){
 			String memberEmail = (String) session.getAttribute("name");//아이디 꺼내오는 
 			MemberDto memberDto = memberDao.selectOne(memberEmail);//로그인한 현재회원 정보 
 			model.addAttribute("memberDto",memberDto);//로그인된 회원정보를 model에 넘긴다 
-			return "/member/changePw";
-		}
-//		@PostMapping("/changePw")
-//		public String changePw(HttpSession session,
-//		                        @RequestParam String originPw,
-//		                        @RequestParam String changePw,
-//		                        Model model) {
-//		    String memberEmail = (String) session.getAttribute("name");
-//		    MemberDto findDto = memberDao.selectOne(memberEmail);
-//
-//		    // 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
-//		    if (encoder.matches(originPw, findDto.getMemberPw())) {
-//		        // 새로운 비밀번호를 암호화
-//		        String encryptedNewPassword = encoder.encode(changePw);
-//
-//		        // 암호화된 비밀번호를 DTO에 설정
-//		        findDto.setMemberPw(encryptedNewPassword);
-//
-//		        // customerDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
-//		        memberDao.edit(memberEmail, findDto);
-//
-//		        // 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
-//		        session.invalidate();
-//
-//		        return "/";
-//		    } else {
-//		        model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
-//		        return "redirect:memberchangePw?error";
-//		    }
-//		}
-			
+			return "/member/memberChangePw";
+	}
 		
+		
+		@PostMapping("/memberChangePw")
+		public String memberChangePw(HttpSession session,
+					                @RequestParam String originPw,
+					                @RequestParam String changePw,
+					                Model model) {
+			String memberEmail = (String) session.getAttribute("name");
+			MemberDto findDto = memberDao.selectOne(memberEmail);
+			
+			// 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
+			if (encoder.matches(originPw, findDto.getMemberPw())) {
+			// 새로운 비밀번호를 암호화
+			String encryptedNewPassword = encoder.encode(changePw);
+			
+			// 암호화된 비밀번호를 DTO에 설정
+			findDto.setMemberPw(encryptedNewPassword);
+			
+			// customerDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
+			memberDao.changeMemberInfo(findDto);
+			
+			// 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
+			session.invalidate();
+			
+			return "/member/login";
+			} else {
+			model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
+			return "redirect:memberchangePw?error";
+			}
+		}
 		
 		@GetMapping("/exit")
 		public String exit() {

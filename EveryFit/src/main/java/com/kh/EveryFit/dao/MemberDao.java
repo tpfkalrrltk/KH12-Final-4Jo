@@ -18,7 +18,7 @@ public interface MemberDao {
 
 	void insert(MemberDto memberDto);
 
-	void edit(String memberEmail, MemberDto memberDto);
+	void edit(String memberEmail,String memberPw);
 
 //	void delete(String memberEmail);
 	void delete(String memberDto);
@@ -38,11 +38,12 @@ public interface MemberDao {
 
 	//회원 개인정보변경 
 	void updateMemberInfo(MemberDto inputDto);
-	void changeMemberInfo(MemberDto memberDto);
+//	void changeMemberInfo(MemberDto inputDto);
 	
 	//비밀정보 변경
 	void changePw(MemberDto memberDto);
-
+	void changeMemberInfo(MemberDto memberDto);
+	
 	MemberDto selectOneByMemberNick(String memberNick);
 
 	
@@ -60,4 +61,8 @@ public interface MemberDao {
 		void insertProfile(String memberEmail, int attachNo);
 		boolean deleteProfile(String memberEmail);
 		Integer findProfile(String memberEmail);
+
+
+
+		
 }

@@ -12,14 +12,14 @@ import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
-
-import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
-
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
 
 
 @Repository
 public class MoimDaoImpl implements MoimDao {
+	
+	private final String NAMESPACE = "com.example.mapper.MoimMapper";
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -124,11 +124,8 @@ public class MoimDaoImpl implements MoimDao {
 	}
 	
 	@Override
-	public void addMoimMember(int moimNo, String memberEmail) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("moimNo", moimNo);
-	    params.put("memberEmail", memberEmail);
-		sqlSession.insert("moim.insertMoimMember", params);
+	public void addMoimMember(MoimMemberDto moimMemberDto) {
+		sqlSession.insert("moim.insertMoimMember", moimMemberDto);
 	}
 	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
 	@Override
@@ -185,5 +182,18 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.delete("moim.exitMoimMember", dto) > 0;
 	}
 	
+
+	@Override
+	public Integer findMyMoim(String memberEmail) {
+		return sqlSession.selectOne("moim.moimCountByMemberEmail", memberEmail);
+	}
+	
+	@Override
+	public List<Integer> findMoimNoByMemberEmail(String memberEmail) {
+		List<Integer> list = sqlSession.selectList("moim.moimMemberCheckByMemberEmail", memberEmail);
+		return list;
+	}
+
+
 
 }

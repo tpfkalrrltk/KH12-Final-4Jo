@@ -6,10 +6,8 @@ import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
-
-import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
-
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
+import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
 
 
 public interface MoimDao {
@@ -43,11 +41,15 @@ public interface MoimDao {
 	//모임장등록
 	void addMoimJang(int moimNo, String memberEmail);
 	//모임회원등록
-	void addMoimMember(int moimNo, String memberEmail);
+	void addMoimMember(MoimMemberDto moimMemberDto);
 	//모임회원상태변경
 	void updateMoimMember(MoimMemberStatusVO vo);
 	//모임회원탈퇴
 	boolean deleteMoimMember(MoimMemberDto dto);
+	//가입한 모임 개수 확인하기
+	Integer findMyMoim (String memberEmail);
+	//모임 가입 여부 확인하기
+	List<Integer> findMoimNoByMemberEmail(String memberEmail);
 	
 
 	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
@@ -70,5 +72,5 @@ public interface MoimDao {
 	//프리미엄 모임 구독취소 후, 모임의 상태를 일반으로 변경(Y->N)
 	boolean upgradeToNotPrimium(MoimDto moimDto);
 
-
+	
 }

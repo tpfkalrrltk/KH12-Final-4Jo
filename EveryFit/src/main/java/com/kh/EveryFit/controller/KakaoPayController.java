@@ -252,6 +252,7 @@ public class KakaoPayController {
 				MemberDto memberDto = memberDao.selectOne(memberId);
 
 
+
 				model.addAttribute("PaymentListByMemberVO",PaymentListByMemberVO);
 
 

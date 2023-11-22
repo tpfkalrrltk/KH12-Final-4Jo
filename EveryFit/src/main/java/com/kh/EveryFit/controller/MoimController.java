@@ -75,7 +75,15 @@ public class MoimController {
 	
 	@PostMapping("/create")
 	public String create(@ModelAttribute MoimDto moimDto,
-			@RequestParam MultipartFile attach, HttpSession session) throws IllegalStateException, IOException {	
+			@RequestParam MultipartFile attach, HttpSession session,
+			RedirectAttributes redirectAttributes) throws IllegalStateException, IOException {	
+		
+		String memberEmail = (String)session.getAttribute("name");
+		//회원이 모임장인 모임 개수 조회(하나임)
+//		if(moimDao.selectAllMoimNo(memberEmail) != null) {
+//			redirectAttributes.addAttribute("full", true);
+//			return "redirect:/";
+//		}
 		
 		int moimNo = moimDao.sequence();
 		moimDto.setMoimNo(moimNo);
@@ -84,7 +92,6 @@ public class MoimController {
 		int chatRoomNo = chatDao.sequence();
 		log.debug("chatRoomNo");
 		
-		String memberEmail = (String)session.getAttribute("name");
 		chatDao.insertChatRoom(chatRoomNo);
 		//moimDto.setChatRoomNo에 넣기
 		moimDto.setChatRoomNo(chatRoomNo);
@@ -203,47 +210,7 @@ public class MoimController {
 		
 	}
 	
-	//모임가입
-	@RequestMapping("/member/join")
-	public String memberJoin(HttpSession session, @RequestParam int moimNo, RedirectAttributes redirectAttributes) {
-		
-		String memberEmail = (String)session.getAttribute("name");
-		//해당 회원이 해당 모임에 가입되어 있는지 확인 필요
-		MemberDto memberDto = memberDao.selectOne(memberEmail);
-		MoimDto moimDto = moimDao.selectOne(moimNo);
-		
-		//그 회원의 가입 모임수를 체크해야함
-		int moimCount = memberDto.getMemberMoimCount();
-		//회원의 레벨이 일반일 때는 3개까지
-		//회원의 레벨이 프리미엄이면 몇개까지지?
-		boolean isOver = memberDto.getMemberLevel().equals("일반") && moimCount == 3;
-		boolean isPrimiumOver = memberDto.getMemberLevel().equals("프리미엄") && moimCount == 10;
-		if(isOver || isPrimiumOver) {
-			//jsp에서 오버됐다는 팝업창을 띄워주면 됨
-			redirectAttributes.addAttribute("over", true);
-			return "redircet:/";
-		}
-		
-		//여성전용 모임일 경우에 여성회원인지 확인 필요
-		if(Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { //여성전용모임
-			if(Objects.equals(memberDto.getMemberGender(), "F")) { //여성회원인지 검사
-				moimDao.addMoimMember(moimNo, memberEmail);
-				memberDto.setMemberMoimCount(moimCount + 1);
-				//업데이트를해야됨
-			}
-			else {
-				//jsp에서 여성회원만 가입 가능하다는 팝업창을 띄워주면 됨
-				redirectAttributes.addAttribute("check", true);
-				return "redirect:/";
-			}
-		}
-		else {
-			moimDao.addMoimMember(moimNo, memberEmail);			
-			memberDto.setMemberMoimCount(moimCount + 1);
-		}
-		
-		return "redirect:/moim/detail?moimNo=" + moimNo;
-	}
+
 	
 	@RequestMapping("/member/exit")
 	public String jungmoExit(@RequestParam int moimNo,
