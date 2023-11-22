@@ -21,7 +21,9 @@
 		<c:forEach var="matchDto" items="${leagueMatchList}">
 		<div class="row mt-4 text-center">
 			<div class="col-3">
-				${matchDto.homeTeamName}
+				<div class="row">
+					${matchDto.homeTeamName}
+				</div>
 			</div>
 			<div class="col-6">
 				<div class="row"><div class="col">
@@ -44,10 +46,6 @@
 		</div>
 		</c:forEach>
 	</div></div>
-	
-	
-	
-
 </div>
 <!-- 경기 수정 모달 -->
 <div class="modal" id="matchEditModal" data-bs-backdrop="static">
@@ -62,14 +60,24 @@
 					<input type="hidden" name="leagueNo" value="">
 					<div class="row">
 						<div class="col">
-							<label class="form-label">홈팀</label> 
-							<input class="form-control" name="leagueMatchHome" value="">
+							<label class="form-label">홈팀</label>
+							<select class="form-select" name="leagueMatchHome">
+								<option value="">홈팀선택</option>
+								<c:forEach var="leagueTeamDto" items="${leagueTeamList}">
+									<option value="${leagueTeamDto.leagueTeamNo}">${leagueTeamDto.leagueTeamName}</option>	
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label class="form-label">어웨이팀</label> 
-							<input class="form-control" name="leagueMatchAway" value="">
+							<label class="form-label"></label>
+							<select class="form-select" name="leagueMatchAway">
+								<option value="">어웨이팀선택</option>
+								<c:forEach var="leagueTeamDto" items="${leagueTeamList}">
+									<option value="${leagueTeamDto.leagueTeamNo}">${leagueTeamDto.leagueTeamName}</option>	
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -161,7 +169,9 @@
 							<label class="form-label">홈팀</label>
 							<select class="form-select" name="leagueMatchHome">
 								<option value="">홈팀선택</option>
-								
+								<c:forEach var="leagueTeamDto" items="${leagueTeamList}">
+									<option value="${leagueTeamDto.leagueTeamNo}">${leagueTeamDto.leagueTeamName}</option>	
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -169,7 +179,10 @@
 						<div class="col">
 							<label class="form-label">어웨이팀</label> 
 							<select class="form-select" name="leagueMatchAway">
-								<option value="">홈팀선택</option>
+								<option value="">어웨이팀선택</option>
+								<c:forEach var="leagueTeamDto" items="${leagueTeamList}">
+									<option value="${leagueTeamDto.leagueTeamNo}">${leagueTeamDto.leagueTeamName}</option>	
+								</c:forEach>
 							</select>
 						</div>
 					</div>
@@ -186,9 +199,9 @@
 								name="leagueMatchLocation">
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mt-2">
 						<div class="col">
-							<button type="button" class="btn btn-primary match-submit-btn">등록</button>
+							<button type="button" class="btn btn-primary match-submit-btn w-100">등록</button>
 						</div>
 					</div>
 				</form>
@@ -210,8 +223,11 @@ $(".closeModal").click(function(){
 });
 
 $(".match-submit-btn").click(function(){
+	var homeTeam = $(".leagueMatchForm select[name='leagueMatchHome']").val();
+	var awayTeam = $(".leagueMatchForm select[name='leagueMatchAway']").val();
+	console.log('hometeam = '+ homeTeam);
+	console.log('awayteam = '+ awayTeam);
 	var formData = $(".leagueMatchForm").serialize();
-	console.log(formData);
 	$.ajax({
 		type:"post",
 		url:"http://localhost:8080/leagueMatch/",

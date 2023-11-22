@@ -19,6 +19,8 @@ import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
 @Repository
 public class MoimDaoImpl implements MoimDao {
 	
+	private final String NAMESPACE = "com.example.mapper.MoimMapper";
+	
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -180,14 +182,18 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.delete("moim.exitMoimMember", dto) > 0;
 	}
 	
+
 	@Override
 	public Integer findMyMoim(String memberEmail) {
 		return sqlSession.selectOne("moim.moimCountByMemberEmail", memberEmail);
-	}
+
 	
 	@Override
 	public List<Integer> findMoimNoByMemberEmail(String memberEmail) {
 		List<Integer> list = sqlSession.selectList("moim.moimMemberCheckByMemberEmail", memberEmail);
 		return list;
 	}
+
+
+
 }
