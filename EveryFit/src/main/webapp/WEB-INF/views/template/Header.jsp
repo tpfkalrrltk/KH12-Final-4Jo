@@ -46,6 +46,7 @@ body {
 	font-family: 'Noto Sans KR', sans-serif;
 }
 
+
 #wrapper {
 	font-family: 'Noto Sans KR', sans-serif;
 }
