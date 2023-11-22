@@ -177,40 +177,52 @@
     	            console.log(response);
     	            // 예시: 성공 시 alert 창 띄우기
     	            if (response === "notLoggedIn") {
-    	                alert("로그인하세요");
+						$(".modal-body").text("로그인하세요.");
+						Modal.show();
     	                // 다른 화면 처리 로직을 여기에 추가
     	            } 
     	            else if (response === "memberNotFound") {
-    	                alert("로그인하세요");
+						$(".modal-body").text("로그인하세요.");
+						Modal.show();
     	                // 실패 시 처리 로직을 여기에 추가
     	            }
     	            else if (response === "moimNotFound") {
-    	                alert("존재하지 않는 모임입니다.");
+						$(".modal-body").text("존재하지 않는 모임입니다.");
+						Modal.show();
     	                // 실패 시 처리 로직을 여기에 추가
     	            }
     	            else if (response === "over") {
-    	                alert("가입할 수 있는 모임 개수가 초과되었습니다.");
+						$(".modal-body").text("가입할 수 있는 모임 개수가 초과되었습니다.");
+						Modal.show();
     	                // 실패 시 처리 로직을 여기에 추가
     	            }
     	            else if (response === "joined") {
-    	                alert("이미 가입한 모임");
+						$(".modal-body").text("이미 가입한 모임");
+						Modal.show();
     	                // 실패 시 처리 로직을 여기에 추가
     	            }
     	            else if (response === "genderCheck") {
-    	                alert("여성회원만 가입 가능");
+						$(".modal-body").text("여성회원만 가입 가능");
+						Modal.show();
     	                // 실패 시 처리 로직을 여기에 추가
     	            }
     	            else {
-    	                alert("가입이 완료되었습니다.");
     	                // 실패 시 처리 로직을 여기에 추가
+						$(".modal-body").text("가입이 완료되었습니다.");
+    	                Modal.show();
     	            }
-    	            location.reload();
     	        },
     	        error: function(error) {
     	            alert("에러가 발생했습니다.");
     	        }
     	    });
     });
+    	
+    	var Modal = new bootstrap.Modal(document.getElementById('myModal'));
+    	
+        $("#myModal").on('hidden.bs.modal', function(){
+            location.reload();
+         });
     });
 	
 </script>
@@ -448,9 +460,21 @@ body {
 
 </div>
 </div>
+
+
+<div class="modal" id="myModal" 
+tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">      
+      <div class="modal-body text-black">
+      </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
 </div>
-
-
 
 
 
