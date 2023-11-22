@@ -10,6 +10,134 @@ span {
 }
 </style>
 
+
+
+<!-- ---------------------------------------------------------------------------------------- -->
+
+
+<form class="join-form" action="" method="post" autocomplete="off"
+	novalidate>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-10 offset-md-1">
+
+				<div class="container text-center mt-5 box">
+					<div class="row">
+						<div class="col align-self-start">
+
+							<div class="mt-5">
+								<h2>회원가입</h2>
+							</div>
+
+
+							<!-- 이메일 입력 부분 -->
+							<div class="col-md-4 offset-md-4 mt-5 text-start">
+								<div class="d-flex mt-2">
+									<div class="text-start">
+										<label>Email</label> <input type="text" name="memberEmail"
+											placeholder="everyfit@every.fit" id="id" class="form-control">
+									</div>
+									<div class="ms-3 mt-4">
+										<button type="button" id="id_Confirm" value="중복확인"
+											class="btn btn-success btn-send">
+											인증<i class="fa-solid fa-spinner fa-spin"></i>
+										</button>
+
+									</div>
+								</div>
+							</div>
+
+							<!-- 인증번호 입력 부분 -->
+							<div class="col-md-4 offset-md-4 text-start d-flex">
+								<div class="d-flex ">
+									<div class="text-start">
+
+										<label>인증번호</label> <input type="text"
+											class="form-control cert-input">
+
+									</div>
+									<div class="ms-3 mt-4">
+										<button class="btn btn-success btn-cert" type="button">확인</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 offset-md-4 text-start">
+								<label class="cert-result"></label>
+							</div>
+							<div class="col-md-4 offset-md-4 text-start">
+								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
+								<label>비밀번호</label> <input type="password" name="memberPw"
+									class="form-control">
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								<label> 비밀번호 확인 </label> <input type="password" required
+									class="form-control" name="memberPwConfirm"
+									id="passwordConfirm">
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								이름<input type="text" name="memberName" class="form-control">
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								닉네임<input type="text" name="memberNick" class="form-control">
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								성별<select class="form-select country" >
+									<option>성별</option>
+									<option>man</option>
+									<option>woman</option>
+								</select>
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								관심종목<select class="form-select">
+									<option>종목선택</option>
+									<option>육상</option>
+									<option>축구</option>
+									<option>테니스</option>
+									<option>야구</option>
+									<option>농구</option>
+								</select>
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								전화번호<input type="text" name="memberContact" class="form-control"
+									placeholder="- 제외하고 입력">
+							</div>
+
+							<div class="col-md-4 offset-md-4 text-start">
+								생년월일<input type="date" name="memberBirth" class="form-control">
+							</div>
+
+						<div class="col-md-4 offset-md-4 text-start mt-3">
+						    <input class="form-check-input text-center" type="checkbox" value="" id="flexCheckDefault">
+						    <label class="form-check-label" for="flexCheckDefault">
+						        전체동의
+						    </label>
+						</div>
+
+
+							<div class="mt-4 col-md-4 offset-md-4 text-center"
+								style="margin-bottom: 150px;">
+								<button type="submit" class="btn btn-info" style="width: 350px;">회원가입</button>
+							</div>
+						</div>
+
+						
+
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</form>
+
 <script>
 	/* 인증번호  */
 	$(function() {
@@ -98,120 +226,7 @@ span {
 		  });
 		});
 		
+	
 </script>
-
-<!-- ---------------------------------------------------------------------------------------- -->
-
-
-<form class="join-form" action="" method="post" autocomplete="off"
-	novalidate>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-10 offset-md-1">
-
-				<div class="container text-center mt-5 box">
-					<div class="row">
-						<div class="col align-self-start">
-
-							<div class="mt-5">
-								<h2>회원가입</h2>
-							</div>
-
-
-							<!-- 이메일 입력 부분 -->
-							<div class="col-md-4 offset-md-4 text-start">
-								<div class="d-flex mt-2">
-									<div class="text-start">
-										<label>Email</label> <input type="text" name="memberEmail"
-											placeholder="everyfit@every.fit" id="id" class="form-control">
-									</div>
-									<div class="ms-3 mt-4">
-										<button type="button" id="id_Confirm" value="중복확인"
-											class="btn btn-success btn-send">
-											인증<i class="fa-solid fa-spinner fa-spin"></i>
-										</button>
-
-									</div>
-								</div>
-							</div>
-
-							<!-- 인증번호 입력 부분 -->
-							<div class="col-md-4 offset-md-4 text-start d-flex">
-								<div class="d-flex ">
-									<div class="text-start">
-
-										<label>인증번호</label> <input type="text"
-											class="form-control cert-input">
-
-									</div>
-									<div class="ms-3 mt-4">
-										<button class="btn btn-success btn-cert" type="button">확인</button>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-4 offset-md-4 text-start">
-								<label class="cert-result"></label>
-							</div>
-							<div class="col-md-4 offset-md-4 text-start">
-								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
-								<label>비밀번호</label> <input type="password" name="memberPw"
-									class="form-control">
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								<label> 비밀번호 확인 </label> <input type="password" required
-									class="form-control" name="memberPwConfirm"
-									id="passwordConfirm">
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								이름<input type="text" name="memberName" class="form-control">
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								닉네임<input type="text" name="memberNick" class="form-control">
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								성별<select class="form-select country" >
-									<option>성별</option>
-									<option>man</option>
-									<option>woman</option>
-								</select>
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								관심종목<select class="form-select">
-									<option>종목선택</option>
-									<option>육상</option>
-									<option>축구</option>
-									<option>테니스</option>
-									<option>야구</option>
-									<option>농구</option>
-								</select>
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								전화번호<input type="text" name="memberContact" class="form-control"
-									placeholder="- 제외하고 입력">
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								생년월일<input type="date" name="memberBirth" class="form-control">
-							</div>
-
-							<div class="mt-4 col-md-4 offset-md-4 text-center"
-								style="margin-bottom: 150px;">
-								<button type="submit" class="btn btn-info" style="width: 350px;">회원가입</button>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-</form>
 
 <jsp:include page="../template/Footer.jsp"></jsp:include>
