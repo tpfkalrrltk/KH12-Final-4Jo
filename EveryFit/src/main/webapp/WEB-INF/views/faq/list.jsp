@@ -36,9 +36,11 @@
 
 		<div class="row">
 
-			<div class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+			<div
+				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
 				<a href="add" class="text-light" style="text-decoration: none">
-					<h7 class="display-4"> <i class="fa-solid fa-plus"	id="addIcon"></i></h7>
+					<h7 class="display-4"> <i class="fa-solid fa-plus"
+						id="addIcon"></i></h7>
 				</a>
 			</div>
 
@@ -59,14 +61,14 @@
 
 			<tbody>
 				<c:forEach items="${faqList}" var="faqList">
-					<tr class="text-center table- row">
+					<tr class="text-center table- row"
+						onClick="location.href='${pageContext.request.contextPath}detail?faqNo=${faqList.faqNo}'"
+						style="cursor: pointer;">
 
-						<td class="col-2">${faqList.faqNo}</td>
-						<td class="col-2">${faqList.faqCategory}</td>
-						<td class="col-5"><a href="detail?faqNo=${faqList.faqNo}"
-							style="text-decoration: none" class="text-primary fw-bold">
-								${faqList.faqTitle}</a></td>
-						<td class="col-3">운영자</td>
+						<td class="col-2 text-primary fw-bold">${faqList.faqNo}</td>
+						<td class="col-2 text-primary fw-bold">${faqList.faqCategory}</td>
+						<td class="col-5 text-primary fw-bold">${faqList.faqTitle}</td>
+						<td class="col-3 text-primary fw-bold">운영자</td>
 					</tr>
 				</c:forEach>
 			</tbody>

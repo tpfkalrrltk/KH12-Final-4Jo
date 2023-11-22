@@ -149,9 +149,11 @@ a {
 							</c:choose>
 							<div class="d-flex flex-column mb-3">
 								<div class="row">
-									<label> <input type="file" class="profile-chooser "
-										accept="image/*" style="display: none;"> <i
-										class="fa-solid fa-camera blue fa-2x"></i> <i
+									<label> 
+									<input type="file" class="profile-chooser "
+										accept="image/*" style="display: none;">
+										 <i class="fa-solid fa-camera blue fa-2x"></i> 
+										 <i
 										class="ms-2 fa-solid fa-trash-can red fa-2x profile-delete"></i>
 									</label>
 								</div>

@@ -37,7 +37,8 @@
 
 
 		<div class="row">
-			<div class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
+			<div
+				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
 				<a href="add" class="text-light" style="text-decoration: none">
 					<h7 class="display-4"> <i class="fa-solid fa-plus"
 						id="addIcon"></i></h7>
@@ -63,13 +64,13 @@
 
 				<c:forEach items="${FreeBoardList}" var="FreeBoardList">
 
-					<tr class="text-center table- row">
+					<tr class="text-center table- row"
+						onClick="location.href='${pageContext.request.contextPath}detail?freeBoardNo=${FreeBoardList.freeBoardNo}'"
+						style="cursor: pointer;">
 
-						<td class="col-2">${FreeBoardList.freeBoardNo}</td>
-						<td class="col-2">${FreeBoardList.freeBoardCategory}</td>
-						<td class="col-5"><a
-							href="detail?freeBoardNo=${FreeBoardList.freeBoardNo}"
-							style="text-decoration: none" class="text-primary fw-bold">
+						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardNo}</td>
+						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardCategory}</td>
+						<td class="col-5 text-primary fw-bold">
 								${FreeBoardList.freeBoardTitle} <c:if
 									test="${FreeBoardList.freeBoardReplyCount>0}">
 							[${FreeBoardList.freeBoardReplyCount}]
@@ -79,11 +80,11 @@
 
 						<c:choose>
 							<c:when test="${FreeBoardList.memberNick==null}">
-								<td class="col-3">--탈퇴한 회원--</td>
+								<td class="col-3 text-primary fw-bold">--탈퇴한 회원--</td>
 							</c:when>
 
 							<c:otherwise>
-								<td class="col-3">${FreeBoardList.memberNick}</td>
+								<td class="col-3 text-primary fw-bold">${FreeBoardList.memberNick}</td>
 							</c:otherwise>
 						</c:choose>
 

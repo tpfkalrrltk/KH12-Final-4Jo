@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,12 +50,20 @@ public class FreeBoardController {
 
 	private File dir;
 
+	@PostConstruct
+	public void init() {
+		dir = new File(props.getHome(), "freeBoard");
+		dir.mkdirs();
+
+	}
+
 	@RequestMapping("/list")
-	public String list(Model model, @ModelAttribute(name = "boardVO") BoardVO boardVO) {
+	public String list(Model model, @ModelAttribute(name = "boardVO") BoardVO boardVO,
+			HttpSession session) {
 
 		int count = freeBoardDao.countList(boardVO);
 		boardVO.setCount(count);
-
+		
 		List<FreeBoardDto> list = freeBoardDao.selectListByPage(boardVO);
 		model.addAttribute("FreeBoardList", list);
 		return "/freeBoard/list";
@@ -75,15 +84,11 @@ public class FreeBoardController {
 		if (!attach.isEmpty()) { // 파일이 있으면
 			// 파일 삭제
 			Integer findImageNo = freeBoardDao.findImage(freeBoardDto.getFreeBoardNo());
-			
-			
-			
+
 			String home = "C:/upload/kh12fd";
 			File dir = new File(home, "freeBoard");
 			dir.mkdirs();
-			
-			
-			
+
 			if (findImageNo != null) {
 				attachDao.delete(findImageNo);
 
@@ -125,17 +130,16 @@ public class FreeBoardController {
 
 		int freeBoardNo = freeBoardDao.sequence();
 		freeBoardDto.setFreeBoardNo(freeBoardNo);
-		String memberNickName = (String) session.getAttribute("nickName");
-		freeBoardDto.setMemberNick(memberNickName);
+		String memberEmail = (String) session.getAttribute("name");
+		freeBoardDto.setMemberEmail(memberEmail);
 		freeBoardDao.add(freeBoardDto);
 
+		// 첨부파일등록(파일있을때)
 		if (!attach.isEmpty()) {
+			// 첨부파일등록(파일이 있을때만)
 			int attachNo = attachDao.sequence();
 
-			String home = "C:/upload/kh12fd";
-			File dir = new File(home, "freeBoard");
-			dir.mkdirs();
-			File target = new File(dir, String.valueOf(attachNo));
+			File target = new File(dir, String.valueOf(attachNo)); // 저장할 파일
 			attach.transferTo(target);
 
 			AttachDto attachDto = new AttachDto();
@@ -145,7 +149,8 @@ public class FreeBoardController {
 			attachDto.setAttachType(attach.getContentType());
 			attachDao.insert(attachDto);
 
-			freeBoardDao.connect(freeBoardNo, attachNo);
+			// 연결(파일이 있을때만)
+			freeBoardDao.insertFreeBoardImage(freeBoardNo, attachNo);
 
 		}
 
@@ -165,7 +170,6 @@ public class FreeBoardController {
 
 		Integer freeBoardImage = freeBoardDao.findImage(freeBoardNo);
 		model.addAttribute("freeBoardImage", freeBoardImage);
-
 
 		return "freeBoard/detail";
 	}

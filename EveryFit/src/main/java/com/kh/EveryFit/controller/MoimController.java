@@ -137,6 +137,7 @@ public class MoimController {
 		//모임이미지
 		Integer profile = moimDao.findMoimProfile(moimNo);
 		model.addAttribute("profile", profile);
+		
 //		//정모 목록
 //		model.addAttribute("jungmoList", jungmoDao.selectList(moimNo));		
 		//정모목록

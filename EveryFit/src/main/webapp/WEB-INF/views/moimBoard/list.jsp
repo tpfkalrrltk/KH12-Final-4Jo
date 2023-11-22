@@ -69,7 +69,7 @@
 					<th class="col-2  fw-bold">제목</th>
 					<th class="col-2  fw-bold">내용</th>
 					<th class="col-2  fw-bold"><select id="categorySelect"
-						class="form-select">
+						class="form-select text-primary fw-bold">
 
 							<option value="/moim/board/list?moimNo=${param.moimNo}" checked>카테고리</option>
 							<option value="/moim/board/list?moimNo=${param.moimNo}">ALL</option>
@@ -100,12 +100,17 @@
 						onClick="location.href='${pageContext.request.contextPath}/moim/board/detail?moimBoardNo=${boardList.moimBoardNo}'"
 						style="cursor: pointer;">
 
-						<td class="col-2">${boardList.moimBoardNo}</td>
-						<td class="col-2">${boardList.moimNo}</td>
-						<td class="col-2">${boardList.memberEmail}</td>
-						<td class="col-2">${boardList.moimBoardTitle}</td>
-						<td class="col-2">${boardList.moimBoardContent}</td>
-						<td class="col-2">${boardList.moimBoardCategory}</td>
+						<td class="col-2 text-primary fw-bold">${boardList.moimBoardNo}</td>
+						<td class="col-2 text-primary fw-bold">${boardList.moimNo}</td>
+						<td class="col-2 text-primary fw-bold">${boardList.memberEmail}</td>
+						<td class="col-2 text-primary fw-bold">${boardList.moimBoardTitle}<c:if
+								test="${boardList.moimBoardReplyCount>0}">
+							<small>[${boardList.moimBoardReplyCount}]</small>
+								</c:if>
+						</td>
+
+						<td class="col-2 text-primary fw-bold">${boardList.moimBoardContent}</td>
+						<td class="col-2 text-primary fw-bold">${boardList.moimBoardCategory}</td>
 
 					</tr>
 				</c:forEach>
@@ -113,11 +118,89 @@
 
 		</table>
 
-
+	</div>
+	</div>
+	
+	
+	<div class="row page-navigator mv-30">
+		<!-- 이전 버튼 -->
+		<div class="col-1 offset-5">
+			<c:if test="${!boardVO.first}">
+				<a
+					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimNo}&${boardVO.prevQueryString}">
+					<i class="fa-solid fa-angle-left text-primary fw-bold"></i>
+				</a>
+			</c:if>
+		</div>
+		<!-- 숫자 버튼 -->
+		<div class="col-1">
+			<c:forEach var="i" begin="${boardVO.begin}" end="${boardVO.end}"
+				step="1">
+				<c:choose>
+					<c:when test="${boardVO.page == i}">
+						<a class="on text-primary fw-bold">${i}</a>
+					</c:when>
+					<c:otherwise>
+						<a
+							href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimNo}&${boardVO.getQueryString(i)}">${i}</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</div>
+		<!-- 다음 버튼 -->
+		<div class="col-1">
+			<c:if test="${!boardVO.last}">
+				<a
+					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimNo}&${boardVO.nextQueryString}">
+					<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</c:if>
+		</div>
 	</div>
 
+	<!-- 검색기능 -->
+
+
+	<div align="center" class="row mt-5 ">
+		<div class="col-2 offset-2 p-0">
+			<form action="list" method="get">
+				<input type="hidden" value="${moimNo}" name="moimNo">
+				<c:choose>
+					<c:when test="${param.type == 'member_nick'}">
+						<select name="type" required="required"
+							class="form-select text-primary fw-bold">
+							<option value="moim_board_title">제목</option>
+							<option value="member_nick" selected="selected">닉네임</option>
+							<option value="moim_board_content">내용</option>
+						</select>
+					</c:when>
+					<c:otherwise>
+						<select name="type" required="required"
+							class="form-select text-primary fw-bold">
+							<option value="moim_board_title" selected="selected">제목</option>
+							<option value="member_nick">닉네임</option>
+							<option value="moim_board_content">내용</option>
+						</select>
+					</c:otherwise>
+				</c:choose>
+		</div>
+		<div class="col-4 p-0">
+			<input class="form-control text-primary  fw-bold" type="search"
+				name="keyword" required="required" placeholder="검색어를 입력해주세요">
+		</div>
+		<div class="col-1 ">
+			<button class="btn btn-primary w-100 " type="submit"
+				style="height: 44px">
+				<i class="fa-solid fa-magnifying-glass fa-flip fa-xl"></i>
+			</button>
+			</form>
+		</div>
 
 	</div>
+	
+	
+	
+	
 </body>
 </html>
 

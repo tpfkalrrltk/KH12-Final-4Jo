@@ -42,7 +42,7 @@ public interface FreeBoardDao {
 
 	public List<FreeBoardDto> selectListByPage(int page);
 
-	public List<FreeBoardDto> selectListByPage(BoardVO boardVO);
+	public List<FreeBoardDto> selectListByPage(BoardVO boardVO );
 
 	public int countList(BoardVO boardVO);
 
@@ -58,6 +58,8 @@ public interface FreeBoardDao {
 	void insertFreeBoardImage(int freeBoardNo, int attachNo);
 
 	Integer findImage(Integer freeBoardNo);
+
+	
 	
 	
 	

@@ -18,6 +18,48 @@ textarea {
 }
 </style>
 
+<script>
+$(function(){
+    $("#attach-selector").change(function(){
+    	 $(".preview-wrapper").empty();
+    	
+    	 if(this.files.length == 0) {
+            //초기화
+            return;
+        }
+
+        let reader = new FileReader();
+        reader.onload = ()=>{
+            $("<img>").attr("src", reader.result)//data;로 시작하는 엄청많은 실제이미지 글자
+                            .css("max-width", "300px")
+                            .appendTo(".preview-wrapper");
+        };
+        for(let i=0; i < this.files.length; i++) {
+            reader.readAsDataURL(this.files[i]);
+        }
+    });
+});
+</script>
+
+<script>
+	$(function() {
+		$(".btn-save").click(function() {
+
+			var faqTitle = $("[name=freeBoardTitle]").val();
+			var faqDetail = $("[name=freeBoardContent]").val();
+			var fileInput = $(".file-chooser")[0];
+
+			if (freeBoardTitle.length == 0 || freeBoardContent.length == 0) {
+				event.preventDefault();
+				alert("제목과 내용을 입력해주세요.");
+			}
+		})
+	});
+</script>
+
+
+
+
 <body>
 	<div class="container ">
 
@@ -29,16 +71,7 @@ textarea {
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-5 offset-1">
-				<p class="text-primary fw-bold">파일 :</p>
-				<label> <input type="file" name="attach"
-					class="w-100 file-chooser" style="display: none;" accept="image/*">
-					<img src="${pageContext.request.contextPath}/images/no-image.png"
-					width="200" height="200">
-				</label>
-			</div>
-		</div>
+
 
 
 
@@ -50,15 +83,29 @@ textarea {
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">제목 :</p>
-							<input type="text" name="freeBoardTitle" class="form-control fw-bold bg-primary text-light"
+							<input type="text" name="freeBoardTitle"
+								class="form-control fw-bold bg-primary text-light"
 								value="${freeBoardDto.freeBoardTitle}">
+						</div>
+					</div>
+
+						<div class="row">
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">파일 :</p>
+
+							<label> <input type="file" name="attach" accept="image/*"
+								multiple id="attach-selector">
+							</label>
+							<div class="preview-wrapper"></div>
+
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">카테고리 :</p>
-							<select name="freeBoardCategory" class="form-control fw-bold bg-primary text-light"
+							<select name="freeBoardCategory"
+								class="form-control fw-bold bg-primary text-light"
 								value="${freeBoardDto.freeBoardCategory}">
 								<option class="fw-bold bg-primary text-light">자유</option>
 								<option class="fw-bold bg-primary text-light">회원</option>

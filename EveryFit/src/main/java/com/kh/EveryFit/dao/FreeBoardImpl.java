@@ -130,14 +130,15 @@ public class FreeBoardImpl implements FreeBoardDao {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("begin", begin);
 		params.put("end", end);
+
 		return sqlSession.selectList("freeBoard.selectListByPage", params);
 	}
 
 	@Override
-	public List<FreeBoardDto> selectListByPage(BoardVO boardVO) {
+	public List<FreeBoardDto> selectListByPage(BoardVO boardVO ) {
 
 		if (boardVO.getType() != null && boardVO.getKeyword() != null) {
-			return selectListByPage(boardVO.getType(), boardVO.getKeyword(), boardVO.getPage());
+			return selectListByPage(boardVO.getType(), boardVO.getKeyword(), boardVO.getPage() );
 
 		} else {
 			return selectListByPage(boardVO.getPage());
@@ -189,5 +190,7 @@ public class FreeBoardImpl implements FreeBoardDao {
 		sqlSession.insert("freeBoard.insertFreeBoardImage", params);
 
 	}
+
+
 
 }
