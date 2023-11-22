@@ -186,7 +186,7 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public Integer findMyMoim(String memberEmail) {
 		return sqlSession.selectOne("moim.moimCountByMemberEmail", memberEmail);
-
+	}
 	
 	@Override
 	public List<Integer> findMoimNoByMemberEmail(String memberEmail) {
