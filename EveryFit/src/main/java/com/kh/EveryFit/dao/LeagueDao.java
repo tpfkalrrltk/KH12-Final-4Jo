@@ -34,6 +34,7 @@ public interface LeagueDao {
 	void deleteLeagueTeam(int leagueTeamNo);
 	List<LeagueTeamDto> listLeagueTeamByLeague(int leagueNo);
 	List<LeagueTeamDto> listLeagueTeamNonApprove(int leagueNo);
+	List<LeagueTeamDto> lsitLeagueTeamApprove(int leagueNo);
 	List<LeagueTeamRankListVO> leagueTeamRank(int leagueNo);
 	boolean updateLeagueTeamStatus(int leagueTeamNo, String status);
 	void leagueTeamCalculate(int leagueTeamNo);

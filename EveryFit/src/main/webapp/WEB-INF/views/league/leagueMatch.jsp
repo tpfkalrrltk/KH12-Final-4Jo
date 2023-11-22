@@ -14,6 +14,8 @@
 		</div>
 		<div class="row text-end m-2">
 			<div class="col">
+				더블라운드 <input type="checkbox" name="isDouble">
+				<button class="btn btn-success auto-match-btn" data-league-no="${param.leagueNo}">경기자동등록</button>
 				<button class="btn btn-primary insert-btn">경기등록</button>
 			</div>
 		</div>
@@ -214,6 +216,28 @@
 </div>
 
 <script>
+	
+$(".auto-match-btn").click(function(){
+	var leagueNo = $(this).data("league-no");
+	var isDouble = $("input[name='isDouble']").prop("checked");
+	
+	$.ajax({
+		type:"post",
+		url:"http://localhost:8080/rest/league/autoMatchInsert/",
+		data:{leagueNo:leagueNo, isDouble:isDouble},
+		success:function(response){
+			alert("성공");
+			location.reload();
+		},
+		error:function(error){
+			alert("오류가 발생했습니다.")
+		}
+	})
+	
+});
+	
+	
+	
 $(".insert-btn").click(function(){
 	$("#matchInsertModal").modal('show');
 });
@@ -316,7 +340,5 @@ $(".match-result-btn").click(function(){
 		}
 	});
 });
-
-
 </script>
 <%@ include file="/WEB-INF/views/template/Footer.jsp"%>

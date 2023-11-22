@@ -1,6 +1,8 @@
 package com.kh.EveryFit.rest;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.EveryFit.component.LeagueMatchMaker;
 import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
+import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
@@ -75,4 +79,28 @@ public class LeagueRestController {
 	public List<LeagueTeamDto> loadLeagueTeamList(@RequestParam int leagueNo){
 		return leagueDao.listLeagueTeamByLeague(leagueNo);
 	}
+	
+	@PostMapping("/autoMatchInsert")
+	public void autoMatchInsert(@RequestParam int leagueNo, @RequestParam boolean isDouble) {
+		List<LeagueTeamDto> leagueTeamList = leagueDao.lsitLeagueTeamApprove(leagueNo);
+		List<Integer> leagueTeamNoList = new ArrayList<>();
+		for(int i=0;i<leagueTeamList.size();i++) {
+			leagueTeamNoList.add(leagueTeamList.get(i).getLeagueTeamNo());
+		}
+		LeagueMatchMaker.addTeamList(leagueTeamNoList);
+		List<List<Integer>> matchList = LeagueMatchMaker.makeMatch(leagueTeamNoList, isDouble);
+		log.debug("matchList={}", matchList);
+		Collections.shuffle(matchList);
+		log.debug("matchList={}", matchList);
+		for(List<Integer> match : matchList) {
+			int leagueMatchNo = leagueDao.leagueMatchSequence();
+			leagueDao.insertLeagueMatch(LeagueMatchDto.builder()
+										.leagueNo(leagueNo)
+										.leagueMatchNo(leagueMatchNo)
+										.leagueMatchHome(match.get(0))
+										.leagueMatchAway(match.get(1))
+										.build());
+		}
+	}
+	
 }
