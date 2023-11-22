@@ -63,7 +63,7 @@
 		<table class="table table-hover row">
 			<thead>
 				<tr class=" table-primary text-center row mt-4">
-					<th class="col-2  fw-bold">게시판번호</th>
+					<th class="col-2  fw-bold">No</th>
 					<th class="col-2  fw-bold">닉네임</th>
 					<th class="col-2  fw-bold">제목</th>
 					<th class="col-4  fw-bold">작성시간</th>
