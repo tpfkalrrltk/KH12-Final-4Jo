@@ -1,5 +1,6 @@
 package com.kh.EveryFit.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.kh.EveryFit.dto.FaqDto;
@@ -11,6 +12,8 @@ public interface FaqDao {
 	List<FaqDto> list();
 
 	int sequence();
+	
+	Date sysdate();
 
 	void edit(int faqNo, FaqDto faqDto);
 

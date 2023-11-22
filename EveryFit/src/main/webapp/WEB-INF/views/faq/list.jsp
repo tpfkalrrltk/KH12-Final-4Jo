@@ -54,8 +54,9 @@
 				<tr class=" table-primary text-center row mt-4">
 					<th class="col-2  fw-bold">번호</th>
 					<th class="col-2  fw-bold">카테고리</th>
-					<th class="col-5  fw-bold">제목</th>
-					<th class="col-3  fw-bold">작성자</th>
+					<th class="col-2  fw-bold">제목</th>
+					<th class="col-2  fw-bold">닉네임</th>
+					<th class="col-4  fw-bold">작성시간</th>
 				</tr>
 			</thead>
 
@@ -67,8 +68,9 @@
 
 						<td class="col-2 text-primary fw-bold">${faqList.faqNo}</td>
 						<td class="col-2 text-primary fw-bold">${faqList.faqCategory}</td>
-						<td class="col-5 text-primary fw-bold">${faqList.faqTitle}</td>
-						<td class="col-3 text-primary fw-bold">운영자</td>
+						<td class="col-2 text-primary fw-bold">${faqList.faqTitle}</td>
+						<td class="col-2 text-primary fw-bold">${faqList.faqNick}</td>
+						<td class="col-4 text-primary fw-bold">${faqList.faqTime}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -1,5 +1,6 @@
 package com.kh.EveryFit.dao;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,6 +175,11 @@ public class FaqDaoImpl implements FaqDao {
 		params.put("attachNo", attachNo);
 		sqlSession.insert("FAQ.insertFaqImage", params);
 		
+	}
+
+	@Override
+	public Date sysdate() {
+		return sqlSession.selectOne("FAQ.sysdate");
 	}
 
 }

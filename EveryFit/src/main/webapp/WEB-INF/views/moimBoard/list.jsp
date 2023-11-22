@@ -63,11 +63,10 @@
 		<table class="table table-hover row">
 			<thead>
 				<tr class=" table-primary text-center row mt-4">
-					<th class="col-2  fw-bold">모임게시판번호</th>
-					<th class="col-2  fw-bold">모임번호</th>
-					<th class="col-2  fw-bold">모임멤버</th>
+					<th class="col-2  fw-bold">게시판번호</th>
+					<th class="col-2  fw-bold">닉네임</th>
 					<th class="col-2  fw-bold">제목</th>
-					<th class="col-2  fw-bold">내용</th>
+					<th class="col-4  fw-bold">작성시간</th>
 					<th class="col-2  fw-bold"><select id="categorySelect"
 						class="form-select text-primary fw-bold">
 
@@ -101,15 +100,14 @@
 						style="cursor: pointer;">
 
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardNo}</td>
-						<td class="col-2 text-primary fw-bold">${boardList.moimNo}</td>
-						<td class="col-2 text-primary fw-bold">${boardList.memberEmail}</td>
+						<td class="col-2 text-primary fw-bold">${boardList.memberNick}</td>
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardTitle}<c:if
 								test="${boardList.moimBoardReplyCount>0}">
 							<small>[${boardList.moimBoardReplyCount}]</small>
 								</c:if>
 						</td>
 
-						<td class="col-2 text-primary fw-bold">${boardList.moimBoardContent}</td>
+						<td class="col-4 text-primary fw-bold">${boardList.moimBoardTime}</td>
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardCategory}</td>
 
 					</tr>

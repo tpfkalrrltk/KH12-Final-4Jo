@@ -1,5 +1,6 @@
 package com.kh.EveryFit.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.kh.EveryFit.dto.AttachDto;
@@ -22,6 +23,7 @@ public interface FreeBoardDao {
 	boolean delete(int freeBoardNo);
 
 	int sequence();
+	
 
 	FreeBoardDto selectOne(int freeBoardNo);
 	

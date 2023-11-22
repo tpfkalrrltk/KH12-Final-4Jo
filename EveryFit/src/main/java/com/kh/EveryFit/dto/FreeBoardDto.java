@@ -1,5 +1,7 @@
 package com.kh.EveryFit.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class FreeBoardDto {
-int freeBoardNo;
-String freeBoardTitle, freeBoardContent, freeBoardCategory;
-String memberEmail, memberNick;
-int freeBoardReplyCount;
+	private int freeBoardNo;
+	private String freeBoardTitle, freeBoardContent, freeBoardCategory;
+	private String memberEmail, memberNick;
+	private int freeBoardReplyCount;
+	private Date freeBoardTime;
 
-	
 }

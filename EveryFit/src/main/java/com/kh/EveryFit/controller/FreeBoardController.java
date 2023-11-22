@@ -3,6 +3,7 @@ package com.kh.EveryFit.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -132,6 +133,11 @@ public class FreeBoardController {
 		freeBoardDto.setFreeBoardNo(freeBoardNo);
 		String memberEmail = (String) session.getAttribute("name");
 		freeBoardDto.setMemberEmail(memberEmail);
+		
+		String memberNick = (String) session.getAttribute("nickName");
+		freeBoardDto.setMemberNick(memberNick);
+		
+	
 		freeBoardDao.add(freeBoardDto);
 
 		// 첨부파일등록(파일있을때)
