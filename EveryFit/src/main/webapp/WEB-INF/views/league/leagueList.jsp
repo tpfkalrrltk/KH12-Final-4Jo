@@ -3,85 +3,105 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
+<style>
+a{
+	text-decoration:none;
+}
+.cursor{
+	cursor:pointer;
+}
+</style>
 
-
-
-<span class="m-5 p-5"></span>
-<div class="row"><div class="col-md-8 offset-md-2 mt-5">
-<h1 class="m-5 p-5">리그 목록</h1>
-	<div class="row">
-		<div class="col">
-			<a href="leagueInsert">리그등록</a>
+<div class="container-fluid">
+	<div class="row"><div class="col-md-8 offset-md-2">
+		<div class="p-5 bg-primary text-light rounded">
+			<h1>
+				리그 목록 
+				<i class="fa-solid fa-trophy"></i>
+			</h1>
+			<hr>
+			<div class="text-end">
+				<a href="leagueInsert" class="btn btn-info">리그등록</a>
+			</div>
 		</div>
-	</div>
-<div class="row">
-	<div class="col">
-		<table class="table">
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>종목</th>
-					<th>관리자</th>
-					<th>제목</th>
-					<th>상태</th>
-					<th>지역</th>
-					<th>참가요강</th>
-					<th>접수관리</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="leagueDto" items="${list}">
-					<tr>
-						<td>${leagueDto.leagueNo}</td>
-						<td>${leagueDto.eventName}</td>
-						<td>${leagueDto.leagueManager}</td>
-						<td><a href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
-						<td>${leagueDto.leagueStatus}</td>
-						<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
-						<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-sm btn-primary">참가요강</a></td>
-						<td><i class="fa-solid fa-pen-to-square fa-lg edit-application btn"
-							data-league-no="${leagueDto.leagueNo}"></i></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
-</div>
-<form>
-	<div class="row">
-		<div class="col">
-			리그번호 <input type="number" class="form-control" name="leagueNo">
-			종목 <select class="form-select" name="eventName">
-					<option value="">종목선택</option>
+		
+		<form>
+		<div class="row mt-5"><div class="col">
+			<div class="input-group">
+				<span class="input-group-text">리그검색</span>
+				<select class="form-select" name="eventName">
+					<option value="">종목</option>
 					<c:forEach var="eventDto" items="${eventList}">
 						<option value="${eventDto.eventName}">${eventDto.eventName}</option>
 					</c:forEach>
 				</select>
-			제목 <input type="text" class="form-control" name="leagueTitle">
-			상태 <select class="form-select" name="leagueStatus">
-					<option value="">리그상태</option>
-					<option value="접수중">접수중</option>
-					<option value="접수마감">접수마감</option>
-					<option value="대기상태">대기상태</option>
-					<option value="진행중">진행중</option>
-					<option value="종료됨">종료됨</option>
-			</select>
-			시/도 
-			<select class="form-select" name="locationDepth1">
-				<option value="">시/도</option>
-				<c:forEach var="locationDto" items="${locationList}">
-					<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
-				</c:forEach>
-			</select>
-			구/시
-			<select class="form-select" name="locationDepth2">
-				<option value="">시/도</option>
-			</select>
-			<button class="btn btn-primary">검색</button>
+				<select class="form-select" name="leagueStatus">
+						<option value="">리그상태</option>
+						<option value="접수중">접수중</option>
+						<option value="접수마감">접수마감</option>
+						<option value="대기상태">대기상태</option>
+						<option value="진행중">진행중</option>
+						<option value="종료됨">종료됨</option>
+				</select>
+				<select class="form-select" name="locationDepth1">
+					<option value="">시/도</option>
+					<c:forEach var="locationDto" items="${locationList}">
+						<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
+					</c:forEach>
+				</select>
+				<select class="form-select" name="locationDepth2">
+					<option value="">시/군/구</option>
+				</select>
+				<input type="text" class="form-control" name="leagueTitle" placeholder="제목검색">
+				<button class="btn btn-primary">검색</button>
+			</div>
+		</div></div>
+		</form>
+		
+		<div class="row mt-5">
+			<div class="col">
+				<table class="table table-hover text-center">
+					<thead>
+						<tr class="table-secondary">
+							<th width="5%">번호</th>
+							<th width="10%">종목</th>
+							<th width="35%">제목</th>
+							<th width="10%">상태</th>
+							<th width="15%">지역</th>
+							<th width="15%">참가요강</th>
+							<th width="10%" class="text-info">접수</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="leagueDto" items="${list}">
+							<tr>
+								<td>${leagueDto.leagueNo}</td>
+								<td>${leagueDto.eventName}</td>
+								<td><a class="alert-link" href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
+								<td>${leagueDto.leagueStatus}</td>
+								<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
+								<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="alert-link">
+									<i class="fa-solid fa-arrow-up-right-from-square"></i>
+									참가요강</a></td>
+								<td>
+									<div class="edit-application text-info cursor fw-bold" data-league-no="${leagueDto.leagueNo}">
+										<i class="fa-regular fa-pen-to-square"></i>관리
+									</div>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
-</form>
-</div></div>
+		
+		<c:if test="${empty list}">
+			<div class="row text-warning"><div class="col">
+				<h2>검색결과가 존재하지 않습니다</h2>
+			</div></div>
+		</c:if>	
+	</div></div>
+</div>
 
 <!-- 접수 모달 -->
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -130,7 +150,7 @@ $(function(){
 				var select = $("[name=locationDepth2]");
 				
 				select.empty();
-				select.append('<option value="">구/시 선택</option>');
+				select.append('<option value="">시/군/구</option>');
 				$.each(data, function(index, locationDto){
 					var depth2Value = locationDto.locationDepth2;
 					select.append('<option value="' + depth2Value + '">' + depth2Value + '</option>');
@@ -182,7 +202,7 @@ $(function(){
 		var applicationStart = $("#appInsert input[name='leagueApplicationStart']").val();
 		var applicationEnd = $("#appInsert input[name='leagueApplicationEnd']").val();
 	
-		if(applicationStart > applicationEnd) {
+		if(applicationStart >= applicationEnd) {
 			alert('시작일과 마감일을 확인해주세요');
 			return;
 		}
@@ -241,3 +261,5 @@ $(function(){
 	
 });
 </script>
+
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

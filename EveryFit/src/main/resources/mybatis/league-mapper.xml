@@ -148,6 +148,12 @@
     	order by league_team_no asc
     </select>
     
+    <!-- 리그별 승인된 리그팀 리스트 -->
+    <select id="listLeagueTeamApprove" resultType="LeagueTeamDto">
+    	select * from league_team where league_no = #{leagueNo} and league_team_status = 'Y' 
+    	order by league_team_no asc
+    </select>
+    
     <!-- 리그 순위표 리스트 -->
     <select id="listLeagueTeamRank" resultType="LeagueTeamRankListVO">
     	select league_team.*, rank() over (order by league_team_point desc, league_team_win desc, 

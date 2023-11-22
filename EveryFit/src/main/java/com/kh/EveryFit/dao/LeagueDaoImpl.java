@@ -250,4 +250,9 @@ public class LeagueDaoImpl implements LeagueDao{
 	public List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo) {
 		return sqlSession.selectList("league.listLeagueMatchListVO", leagueNo);
 	}
+	
+	@Override
+	public List<LeagueTeamDto> lsitLeagueTeamApprove(int leagueNo) {
+		return sqlSession.selectList("league.listLeagueTeamApprove", leagueNo);
+	}
 }
