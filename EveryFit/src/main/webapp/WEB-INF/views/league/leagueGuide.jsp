@@ -77,7 +77,7 @@ $(function(){
 			success:function(response){
 				
 				var moimList = response;
-				console.log(moimList);
+				console.log(response.length);
 
                 // 모달을 만들고 목록을 모달에 추가
                 var modalContent = '<div id="moim-list-modal" class="modal fade" role="dialog">';
@@ -87,7 +87,10 @@ $(function(){
                 modalContent += '<h4 class="modal-title">모임 선택</h4>';
                 modalContent += '</div>';
                 modalContent += '<div class="modal-body">';
-
+                if(response.length===0){
+                	modalContent += '<h4 class="text-warning">참여가능한 모임이 없습니다</h4>'
+                }
+                
                 // 각 팀에 대한 목록을 모달에 추가
                 for (var i = 0; i < moimList.length; i++) {
                 	modalContent += '<div class="card border-primary mb-3" style="max-width: 20rem;">';
@@ -111,6 +114,7 @@ $(function(){
                 modalContent += '</div>';
                 modalContent += '</div>';
                 modalContent += '</div>';
+                
 
                 // 모달을 body에 추가
                 $('body').append(modalContent);

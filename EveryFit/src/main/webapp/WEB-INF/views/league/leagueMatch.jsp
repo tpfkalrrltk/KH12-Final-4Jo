@@ -21,7 +21,9 @@
 		<c:forEach var="matchDto" items="${leagueMatchList}">
 		<div class="row mt-4 text-center">
 			<div class="col-3">
-				${matchDto.homeTeamName}
+				<div class="row">
+					${matchDto.homeTeamName}
+				</div>
 			</div>
 			<div class="col-6">
 				<div class="row"><div class="col">
@@ -58,14 +60,24 @@
 					<input type="hidden" name="leagueNo" value="">
 					<div class="row">
 						<div class="col">
-							<label class="form-label">홈팀</label> 
-							<input class="form-control" name="leagueMatchHome" value="">
+							<label class="form-label">홈팀</label>
+							<select class="form-select" name="leagueMatchHome">
+								<option value="">홈팀선택</option>
+								<c:forEach var="leagueTeamDto" items="${leagueTeamList}">
+									<option value="${leagueTeamDto.leagueTeamNo}">${leagueTeamDto.leagueTeamName}</option>	
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col">
-							<label class="form-label">어웨이팀</label> 
-							<input class="form-control" name="leagueMatchAway" value="">
+							<label class="form-label"></label>
+							<select class="form-select" name="leagueMatchAway">
+								<option value="">어웨이팀선택</option>
+								<c:forEach var="leagueTeamDto" items="${leagueTeamList}">
+									<option value="${leagueTeamDto.leagueTeamNo}">${leagueTeamDto.leagueTeamName}</option>	
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 					<div class="row">

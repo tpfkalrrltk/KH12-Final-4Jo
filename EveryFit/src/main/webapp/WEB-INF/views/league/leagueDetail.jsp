@@ -44,7 +44,12 @@
             <c:forEach var="vo" items="${rankList}">
               <tr>
                 <td>${vo.leagueTeamRank}</td>
-                <td>${vo.leagueTeamName}</td>
+                <td>
+                	<div>
+                	${vo.leagueTeamName}
+                		<img class="rounded" src="/image?moimNo=${vo.moimNo}" height="30" width="30">
+	               	</div>
+                </td>
                 <td>${vo.leagueTeamMatchCount}</td>
                 <td>${vo.leagueTeamWin}</td>
                 <td>${vo.leagueTeamLose}</td>
