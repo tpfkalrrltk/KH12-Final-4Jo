@@ -94,8 +94,7 @@ public class LeagueController {
 	public String leagueInsert(@ModelAttribute LeagueDto leagueDto, 
 								@RequestParam MultipartFile attach, 
 								HttpSession session) throws IllegalStateException, IOException {
-		//String leagueManager = (String)session.getAttribute("name");
-		String leagueManager = "leaguetest1";
+		String leagueManager = (String)session.getAttribute("name");
 		int leagueNo = leagueDao.leagueSequence();
 		int chatRoomNo = chatDao.sequence();
 		chatDao.insertChatRoom(chatRoomNo);

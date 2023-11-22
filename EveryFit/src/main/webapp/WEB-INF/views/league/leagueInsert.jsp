@@ -30,7 +30,7 @@
 		</select>
 		<label class="form-label">구/시 선택</label>
 		<select class="form-select" name="locationNo">
-			<option value="">시/도</option>
+			<option value="">구/시 선택</option>
 		</select>
     </div></div>
     <div class="row mt-4"><div class="col">
