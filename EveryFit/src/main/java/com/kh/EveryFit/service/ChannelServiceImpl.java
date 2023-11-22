@@ -80,7 +80,7 @@ public class ChannelServiceImpl implements ChannelService{
 	}
 	
 	@Override
-	public void sendMessage(WebSocketSession session, Integer chatRoomNo, TextMessage message, Map<String, Object> params) throws IOException {
+	public void sendMessage(Integer chatRoomNo, TextMessage message, Map<String, Object> params) throws IOException {
 		ChatRoomVO room = findRoom(chatRoomNo);
 //		ClientVO members = new ClientVO();
 //		room.enter(session);
@@ -93,6 +93,7 @@ public class ChannelServiceImpl implements ChannelService{
 	        Map<String, Object> clientInfo = new HashMap<>();
 	        clientInfo.put("memberEmail", client.getMemberEmail());
 	        clientInfo.put("memberNick", client.getMemberNick());
+	        clientInfo.put("attachNo", client.getAttachNo());
 	        clientInfoList.add(clientInfo);
 	    }
 	    // 메시지에 클라이언트 정보 추가

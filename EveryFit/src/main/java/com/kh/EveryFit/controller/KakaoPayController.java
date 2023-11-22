@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
@@ -34,6 +35,7 @@ import com.kh.EveryFit.vo.KakaoPayReadyRequestVO;
 import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
 import com.kh.EveryFit.vo.PaymentListAllVO;
+import com.kh.EveryFit.vo.PaymentListByMemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -229,6 +231,9 @@ public class KakaoPayController {
 						moimDao.upgradeToPrimium(MoimDto.builder()
 								.moimNo(moimNo)
 								.build());
+						
+						
+						
 						return "redirect:successResult";
 			}
 			
@@ -240,11 +245,19 @@ public class KakaoPayController {
 			@RequestMapping("pay/list")
 			public String list(HttpSession session, Model model) {
 				String memberId = (String)session.getAttribute("name");
+				List<PaymentListByMemberVO> PaymentListByMemberVO = paymentDao.selectPaymentListByMember(memberId);
 				List<MoimMemberDto> moimMemberDto= moimDao.selectAllMoimNo(memberId);
 				List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
 				List<MoimDto> MoimDto= moimDao.moimListByEmail(memberId);
 				MemberDto memberDto = memberDao.selectOne(memberId);
+
+
+
+				model.addAttribute("PaymentListByMemberVO",PaymentListByMemberVO);
+
+
 				
+
 				model.addAttribute("list2", moimTitleForPaymentVO);
 				model.addAttribute("MoimDtoList", MoimDto);
 				model.addAttribute(memberDto);
@@ -273,7 +286,7 @@ public class KakaoPayController {
 			}
 			
 			@RequestMapping("/pay/periodCancel")
-			public String periodCancel(@RequestParam int periodPaymentNo) throws URISyntaxException {
+			public String periodCancel(@RequestParam int periodPaymentNo, RedirectAttributes redirectAttributes) throws URISyntaxException {
 				//int periodPaymentNo = paymentNo; 
 				PeriodPaymentDto periodPaymentDto = paymentDao.selectOne(periodPaymentNo);
 				PaymentDto paymentDto = paymentDao.selectOneOfPayment(periodPaymentNo);
@@ -300,6 +313,9 @@ public class KakaoPayController {
 						.moimNo(periodPaymentDto.getPeriodPaymentMoimNo())
 						.build());
 				log.debug("비활성화 완료");
+				
+			    // 취소 상태를 나타내는 속성 추가
+			    redirectAttributes.addFlashAttribute("cancellationStatus", "success");
 				return "redirect:list";
 			}
 			

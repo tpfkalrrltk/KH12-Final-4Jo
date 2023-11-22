@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -148,18 +149,18 @@ public class MoimController {
 		
 	}
 	
-	@RequestMapping("/edit")
-	public String edit(Model model, @RequestParam int moimNo) {
-		MoimDto moimDto = moimDao.selectOne(moimNo);
-		model.addAttribute("moimDto", moimDto);
-		Integer profile = moimDao.findMoimProfile(moimNo);
-		model.addAttribute("profile", profile);
-		List<LocationDto> locationList = memberDao.selectLocationList(); //지역조회
-		model.addAttribute("locationList", locationList);
-		List<EventDto> eventList = memberDao.selectEventList(); //종목조회
-		model.addAttribute("eventList", eventList);
-		return "moim/create";
-	}
+//	@RequestMapping("/edit")
+//	public String edit(Model model, @RequestParam int moimNo) {
+//		MoimDto moimDto = moimDao.selectOne(moimNo);
+//		model.addAttribute("moimDto", moimDto);
+//		Integer profile = moimDao.findMoimProfile(moimNo);
+//		model.addAttribute("profile", profile);
+//		List<LocationDto> locationList = memberDao.selectLocationList(); //지역조회
+//		model.addAttribute("locationList", locationList);
+//		List<EventDto> eventList = memberDao.selectEventList(); //종목조회
+//		model.addAttribute("eventList", eventList);
+//		return "moim/create";
+//	}
 	
 	//모임멤버차단
 	@RequestMapping("/memberBlock")
@@ -203,9 +204,10 @@ public class MoimController {
 	
 	//모임가입
 	@RequestMapping("/member/join")
-	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
+	public String memberJoin(HttpSession session, @RequestParam int moimNo, RedirectAttributes redirectAttributes) {
 		
 		String memberEmail = (String)session.getAttribute("name");
+		//해당 회원이 해당 모임에 가입되어 있는지 확인 필요
 		MemberDto memberDto = memberDao.selectOne(memberEmail);
 		MoimDto moimDto = moimDao.selectOne(moimNo);
 		
@@ -217,18 +219,21 @@ public class MoimController {
 		boolean isPrimiumOver = memberDto.getMemberLevel().equals("프리미엄") && moimCount == 10;
 		if(isOver || isPrimiumOver) {
 			//jsp에서 오버됐다는 팝업창을 띄워주면 됨
-			return "redircet:over";
+			redirectAttributes.addAttribute("over", true);
+			return "redircet:/";
 		}
 		
 		//여성전용 모임일 경우에 여성회원인지 확인 필요
-		if(moimDto.getMoimGenderCheck().equals("Y")) { //여성전용모임
-			if(memberDto.getMemberGender().equals("F")) { //여성회원인지 검사
+		if(Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { //여성전용모임
+			if(Objects.equals(memberDto.getMemberGender(), "F")) { //여성회원인지 검사
 				moimDao.addMoimMember(moimNo, memberEmail);
 				memberDto.setMemberMoimCount(moimCount + 1);
+				//업데이트를해야됨
 			}
 			else {
 				//jsp에서 여성회원만 가입 가능하다는 팝업창을 띄워주면 됨
-				return "redirect:error";
+				redirectAttributes.addAttribute("check", true);
+				return "redirect:/";
 			}
 		}
 		else {
@@ -236,9 +241,7 @@ public class MoimController {
 			memberDto.setMemberMoimCount(moimCount + 1);
 		}
 		
-		
-		moimDao.addMoimMember(moimNo, memberEmail);
-		return "redirect:/";
+		return "redirect:/moim/detail?moimNo=" + moimNo;
 	}
 	
 	@RequestMapping("/member/exit")

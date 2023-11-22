@@ -3,6 +3,8 @@ package com.kh.EveryFit.rest;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +49,9 @@ public class LeagueRestController {
 	}
 	
 	@PostMapping("/checkMoim")
-	public List<MoimDto> checkMoim(@RequestParam int leagueNo){
+	public List<MoimDto> checkMoim(@RequestParam int leagueNo, HttpSession session){
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
-		String memberEmail = "leaguetest1";
+		String memberEmail = (String)session.getAttribute("name");
 		int locationNo = leagueDto.getLocationNo();
 		int eventNo = leagueDto.getEventNo();
 		CheckMoimListVO vo = CheckMoimListVO.builder()

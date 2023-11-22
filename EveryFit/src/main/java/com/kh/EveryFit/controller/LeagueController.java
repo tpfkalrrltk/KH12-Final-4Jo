@@ -3,6 +3,8 @@ package com.kh.EveryFit.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.EveryFit.component.DateFormatUtils;
 import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
 import com.kh.EveryFit.dao.ChatDao;
@@ -31,14 +34,15 @@ import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
+import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueListDto;
-import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.LeagueListVO;
+import com.kh.EveryFit.vo.LeagueMatchListVO;
 import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,8 +94,7 @@ public class LeagueController {
 	public String leagueInsert(@ModelAttribute LeagueDto leagueDto, 
 								@RequestParam MultipartFile attach, 
 								HttpSession session) throws IllegalStateException, IOException {
-		//String leagueManager = (String)session.getAttribute("name");
-		String leagueManager = "leaguetest1";
+		String leagueManager = (String)session.getAttribute("name");
 		int leagueNo = leagueDao.leagueSequence();
 		int chatRoomNo = chatDao.sequence();
 		chatDao.insertChatRoom(chatRoomNo);
@@ -126,8 +129,19 @@ public class LeagueController {
 	}
 	
 	@RequestMapping("leagueGuide")
-	public String leagueGuide(@RequestParam int leagueNo, Model model) {
+	public String leagueGuide(@RequestParam int leagueNo, Model model) throws ParseException {
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+		EventDto eventDto = memberDao.selectOneByEventNo(leagueDto.getEventNo());
+		LocationDto locationDto = memberDao.selectOneByLocationNo(leagueDto.getLocationNo());
+		LeagueApplicationDto applicationDto = leagueDao.selectOneLeagueApplication(leagueNo);
+		if(applicationDto!=null) {
+			Date applicationStart = DateFormatUtils.parseStringToDate(applicationDto.getLeagueApplicationStart());
+			Date applicationEnd = DateFormatUtils.parseStringToDate(applicationDto.getLeagueApplicationEnd());
+			model.addAttribute("applicationStart", applicationStart);
+			model.addAttribute("applicationEnd", applicationEnd);
+		}
+		model.addAttribute("locationDto", locationDto);
+		model.addAttribute("eventDto", eventDto);
 		model.addAttribute("leagueDto",leagueDto);
 		return "league/leagueGuide";
 	}
@@ -216,7 +230,9 @@ public class LeagueController {
 	
 	@RequestMapping("/leagueMatch")
 	public String leagueMatch(@RequestParam int leagueNo, Model model) {
-		List<LeagueMatchDto> leagueMatchList = leagueDao.selectLeagueMatchList(leagueNo);
+		List<LeagueMatchListVO> leagueMatchList = leagueDao.selectLeagueMatchVOList(leagueNo);
+		List<LeagueTeamDto> leagueTeamList = leagueDao.listLeagueTeamByLeague(leagueNo);
+		model.addAttribute("leagueTeamList", leagueTeamList);
 		model.addAttribute("leagueMatchList", leagueMatchList);
 		return "league/leagueMatch";
 	}

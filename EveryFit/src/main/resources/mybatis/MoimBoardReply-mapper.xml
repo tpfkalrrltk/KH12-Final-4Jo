@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="moimBoardReply">
+
+	<insert id="add">
+		insert into moim_board_reply(
+		moim_board_reply_no,
+		member_email,
+		moim_board_reply_content,
+		moim_board_no
+		)
+		values(#{moimBoardReplyNo}, #{memberEmail}, #{moimBoardReplyContent},
+		#{moimBoardNo})
+	</insert>
+
+	<select id="list" resultType="MoimBoardReplyDto">
+		select * from moim_board_reply
+		where moim_board_no = #{moimBoardNo} order by
+		moim_board_reply_no asc
+	</select>
+
+	<update id="edit">
+		update moim_board_reply set
+		moim_board_reply_content = #{moimBoardReplyContent}
+		where
+		moim_board_reply_no =
+		#{moimBoardReplyNo}
+	</update>
+
+
+	<delete id="delete">
+		delete from moim_board_reply where
+		moim_board_reply_no =
+		#{moimBoardReplyNo}
+	</delete>
+
+	<select id="sequence" resultType="int">
+		select
+		moim_board_reply_seq.nextval
+		from dual
+	</select>
+
+	<select id="selectOne" resultType="MoimBoardReplyDto">
+		select * from moim_board_reply where moim_board_reply_no =
+		#{moimBoardReplyNo}
+	</select>
+
+</mapper>
