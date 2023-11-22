@@ -8,12 +8,14 @@
 <style>
 .jungmo-image {
 	width: 200px;
+	height: 150px;
 }
 .member-profile {
 	width: 50px;
+	height: 50px;
 }
 .profile-image {
-
+	
 }
 .popup-menu {
     display: none;
@@ -41,13 +43,18 @@
 	pointer-events: none;
 	opacity: 0.5; 
 }
+
+textarea {
+    resize: none;
+}
+
 </style>
 
 <title>모임 상세페이지</title>
 
 <div class="modal" id="myModal" 
 tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-data-backdrop="static">
+data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- 모달 내용 -->
@@ -60,9 +67,9 @@ data-backdrop="static">
   </div>
 </div>
 
-<div class="container-fluid mb-5 pb-5">
+<div class="container-fluid">
 	<div class="row">
-		<div class="col-md-10 offset-md-1">
+		<div class="col-md-8 offset-md-2">
 		<div class="container">
     <div class="row">
 	
@@ -76,7 +83,7 @@ data-backdrop="static">
 							</c:when>
 							<c:otherwise>
 								<img src="/rest/attach/download?attachNo=${profile}"
-									class="rounded profile-image w-100">
+									class="rounded profile-image w-100 object-fit-cover">
 							</c:otherwise>
 						</c:choose>
 
@@ -89,7 +96,7 @@ data-backdrop="static">
 			</div>
 			</div>
 			<div class="col-4">
-										<h1>회원목록</h1>
+		<h1>회원목록</h1>
 		<c:choose>
 			<c:when test="${moimMemberDto.moimMemberLevel == '일반'}">
 				
@@ -97,7 +104,7 @@ data-backdrop="static">
 				<div class="card-body">
 					<c:choose>
 						<c:when test="${moimMemberDto.attachNo != null}">
-						<img class="member-profile rounded-circle" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMember.memberEmail}">
+						<img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMember.memberEmail}">
 						</c:when>
 						<c:otherwise>
 						<img class="member-profile rounded-circle bg-primary" src="/images/user.png" data-target="menu-${moimMember.memberEmail}">
@@ -190,12 +197,6 @@ data-backdrop="static">
 		모임장승계?(어떻게구현할지고민해보자)
 		</div></div>
 		<div class="row"><div class="col">
-		정모 등록할 때 날짜 형식검사 필요함(지난날짜 검사, 너무 먼 미래 검사)
-		모임 가입할 때 여성전용은 여성만 가입하도록 ...조회한번해야함
-		
-		모임리스트에서 보여 줄 것
-		모임정보(전부), 모임인원(moim_member 카운트), 모임종목명, 모임지역명(dept1, dept2), 사진, 
-		좋아요수(member_like 카운트)
 		</div></div>
 		<c:if test="${moimDto.moimUpgrade == 'Y'}">
 			<span class="badge bg-info gender-check">프리미엄</span>
@@ -229,7 +230,7 @@ data-backdrop="static">
 				<div class="card mb-3">
 					<div class="card-body">
 					<div class="col-4">
-						<img class="jungmo-image" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
+						<img class="jungmo-image object-fit-cover" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
 					</div>
 					<div class="col-8">
 <%-- 						${jungmoList} --%>
@@ -269,13 +270,16 @@ data-backdrop="static">
 							<div class="col-4">
                        	 		<c:choose>
                        	 		<c:when test="${jungmoMember.attachNo != null}">
-                       	 		<img class="member-profile rounded-circle" src="/rest/attach/download?attachNo=${jungmoMember.attachNo}">
+                       	 		<a href="/member/mypage?memberEmail=${jungmoMember.memberEmail}">
+                       	 		<img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${jungmoMember.attachNo}">
+                       	 		</a>
                        	 		</c:when>
  								<c:otherwise>
                        	 		<img class="member-profile rounded-circle bg-primary" src="/images/user.png">
  								</c:otherwise>
                        	 		</c:choose>
-                       	 		${jungmoMember.memberEmail}      
+                       	 		${jungmoMember.memberEmail}
+                       	 		${jungmoMember.attachNo}
                    	 		</div>
                   	 		</div>                 	 		
                     		</c:forEach>
@@ -291,9 +295,10 @@ data-backdrop="static">
 </div>
 </div>
 </div>
+</div>
 			
 <!-- 모달창 -->
-<div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -310,7 +315,8 @@ data-backdrop="static">
       	<label class="form-label">모임명</label> 
       	<input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}" class="form-control">
       	<label class="form-label">모임소개</label> 
-      	<input type="text" name="moimContent" data-original-value="${moimDto.moimContent}" class="form-control">
+      	<textarea rows="5" class="form-control" name="moimContent" data-original-value="${moimDto.moimContent}" >${moimDto.moimContent}</textarea>
+<%--       	<input type="text" name="moimContent" data-original-value="${moimDto.moimContent}" class="form-control"> --%>
       	<label class="form-label">모임상태</label> 
       	<select name="moimState" data-original-value="${moimDto.moimState}" class="form-select">
       		<option>모집중</option>
@@ -857,11 +863,11 @@ data-backdrop="static">
     //모임이 비활성화 일 때 화면 막기
     if (${moimDto.moimState == '비활성화'}) {
     	Modal2.show();
-    }    
     $(document).on('click', '.modal', function(e){
     	if(e.target !== this) return; //모달 내부를 클릭한 경우에는 닫히지 않도록 함
     	Modal2.show();
     });
+    }    
     
     $(document).on('keydown', function(e) {
         if (e.which === 27) { // 27은 ESC 키 코드

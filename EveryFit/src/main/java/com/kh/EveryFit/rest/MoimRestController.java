@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -29,6 +32,7 @@ import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.JungmoDetailVO;
 import com.kh.EveryFit.vo.MemberLikeVO;
 
@@ -257,6 +261,120 @@ public class MoimRestController {
 			return "male";
 		}
 	}
+	
+//	@PostMapping("/member/join")
+//	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
+//        String memberEmail = (String) session.getAttribute("name");
+//
+//        MemberDto memberDto = memberDao.selectOne(memberEmail);
+//        MoimDto moimDto = moimDao.selectOne(moimNo);
+//        MoimMemberDto moimMemberDto = new MoimMemberDto();
+//		
+//        // 해당 회원의 moimCount보다 가입되어있는 모임의 개수가 많으면 return
+//        Integer myMoim = moimDao.findMyMoim(memberEmail);
+//        Integer myMoimCount = memberDto.getMemberMoimCount();
+//        
+//        if (myMoim >= myMoimCount) {
+//            return "over";
+//        }
+//        
+//        if (myMoim > 0) {
+//            MyMoimListVO vo = moimDao.findMoimNoByMemberEmail(memberEmail);
+//            
+//            if (vo != null && vo.getMoimNoList().contains(moimNo)) {
+//            	
+//            	if (Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { // 여성전용모임
+//                    if (Objects.equals(memberDto.getMemberGender(), "F")) { // 여성회원인지 검사
+//                        moimMemberDto.setMemberEmail(memberEmail);
+//                        moimMemberDto.setMoimNo(moimNo);
+//                        moimMemberDto.setMoimMemberStatus("미승인");
+//                        moimDao.addMoimMember(moimMemberDto);
+//                        return "join";
+//                    } else {
+//                        // 여성회원만 가입 가능하다는 응답
+//                        return "genderCheck";
+//                    }
+//                } else {
+//                    moimMemberDto.setMemberEmail(memberEmail);
+//                    moimMemberDto.setMoimNo(moimNo);
+//                    moimDao.addMoimMember(moimMemberDto);
+//                }
+//            	
+//                return "join";
+//            }
+//        }
+//	}
+	
+	@PostMapping("/member/join")
+	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
+	    String memberEmail = (String) session.getAttribute("name");
+
+	    if (memberEmail == null) {
+	        // 로그인되어 있지 않은 경우
+	        return "notLoggedIn";
+	    }
+
+	    MemberDto memberDto = memberDao.selectOne(memberEmail);
+	    
+	    if (memberDto == null) {
+	        // 회원 정보를 찾을 수 없는 경우
+	        return "memberNotFound";
+	    }
+
+	    MoimDto moimDto = moimDao.selectOne(moimNo);
+
+	    if (moimDto == null) {
+	        // 모임 정보를 찾을 수 없는 경우
+	        return "moimNotFound";
+	    }
+
+	    MoimMemberDto moimMemberDto = new MoimMemberDto();
+
+	    // 해당 회원의 moimCount보다 가입되어있는 모임의 개수가 많으면 return
+	    Integer myMoim = moimDao.findMyMoim(memberEmail);
+	    Integer myMoimCount = memberDto.getMemberMoimCount();
+	    
+	    if (myMoim != null && myMoim >= myMoimCount) {
+	        return "over";
+	    }
+	    
+	    List<Integer> list = moimDao.findMoimNoByMemberEmail(memberEmail);
+//	    List<Integer> list = new ArrayList<>(moimDao.findMoimNoByMemberEmail(memberEmail));
+	    log.debug("list={}", list);
+
+	    if (myMoim != null) {
+	    	
+	        if (list != null && list.contains(moimNo)) {
+	        	//이미 가입 되었음
+	        	return "joined";
+	        }	
+	        
+	        if (Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { // 여성전용모임
+                
+            	if (Objects.equals(memberDto.getMemberGender(), "F")) { // 여성회원인지 검사
+                    moimMemberDto.setMemberEmail(memberEmail);
+                    moimMemberDto.setMoimNo(moimNo);
+                    moimMemberDto.setMoimMemberStatus("미승인");
+                    moimDao.addMoimMember(moimMemberDto);
+                    return "join";
+                } 
+                // 여성회원만 가입 가능하다는 응답
+                return "genderCheck";                    
+            } 
+                moimMemberDto.setMemberEmail(memberEmail);
+                moimMemberDto.setMoimNo(moimNo);
+                moimDao.addMoimMember(moimMemberDto);
+                return "join";
+
+	    }
+	    //myMoim이 null일경우
+	    moimMemberDto.setMemberEmail(memberEmail);
+	    moimMemberDto.setMoimNo(moimNo);
+	    moimDao.addMoimMember(moimMemberDto);
+	    return "join";
+	}
+
+	
 	
 	//모임회원차단
 //	@PostMapping("/memberBlock")
