@@ -118,7 +118,7 @@
 
 	</insert>
 
-	<select id="findImage" resultType="integer">
+	<select id="findImage" resultType="Integer">
 	select attach_no from free_board_image where free_board_no = #{freeBoardNo}
 	</select>
 

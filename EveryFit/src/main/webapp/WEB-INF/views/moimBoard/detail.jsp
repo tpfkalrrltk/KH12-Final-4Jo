@@ -42,6 +42,8 @@
 								moimBoardNo : moimBoardNo
 							},
 							success : function(response) {
+								console.log(response);
+								
 								$(".reply-list").empty();
 								for (var i = 0; i < response.length; i++) {
 									var reply = response[i];
@@ -159,7 +161,7 @@
 																								.serialize(),
 																						success : function(
 																								response) {
-																				
+
 																							reloadList();
 																						}
 																					});
@@ -316,6 +318,17 @@ placeholder="수정 내용을 적어주세요">
 
 			<div class="fw-bold text-center text-bg-primary">내용</div>
 			<div class="fw-bold text-primary" style="border: 1px solid white;">
+
+				<c:choose>
+					<c:when test="${moimBoardImage == null}">
+					</c:when>
+					<c:otherwise>
+						<img
+							src="/moimBoard/rest/attach/download?attachNo=${moimBoardImage}"
+							class="rounded profile-image" style="max-width: 1100px">
+					</c:otherwise>
+				</c:choose>
+
 				${moimBoardDto.moimBoardContent}
 				<hr>
 			</div>

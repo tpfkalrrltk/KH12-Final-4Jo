@@ -68,12 +68,14 @@ text{
 
 								</c:otherwise>
 							</c:choose>
+
 							<div class="d-flex flex-column mb-3 mt-1">
 								<div class="p-2">
 									<label> <input type="file" class="profile-chooser "
 										accept="image/*" style="display: none;"> <i
 										class="fa-solid fa-camera blue fa-2x"></i>
 									</label> <i class="ms-2 fa-solid fa-trash-can red fa-2x profile-delete"></i>
+
 								</div>
 							</div>
 						</div>

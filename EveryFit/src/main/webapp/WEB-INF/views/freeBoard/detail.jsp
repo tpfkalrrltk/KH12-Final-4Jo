@@ -331,8 +331,8 @@ placeholder="수정 내용을 적어주세요">
 								</c:when>
 								<c:otherwise>
 									<img
-										src="/freeBoard/rest/attach/download?attachNo=${freeBoardImage}"
-										class="rounded profile-image">
+										src="/rest/freeBoard/attach/download?attachNo=${freeBoardImage}"
+										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>
 							${freeBoardDto.freeBoardContent}

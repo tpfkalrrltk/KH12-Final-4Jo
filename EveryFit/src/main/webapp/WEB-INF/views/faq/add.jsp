@@ -18,45 +18,42 @@ textarea {
 }
 </style>
 
+<script>
+$(function(){
+    $("#attach-selector").change(function(){
+    	 $(".preview-wrapper").empty();
+    	
+    	 if(this.files.length == 0) {
+            //초기화
+            return;
+        }
 
+        let reader = new FileReader();
+        reader.onload = ()=>{
+            $("<img>").attr("src", reader.result)//data;로 시작하는 엄청많은 실제이미지 글자
+                            .css("max-width", "300px")
+                            .appendTo(".preview-wrapper");
+        };
+        for(let i=0; i < this.files.length; i++) {
+            reader.readAsDataURL(this.files[i]);
+        }
+    });
+});
+</script>
 
 <script>
 	$(function() {
-		$(".btn-save").click(
-				function() {
+		$(".btn-save").click(function() {
 
-					var faqTitle = $("[name=faqTitle]").val();
-					var faqDetail = $("[name=faqDetail]").val();
-					var fileInput = $(".file-chooser")[0];
+			var faqTitle = $("[name=faqTitle]").val();
+			var faqDetail = $("[name=faqDetail]").val();
+			var fileInput = $(".file-chooser")[0];
 
-					if (faqTitle.length == 0 || faqDetail.length == 0) {
-						event.preventDefault();
-						alert("제목과 내용을 입력해주세요.");
-					}
-
-					var input = $(".file-chooser")[0];
-
-					if (input.files.length == 0)
-						return;
-					var form = new FormData();
-					form.append("attach", input.files[0]);
-
-					$.ajax({
-						url : window.contextPath + "/faq",
-						method : "post",
-						processData : false,
-						contentType : false,
-						data : form,
-						success : function(response) {
-							$("img").attr(
-									"src",
-									window.contextPath + "/download?attachNo="
-											+ response.attachNo);
-							$("[name=attachNo]").val(response.attachNo);
-						},
-					});
-				});
-
+			if (faqTitle.length == 0 || faqDetail.length == 0) {
+				event.preventDefault();
+				alert("제목과 내용을 입력해주세요.");
+			}
+		})
 	});
 </script>
 
@@ -70,17 +67,7 @@ textarea {
 			</div>
 		</div>
 
-	<div class="row">
-						<div class="col-5 offset-1">
-							<p class="text-primary fw-bold">파일 :</p>
-							<label> <input type="file" name="attach"
-								class="w-100 file-chooser" style="display: none;"
-								accept="image/*"> <img
-								src="${pageContext.request.contextPath}/images/no-image.png"
-								width="200" height="200">
-							</label>
-						</div>
-					</div>
+
 
 
 		<div class="row mt-3">
@@ -90,17 +77,32 @@ textarea {
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">제목 :</p>
-							<input type="text" name="faqTitle" class="form-control fw-bold bg-primary text-light">
+							<input type="text" name="faqTitle"
+								class="form-control fw-bold bg-primary text-light">
 						</div>
 					</div>
 
-				
+
+					<div class="row">
+						<div class="col-5 offset-1">
+							<p class="text-primary fw-bold">파일 :</p>
+
+							<label> <input type="file" name="attach" accept="image/*"
+								multiple id="attach-selector">
+							</label>
+							<div class="preview-wrapper"></div>
+
+						</div>
+					</div>
+
+
 
 
 					<div class="row">
 						<div class="col-5 offset-1">
 							<p class="text-primary fw-bold">카테고리 :</p>
-							<select name="faqCategory" class="form-select fw-bold bg-primary text-light" >
+							<select name="faqCategory"
+								class="form-select fw-bold bg-primary text-light">
 								<option class="fw-bold bg-primary text-light">공지사항</option>
 								<option class="fw-bold bg-primary text-light">이용방법</option>
 								<option class="fw-bold bg-primary text-light">이벤트</option>
@@ -111,6 +113,11 @@ textarea {
 						</div>
 					</div>
 
+
+
+
+
+
 					<div class="row">
 						<div class="col offset-1">
 							<p class="text-primary fw-bold">내용 :</p>
@@ -120,7 +127,8 @@ textarea {
 					</div>
 					<div class="row">
 						<div class="col-10 offset-1">
-							<button type="submit" class="btn btn-primary w-100 m-5 btn-save fw-bold">등록</button>
+							<button type="submit"
+								class="btn btn-primary w-100 m-5 btn-save fw-bold">등록</button>
 						</div>
 					</div>
 				</form>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,13 @@ public class FaqController {
 
 	private File dir;
 	
+	@PostConstruct
+	public void init() {
+		dir = new File(props.getHome(), "FAQ");
+		dir.mkdirs();
+
+	}
+	
 
 	@RequestMapping("/list")
 	public String list(Model model,
@@ -61,7 +69,7 @@ public class FaqController {
 
 	@PostMapping("/add")
 	public String add(@ModelAttribute FaqDto faqDto, HttpSession session,
-			@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+			@RequestParam(required = false) MultipartFile attach) throws IllegalStateException, IOException {
 		int faqNo = faqDao.sequence();
 		faqDto.setFaqNo(faqNo);
 		String memberEmail =  (String) session.getAttribute("name");
@@ -69,7 +77,7 @@ public class FaqController {
 
 		faqDao.add(faqDto);
 		
-		if (!attach.isEmpty()) {
+		if (attach != null && !attach.isEmpty()) {
 			int attachNo = attachDao.sequence();
 
 			String home = "C:/upload/kh12fd";

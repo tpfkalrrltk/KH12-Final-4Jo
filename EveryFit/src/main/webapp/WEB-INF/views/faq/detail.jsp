@@ -79,7 +79,7 @@
 								<c:otherwise>
 									<img
 										src="/faq/rest/attach/download?attachNo=${faqImage}"
-										class="rounded profile-image">
+										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>
 								${faqDto.faqDetail}

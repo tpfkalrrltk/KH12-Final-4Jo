@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 public class MoimBoardDto {
 	int moimBoardNo, moimNo;
 	String memberEmail, moimBoardTitle, moimBoardContent,moimBoardCategory;
+	
+	int moimBoardReplyCount;
 
 }

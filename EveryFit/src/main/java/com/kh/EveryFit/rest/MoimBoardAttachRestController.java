@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
-import com.kh.EveryFit.dao.FreeBoardDao;
+import com.kh.EveryFit.dao.MoimBoardDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
 
@@ -32,8 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin
 @RestController
-@RequestMapping("/rest/freeBoard/attach")
-public class FreeBoardAttachRestController {
+@RequestMapping("moimBoard/rest/attach")
+public class MoimBoardAttachRestController {
 	
 	
 	@Autowired
@@ -44,19 +44,19 @@ public class FreeBoardAttachRestController {
 	private FileUploadProperties props;
 
 	@Autowired
-	private FreeBoardDao freeBoardDao;
+	private MoimBoardDao moimBoardDao;
 	
 	private File dir;
 	
 	//모든 로딩이 끝나면 자동으로 실행되는 메소드
 	@PostConstruct
 	public void init() {
-		dir = new File(props.getHome(),"freeBoard");
+		dir = new File(props.getHome(),"moimBoard");
 		dir.mkdirs();
 	}
 	
 	@PostMapping("/upload")
-	public Map<String, Object> upload(HttpSession session, @RequestParam int freeBoardNo,
+	public Map<String, Object> upload(HttpSession session, @RequestParam int moimBoardNo,
 				@RequestParam MultipartFile attach)throws IllegalStateException, IOException {
 		
 		int attachNo = attachDao.sequence();
@@ -72,10 +72,10 @@ public class FreeBoardAttachRestController {
 		
 		attachDao.insert(attachDto);
 		
-		freeBoardDao.deleteFreeBoardImage(freeBoardNo);
-		freeBoardDao.insertFreeBoardImage(freeBoardNo, attachDto.getAttachNo());
+		moimBoardDao.deleteMoimBoardImage(moimBoardNo);
+		moimBoardDao.insertMoimBoardImage(moimBoardNo, attachDto.getAttachNo());
 		
-		log.debug("freeBoadNo = {}", freeBoardNo);
+		log.debug("moimBoadNo = {}", moimBoardNo);
 		
 		return Map.of("attachNo", attachNo);
 	}
@@ -107,8 +107,8 @@ public class FreeBoardAttachRestController {
 	}
 	
 	@PostMapping("/delete")
-	public void delete(HttpSession session, @RequestParam int freeBoardNo) {
-		freeBoardDao.deleteFreeBoardImage(freeBoardNo);
+	public void delete(HttpSession session, @RequestParam int moimBoardNo) {
+		moimBoardDao.deleteMoimBoardImage(moimBoardNo);
 	}
 	
 
