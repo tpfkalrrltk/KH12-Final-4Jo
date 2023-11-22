@@ -155,6 +155,33 @@ public class ChannelServiceImpl implements ChannelService{
 //			room.send(mss);
 //		}
 	}
+	
+	@Override
+	public void sendUserList(TextMessage message, Integer chatRoomNo) throws IOException {
+		ChatRoomVO room = findRoom(chatRoomNo);
+		if(room == null) return;
+		List<Map<String, Object>> clientInfoList = new ArrayList<>();
+		
+	    // 각 클라이언트 정보를 리스트에 추가
+	    for (ClientVO client : room.getMembers()) {
+	        Map<String, Object> clientInfo = new HashMap<>();
+	        clientInfo.put("memberEmail", client.getMemberEmail());
+	        clientInfo.put("memberNick", client.getMemberNick());
+	        clientInfo.put("attachNo", client.getAttachNo());
+	        clientInfoList.add(clientInfo);
+	    }
+	    // 메시지에 클라이언트 정보 추가
+	    Map<String, Object> messageData = new HashMap<>();
+	    messageData.put("clients", clientInfoList);
+	    String messageJson = mapper.writeValueAsString(messageData);
+	    TextMessage tm = new TextMessage(messageJson);
+
+	    // 모든 클라이언트에게 메시지 전송
+	    for (ClientVO c : room.getMembers()) {
+	        c.send(tm);
+	    }
+		room.send(message);
+	}
 
 }
 

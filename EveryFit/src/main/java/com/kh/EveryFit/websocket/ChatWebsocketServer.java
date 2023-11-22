@@ -136,7 +136,8 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		
 		if(isJoin) { //입장이면!
 			//같은아이디면 차단
-//			channelService.sendMessageList(chatRoomNo, message);
+			channelService.sendUserList(message, chatRoomNo);
+			
 			
 			List<ChatDto> list = chatDao.list(chatRoomNo);
 			for(ChatDto dto : list) {
@@ -156,6 +157,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			}
 			log.debug("방에 입장");
 		
+			
 		}
 		
 		boolean isMessage = params.get("type").equals("message"); //메시지면
@@ -178,7 +180,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 //			    }	
 			    channelService.sendMessage(chatRoomNo, tm, map);
 			
-		chatDao.insert(ChatDto.builder()
+			    chatDao.insert(ChatDto.builder()
 				.chatContent((String)params.get("content"))
 				.chatRoomNo(chatRoomNo)
 				.memberEmail(client.getMemberEmail())
