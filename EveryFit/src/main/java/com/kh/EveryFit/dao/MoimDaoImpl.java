@@ -21,6 +21,8 @@ import com.kh.EveryFit.vo.MoimMemberStatusVO;
 @Repository
 public class MoimDaoImpl implements MoimDao {
 	
+	private final String NAMESPACE = "com.example.mapper.MoimMapper";
+	
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -185,5 +187,6 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.delete("moim.exitMoimMember", dto) > 0;
 	}
 	
+
 
 }

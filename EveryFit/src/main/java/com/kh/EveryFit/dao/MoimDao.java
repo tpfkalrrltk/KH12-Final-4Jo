@@ -70,5 +70,5 @@ public interface MoimDao {
 	//프리미엄 모임 구독취소 후, 모임의 상태를 일반으로 변경(Y->N)
 	boolean upgradeToNotPrimium(MoimDto moimDto);
 
-
+	
 }
