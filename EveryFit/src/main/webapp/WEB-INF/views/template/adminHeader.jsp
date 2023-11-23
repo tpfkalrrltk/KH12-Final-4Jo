@@ -265,7 +265,8 @@ body {
 								href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/faq/list">FAQ</a>
-
+					<c:choose>
+						<c:when test="${sessionScope.name != null}">
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/pay?productNo=1">
@@ -275,8 +276,11 @@ body {
 								href="${pageContext.request.contextPath}/pay/list">
 								나의결제내역리스트 </a>
 
-
-							<div class="dropdown-divider"></div>
+						</div>
+						</c:when>
+						</c:choose>
+              
+              	<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
 						</div></li>

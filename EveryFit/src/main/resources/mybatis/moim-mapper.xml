@@ -120,6 +120,19 @@
 		ON m.MOIM_NO = mm.MOIM_NO WHERE mm.MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
+		<!-- 이메일로 회원이 가입한 모임 목록 조회(마이페이지용) -->
+	<select id="moimListForMyPage" resultType="moimListForMyPageVO">
+		SELECT m.*, mm.* FROM moim m LEFT OUTER JOIN moim_member mm 
+		ON m.MOIM_NO = mm.MOIM_NO WHERE mm.MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+		<!-- 이메일로 회원이 모임장으로 가입한 모임 목록 조회 -->
+	<select id="moimListByEmail2" resultType="MoimDto">
+		SELECT m.* FROM moim m LEFT OUTER JOIN moim_member mm 
+		ON m.MOIM_NO = mm.MOIM_NO WHERE mm.MEMBER_EMAIL = #{memberEmail} and mm.moim_member_level = '모임장'
+	</select>
+	
+	
 	<!-- 리그 참여할 수 있는 모임  -->
 	<select id="checkMoimList" resultType="LeagueTeamCheckDto">
 		SELECT m.*, mm.moim_member_level FROM moim m LEFT OUTER JOIN moim_member mm ON m.MOIM_NO = mm.MOIM_NO 

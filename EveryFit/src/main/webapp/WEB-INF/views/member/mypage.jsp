@@ -53,6 +53,7 @@ text{
 				<div class="row">
 					<div class="col align-self-start">
 						<div>
+						
 							<c:choose>
 								<c:when test="${profile == null }">
 									<div class="p-2">
@@ -68,7 +69,12 @@ text{
 
 								</c:otherwise>
 							</c:choose>
-
+<c:choose>
+												
+						<c:when test="${memberDto.memberLevel == '프리미엄'}">
+							<div><span class="badge bg-info" >프리미엄 회원</span>
+						</div></c:when>
+						</c:choose>
 							<div class="d-flex flex-column mb-3 mt-1">
 								<div class="p-2">
 									<label> <input type="file" class="profile-chooser "
@@ -86,7 +92,9 @@ text{
 					<div class="col align-self-center d-flex">
 						<div class="d-flex flex-column ">
 						<div class="p-2 flex-fill text-start">
+						
 						<i class="fa-solid fa-user-tag fa-2x" style="color: #34b79d;">  : ${memberDto.memberNick}</i>
+												
 						</div>
 						<div class="p-2 mt-4">
 						<i class="fa-solid fa-people-group  fa-2x" style="color: #34b79d;"> : 개</i>
@@ -96,9 +104,18 @@ text{
 					
 					<div class="col align-self-end">
 						<div>
+						<c:choose>
+						<c:when test="${memberDto.memberLevel == '프리미엄'}">
 							<button class="btn btn-success w-50 ">
-								<a onclick="Premium()" style="text-decoration:none; color:white;">프리미엄 회원권</a>
+								<a onclick="Premium()" style="text-decoration:none; color:white;">보유중인 프리미엄</a>						
 							</button>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-success w-50 ">
+								<a onclick="Premium()" style="text-decoration:none; color:white;">프리미엄 회원권 구매하기</a>						
+							</button>
+						</c:otherwise>
+						</c:choose>
 						</div>
 
 						<div>
@@ -176,12 +193,18 @@ text{
 			<div class="container text-center mt-3 box">
 				<div class="d-flex">
 					 <p><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-tag="소개">소개</a></p>
-     				 <p><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3" data-tag="모임">모임</a></p>
+     				 <p><a href="#" class="moimList link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3" data-tag="모임">
+					모임
+
+					</a></p>
 				     <p><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3" data-tag="정모">정모</a></p>
 				     <p><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3" data-tag="리그">리그</a></p>
 				</div>
 				<div>
 				<hr>
+					<div class="moimListAppend">
+					
+					</div>
 				</div>
 			</div>
 
@@ -317,7 +340,7 @@ text{
 	});
 	
 	/* a태그클릭시 밑줄, 정보불러오기 */
-	document.addEventListener('DOMContentLoaded', function () {
+/* 	document.addEventListener('DOMContentLoaded', function () {
       var links = document.querySelectorAll('.container a');
 
       links.forEach(function (link) {
@@ -337,7 +360,7 @@ text{
           
         });
       });
-    });
+    }); */
 	
 	//회원정보변경
 	function mypage() {
@@ -347,10 +370,46 @@ text{
 	function Premium() {
         window.location.href = '/pay/list';
     }
-	
+
 </script>
 
+<script>
+$(function() {
+    $(".moimList").click(function() {
+        // Rest 호출
+    	$.ajax({
+    	    url: window.contextPath + "/rest/moim/list",
+    	    method: "post",
+    	    dataType: "json", // JSON 형식으로 응답을 기대하는 경우 반드시 명시
+    	    success: function(response) {
+    	        console.log(response); // 확인용 출력
 
+    	        // 기존 내용 삭제
+                $(".moimListAppend").empty();
+    	        // 예상대로 응답이 배열 형태인 경우
+    	        for (var i = 0; i < response.length; i++) {
+    	           
+
+
+    	            // 각각의 moimNo에 맞는 URL을 생성
+    	            var moimDetailUrl = window.contextPath + "/moim/detail?moimNo=" + response[i].moimNo;
+
+    	            // <a> 태그로 감싸진 <p> 태그를 append
+    	            $(".moimListAppend").append("<p><a href='" + moimDetailUrl + "'>" + response[i].moimTitle + " ("+response[i].moimMemberLevel+")" +"</a></p>");
+    	            
+    	        }
+
+    	        // 예상대로 응답이 객체 형태인 경우
+    	        // $(".moimListAppend").append("<p>" + response.moimName + "</p>");
+    	        // 예시: response.moimName은 실제 데이터 구조에 맞게 변경
+    	    },
+    	    error: function(xhr, status, error) {
+    	        console.error("Ajax 요청 에러:", status, error);
+    	    },
+    	});
+    });
+});
+</script>
 <jsp:include page="../template/Footer.jsp"></jsp:include>
 
 
