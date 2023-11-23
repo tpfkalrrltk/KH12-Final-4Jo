@@ -85,10 +85,10 @@ span {
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start">
-								성별<select class="form-select country" >
+								성별<select class="form-select country" name="memberGender">
 									<option>성별</option>
-									<option>man</option>
-									<option>woman</option>
+									<option >M</option>
+									<option >F</option>
 								</select>
 							</div>
 
@@ -225,7 +225,6 @@ span {
 		    $("#text").val(text);
 		  });
 		});
-		
 	
 </script>
 

@@ -44,10 +44,10 @@ a {
 							<div class="col-md-4 offset-md-4 text-start d-flex flex-row">
 
 								<div>
-									<input type="password" class="form-control w-200" name="memberPw"
+									<input type="password" class="form-control " name="memberPw"
 										value="${memberDto.memberPw}" disabled>
 								</div>
-								<button type="button" class="btn btn-info ms-2 w-30">
+								<button type="button" class="btn btn-info ms-2 ">
 								    <a href="/member/memberChangePw">비밀번호 변경</a>
 								</button>
 								
