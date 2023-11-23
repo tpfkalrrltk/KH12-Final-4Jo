@@ -194,6 +194,12 @@ public class MoimDaoImpl implements MoimDao {
 		return list;
 	}
 
-
+	@Override
+	public MoimMemberDto findMoimMemberInfo(String memberEmail, Integer moimNo) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("memberEmail", memberEmail);
+	    params.put("moimNo", moimNo);
+		return sqlSession.selectOne("moim.moimMemberInfo", params);
+	}
 
 }

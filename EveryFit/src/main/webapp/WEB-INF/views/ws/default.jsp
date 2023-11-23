@@ -6,12 +6,6 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-<!-- <h1>기본 웹소켓 예제</h1> -->
-
-<!-- <div class="client-list"></div> -->
-<!-- <div class="message-list"></div> -->
-<!-- <input type="text" class="message-input form-control"> -->
-<!-- <button type="button" class="send-btn btn btn-primary">전송</button> -->
 
 <style>
 	h2 {
@@ -50,13 +44,20 @@
 	.profile-image {
 		width: 50px;
 	}
+	
+	.timestamp {
+		font-size:0.8em;
+		color:darkgray
+	}
 	</style>
 </head>
 
 <body>
+
+
     <div class="container-fluid">
         <div class="row mt-4">
-            <div class="col-md-10 offset-md-1">
+            <div class="col-md-8 offset-md-2">
 				
 <!-- 				<div class="row"> -->
 <!-- 						<h2 class="bg-primary text-light p-3 text-start rounded"> -->
@@ -65,7 +66,7 @@
 <!-- 				</div> -->
 				
 				<div class="row">
-					<div class="col-md-4 client-list"></div>
+					<div class="col-md-4 mt-4 client-list"></div>
 					<div class="col-md-8">
 						
 						<!-- 메세지 표시 영역 -->
@@ -74,14 +75,13 @@
 						</div>
 						
 						<div class="row">
-							<div class="col">
-								<div class="input-group">
-									<input type="text" class="form-control message-input" placeholder="메세지 내용 작성">
-									<button type="button" class="btn btn-primary send-btn">
-										<i class="fa-regular fa-paper-plane"></i>
-										보내기
-									</button>
-								</div>
+							<div class="col-9 mt-0 p-0">
+							<input type="text" class="form-control message-input w-100" placeholder="메세지 내용 작성">
+							</div>
+							<div class="col-3 mt-1 p-0">
+							<button type="button" class="btn btn-primary rounded-0 send-btn w-100">
+								보내기
+							</button>
 							</div>
 						</div>
 						
@@ -153,17 +153,24 @@
 					.prepend(memberImage)
 					.addClass("list-group-item d-flex justify-content-between align-items-center")
 					.append(memberImage)
-					.append($("<span>")
+					.append(
+							$("<div>").addClass("text-start col p-2 fs-6 fw-semibold").append(
+							$("<span>")
 							.text(data.clients[i].memberNick)
 							.data("member-email", data.clients[i].memberEmail)) 
+							.addClass("text-primary")
+							)
 					.appendTo(ul);
 				}
 			else {
 				$("<li>").prepend(memberImage)
 				.addClass("list-group-item d-flex justify-content-between align-items-center")
 				.append(memberImage)
-				.append($("<label>").text(data.clients[i].memberNick)
+				.append($("<div>").addClass("text-start col p-2 fs-6 fw-semibold").append(
+						$("<label>")
+						.text(data.clients[i].memberNick)
 						.data("member-email", data.clients[i].memberEmail))	
+						)
 				.appendTo(ul);
 			} 
 			ul.appendTo(".client-list");
@@ -214,7 +221,7 @@
              .append(memberNick)
 //              .append(memberEmail)
              .append(content)
-              .append("<span class='timestamp'>" + formatTime(chatTime) + "</span>")
+             .append("<span class='timestamp'>" + formatTimeOnly(chatTime) + "</span>")
              .appendTo(".message-list");
 		 }
 		 else {
@@ -223,7 +230,7 @@
 // 			.append(memberEmail)
 			.append(memberNick)
 			.append(content)
-			.append("<span class='timestamp'>" + formatTime(chatTime) + "</span>")
+			.append("<span class='timestamp'>" + formatTimeOnly(chatTime) + "</span>")
 			.appendTo(".message-list");				 			 
 		 }
 
@@ -317,46 +324,71 @@
 	
 	
 	// Date 객체를 특정 포맷으로 변환하는 함수
+// 	function formatTime(date) {
+		
+// 		var currentDate = new Date();
+		
+// 	    var options = {
+// 	        hour: 'numeric', minute: 'numeric', second: 'numeric',
+// 	        hour12: false // 24시간 형식
+// 	    };
+	    
+// 	    if (currentDate.toDateString() !== date.toDateString()) {
+// 	        // 날짜가 바뀌는 순간에만 날짜를 표시
+// 	        options.year = 'numeric';
+// 	        options.month = 'numeric';
+// 	        options.day = 'numeric';
+// 	    }
+	    
+// 	    return date.toLocaleDateString('ko-KR', options);
+// 	}
+
+	
+// 	// 현재 날짜를 포함하는 레이블을 반환하는 함수
+// 	function getDateLabel(date) {
+// 	    var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+// 	    return date.toLocaleDateString('ko-KR', options);
+// 	}
+
 	function formatTime(date) {
+    var options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+        hour12: false // 24시간 형식
+    };
+    return date.toLocaleDateString('ko-KR', options);
+	}
+
+	// 시간, 분, 초만을 포맷하는 함수
+	function formatTimeOnly(date) {
 	    var options = {
-	        year: 'numeric', month: 'numeric', day: 'numeric',
 	        hour: 'numeric', minute: 'numeric', second: 'numeric',
 	        hour12: false // 24시간 형식
 	    };
-	    return date.toLocaleDateString('ko-KR', options);
+	    var formattedTime = date.toLocaleDateString('ko-KR', options);
+
+	    // 시간 부분만 추출하여 ":"로 연결
+	    var timeArray = formattedTime.split(/[년월일시분초,.\s:]+/);
+	    var timeString = timeArray.slice(3, 6).join(':');
+	    
+	    return timeString;
 	}
-
-	
-	// 현재 날짜를 포함하는 레이블을 반환하는 함수
-	function getDateLabel(date) {
-	    var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-	    return date.toLocaleDateString('ko-KR', options);
-	}
-
-// 	// 두 날짜가 같은 날인지 확인하는 함수
-// 	function isSameDay(date1, date2) {
-// 	    return date1.getDate() === date2.getDate() &&
-// 	        date1.getMonth() === date2.getMonth() &&
-// 	        date1.getFullYear() === date2.getFullYear();
+	// 날짜를 레이블로 변환하는 함수
+// 	function getDateLabel(date) {
+// 	    var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+// 	    return date.toLocaleDateString('ko-KR', options);
 // 	}
-	
-	
-// 	function displayMessage(data) {
-// 	    var chatTime = new Date(data.chatTime);
+// 	if (!lastMessageDate || !isSameDay(chatTime, lastMessageDate)) {
+// 	    var dateLabel = getDateLabel(chatTime);
+// 	    $("<div>")
+// 	        .addClass("rounded mt-2")
+// 	        .text(dateLabel)
+// 	        .appendTo(".message-list");
 
-// 	    if (!lastMessageDate || !isSameDay(chatTime, lastMessageDate)) {
-// 	        // 마지막 메시지의 날짜와 현재 메시지의 날짜가 다를 경우
-// 	        // 현재 메시지의 날짜를 표시
-//         var dateLabel = getDateLabel(chatTime);
-//         $("<div>")
-//             .addClass("rounded mt-2")
-//             .text(dateLabel)
-//             .appendTo(".message-list");
-
-// 	        // 현재 메시지의 날짜를 lastMessageDate에 업데이트
-// 	        lastMessageDate = chatTime;
-// 	    }
+// 	    lastMessageDate = chatTime;
 // 	}
+
+
 </script>
 </body>
 

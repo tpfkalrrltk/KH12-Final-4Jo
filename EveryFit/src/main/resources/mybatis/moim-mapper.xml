@@ -83,9 +83,9 @@
 	</select>
 	
 	<!-- 세션값으로 멤버레벨 / 상태 확인 -->
-	<select id="findMoimJang" resultType="moimMemberDto">
-		select * from moim_member 
-		where member_email = #{memberEmail} 
+	<select id="moimMemberInfo" resultType="moimMemberDto">
+		select * from moim_member_list 
+		where member_email = #{memberEmail} and moim_no = #{moimNo} 
 	</select>
 	
 	<!-- 모임회원상태변경 -->
