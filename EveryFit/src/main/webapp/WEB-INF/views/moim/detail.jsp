@@ -60,9 +60,40 @@ textarea {
 }
 
 /* .heart { */
-/* 	position:absolute; */
+/* 	 */
 /* 	margin-top: 0; */
 /* } */
+
+.heart {
+	position:absolute;
+	margin-top:1.1em;
+	margin-left:0.2em;
+}
+
+.moim-member-profile {
+	width: 200px;
+}
+
+/* .fa-xmark { */
+/* 	margin-top:100%; */
+/* } */
+
+.fa-xmark {
+	position:absolute;
+	right:210px;
+	top:35%;
+	z-index: 999;
+	color:white;
+}
+
+#moim-badge {
+	padding:0 !important;
+}
+
+.fa-crown {
+	position:absolute;
+	margin-right:100%;
+}
 
 </style>
 
@@ -88,17 +119,19 @@ data-backdrop="static" data-keyboard="false">
 		
 			<div class="row">
 			<div class="col-10">
-			<h1 class="text-start text-primary ps-0">${moimDto.moimTitle}</h1>
+			<label class="fs-1 fw-bold">${moimDto.moimTitle}</label>
+			<span class="heart"><i class="fa-solid fa-heart fa-2xl " style="color: #ff8080;"></i>
+			<span class="heart-span" style="color: #ff8080;"></span></span>
 			</div>
-			<div class="col-2 text-end heart">
+			<div class="col-2 text-end">
 <!-- 			<i class="fa-regular fa-heart red"></i>  -->
-			<i class="fa-solid fa-heart fa-2xl" style="color: #ff8080;"></i>
-			<span class="heart-span" style="color: #ff8080;"></span>
+<!-- 			<i class="fa-solid fa-heart fa-2xl" style="color: #ff8080;"></i> -->
+<!-- 			<span class="heart-span" style="color: #ff8080;"></span> -->
 			<!-- 세션값의 모임멤버 레벨이 모임장일 때 보여줌 -->
-			<div class="row mt-3 ml-0">
+<!-- 			<div class="row mt-3 ml-0"> -->
 <!-- 			<button type="button" class="btn btn-danger opacity-50 profile-delete">사진삭제</button> -->
 			<i class="fa-solid fa-xmark profile-delete"></i>
-			</div>
+<!-- 			</div> -->
 			</div>
 			</div>
 
@@ -106,7 +139,7 @@ data-backdrop="static" data-keyboard="false">
 						<label> 
 						<c:choose>
 							<c:when test="${profile == null}">
-								<img src="/images/add-moim-image.png" class="rounded profile-image w-100">
+								<img src="/images/add-moim-image.png" class="rounded profile-image w-100 object-fit-cover">
 							</c:when>
 							<c:otherwise>
 								<img src="/rest/attach/download?attachNo=${profile}"
@@ -122,7 +155,7 @@ data-backdrop="static" data-keyboard="false">
 						</div>
 <%-- 				<h1 class="display-4 bg-primary opacity-75 rounded text-light p-5">${moimDto.moimTitle}</h1> --%>
 
-					<div class="row p-0 m-0 pt-2"><div class="col">
+					<div class="row p-0 m-0 pt-2"><div class="col" id="moim-badge">
 					<span class="badge bg-primary">${locationDto.locationDepth1}</span>
 					<span class="badge bg-primary">${locationDto.locationDepth2}</span>
 					<span class="badge bg-primary"> ${eventDto.eventName}</span>
@@ -136,7 +169,7 @@ data-backdrop="static" data-keyboard="false">
 					</c:if>
 				</div></div>
 				
-				<div class="miom-content mt-2">${moimDto.moimContent}</div>
+				<div class="miom-content mt-2 p-0">${moimDto.moimContent}</div>
 			
 			
 			
@@ -147,10 +180,8 @@ data-backdrop="static" data-keyboard="false">
 <%-- 		${profile} --%>
 <%-- 		${moimDto} --%>
 		<div class="row">
-		<div class="col-3 p-0 m-0">
+		<div class="col">
 		<a class="btn btn-primary" href="/default/${moimDto.chatRoomNo}">채팅방</a>	
-		</div>
-		<div class="col-3 p-0 m-0">
 		<button class="moim-edit btn btn-primary">모임수정</button>
 		</div>
 		</div>
@@ -347,7 +378,7 @@ data-backdrop="static" data-keyboard="false">
 			</div>
 			</div>
 
-<!-- </div> -->
+</div>
 
 
 
@@ -944,27 +975,43 @@ data-backdrop="static" data-keyboard="false">
             data: { memberEmail: memberEmail, moimNo: moimNo },
             success: function(response) {
                 // 회원 정보를 표시할 HTML 요소를 선택
+                console.log(response);
                 var memberInfoContainer = $('.moim-member-info');
 
                 // 받아온 회원 정보를 HTML에 추가
                 memberInfoContainer.empty(); // 기존 내용 비우기
 
+                // 회원 정보를 2단으로 표시
+                var rowDiv = $('<div>').addClass('row');
+                var col1Div = $('<div>').addClass('col-6');
+                var col2Div = $('<div>').addClass('col-6  outline rounded mt-4');
+				
                 // 프로필 이미지 추가
                 if (response.attachNo !== null) {
                     var profileImage = $('<img>')
-                        .addClass('member-profile rounded-circle')
+                        .addClass('moim-member-profile rounded-circle mt-1')
                         .attr('src', '/rest/attach/download?attachNo=' + response.attachNo);
-                    memberInfoContainer.append(profileImage);
+                    col1Div.append(profileImage);
+                } else {
+                    // attachNo가 null인 경우 기본 이미지 사용
+                    var defaultImage = $('<img>')
+                        .addClass('moim-member-profile rounded-circle')
+                        .attr('src', '/images/user.png');
+                    col1Div.append(defaultImage);
                 }
 
-                memberInfoContainer.append('<p>이메일: ' + response.memberEmail + '</p>');
-                memberInfoContainer.append('<p>닉네임: ' + response.memberNick + '</p>');
-                memberInfoContainer.append('<p>모임 멤버 레벨: ' + response.moimMemberLevel + '</p>');
-                memberInfoContainer.append('<p>모임 멤버 상태: ' + response.moimMemberStatus + '</p>');
-                // ... 추가적인 정보를 필요에 따라 추가
+//                 col2Div.append('<p>이메일: ' + response.memberEmail + '</p>');
+                col2Div.append('<p>닉네임: ' + response.memberNick + '</p>');
+
+                col2Div.append('<p>모임 멤버 레벨: ' + response.moimMemberLevel + '</p>');
+                col2Div.append('<p>모임 멤버 상태: ' + response.moimMemberStatus + '</p>');
+                col2Div.append('<p>취소카운트 : ' + response.moimMemberCancelCount + '</p>');
+
+                rowDiv.append(col1Div, col2Div);
+                memberInfoContainer.append(rowDiv);
+                
 
                 // 모달 열기 등의 특정 동작 수행
-                // 예시: 모달이 Bootstrap의 modal인 경우
                 $('.modal-title').text('모임회원 정보');
                 $('.moim-member-info').show();
                 Modal.show();
@@ -978,12 +1025,12 @@ data-backdrop="static" data-keyboard="false">
     
     
     $('input[name="moimTitle"]').on('input', function () {
-        var maxLength = 20; // 최대 글자 수
+        var maxLength = 10; // 최대 글자 수
         var currentLength = $(this).val().length;
 
         if (currentLength > maxLength) {
             // 입력 길이가 제한을 초과한 경우, 알림창 표시
-            alert("최대 한글 20글자까지 입력 가능합니다.");
+            alert("최대 한글 10글자까지 입력 가능합니다.");
 
             // 초과된 부분을 자르고 입력값 설정
             var trimmedValue = $(this).val().substring(0, maxLength);
