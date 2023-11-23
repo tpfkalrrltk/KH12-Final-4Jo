@@ -62,6 +62,11 @@ public class MoimDaoImpl implements MoimDao {
 	}
 	
 	@Override
+	public List<MoimDto> moimListByEmailAndCrown(String memberEmail) {
+		return sqlSession.selectList("moim.moimListByEmail2", memberEmail);
+	}
+	
+	@Override
 	public List<MoimDto> checkMoimList(CheckMoimListVO vo) {
 		return sqlSession.selectList("moim.checkMoimList", vo);
 	}
