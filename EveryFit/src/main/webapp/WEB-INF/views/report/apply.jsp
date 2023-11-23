@@ -104,13 +104,11 @@ $(function(){
 							<select name="reportCategory"
 								class="form-select fw-bold bg-primary text-light">
 
-								<option class="fw-bold bg-primary text-light">스팸홍보/도배</option>
-								<option class="fw-bold bg-primary text-light">음란물</option>
-								<option class="fw-bold bg-primary text-light">불법정보</option>
-								<option class="fw-bold bg-primary text-light">청소년 유해물</option>
-								<option class="fw-bold bg-primary text-light">욕설/생명경시/혐오</option>
-								<option class="fw-bold bg-primary text-light">개인정보노출</option>
-								<option class="fw-bold bg-primary text-light">불쾌한표현</option>
+								<option class="fw-bold bg-primary text-light">회원</option>
+								<option class="fw-bold bg-primary text-light">모임</option>
+								<option class="fw-bold bg-primary text-light">댓글</option>
+								<option class="fw-bold bg-primary text-light">정모</option>
+								<option class="fw-bold bg-primary text-light">게시글</option>
 							</select>
 						</div>
 					</div>

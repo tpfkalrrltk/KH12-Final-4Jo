@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
@@ -267,7 +268,7 @@ placeholder="수정 내용을 적어주세요">
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row me-5 pe-4">
 			<a href="/freeBoard/list"
 				style="text-decoration: none"
 				class="text-end btn-light fw-bold  p-4"> 목록으로 돌아가기 </a>
@@ -305,6 +306,7 @@ placeholder="수정 내용을 적어주세요">
 					<th class="fw-bold">카테고리</th>
 					<th class="fw-bold">제목</th>
 					<th class="fw-bold">닉네임</th>
+					<th class="fw-bold">작성시간</th>
 				</tr>
 				<tr class="text-center">
 
@@ -312,6 +314,11 @@ placeholder="수정 내용을 적어주세요">
 					<td class="fw-bold text-primary">${freeBoardDto.freeBoardCategory}</td>
 					<td class="fw-bold text-primary">${freeBoardDto.freeBoardTitle}</td>
 					<td class="fw-bold text-primary">${freeBoardDto.memberNick}</td>
+						<td class="fw-bold text-primary">${freeBoardDto.freeBoardTime}
+						  <fmt:formatDate
+								value="${freeBoardDto.freeBoardTime}" pattern="a h:mm" type="date" />
+						</td>
+					 
 				</tr>
 
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
@@ -107,7 +108,10 @@
 								</c:if>
 						</td>
 
-						<td class="col-4 text-primary fw-bold">${boardList.moimBoardTime}</td>
+						<td class="col-4 text-primary fw-bold">${boardList.moimBoardTime}
+						  <fmt:formatDate
+								value="${boardList.moimBoardTime}" pattern="a h:mm" type="date" />
+						</td>
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardCategory}</td>
 
 					</tr>

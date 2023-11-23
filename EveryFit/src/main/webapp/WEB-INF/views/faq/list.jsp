@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,7 @@
 					<th class="col-2  fw-bold">번호</th>
 					<th class="col-2  fw-bold">카테고리</th>
 					<th class="col-2  fw-bold">제목</th>
-					<th class="col-2  fw-bold">닉네임</th>
+					<th class="col-2  fw-bold">작성자</th>
 					<th class="col-4  fw-bold">작성시간</th>
 				</tr>
 			</thead>
@@ -69,8 +70,10 @@
 						<td class="col-2 text-primary fw-bold">${faqList.faqNo}</td>
 						<td class="col-2 text-primary fw-bold">${faqList.faqCategory}</td>
 						<td class="col-2 text-primary fw-bold">${faqList.faqTitle}</td>
-						<td class="col-2 text-primary fw-bold">${faqList.faqNick}</td>
+						<td class="col-2 text-primary fw-bold">운영자</td>
 						<td class="col-4 text-primary fw-bold">${faqList.faqTime}
+						  <fmt:formatDate
+								value="${faqList.faqTime}" pattern="a h:mm" type="date" />
 						
 						</td>
 					</tr>

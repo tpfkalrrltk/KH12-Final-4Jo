@@ -73,25 +73,25 @@
 					<div class="col">
 						여성전용 : <select class="form-select col  fw-bold text-primary"
 							name="moimGenderCheckList">
-							<option value="">==Select==</option>
-							<option>Y</option>
-							<option>N</option>
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+							<option class="fw-bold bg-primary text-light">Y</option>
+							<option class="fw-bold bg-primary text-light">N</option>
 						</select>
 					</div>
 					<div class="col">
 						등급 업그레이드 유무: <select class="form-select col  fw-bold text-primary"
 							name="moimUpgradeList">
-							<option value="">==Select==</option>
-							<option>Y</option>
-							<option>N</option>
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+							<option class="fw-bold bg-primary text-light">Y</option>
+							<option class="fw-bold bg-primary text-light">N</option>
 						</select>
 					</div>
 					<div class="col">
 						상태: <select class="form-select col  fw-bold text-primary"
 							name="moimStateList">
-							<option value="">==Select==</option>
-							<option>모집중</option>
-							<option>정지</option>
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+							<option class="fw-bold bg-primary text-light">모집중</option>
+							<option class="fw-bold bg-primary text-light">정지</option>
 						</select>
 					</div>
 					
@@ -99,14 +99,14 @@
 						정렬순서 : <select class="form-select col  fw-bold text-primary"
 							name="orderList">
 							<option value="">==Select==</option>
-							<option value="moim_no asc">번호(오름차순)</option>
-							<option value="moim_no desc">번호(내림차순)</option>
-							<option value="moim_title asc">모임 명(오름차순)</option>
-							<option value="moim_title desc">모임 명(내림차순)</option>
-							<option value="moim_member_count asc">인원(오름차순)</option>
-							<option value="moim_member_count desc">인원(내림차순)</option>
-							<option value="moim_time asc">생성일(오름차순)</option>
-							<option value="moim_time desc">생성일(내림차순)</option>
+							<option value="moim_no asc" class="fw-bold bg-primary text-light">번호(오름차순)</option>
+							<option value="moim_no desc" class="fw-bold bg-primary text-light">번호(내림차순)</option>
+							<option value="moim_title asc" class="fw-bold bg-primary text-light">모임 명(오름차순)</option>
+							<option value="moim_title desc" class="fw-bold bg-primary text-light">모임 명(내림차순)</option>
+							<option value="moim_member_count asc" class="fw-bold bg-primary text-light">인원(오름차순)</option>
+							<option value="moim_member_count desc" class="fw-bold bg-primary text-light">인원(내림차순)</option>
+							<option value="moim_time asc" class="fw-bold bg-primary text-light">생성일(오름차순)</option>
+							<option value="moim_time desc" class="fw-bold bg-primary text-light">생성일(내림차순)</option>
 
 						</select>
 					</div>

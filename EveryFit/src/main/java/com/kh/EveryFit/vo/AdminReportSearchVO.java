@@ -17,6 +17,8 @@ public class AdminReportSearchVO {
 	private	String reportReason, reportContent;
 	private	Date reportTime;
 	private List<String> orderList;
+	private List<String> reportCategoryList;
+
 	private String reportTimeStart;
 	private String reportTimeEnd;
 }

@@ -56,13 +56,13 @@
 				</when>
 				<when test="memberBirthBegin != null">
 <![CDATA[
-and to_date(member_birth, 'YYYY-MM-DD') >= 
+and to_date(member_birth, 'YYYY-MM-DD') <= 
 to_date(#{memberBirthBegin} || ' ' ||'00:00:00','YYYY-MM-DD HH24:MI:SS')
 ]]>
 				</when>
 				<when test="memberBirthEnd != null">
 <![CDATA[
-and to_date(member_birth, 'YYYY-MM-DD') <=
+and to_date(member_birth, 'YYYY-MM-DD') >=
 to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 ]]>
 				</when>
@@ -129,21 +129,21 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 			<choose>
 				<when test="moimTimeStart != null and moimTimeEnd !=null ">
 					and to_date(moim_time, 'YYYY-MM-DD') between
-					to_date(#{moimTimeStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					to_date(#{moimTimeStart} || ' ' || '00:00:00', 'YYYY-MM-DD
 					HH24:MI:SS') and
-					to_date(#{moimTimeEnd} || ' ' || '23:59:59'
+					to_date(#{moimTimeEnd} || ' ' || '23:59:59',
 					'YYYY-MM-DD HH24:MI:SS')
 				</when>
 				<when test="moimTimeStart != null">
 				<![CDATA[	
-				and to_date(moim_time, 'YYYY-MM-DD') >= 
-				to_date(#{moimTimeStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				and to_date(moim_time, 'YYYY-MM-DD') <= 
+				to_date(#{moimTimeStart} || ' ' ||'00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 				</when>
 				<when test="moimTimeEnd !=null">
 				<![CDATA[
-				and to_date(moim_time, 'YYYY-MM-DD') <=
-				to_date(#{moimTimeEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				and to_date(moim_time, 'YYYY-MM-DD') >=
+				to_date(#{moimTimeEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 				</when>
 
@@ -214,21 +214,21 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 				<when
 					test="jungmoScheduleStart != null and jungmoScheduleEnd !=null ">
 					and to_date(jungmo_schedule, 'YYYY-MM-DD') between
-					to_date(#{jungmoScheduleStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					to_date(#{jungmoScheduleStart} || ' ' || '00:00:00', 'YYYY-MM-DD
 					HH24:MI:SS') and
-					to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59'
+					to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59',
 					'YYYY-MM-DD HH24:MI:SS')
 				</when>
 				<when test="jungmoScheduleStart != null">
 				<![CDATA[	
-				and to_date(jungmo_schedule, 'YYYY-MM-DD') >= 
-				to_date(#{jungmoScheduleStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				and to_date(jungmo_schedule, 'YYYY-MM-DD') <= 
+				to_date(#{jungmoScheduleStart} || ' ' ||'00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 				</when>
 				<when test="jungmoScheduleEnd !=null">
 				<![CDATA[
-				and to_date(moim_time, 'YYYY-MM-DD') <=
-				to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				and to_date(moim_time, 'YYYY-MM-DD') >=
+				to_date(#{jungmoScheduleEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 				</when>
 
@@ -321,30 +321,45 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 			<if test="reportContent != null">
 				and instr(report_content, #{reportContent}) > 0
 			</if>
+				<if test="reportReason != null">
+				and instr(report_reason, #{reportReason}) > 0
+			</if>
 
 
 			<choose>
 				<when test="reportTimeStart != null and reportTimeEnd !=null ">
 					and to_date(report_time, 'YYYY-MM-DD') between
-					to_date(#{reportTimeStart} || ' ' || '00:00:00' 'YYYY-MM-DD
+					to_date(#{reportTimeStart} || ' ' || '00:00:00', 'YYYY-MM-DD
 					HH24:MI:SS') and
-					to_date(#{reportTimeEnd} || ' ' || '23:59:59'
+					to_date(#{reportTimeEnd} || ' ' || '23:59:59',
 					'YYYY-MM-DD HH24:MI:SS')
+					
+			
+					
 				</when>
 				<when test="reportTimeStart != null">
 				<![CDATA[	
-				and to_date(report_time, 'YYYY-MM-DD') >= 
-				to_date(#{reportTimeStart} || ' ' ||'00:00:00' 'YYYY-MM-DD HH24:MI:SS')
+				and to_date(report_time, 'YYYY-MM-DD') <= 
+				to_date(#{reportTimeStart} || ' ' ||'00:00:00', 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 				</when>
 				<when test="reportTimeEnd !=null">
 				<![CDATA[
-				and to_date(report_time, 'YYYY-MM-DD') <=
-				to_date(#{reportTimeEnd} || ' ' || '23:59:59' 'YYYY-MM-DD HH24:MI:SS')
+				and to_date(report_time, 'YYYY-MM-DD') >=
+				to_date(#{reportTimeEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 				]]>
 				</when>
 
 			</choose>
+
+
+			<if test="reportCategoryList !=null and reportCategoryList.size()>0">
+				and report_category in
+				<foreach collection="reportCategoryList" open="(" close=")"
+					separator="," item="reportCategoryList">
+					#{reportCategoryList}
+				</foreach>
+			</if>
 
 		</where>
 		<if test="orderList != null and orderList.size() >0">
@@ -368,12 +383,13 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 
 
 	<!-- 신고 기능 -->
-		<select id="sequence" resultType="int">
+	<select id="sequence" resultType="int">
 		select report_seq.nextval
-		from dual
+		from
+		dual
 	</select>
-	
-	
+
+
 	<insert id="reportApply">
 		insert into report(
 		report_no,
@@ -392,7 +408,8 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 	</insert>
 
 	<select id="reportDetail" resultType="ReportDto">
-		select * from report where report_no = #{reportNo}
+		select * from report where
+		report_no = #{reportNo}
 	</select>
 
 </mapper>
