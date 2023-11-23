@@ -46,6 +46,12 @@
 	border: 1px solid orange;
 	border-radius: 14px;
 }
+.fixed-size-image {
+    width: 100%; /* 또는 원하는 크기(px 등)를 지정할 수 있습니다. */
+    height: auto; 
+    max-height: 300px;
+    min-height:100px;
+}
 </style>
 
 <!-- 회원 멤버쉽 모달 코드 추가 -->
@@ -113,189 +119,87 @@
 			<div class="d-flex  ">
 				<div class="box w-100">
 					<div>
-						<label>결제상품 정보</label>
-						<h2>adsa</h2>
+						<h2>${productDto.productName}</h2>
+						<c:choose>
+							<c:when test="${productDto.productType == '단건'}">
+								<h4>EeveryFIt 프리미엄 멤버가 되어 보세요!</h4>
+<!-- 								<label>(EeveryFit 프리미엄 회원권은 한번
+							결제하면 평생 이용이 가능합니다)</label> -->
+							</c:when>
+							<c:otherwise>
+								<label>EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</label>
+								
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 
 				<div class="box p-2 flex-shrink-1 w-50">
-					<label>kakaoPay</label>
+						<span class="text-center mb-2">★프리미엄 회원 badge 예시★</span>
+					<c:choose>
+						<c:when test="${productDto.productType == '단건'}">
+								<img src="/images/mypagememberCard.png" class="main-image text-center fixed-size-image mt-3">
+						</c:when>
+					<c:otherwise>
+								<img src="/images/moinCard.png" class="main-image img-thumbnail text-start fixed-size-image">
+							</c:otherwise>
+						</c:choose>
 				</div>
 			</div>
+
+
+	<div class="d-flex">
+	  <div class="box p-2 w-100">Flex item</div> <label style="margin-top: 25px">▶</label>
+	  <div class="box p-2 w-100">Flex item</div>
+	</div>
+
+
 
 
 			<div class="d-flex ">
 				<div class="box w-100">
 					<div>
-						<label>회원정보</label>
-						<div class="text-start mt-3">
-							<label>이름</label> <input type="text"
-											class="form-control cert-input">
-
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-
-
-
-		</div>
-	</div>
-</div>
-
-
-
-<!-- -------------------------------------------------------------------------------------------- -->
-<div class="m-5 p-5">
-	<div class="container-fluid m-5 p-5">
-		<div class="row">
-			<div class="col-md-6 offset-md-4 col-sm-10 offset-sm-1">
-
-
-
-				<div class="row">
-					<div class="col">
-						<h1 class="text-start">${productDto.productName}</h1>
-					</div>
-				</div>
-				
-			
+						
+						
 				<div class="row">
 					<div class="col">
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
-								<h3 class="text-start">EeveryFIt 프리미엄 멤버가 되어 보세요!</h3>
-								
-							</c:when>
-							<c:otherwise>
-								<h3 class="text-start">EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</h3>
-								
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col">
-						<c:choose>
-							<c:when test="${productDto.productType == '단건'}">
-								<span class="text-start">EeveryFit 프리미엄 회원권은 한번
-							결제하면 평생 이용이 가능합니다.</span>
-								<div class="row">
-									<div class="col text-start">
-										<img src="/images/memberCard.png" class="main-image text-center">
-									</div>
-								</div>
-								<div class="row">
-					<div class="col-1">
-
-						<div class="row">
-							<div class="col">
-								<h1 class="text-start mt-3 ms-5">
-								
-									<i class="fa-regular fa-hand-point-right"></i>
-								</h1>
-							</div>
-						</div>
-
-					</div>
-
-					<div class="col-10">
-						<div class="row">
-							<div class="col ms-5 mt-3 ">가입모임 개수 증가</div>
-						</div>
-						<div class="row">
-							<div class="col ms-5">모임 가입 최대 10개까지 늘리기<br>
-							(일반 회원은 최대 3개의 모임에 가입이 가능합니다)
-							</div>
-							
-						</div>
-					</div>
-				</div>
-							</c:when>
-							<c:otherwise>
-								<div class="row">
-									<div class="col text-start">
-										<img src="/images/moinCard.png" class="main-image img-thumbnail text-start">
-									</div>
-								</div>
-								<div class="row">
-					<div class="col-1">
-
-							<div class="col">
-								<h1 class="text-start mt-3">
-								
-									<i class="fa-regular fa-hand-point-right mt-3 "></i>
-								</h1>
-							</div>
-
-					</div>
-
-					<div class="col-10">
-											<div class="row">
-<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
-모임 비활성화 해제</div>
-						</div>
-						<div class="row">
-<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
-							(일반 모임은 1달 후 비활성화 됩니다. <br>프리미엄 모임권 결제 시, 비활성화 해제)
-							</div>
-							
-						</div>
-					</div>
-				</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-				
-				
-				
-
-
-
-
-
-				<div class="row mt-3">
-					<div class="col text-start">
-						<c:choose>
-							<c:when test="${productDto.productType == '단건'}">
-							<c:if test="${memberDto.memberLevel != '프리미엄'}">
-								<%-- <a href="pay/purchase?productNo=${productDto.productNo}"
-									class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a> --%>
-									<a href="#"
-							class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModalForMembership('${productDto.productNo}' , '${productDto.productPrice}')"
-   data-toggle="modal" data-target="#membershipModal">EeveryFIt 프리미엄 회원권 구매하기 </a>
-							</c:if>
-								<c:if test="${memberDto.memberLevel == '프리미엄'}">
-								<span style="color: red; text-bold">
-								${memberDto.memberEmail} 님은 이미 "프리미엄" 회원입니다.
-								이용해 주셔서 감사합니다
-								</span>	
-							</c:if>
+								<h4>♥프리미엄 회원권 혜택♥</h4><br>
+									<span class="text-start">▶ EeveryFit 프리미엄 회원권은 한번 결제하면 평생 이용이 가능합니다.</span> <br>
+									<span class="text-start">▶ 최대 가입 가능한 모임 개수 3 -> 10로 증가 (일반 회원은 최대 3개의 모임에 가입이 가능합니다)</span>
+									<br><br>
+										<c:if test="${memberDto.memberLevel != '프리미엄'}">
+											<%-- <a href="pay/purchase?productNo=${productDto.productNo}"
+											class="ataglink"> EeveryFIt 프리미엄 회원권 구매하기 </a> --%>
+											<a href="#" class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModalForMembership('${productDto.productNo}' , '${productDto.productPrice}')"
+   											data-toggle="modal" data-target="#membershipModal">EeveryFIt 프리미엄 회원권 구매하기 </a>
+										</c:if>
+										<c:if test="${memberDto.memberLevel == '프리미엄'}">
+											<span style="color: red; text-bold">
+											[${memberDto.memberEmail}] 님은 "프리미엄" 회원입니다.
+											이용해 주셔서 감사합니다.<br>
+											최대 10개의 모임에 가입할 수 있습니다!
+											</span>	
+										</c:if>
 							</c:when>
 							
 							<c:otherwise>
-
+								<h4>♥프리미엄 모임권 혜택♥</h4><br>
+								<span class="text-start">▶ EeveryFit 프리미엄 모임권은 정기결제로 언제든 해지할 수 있습니다.</span> <br>
+								<span class="text-start">▶ 모임 비활성화 해제 (일반 모임은 1달 후 비활성화 -> 프리미엄 모임권 결제 시, 비활성화 해제)</span>
+								<br><br><br>
 							<c:forEach var="MoimDtoList" items="${MoimDtoList}">
 							<c:if test="${MoimDtoList.moimUpgrade eq 'N'}" >
-							
-							
-						<div class="row">
-<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
-
 		<%-- 					<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}" --%>
+							<h4>♥[${memberDto.memberEmail}] 님이 모임장으로 이용하고 있는 모임 내역♥</h4><br>
 							<a href="#"
 							class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModal('${MoimDtoList.moimNo}' , '${MoimDtoList.moimTitle}')"
-   data-toggle="modal" data-target="#purchaseModal">
+   							data-toggle="modal" data-target="#purchaseModal">
 							[${MoimDtoList.moimTitle}] 모임에 대한 프리미엄 모임 이용권<br> 매월 ${productDto.productPrice}원 (부가세 포함)<br>
 							
 							</a>
 <%-- 								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
-											</div>	
-							</div>
 							<br>
 							
 							</c:if>
@@ -304,26 +208,31 @@
 							
 							
 							
-						<div class="row">
-<div class="col-md-8 offset-md-2 col-sm-10 offset-sm-1">	
 							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
 							class="ataglink mb-1 disabled-link w-50 text-center">
-							[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다
+							[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다. <br>이용해 주셔서 감사합니다.
 							</a>
 <%-- 							(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
 
-							</div>	
-							</div>
 							<br>
 							
 							</c:if>
 							</c:forEach>
-
 							</c:otherwise>
 						</c:choose>
 					</div>
 				</div>
-				
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<!-- -------------------------------------------------------------------------------------------- -->
+
 <hr>
 <나중에삭제하겠음>
 				<div class="row">
