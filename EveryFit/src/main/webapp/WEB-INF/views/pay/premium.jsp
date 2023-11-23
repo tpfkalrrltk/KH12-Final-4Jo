@@ -134,14 +134,15 @@
 					</div>
 				</div>
 
-				<div class="box p-2 flex-shrink-1 w-50">
-						<span class="text-center mb-2">★프리미엄 회원 badge 예시★</span>
+				<div class="box p-2 flex-shrink-1 w-50 text-center">
 					<c:choose>
 						<c:when test="${productDto.productType == '단건'}">
-								<img src="/images/mypagememberCard.png" class="main-image text-center fixed-size-image mt-3">
+						<span class="text-center mb-2">★프리미엄 회원 카드★</span>
+								<img src="/images/memberCard.png" class="main-image text-center fixed-size-image mt-1">
 						</c:when>
 					<c:otherwise>
-								<img src="/images/moinCard.png" class="main-image img-thumbnail text-start fixed-size-image">
+						<span class="text-center mb-2">★프리미엄 모임 카드★</span>
+								<img src="/images/moinCard.png" class="main-image text-center fixed-size-image mt-1">
 							</c:otherwise>
 						</c:choose>
 				</div>
@@ -149,8 +150,14 @@
 
 
 	<div class="d-flex">
-	  <div class="box p-2 w-100">Flex item</div> <label style="margin-top: 25px">▶</label>
-	  <div class="box p-2 w-100">Flex item</div>
+	  <div class="box p-2 w-100 text-center">
+		<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
+		<img src="/images/mypagememberCardBefore.png" class="main-image text-center fixed-size-image mt-3">
+	</div> <label style="margin-top: 90px">▶</label>
+	  <div class="box p-2 w-100 text-center">
+		<span class="text-center mb-2">★프리미엄 회원 badge 예시(After)★</span>
+		<img src="/images/mypagememberCard.png" class="main-image text-center fixed-size-image mt-3">
+	</div>
 	</div>
 
 
@@ -189,10 +196,12 @@
 								<span class="text-start">▶ EeveryFit 프리미엄 모임권은 정기결제로 언제든 해지할 수 있습니다.</span> <br>
 								<span class="text-start">▶ 모임 비활성화 해제 (일반 모임은 1달 후 비활성화 -> 프리미엄 모임권 결제 시, 비활성화 해제)</span>
 								<br><br><br>
-							<c:forEach var="MoimDtoList" items="${MoimDtoList}">
-							<c:if test="${MoimDtoList.moimUpgrade eq 'N'}" >
-		<%-- 					<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}" --%>
 							<h4>♥[${memberDto.memberEmail}] 님이 모임장으로 이용하고 있는 모임 내역♥</h4><br>
+							<c:forEach var="MoimDtoList" items="${MoimDtoList}">
+							
+							<c:if test="${MoimDtoList.moimUpgrade eq 'N'}" >
+							
+		<%-- 					<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}" --%>
 							<a href="#"
 							class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModal('${MoimDtoList.moimNo}' , '${MoimDtoList.moimTitle}')"
    							data-toggle="modal" data-target="#purchaseModal">
@@ -238,12 +247,18 @@
 				<div class="row">
 					<div class="col">
 					<회원권>
+					
 						[${memberDto.memberEmail}] - ${memberDto.memberLevel} <br>
 <c:forEach var="MoimDtoList" items="${MoimDtoList}">
 <모임권>
+
 [${MoimDtoList.moimTitle}] - ${MoimDtoList.moimUpgrade}<br>
 
 </c:forEach>
+<c:forEach var="moimTitleForPaymentVO" items="${moimTitleForPaymentVO}">
+${moimTitleForPaymentVO}
+</c:forEach>
+
 					</div>
 				</div>
 

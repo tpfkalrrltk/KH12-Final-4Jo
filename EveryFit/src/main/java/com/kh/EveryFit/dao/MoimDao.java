@@ -27,6 +27,8 @@ public interface MoimDao {
 	
 	//회원이 가입한 모임 확인용
 	List<MoimDto> moimListByEmail(String memberEmail);
+	//회원이 모임장으로 가입한 모임 확인용
+	List<MoimDto> moimListByEmailAndCrown(String memberEmail);
 	//리그 참여 가능한 모임 확인용 모임 리스트
 	List<MoimDto> checkMoimList(CheckMoimListVO vo);
 	
