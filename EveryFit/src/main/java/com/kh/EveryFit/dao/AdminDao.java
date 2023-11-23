@@ -60,7 +60,7 @@ public interface AdminDao {
 	
 	
 	//회원 차단
-	void insertBlock(String memberEmail);
+	boolean insertBlock(String memberEmail);
 
 	boolean deleteBlock(String memberEmail);
 	

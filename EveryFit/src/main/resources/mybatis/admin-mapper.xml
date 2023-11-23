@@ -363,7 +363,7 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 
 		</where>
 
-	
+
 
 
 		<if test="orderList != null and orderList.size() >0">
@@ -434,5 +434,14 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		delete report_image where report_no =
 		#{reportNo}
 	</delete>
+
+
+	<update id="insertBlock">
+		update member set member_block = 'Y' where member_email = #{memberEmail}
+	</update>
+
+	<update id="deleteBlock">
+		update member set member_block = 'N' where member_email = #{memberEmail}
+	</update>
 
 </mapper>

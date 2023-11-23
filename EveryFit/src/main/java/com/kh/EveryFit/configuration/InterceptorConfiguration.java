@@ -16,20 +16,22 @@ MemberInterceptor memberInterceptor;
 
 @Override
 	public void addInterceptors(InterceptorRegistry registry) {
-	registry.addInterceptor(memberInterceptor).addPathPatterns(		"/member/**",
-			"/board/**",
-			"/rest/reply/**",
+	registry.addInterceptor(memberInterceptor).addPathPatterns(		
+			"/freeBoard/**",
+			"/rest/freeBoardReply/**",
+			"/rest/moimBoardReply/**",
 			"/member/**",
 			"/pay/**"
+			,"/report/**"
 	)
 	.excludePathPatterns(
+			"/freeBoard/list",
+			"/freeBoard/detail**",
 			"/member/join*",
 			"/member/login",
 			"/member/exitFinish",
 			"/member/find**",
-			"/board/list*",
-			"/board/detail",
-			"/rest/reply/list"
+			"/rest/freeBoardReply/list"
 
 	);
 	

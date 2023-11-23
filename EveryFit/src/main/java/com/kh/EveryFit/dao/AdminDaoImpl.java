@@ -122,17 +122,13 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public void insertBlock(String memberEmail) {
-		String sql = "insert into member_report(member_email) values(?)";
-		Object[] data = { memberEmail };
-		tem.update(sql, data);
+	public boolean insertBlock(String memberEmail) {
+		return sqlSession.update("admin.insertBlock", memberEmail) > 0;
 	}
 
 	@Override
 	public boolean deleteBlock(String memberEmail) {
-		String sql = "delete member_report where member_email=?";
-		Object[] data = { memberEmail };
-		return tem.update(sql, data) > 0;
+		return sqlSession.update("admin.deleteBlock", memberEmail) > 0;
 
 	}
 
@@ -165,7 +161,7 @@ public class AdminDaoImpl implements AdminDao {
 
 		try {
 			return sqlSession.selectOne("admin.findReportImage", reportNo);
-		
+
 		} catch (Exception e) {
 			return null;
 		}
@@ -173,7 +169,7 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Override
 	public void deleteReportImage(int reportNo) {
-	
+
 		sqlSession.selectOne("admin.deleteReportImage", reportNo);
 	}
 }

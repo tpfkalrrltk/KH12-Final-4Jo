@@ -81,16 +81,15 @@ public class AdminController {
 	}
 
 	@RequestMapping("/member/block")
-	public String memberBlock(@RequestParam String memberEmail, HttpServletRequest request) {
+	public String memberBlock(@RequestParam String memberEmail) {
 		adminDao.insertBlock(memberEmail);
-		// 현재 페이지 URL을 가져와서 리다이렉트
-		return "redirect:" + request.getHeader("Referer");
+		return "redirect:/admin/member";
 	}
 
 	@RequestMapping("/member/cancel")
 	public String memberCancel(@RequestParam String memberEmail) {
 		adminDao.deleteBlock(memberEmail);
-		return "redirect:admin/memberList";
+		return "redirect:/admin/member";
 	}
 
 	@RequestMapping("/report/detail")
@@ -103,5 +102,7 @@ public class AdminController {
 
 		return "report/detail";
 	}
+	
+
 
 }
