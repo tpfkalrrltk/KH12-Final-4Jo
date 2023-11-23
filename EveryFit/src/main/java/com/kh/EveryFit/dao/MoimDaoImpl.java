@@ -14,6 +14,7 @@ import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+import com.kh.EveryFit.vo.moimListForMyPageVO;
 
 
 @Repository
@@ -59,6 +60,11 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public List<MoimDto> moimListByEmail(String memberEmail) {
 		return sqlSession.selectList("moim.moimListByEmail", memberEmail);
+	}
+	//마이페이지를 위한 내모임리스트
+	@Override
+	public List<moimListForMyPageVO> moimListForMyPage(String memberEmail) {
+		return sqlSession.selectList("moim.moimListForMyPage", memberEmail);
 	}
 	
 	@Override

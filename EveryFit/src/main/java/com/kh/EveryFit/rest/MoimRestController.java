@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.JungmoDetailVO;
 import com.kh.EveryFit.vo.MemberLikeVO;
+import com.kh.EveryFit.vo.moimListForMyPageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -393,5 +395,12 @@ public class MoimRestController {
 //		moimDao.updateMoimMember(memberEmail);
 //		return "Y";
 //	}
+@PostMapping("/list")
 
+public List<moimListForMyPageVO> moimList(HttpSession session) {
+	String memberEmail = (String) session.getAttribute("name");
+	List<moimListForMyPageVO> list = moimDao.moimListForMyPage(memberEmail);
+	
+	return list;
+}
 }
