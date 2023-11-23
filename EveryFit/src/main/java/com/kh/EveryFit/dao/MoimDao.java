@@ -8,6 +8,7 @@ import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
+import com.kh.EveryFit.vo.moimListForMyPageVO;
 
 
 public interface MoimDao {
@@ -27,6 +28,8 @@ public interface MoimDao {
 	
 	//회원이 가입한 모임 확인용
 	List<MoimDto> moimListByEmail(String memberEmail);
+	//회원이 가입한 모임 확인용(마이페이지에서확인시사용)
+	List<moimListForMyPageVO> moimListForMyPage(String memberEmail);
 	//회원이 모임장으로 가입한 모임 확인용
 	List<MoimDto> moimListByEmailAndCrown(String memberEmail);
 	//리그 참여 가능한 모임 확인용 모임 리스트

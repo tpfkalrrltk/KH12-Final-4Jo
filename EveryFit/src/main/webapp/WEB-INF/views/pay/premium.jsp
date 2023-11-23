@@ -127,7 +127,7 @@
 							결제하면 평생 이용이 가능합니다)</label> -->
 							</c:when>
 							<c:otherwise>
-								<label>EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</label>
+								<h4>EeveryFit 프리미엄 모임으로 업그레이드 해보세요!</h4>
 								
 							</c:otherwise>
 						</c:choose>
