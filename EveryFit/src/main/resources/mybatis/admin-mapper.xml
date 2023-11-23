@@ -273,24 +273,28 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 	</select>
 
 	<select id="PremiumMoimList" resultType="AdminMoimMemberCountVO">
-		select m.* 
-		,nvl(mml.member_count, 0) member_count from moim m left outer 
-		join ( 
-		select moim_no, count(*) member_count from moim_member_list group by 
-		moim_no 
-		) 
-		mml on m.moim_no = mml.moim_no where moim_upgrade in 'Y' and 
-		moim_state 
-		in '모집중' order by 
-		DBMS_RANDOM.RANDOM 
+		select m.*
+		,nvl(mml.member_count, 0) member_count from moim m left outer
+		join (
+		select moim_no, count(*) member_count from moim_member_list group by
+		moim_no
+		)
+		mml on m.moim_no = mml.moim_no where moim_upgrade in 'Y' and
+		moim_state
+		in '모집중' order by
+		DBMS_RANDOM.RANDOM
 	</select>
 
-	<select id="GenderCheckMoimList" resultType="AdminMoimMemberCountVO">
-		select m.* ,nvl(mml.member_count, 0) member_count from moim m left outer
+	<select id="GenderCheckMoimList"
+		resultType="AdminMoimMemberCountVO">
+		select m.* ,nvl(mml.member_count, 0) member_count from moim
+		m left outer
 		join (
-		select moim_no, count(*) member_count from moim_member_list group by moim_no
+		select moim_no, count(*) member_count from
+		moim_member_list group by moim_no
 		)
-		mml on m.moim_no = mml.moim_no  where moim_gender_check in 'Y' and
+		mml on m.moim_no = mml.moim_no where
+		moim_gender_check in 'Y' and
 		moim_state in '모집중' order by
 		DBMS_RANDOM.RANDOM
 
@@ -360,6 +364,35 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 		select moim_no, count(*) member_count from moim_member_list group by
 		moim_no
 		) mml on m.moim_no = mml.moim_no
+	</select>
+
+
+	<!-- 신고 기능 -->
+		<select id="sequence" resultType="int">
+		select report_seq.nextval
+		from dual
+	</select>
+	
+	
+	<insert id="reportApply">
+		insert into report(
+		report_no,
+		report_reason,
+		report_content,
+		report_time,
+		report_category
+		)
+		values(
+		#{reportNo},
+		#{reportReason},
+		#{reportContent},
+		sysdate,
+		#{reportCategory}
+		)
+	</insert>
+
+	<select id="reportDetail" resultType="ReportDto">
+		select * from report where report_no = #{reportNo}
 	</select>
 
 </mapper>

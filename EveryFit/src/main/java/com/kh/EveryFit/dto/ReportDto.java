@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReportDto {
 	int reportNo;
-	String reportReason, reportContent;
+	String reportReason, reportContent, reportCategory;
 	Date reportTime;
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.AttachDto;
@@ -25,6 +26,8 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Autowired
 	SqlSession sqlSession;
+	@Autowired
+	JdbcTemplate tem;
 
 	@Override
 	public List<MemberDto> adminMemberList() {
@@ -115,6 +118,37 @@ public class AdminDaoImpl implements AdminDao {
 	public List<AdminMoimMemberCountVO> memberCount() {
 		List<AdminMoimMemberCountVO> list = sqlSession.selectList("admin.memberCount");
 		return list;
+	}
+
+	@Override
+	public void insertBlock(String memberEmail) {
+		String sql = "insert into member_report(member_email) values(?)";
+		Object[] data = {memberEmail};
+		tem.update(sql, data);
+	}
+
+	@Override
+	public boolean deleteBlock(String memberEmail) {
+		String sql = "delete member_report where member_email=?";
+		Object[] data = {memberEmail};
+		return tem.update(sql,data) > 0;
+		
+	}
+
+	@Override
+	public void reportApply(ReportDto reportDto) {
+		sqlSession.insert("admin.reportApply",reportDto);
+		
+	}
+
+	@Override
+	public ReportDto reportDetail(int reportNo) {
+		return sqlSession.selectOne("admin.reportDetail",reportNo);
+	}
+
+	@Override
+	public int sequence() {
+		return sqlSession.selectOne("admin.sequence");
 	}
 
 }

@@ -2,6 +2,8 @@ package com.kh.EveryFit.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.AdminDao;
 import com.kh.EveryFit.dto.MemberDto;
@@ -60,6 +63,26 @@ public class AdminController {
 	public String report(Model model, @ModelAttribute("adminReportSearchVO") AdminReportSearchVO adminReportSearchVO) {
 		model.addAttribute("adminReportList", adminDao.adminReportSearch(adminReportSearchVO));
 		return "admin/reportList";
+	}
+	
+	
+	@RequestMapping("/member/block")
+	public String memberBlock(@RequestParam String memberEmail, HttpServletRequest request ) {
+		adminDao.insertBlock(memberEmail);
+		// 현재 페이지 URL을 가져와서 리다이렉트 
+		return "redirect:" + request.getHeader("Referer");
+	}
+	@RequestMapping("/member/cancel")
+	public String memberCancel(@RequestParam String memberEmail) {
+		adminDao.deleteBlock(memberEmail);
+		return "redirect:admin/memberList";
+	}
+	
+	@RequestMapping("/report/detail")
+	public String reportDetail(Model model, @RequestParam int reportNo) {
+		model.addAttribute("reportDto",adminDao.reportDetail(reportNo));
+		
+		return "report/detail";
 	}
 
 }
