@@ -72,5 +72,9 @@ public interface AdminDao {
 	
 	int sequence();
 
-	
+	void insertReportImage(int reportNo, int attachNo);
+
+	Integer findReportImage(Integer reportNo);
+
+	void deleteReportImage(int reportNo);
 }

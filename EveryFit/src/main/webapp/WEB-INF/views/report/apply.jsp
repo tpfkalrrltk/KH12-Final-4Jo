@@ -45,11 +45,11 @@ $(function(){
 	$(function() {
 		$(".btn-save").click(function() {
 
-			var faqTitle = $("[name=faqTitle]").val();
-			var faqDetail = $("[name=faqDetail]").val();
+			var reportReason = $("[name=reportReason]").val();
+			var reportContent = $("[name=reportContent]").val();
 			var fileInput = $(".file-chooser")[0];
 
-			if (faqTitle.length == 0 || faqDetail.length == 0) {
+			if (reportReason.length == 0 || reportContent.length == 0) {
 				event.preventDefault();
 				alert("제목과 내용을 입력해주세요.");
 			}

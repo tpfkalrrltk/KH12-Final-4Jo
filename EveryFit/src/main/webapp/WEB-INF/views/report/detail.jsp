@@ -61,8 +61,8 @@
 									</c:when>
 									<c:otherwise>
 										<img
-											src="/report/rest/attach/download?attachNo=${reportImage}"
-											class="rounded profile-image" style="max-width: 1100px">
+											src="/rest/report/attach/download?attachNo=${reportImage}"
+											class="rounded profile-image" style="max-width: 1060px">
 									</c:otherwise>
 								</c:choose>
 								${reportDto.reportContent}
