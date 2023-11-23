@@ -137,6 +137,10 @@ body {
 <!-- jQuery UI JS -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
 	
+<!-- 썸머노트 -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>	
+	
 </head>
 
 
