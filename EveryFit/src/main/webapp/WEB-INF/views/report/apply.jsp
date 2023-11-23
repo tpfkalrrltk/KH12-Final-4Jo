@@ -123,7 +123,7 @@ $(function(){
 							<p class="text-primary fw-bold">신고 내용 :</p>
 							<textarea rows="30" cols="52" name="reportContent"
 								class="form-control fw-bold bg-primary text-light"
-								placeholder="신고날짜 제출"></textarea>
+								placeholder="상세히 기술하여 주세요."></textarea>
 						</div>
 					</div>
 					<div class="row">

@@ -274,6 +274,11 @@ body {
 								프리미엄모임권 </a> <a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/pay/list">
 								나의결제내역리스트 </a>
+
+
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
 						</div></li>
 
 
@@ -303,7 +308,8 @@ body {
 								관리</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/admin/report">(관리자)신고 목록</a>
+								href="${pageContext.request.contextPath}/admin/report">(관리자)신고
+								목록</a>
 						</div></li>
 
 
