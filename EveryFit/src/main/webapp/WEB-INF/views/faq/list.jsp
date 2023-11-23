@@ -70,7 +70,9 @@
 						<td class="col-2 text-primary fw-bold">${faqList.faqCategory}</td>
 						<td class="col-2 text-primary fw-bold">${faqList.faqTitle}</td>
 						<td class="col-2 text-primary fw-bold">${faqList.faqNick}</td>
-						<td class="col-4 text-primary fw-bold">${faqList.faqTime}</td>
+						<td class="col-4 text-primary fw-bold">${faqList.faqTime}
+						
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
