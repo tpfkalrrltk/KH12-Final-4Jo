@@ -136,15 +136,21 @@ a {
 							<div class="text-warning col-3">Level :</div>
 							<div class=" col-8">${adminMemberTarget.memberLevel}</div>
 						</div>
-
+						
+							<div class="row">
+							<div class="text-warning col-3">차단여부 :</div>
+							<div class=" col-8">${adminMemberTarget.memberBlock}</div>
+						</div>
 
 						<c:choose>
-							<c:when test="${adminMemberTarget== 'Y'}">
+							<c:when test="${adminMemberTarget.memberBlock =='N'}">
 					</div>
 					<div class="col align-self-end">
 						<div>
 							<button class="btn btn-danger w-100 fw-bold">
-								<a href="#">회원 차단</a>
+								<a
+									href="/admin/member/block?memberEmail=${adminMemberTarget.memberEmail}">회원
+									차단</a>
 							</button>
 						</div>
 						</c:when>
@@ -153,13 +159,15 @@ a {
 					<div class="col align-self-end">
 						<div>
 							<button class="btn btn-warning w-100 fw-bold">
-								<a href="#">차단 해제</a>
+								<a
+									href="/admin/member/cancel?memberEmail=${adminMemberTarget.memberEmail}">차단
+									해제</a>
 							</button>
 						</div>
 						</c:otherwise>
 						</c:choose>
 
-		
+
 
 
 
