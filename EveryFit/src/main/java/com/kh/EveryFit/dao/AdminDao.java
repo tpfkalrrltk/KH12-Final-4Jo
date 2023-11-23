@@ -56,5 +56,25 @@ public interface AdminDao {
 	
 	//모임 멤버 인원수 조회
 	List< AdminMoimMemberCountVO> memberCount();
+
 	
+	
+	//회원 차단
+	boolean insertBlock(String memberEmail);
+
+	boolean deleteBlock(String memberEmail);
+	
+	
+	//신고 등록
+	void reportApply(ReportDto reportDto); 
+	//신고 확인
+	ReportDto reportDetail(int reportNo);
+	
+	int sequence();
+
+	void insertReportImage(int reportNo, int attachNo);
+
+	Integer findReportImage(Integer reportNo);
+
+	void deleteReportImage(int reportNo);
 }

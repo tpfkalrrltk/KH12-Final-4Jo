@@ -67,7 +67,7 @@ public class KakaoPayController {
 		//구매할사람이 포함된 모임정보 조회
 		List<MoimMemberDto> moimMemberDto= moimDao.selectAllMoimNo(memberId);
 		List<MoimTitleForPaymentVO> moimTitleForPaymentVO = moimDao.selectTitleMoimNo(memberId);
-		List<MoimDto> MoimDto= moimDao.moimListByEmail(memberId);
+		List<MoimDto> MoimDto= moimDao.moimListByEmailAndCrown(memberId);
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		//List<PaymentListAllVO> PaymentListAllVO = paymentDao.paymentListByMember(memberId);
 		//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
@@ -76,7 +76,7 @@ public class KakaoPayController {
 		log.debug("moimTitleForPaymentVO={}", moimTitleForPaymentVO);
 		//model.addAttribute("list", moimMemberDto);
 		//model.addAttribute("list",PaymentListAllVO);
-		model.addAttribute("list2", moimTitleForPaymentVO);
+		model.addAttribute("moimTitleForPaymentVO", moimTitleForPaymentVO);
 		model.addAttribute("MoimDtoList", MoimDto);
 		model.addAttribute(memberDto);
 

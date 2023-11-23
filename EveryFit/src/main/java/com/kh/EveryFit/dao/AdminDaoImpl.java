@@ -1,9 +1,12 @@
 package com.kh.EveryFit.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.AttachDto;
@@ -25,6 +28,8 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Autowired
 	SqlSession sqlSession;
+	@Autowired
+	JdbcTemplate tem;
 
 	@Override
 	public List<MemberDto> adminMemberList() {
@@ -53,8 +58,7 @@ public class AdminDaoImpl implements AdminDao {
 		List<MoimDto> list = sqlSession.selectList("admin.adminMoimSearch", adminMoimSearchVO);
 		return list;
 	}
-	
-	
+
 	@Override
 	public List<JungmoDto> adminJungmoList() {
 		return sqlSession.selectList("admin.adminMoimList");
@@ -69,11 +73,11 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public AttachDto findImage(int moimNo) {
 
-		List<AttachDto>list=sqlSession.selectList("admin.findMoimProfile", moimNo);
+		List<AttachDto> list = sqlSession.selectList("admin.findMoimProfile", moimNo);
 		return list.isEmpty() ? null : list.get(0);
-		
+
 	}
-	
+
 	@Override
 	public List<MoimDto> moimProfileList() {
 		return sqlSession.selectList("admin.moimProfileList");
@@ -96,12 +100,12 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Override
 	public Integer moimMemberCount(int moimNo) {
-		return sqlSession.selectOne("moim.moimMemberCount",moimNo);
+		return sqlSession.selectOne("moim.moimMemberCount", moimNo);
 	}
 
 	@Override
 	public List<ReportDto> reportList() {
-		
+
 		return sqlSession.selectList("admin.ReportList");
 	}
 
@@ -117,4 +121,55 @@ public class AdminDaoImpl implements AdminDao {
 		return list;
 	}
 
+	@Override
+	public boolean insertBlock(String memberEmail) {
+		return sqlSession.update("admin.insertBlock", memberEmail) > 0;
+	}
+
+	@Override
+	public boolean deleteBlock(String memberEmail) {
+		return sqlSession.update("admin.deleteBlock", memberEmail) > 0;
+
+	}
+
+	@Override
+	public void reportApply(ReportDto reportDto) {
+		sqlSession.insert("admin.reportApply", reportDto);
+
+	}
+
+	@Override
+	public ReportDto reportDetail(int reportNo) {
+		return sqlSession.selectOne("admin.reportDetail", reportNo);
+	}
+
+	@Override
+	public int sequence() {
+		return sqlSession.selectOne("admin.sequence");
+	}
+
+	@Override
+	public void insertReportImage(int reportNo, int attachNo) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("reportNo", reportNo);
+		params.put("attachNo", attachNo);
+		sqlSession.insert("admin.insertReportImage", params);
+	}
+
+	@Override
+	public Integer findReportImage(Integer reportNo) {
+
+		try {
+			return sqlSession.selectOne("admin.findReportImage", reportNo);
+
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public void deleteReportImage(int reportNo) {
+
+		sqlSession.selectOne("admin.deleteReportImage", reportNo);
+	}
 }

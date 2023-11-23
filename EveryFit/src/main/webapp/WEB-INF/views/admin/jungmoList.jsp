@@ -84,29 +84,29 @@
 					<div class="col">
 						상태: <select class="form-select col  fw-bold text-primary"
 							name="jungmoStateList">
-							<option value="">==Select==</option>
-							<option>모집중</option>
-							<option>취소</option>
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+							<option class="fw-bold bg-primary text-light">모집중</option>
+							<option class="fw-bold bg-primary text-light">취소</option>
 						</select>
 					</div>
 
 					<div class="col">
 						정렬순서 : <select class="form-select col  fw-bold text-primary"
 							name="orderList">
-							<option value="">==Select==</option>
-							<option value="jungmo_no asc">정모 번호(오름차순)</option>
-							<option value="jungmo_no desc">정모 번호(내림차순)</option>
-							<option value="moim_no asc">모임 번호(오름차순)</option>
-							<option value="moim_no desc">모임 번호(내림차순)</option>
-							<option value="jungmo_title asc">정모 이름(오름차순)</option>
-							<option value="jungmo_title desc">정모 이름(내림차순)</option>
-							<option value="jungmo_capacity asc">정모 정원(오름차순)</option>
-							<option value="jungmo_capacity desc">정모 정원(내림차순)</option>
-							<option value="jungmo_price asc">정모 회비(오름차순)</option>
-							<option value="jungmo_price desc">정모 회비(내림차순)</option>
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+							<option value="jungmo_no asc" class="fw-bold bg-primary text-light">정모 번호(오름차순)</option>
+							<option value="jungmo_no desc" class="fw-bold bg-primary text-light">정모 번호(내림차순)</option>
+							<option value="moim_no asc" class="fw-bold bg-primary text-light">모임 번호(오름차순)</option>
+							<option value="moim_no desc" class="fw-bold bg-primary text-light">모임 번호(내림차순)</option>
+							<option value="jungmo_title asc" class="fw-bold bg-primary text-light">정모 이름(오름차순)</option>
+							<option value="jungmo_title desc" class="fw-bold bg-primary text-light">정모 이름(내림차순)</option>
+							<option value="jungmo_capacity asc" class="fw-bold bg-primary text-light">정모 정원(오름차순)</option>
+							<option value="jungmo_capacity desc" class="fw-bold bg-primary text-light">정모 정원(내림차순)</option>
+							<option value="jungmo_price asc" class="fw-bold bg-primary text-light">정모 회비(오름차순)</option>
+							<option value="jungmo_price desc" class="fw-bold bg-primary text-light">정모 회비(내림차순)</option>
 
-							<option value="jungmo_schedule asc">생성일(오름차순)</option>
-							<option value="jungmo_schedule desc">생성일(내림차순)</option>
+							<option value="jungmo_schedule asc" class="fw-bold bg-primary text-light">생성일(오름차순)</option>
+							<option value="jungmo_schedule desc" class="fw-bold bg-primary text-light">생성일(내림차순)</option>
 
 						</select>
 					</div>

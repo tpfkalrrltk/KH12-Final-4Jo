@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script>
 	window.contextPath = "${pageContext.request.contextPath}";
@@ -264,15 +265,27 @@ body {
 								href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
 							<a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/faq/list">FAQ</a>
+							<c:choose>
+								<c:when test="${sessionScope.name != null}">
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item fw-bold"
+										href="${pageContext.request.contextPath}/pay?productNo=1">
+										프리미엄회원권 </a>
+									<a class="dropdown-item fw-bold"
+										href="${pageContext.request.contextPath}/pay?productNo=2">
+										프리미엄모임권 </a>
+									<a class="dropdown-item fw-bold"
+										href="${pageContext.request.contextPath}/pay/list">
+										나의결제내역리스트 </a>
+
+
+								</c:when>
+							</c:choose>
 
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/pay?productNo=1">
-								프리미엄회원권 </a> <a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/pay?productNo=2">
-								프리미엄모임권 </a> <a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/pay/list">
-								나의결제내역리스트 </a>
+								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
+								
 						</div></li>
 
 
@@ -302,7 +315,8 @@ body {
 								관리</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/admin/report">(관리자)신고 목록</a>
+								href="${pageContext.request.contextPath}/admin/report">(관리자)신고
+								목록</a>
 						</div></li>
 
 

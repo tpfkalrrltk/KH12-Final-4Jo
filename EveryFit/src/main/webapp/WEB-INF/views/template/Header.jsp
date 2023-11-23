@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <script>
 	window.contextPath = "${pageContext.request.contextPath}";
@@ -23,20 +24,21 @@
 	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200&display=swap"
 	rel="stylesheet">
 
-<!-- datetimepicker -->	
+<!-- datetimepicker -->
 <link rel="stylesheet" href="/css/jquery.datetimepicker.min.css" />
-	
+
 <link rel="preload" href="webfont-path" as="font" crossorigin />
-	
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
 <script>
-  WebFont.load({
-    google: {
-      families: ['Noto Sans KR', 'Noto Sans KR']
-    }
-  });
+	WebFont.load({
+		google : {
+			families : [ 'Noto Sans KR', 'Noto Sans KR' ]
+		}
+	});
 </script>
-	
+
 <style>
 @font-face {
 	font-family: 'Noto Sans KR', sans-serif;
@@ -45,7 +47,6 @@
 body {
 	font-family: 'Noto Sans KR', sans-serif;
 }
-
 
 #wrapper {
 	font-family: 'Noto Sans KR', sans-serif;
@@ -109,19 +110,20 @@ body {
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.2/litera/bootstrap.min.css"
 	rel="stylesheet">
-	
-	
-	
+
+
+
 <!--     폰트어썸 -->
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<!-- datetimepicker -->	
+<!-- datetimepicker -->
 <script src="/js/jquery.datetimepicker.full.min.js"></script>
-    
+
 <!-- 모먼트.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <!--     전용 CDN -->
 <link rel="stylesheet" type="text/css" href="/css/EveryFit-layout.css">
@@ -130,9 +132,10 @@ body {
 <!-- Bootstrap JS (including Popper.js) -->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	
+
 <!-- jQuery UI CSS -->
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <!-- jQuery UI JS -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
@@ -168,7 +171,6 @@ body {
 		;
 		return i;
 	}
-	
 </script>
 
 
@@ -181,7 +183,7 @@ body {
 		data-bs-theme="dark">
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
-				width="110px"/></a>
+				width="110px" /></a>
 
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarColor01"
@@ -191,9 +193,9 @@ body {
 			</button>
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav me-auto">
-				
-				
-			
+
+
+
 					<c:choose>
 						<c:when test="${sessionScope.name==null}">
 
@@ -217,7 +219,7 @@ body {
 
 						</c:otherwise>
 					</c:choose>
-							<li class="nav-item">
+					<li class="nav-item">
 						<h1>
 							<a class="nav-link ms-3" href="/member/join"> <i
 								class="fa-solid fa-user-plus mt-2"></i> <span
@@ -225,12 +227,12 @@ body {
 							</a>
 						</h1>
 					</li>
-					
-					
+
+
 					<li class="nav-item">
 						<h1>
-							<a class="nav-link ms-3" href=/member/mypage> 
-							<i class="fa-solid fa-user-gear mt-2"></i>
+							<a class="nav-link ms-3" href=/member/mypage> <i
+								class="fa-solid fa-user-gear mt-2"></i>
 							</a>
 						</h1>
 					</li>
@@ -295,12 +297,12 @@ body {
 								프리미엄모임권 </a> <a class="dropdown-item fw-bold"
 								href="${pageContext.request.contextPath}/pay/list">
 								나의결제내역리스트 </a>
+
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item fw-bold"
+								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
+
 						</div></li>
-
-
-
-				
-
 
 
 
@@ -310,38 +312,36 @@ body {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님 환영합니다.</div>
-						
+									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
+
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item ms-5">
-					
-							</li>
+							<li class="nav-item ms-5"></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
 				<div class="d-flex">
-				<div class="nav-item ms-5 me-3  bg-light rounded-3 "
-					style="margin-left: 5500">
-					<h6 class="text-primary fw-bold ">Now Time</h6>
-					<div id="txt" class="text-primary fw-bold">
-						<h5></h5>
+					<div class="nav-item ms-5 me-3  bg-light rounded-3 "
+						style="margin-left: 5500">
+						<h6 class="text-primary fw-bold ">Now Time</h6>
+						<div id="txt" class="text-primary fw-bold">
+							<h5></h5>
+						</div>
 					</div>
 				</div>
-			</div>
-			
-			<form class="d-flex">
-				<input class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
-					type="search" placeholder="Search" style="height: 52px">
-				<button class="btn btn-light   text-primary mt-3  fw-bold"
-					type="submit"  style="height: 52px">Search</button>
-			</form>
+
+				<form class="d-flex">
+					<input
+						class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
+						type="search" placeholder="Search" style="height: 52px">
+					<button class="btn btn-light   text-primary mt-3  fw-bold"
+						type="submit" style="height: 52px">Search</button>
+				</form>
 			</div>
 		</div>
 	</nav>
-
 <body onload="startTime()">
 	<div class="p-5 m-5"></div>
 	<div id='wrapper'>

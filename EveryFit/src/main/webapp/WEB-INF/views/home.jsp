@@ -43,7 +43,6 @@
 		document.querySelector("#Premium").animate(keyframes, options);
 		document.querySelector("#NowMoim").animate(keyframes, options);
 		document.querySelector("#GenderCheck").animate(keyframes, options);
-	
 
 		var nystories = document.querySelector("p").offsetTop;
 		window.onscroll = function() {
@@ -83,77 +82,66 @@
 		document.querySelector("#main-text2").animate(mainFrames, mainOptions);
 		document.querySelector("#directionality").animate(mainFrames,
 				mainOptions);
-		});
+	});
 
+	$(function() {
+		$(".btn-join").click(function(e) {
 
-	
-    
-
-	
-    $(function(){
-    	$(".btn-join").click(function(e) {
-    	   
-
-    	    // 모임 번호 가져오기
-    	    var moimNo = $(this).data("moim-no");
-    		console.log(moimNo);
-    	    $.ajax({
-    	        url: "http://localhost:8080/rest/moim/member/join",
-    	        method: "post",
-    	        data: { moimNo: moimNo },
-    	        success: function(response) {
-    	            // 서버에서 받은 응답(response)에 따라 화면 처리
-    	            console.log(response);
-    	            // 예시: 성공 시 alert 창 띄우기
-    	            if (response === "notLoggedIn") {
+			// 모임 번호 가져오기
+			var moimNo = $(this).data("moim-no");
+			console.log(moimNo);
+			$.ajax({
+				url : "http://localhost:8080/rest/moim/member/join",
+				method : "post",
+				data : {
+					moimNo : moimNo
+				},
+				success : function(response) {
+					// 서버에서 받은 응답(response)에 따라 화면 처리
+					console.log(response);
+					// 예시: 성공 시 alert 창 띄우기
+					if (response === "notLoggedIn") {
 						$(".modal-body").text("로그인하세요.");
 						Modal.show();
-    	                // 다른 화면 처리 로직을 여기에 추가
-    	            } 
-    	            else if (response === "memberNotFound") {
+						// 다른 화면 처리 로직을 여기에 추가
+					} else if (response === "memberNotFound") {
 						$(".modal-body").text("로그인하세요.");
 						Modal.show();
-    	                // 실패 시 처리 로직을 여기에 추가
-    	            }
-    	            else if (response === "moimNotFound") {
+						// 실패 시 처리 로직을 여기에 추가
+					} else if (response === "moimNotFound") {
 						$(".modal-body").text("존재하지 않는 모임입니다.");
 						Modal.show();
-    	                // 실패 시 처리 로직을 여기에 추가
-    	            }
-    	            else if (response === "over") {
+						// 실패 시 처리 로직을 여기에 추가
+					} else if (response === "over") {
 						$(".modal-body").text("가입할 수 있는 모임 개수가 초과되었습니다.");
 						Modal.show();
-    	                // 실패 시 처리 로직을 여기에 추가
-    	            }
-    	            else if (response === "joined") {
+						// 실패 시 처리 로직을 여기에 추가
+					} else if (response === "joined") {
 						$(".modal-body").text("이미 가입한 모임");
 						Modal.show();
-    	                // 실패 시 처리 로직을 여기에 추가
-    	            }
-    	            else if (response === "genderCheck") {
+						// 실패 시 처리 로직을 여기에 추가
+					} else if (response === "genderCheck") {
 						$(".modal-body").text("여성회원만 가입 가능");
 						Modal.show();
-    	                // 실패 시 처리 로직을 여기에 추가
-    	            }
-    	            else {
-    	                // 실패 시 처리 로직을 여기에 추가
+						// 실패 시 처리 로직을 여기에 추가
+					} else {
+						// 실패 시 처리 로직을 여기에 추가
 						$(".modal-body").text("가입이 완료되었습니다.");
-    	                Modal.show();
-    	            }
-    	        },
-    	        error: function(error) {
-    	            alert("에러가 발생했습니다.");
-    	        }
-    	    });
-    });
-    	
-    	var Modal = new bootstrap.Modal(document.getElementById('myModal'));
-    	
-        $("#myModal").on('hidden.bs.modal', function(){
-            location.reload();
-         });
-    });
-	
+						Modal.show();
+					}
+				},
+				error : function(error) {
+					alert("에러가 발생했습니다.");
+				}
+			});
+		});
+
+		var Modal = new bootstrap.Modal(document.getElementById('myModal'));
+
+		$("#myModal").on('hidden.bs.modal', function() {
+			location.reload();
+		});
+	});
 </script>
 <style>
 body {
@@ -217,13 +205,32 @@ body {
 									class="rounded profile-image" width="100%" height="200px">
 								</a>
 							</div>
-							<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle}</h4>
-							<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent}</p>
+							<c:choose>
+								<c:when test="${PremiumMoimList.moimTitle.length() >=14}">
+									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 14)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
+
+
+							<c:choose>
+								<c:when test="${PremiumMoimList.moimContent.length() >=14}">
+									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 14)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
+
 							<div class="container">
 								<div class="row">
 									<div class="col-4 offset-6 p-0">
 										<p class="card-text text-end text-light  ">
-											<small class="memberCount "> 현재 인원 ${PremiumMoimList.memberCount}</small>
+											<small class="memberCount "> 현재 인원
+												${PremiumMoimList.memberCount}</small>
 										</p>
 									</div>
 									<div class="col ">
@@ -237,7 +244,8 @@ body {
 							</div>
 
 
-							<a class="btn btn-primary btn-lg fw-bold premium-btn btn-join" 
+							<a
+								class="btn btn-light text-primary btn-lg fw-bold premium-btn btn-join"
 								role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
 
 						</div>
@@ -247,162 +255,199 @@ body {
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 		</div>
 		<div class="row contaner-fluid  auto-width m-5">
-		</c:if>
-		</c:forEach>
+			</c:if>
+			</c:forEach>
 
-	</div>
-
-
-
-	<div class="row mt-5 p-5">
-		<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-			id="NowMoim">
-			<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
 		</div>
-	</div>
 
 
-	<div class="row align-items-center m-5">
 
-		<c:forEach var="NewMoimList" items="${NewMoimList}"
-			varStatus="loopStatus" end="7">
-			<div class="col pe-0">
-				<div class="card border-primary mb-3 w-100"
-					style="max-width: 400px;">
-					<div class="card-header bg-primary text-light fw-bold  ">Moim
-						No.${NewMoimList.moimNo}</div>
-					<div class="card-body ">
+		<div class="row mt-5 p-5">
+			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+				id="NowMoim">
+				<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
+			</div>
+		</div>
 
 
-						<div class="text-center">
-							<a
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=${NewMoimList.moimNo}">
-								<img
-								src="${pageContext.request.contextPath}/image?moimNo=${NewMoimList.moimNo}"
-								class="rounded profile-image" width="100%" height="200px">
-							</a>
-						</div>
+		<div class="row align-items-center m-5">
+
+			<c:forEach var="NewMoimList" items="${NewMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0">
+					<div class="card border-primary mb-3 w-100"
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light fw-bold  ">Moim
+							No.${NewMoimList.moimNo}</div>
+						<div class="card-body ">
 
 
-						<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
-						<p class="card-text lead">${NewMoimList.moimContent}</p>
+							<div class="text-center">
+								<a
+									href="${pageContext.request.contextPath}/moim/detail?moimNo=${NewMoimList.moimNo}">
+									<img
+									src="${pageContext.request.contextPath}/image?moimNo=${NewMoimList.moimNo}"
+									class="rounded profile-image" width="100%" height="200px">
+								</a>
+							</div>
 
-						<div class="container">
-							<div class="row">
-								<div class="col-4 offset-6 p-0">
-									<p class="card-text text-end ">
-										<small class="">현재 인원 ${NewMoimList.memberCount} </small>
-									</p>
-								</div>
-								<div class="col ">
-									<small>
-										<p class="text-primary m-0 ">/
-											${NewMoimList.moimMemberCount}</p>
-									</small>
 
+							<c:choose>
+								<c:when test="${NewMoimList.moimTitle.length() >=14}">
+									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 14)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
+
+							<c:choose>
+								<c:when test="${NewMoimList.moimContent.length() >=14}">
+									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 14)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${NewMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
+
+
+
+							<div class="container">
+								<div class="row">
+									<div class="col-4 offset-6 p-0">
+										<p class="card-text text-end ">
+											<small class="">현재 인원 ${NewMoimList.memberCount} </small>
+										</p>
+									</div>
+									<div class="col ">
+										<small>
+											<p class="text-primary m-0 ">/
+												${NewMoimList.moimMemberCount}</p>
+										</small>
+
+									</div>
 								</div>
 							</div>
-						</div>
 
-						<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
-							role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
+							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+								role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- Start a new row after every 3rd product -->
-			<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-	</div>
-	<div class="row contaner-fluid  auto-width m-5">
-		</c:if>
-		</c:forEach>
-
-
-	</div>
-
-
-	<div class="row mt-5 p-5">
-		<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-			id="GenderCheck">
-			<h1 class="display-5 fw-bold">여성전용 모임</h1>
+				<!-- Start a new row after every 3rd product -->
+				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 		</div>
-	</div>
+		<div class="row contaner-fluid  auto-width m-5">
+			</c:if>
+			</c:forEach>
 
 
-	<div class="row align-items-center m-5">
-
-		<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
-			varStatus="loopStatus" end="7">
-			<div class="col pe-0 ">
-				<div class="card border-primary mb-3 w-100 "
-					style="max-width: 400px;">
-					<div class="card-header bg-primary text-light  fw-bold ">Moim
-						No.${GenderCheckMoimList.moimNo}</div>
-					<div class="card-body ">
+		</div>
 
 
-						<div class="text-center">
-							<a
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=${GenderCheckMoimList.moimNo}">
-								<img
-								src="${pageContext.request.contextPath}/image?moimNo=${GenderCheckMoimList.moimNo}"
-								class="rounded profile-image" width="100%" height="200px">
-							</a>
-						</div>
+		<div class="row mt-5 p-5">
+			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+				id="GenderCheck">
+				<h1 class="display-5 fw-bold">여성전용 모임</h1>
+			</div>
+		</div>
 
 
-						<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
-						<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
+		<div class="row align-items-center m-5">
 
-						<div class="container">
-							<div class="row">
-								<div class="col-4 offset-6 p-0">
-									<p class="card-text text-end ">
-										<small>현재 인원 ${GenderCheckMoimList.memberCount}  </small>
-									</p>
-								</div>
-								<div class="col ">
-									<small>
-										<p class="text-primary m-0 "> /  ${GenderCheckMoimList.moimMemberCount}</p>
-									</small>
+			<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0 ">
+					<div class="card border-primary mb-3 w-100 "
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light  fw-bold ">Moim
+							No.${GenderCheckMoimList.moimNo}</div>
+						<div class="card-body ">
 
+
+							<div class="text-center">
+								<a
+									href="${pageContext.request.contextPath}/moim/detail?moimNo=${GenderCheckMoimList.moimNo}">
+									<img
+									src="${pageContext.request.contextPath}/image?moimNo=${GenderCheckMoimList.moimNo}"
+									class="rounded profile-image" width="100%" height="200px">
+								</a>
+							</div>
+
+							<c:choose>
+								<c:when test="${GenderCheckMoimList.moimTitle.length() >=14}">
+									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 14)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
+
+
+							<c:choose>
+								<c:when test="${GenderCheckMoimList.moimContent.length() >=14}">
+									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 14)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
+
+
+
+							<div class="container">
+								<div class="row">
+									<div class="col-4 offset-6 p-0">
+										<p class="card-text text-end ">
+											<small>현재 인원 ${GenderCheckMoimList.memberCount} </small>
+										</p>
+									</div>
+									<div class="col ">
+										<small>
+											<p class="text-primary m-0 ">/
+												${GenderCheckMoimList.moimMemberCount}</p>
+										</small>
+
+									</div>
 								</div>
 							</div>
+
+
+							<a class="btn btn-primary btn-lg fw-bold Gender-btn btn-join"
+								role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
 						</div>
-
-
-						<a class="btn btn-primary btn-lg fw-bold Gender-btn btn-join"
-							role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
 					</div>
 				</div>
+				<!-- Start a new row after every 3rd product -->
+				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+		</div>
+		<div class="row contaner-fluid  auto-width m-5">
+			</c:if>
+			</c:forEach>
+
+		</div>
+
+
+
+
+	</div>
+</div>
+
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true"
+	data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-black"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">닫기</button>
 			</div>
-			<!-- Start a new row after every 3rd product -->
-			<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+		</div>
 	</div>
-	<div class="row contaner-fluid  auto-width m-5">
-		</c:if>
-		</c:forEach>
-
-	</div>
-
-
-
-
-</div>
-</div>
-
-
-<div class="modal" id="myModal" 
-tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">      
-      <div class="modal-body text-black">
-      </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 

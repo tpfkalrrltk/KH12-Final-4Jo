@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../template/adminHeader.jsp"></jsp:include>
 
 
@@ -103,22 +103,22 @@ a {
 						</div>
 
 						<div class="row">
-							<div class="text-warning col-3">Password : </div>
+							<div class="text-warning col-3">Password :</div>
 							<div class=" col-8">${adminMemberTarget.memberPw}</div>
 						</div>
 
 						<div class="row">
-							<div class="text-warning col-3">Name : </div>
+							<div class="text-warning col-3">Name :</div>
 							<div class=" col-8">${adminMemberTarget.memberName}</div>
 						</div>
 
 						<div class="row">
-							<div class="text-warning col-3">Nickname : </div>
+							<div class="text-warning col-3">Nickname :</div>
 							<div class=" col-8">${adminMemberTarget.memberNick}</div>
 						</div>
 
 						<div class="row">
-							<div class="text-warning col-3">Gender : </div>
+							<div class="text-warning col-3">Gender :</div>
 							<div class=" col-8">${adminMemberTarget.memberGender}</div>
 						</div>
 
@@ -128,27 +128,59 @@ a {
 						</div>
 
 						<div class="row">
-							<div class="text-warning col-3">Birth : </div>
+							<div class="text-warning col-3">Birth :</div>
 							<div class=" col-8">${adminMemberTarget.memberBirth}</div>
 						</div>
 
 						<div class="row">
-							<div class="text-warning col-3">Level : </div>
+							<div class="text-warning col-3">Level :</div>
 							<div class=" col-8">${adminMemberTarget.memberLevel}</div>
 						</div>
+						
+							<div class="row">
+							<div class="text-warning col-3">차단여부 :</div>
+							<div class=" col-8">${adminMemberTarget.memberBlock}</div>
+						</div>
+
+						<c:choose>
+							<c:when test="${adminMemberTarget.memberBlock =='N'}">
+					</div>
+					<div class="col align-self-end">
+						<div>
+							<button class="btn btn-danger w-100 fw-bold">
+								<a
+									href="/admin/member/block?memberEmail=${adminMemberTarget.memberEmail}">회원
+									차단</a>
+							</button>
+						</div>
+						</c:when>
+						<c:otherwise>
+					</div>
+					<div class="col align-self-end">
+						<div>
+							<button class="btn btn-warning w-100 fw-bold">
+								<a
+									href="/admin/member/cancel?memberEmail=${adminMemberTarget.memberEmail}">차단
+									해제</a>
+							</button>
+						</div>
+						</c:otherwise>
+						</c:choose>
+
+
 
 
 
 					</div>
 					<div class="col align-self-end">
 						<div>
-							<button class="btn btn-success w-100">
+							<button class="btn btn-success w-100 fw-bold">
 								<a href="#">프리미엄 회원권</a>
 							</button>
 						</div>
 
 						<div>
-							<button class="btn btn-info mt-2 w-100">
+							<button class="btn btn-info mt-2 w-100  fw-bold">
 								<a href="/member/change">회원 정보 수정</a>
 							</button>
 						</div>
