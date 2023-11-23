@@ -21,6 +21,7 @@ a{
 			</h1>
 			<hr>
 			<div class="text-end">
+				<a href="/" class="btn btn-outline-success bg-light">홈으로</a>
 				<a href="leagueInsert" class="btn btn-info">리그등록</a>
 			</div>
 		</div>
@@ -36,12 +37,12 @@ a{
 					</c:forEach>
 				</select>
 				<select class="form-select" name="leagueStatus">
-						<option value="">리그상태</option>
-						<option value="접수중">접수중</option>
-						<option value="접수마감">접수마감</option>
-						<option value="대기상태">대기상태</option>
-						<option value="진행중">진행중</option>
-						<option value="종료됨">종료됨</option>
+					<option value="">리그상태</option>
+					<option value="접수중">접수중</option>
+					<option value="접수마감">접수마감</option>
+					<option value="대기상태">대기상태</option>
+					<option value="진행중">진행중</option>
+					<option value="종료됨">종료됨</option>
 				</select>
 				<select class="form-select" name="locationDepth1">
 					<option value="">시/도</option>
@@ -142,6 +143,7 @@ a{
 $(function(){
 	$("[name=locationDepth1]").change(function(e){
 		var locationDepth1 = e.target.value;
+		if(locationDepth1=="") return;
 		$.ajax({
 			url:"http://localhost:8080/rest/location/depth2List",
 			type:"post",
@@ -201,7 +203,12 @@ $(function(){
 	$("#appBtn").click(function(){
 		var applicationStart = $("#appInsert input[name='leagueApplicationStart']").val();
 		var applicationEnd = $("#appInsert input[name='leagueApplicationEnd']").val();
-	
+		
+		if(applicationStart=="" || applicationEnd==""){
+			alert('일정이 입력되지 않았습니다.');
+			return;
+		}
+		
 		if(applicationStart >= applicationEnd) {
 			alert('시작일과 마감일을 확인해주세요');
 			return;
