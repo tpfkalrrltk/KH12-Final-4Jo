@@ -104,6 +104,9 @@
         <if test="memberTransfer != null">
         moim_member_level = '모임장' 
         </if>
+        <if test="memberCancel != null">
+        moim_member_cancel_count = moim_member_cancel_count + 1 
+        </if>
 		</set>
 		where member_email = #{memberEmail} 
 		and moim_no = #{moimNo} 
@@ -354,6 +357,12 @@
 		where jungmo_no = #{jungmoNo} 
 		and member_email = #{memberEmail}
 	</delete>
+		
+	<!-- 정모 당일취소한 회원 업데이트 -->
+	<update id="updateJungmoMemberCancelCount">
+		update moim_member set moim_member_cancel_count = moimo_member_cancel_count + 1 
+		where member_email = #{memberEmail} and moim_no = #{moimNo}
+	</update>	
 		
 	<!-- 프로필사진 등록 -->
 	<insert id="insertMoimProfile">
