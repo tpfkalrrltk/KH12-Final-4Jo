@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.kh.EveryFit.interceptor.MemberBlockInterceptor;
 import com.kh.EveryFit.interceptor.MemberInterceptor;
 
 
@@ -12,6 +13,9 @@ import com.kh.EveryFit.interceptor.MemberInterceptor;
 public class InterceptorConfiguration implements WebMvcConfigurer{
 @Autowired
 MemberInterceptor memberInterceptor;
+
+@Autowired
+MemberBlockInterceptor memberBlockInterceptor;
 
 
 @Override
@@ -35,7 +39,24 @@ MemberInterceptor memberInterceptor;
 
 	);
 	
+	
+	registry.addInterceptor(memberBlockInterceptor)
+	.addPathPatterns(
+			"/freeBoard/**",
+			"/rest/freeBoardReply/**",
+			"/rest/moimBoardReply/**",
+			"/member/**",
+			"/pay/**"
+			,"/report/**")
+	.excludePathPatterns(
 
+			"/member/join*",
+			"/member/login",
+			"/member/exitFinish",
+			"/member/find**"
+);
+
+	
 }
 }
 

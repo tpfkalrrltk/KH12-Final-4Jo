@@ -4,10 +4,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestControllerAdvice(basePackages = {"com.kh.spring22.restcontroller"})
+@RestControllerAdvice(basePackages = {"com.kh.EveryFit.restcontroller"})
 //@RestControllerAdvice(annotations = {RestController.class})
 public class ExceptionControllerAdvice {
 	
@@ -23,6 +25,12 @@ public class ExceptionControllerAdvice {
 	public ResponseEntity<String> error500(Exception e) {
 		log.error("오류 발생", e);
 		return ResponseEntity.internalServerError().body("server error");
+	}
+	
+	@ExceptionHandler(AuthorityException.class)
+	public String authority(AuthorityException e) {
+		e.printStackTrace();
+		return "/error/MemberBlockException";
 	}
 	
 }
