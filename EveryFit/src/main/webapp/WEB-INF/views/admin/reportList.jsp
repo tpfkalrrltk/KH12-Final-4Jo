@@ -45,6 +45,11 @@
 						번호 : <input class="form-control fw-bold text-primary"
 							name="reportNo" value="${adminReportSearchVO.reportNo}">
 					</div>
+					
+					<div class="col">
+						제목 : <input class="form-control fw-bold text-primary"
+							name="reportReason" value="${adminReportSearchVO.reportReason}">
+					</div>
 
 					<div class="col">
 						신고날짜 : <input class="form-control fw-bold text-primary"
@@ -65,15 +70,13 @@
 
 					<div class="col">
 						신고 사유 : <select class="form-select col  fw-bold text-primary"
-							name="moimGenderCheckList">
-							<option value="">==Select==</option>
-							<option>스팸홍보/도배</option>
-							<option>음란물</option>
-							<option>불법정보</option>
-							<option>청소년 유해물</option>
-							<option>욕설/생명경시/혐오</option>
-							<option>개인정보노출</option>
-							<option>불쾌한표현</option>
+							name="reportCategoryList">
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+								<option class="fw-bold bg-primary text-light">회원</option>
+								<option class="fw-bold bg-primary text-light">모임</option>
+								<option class="fw-bold bg-primary text-light">댓글</option>
+								<option class="fw-bold bg-primary text-light">정모</option>
+								<option class="fw-bold bg-primary text-light">게시글</option>
 						</select>
 					</div>
 
@@ -82,13 +85,13 @@
 					<div class="col">
 						정렬순서 : <select class="form-select col  fw-bold text-primary"
 							name="orderList">
-							<option value="">==Select==</option>
-							<option value="report_no asc">번호(오름차순)</option>
-							<option value="report_no desc">번호(내림차순)</option>
-							<option value="report_reason asc">신고사유(오름차순)</option>
-							<option value="report_reason desc">신고사유(내림차순)</option>
-							<option value="report_time asc">신고날짜(오름차순)</option>
-							<option value="report_time desc">신고날짜(내림차순)</option>
+							<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+							<option value="report_no asc" class="fw-bold bg-primary text-light">번호(오름차순)</option>
+							<option value="report_no desc" class="fw-bold bg-primary text-light">번호(내림차순)</option>
+							<option value="report_reason asc" class="fw-bold bg-primary text-light">신고사유(오름차순)</option>
+							<option value="report_reason desc" class="fw-bold bg-primary text-light">신고사유(내림차순)</option>
+							<option value="report_time asc" class="fw-bold bg-primary text-light">신고시간(오름차순)</option>
+							<option value="report_time desc" class="fw-bold bg-primary text-light">신고시간(내림차순)</option>
 
 						</select>
 					</div>
@@ -113,7 +116,7 @@
 					<th class="col-1  fw-bold">번호</th>
 					<th class="col-3  fw-bold">신고 사유</th>
 					<th class="col-5  fw-bold">신고 제목</th>
-					<th class="col-3  fw-bold">신고 날짜</th>
+					<th class="col-3  fw-bold">신고 시간</th>
 
 
 				</tr>

@@ -65,27 +65,27 @@ name="memberbirthEnd" value="${adminMemberSearchVO.memberBirthEnd}">
 
 <div class="col">
 성별 : <select  class="form-select col  fw-bold text-primary" name="memberGenderList">
-<option value="">==Select==</option>
-<option>남성</option>
-<option>여성</option>
+<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+<option class="fw-bold bg-primary text-light">M</option>
+<option class="fw-bold bg-primary text-light">F</option>
 </select></div>
 <div class="col">
 등급 : <select  class="form-select col  fw-bold text-primary" name="memberLevelList">
-<option value="">==Select==</option>
-<option>일반</option>
-<option>프리미엄</option>
-<option>관리자</option>
+<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+<option class="fw-bold bg-primary text-light">일반</option>
+<option class="fw-bold bg-primary text-light">프리미엄</option>
+<option class="fw-bold bg-primary text-light">관리자</option>
 </select>
 </div>
 <div class="col">
 정렬순서 : <select  class="form-select col  fw-bold text-primary" name="orderList">
-<option value="">==Select==</option>
-<option value="member_email asc">이메일</option>
-<option value="member_name asc">이름</option>
-<option value="member_nick asc">닉네임</option>
-<option value="member_contact asc">전화번호</option>
-<option value="member_birth asc">생년월일</option>
-<option value="member_level asc">등급</option>
+<option value="" class="fw-bold bg-primary text-light">==Select==</option>
+<option value="member_email asc" class="fw-bold bg-primary text-light">이메일</option>
+<option value="member_name asc" class="fw-bold bg-primary text-light">이름</option>
+<option value="member_nick asc" class="fw-bold bg-primary text-light">닉네임</option>
+<option value="member_contact asc" class="fw-bold bg-primary text-light">전화번호</option>
+<option value="member_birth asc" class="fw-bold bg-primary text-light">생년월일</option>
+<option value="member_level asc" class="fw-bold bg-primary text-light">등급</option>
 </select>
 </div>
 	<div class="row mt-3">
