@@ -216,5 +216,8 @@ public class MoimDaoImpl implements MoimDao {
 	public boolean updateToEndDate(int moimNo) {
 		return sqlSession.update("moim.updateEndDate", moimNo)>0;
 	}
-
+@Override
+	public List<MoimDto> selectMoimListBeforeToday() {
+	return sqlSession.selectList("moim.selectMoimListBeforeToday");
+	}
 }

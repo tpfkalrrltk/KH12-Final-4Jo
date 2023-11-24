@@ -81,4 +81,7 @@ public interface MoimDao {
 	//프리미엄 모임 정기결제 후 자동으로 end date 업데이트
 	boolean updateToEndDate(int moimNo);
 	
+	//스케줄러로 지금 moim_end_time이 오늘날짜 이전인 날짜만 불러오기
+		List<MoimDto> selectMoimListBeforeToday();
+	
 }
