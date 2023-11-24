@@ -62,6 +62,7 @@ a {
 							<div class="col-md-4 offset-md-4">
 								<input type="text" name="memberEmail" class="form-control"
 									placeholder="email" value="${cookie.saveId.value}">
+									
 							</div>
 
 							<div class="col-md-4 offset-md-4 mt-2">
@@ -92,7 +93,7 @@ a {
 								</div>
 							</div>
 
-
+						
 							<!-- <div class="col-md-4 offset-md-4 mt-2">
 								<span><a href="#">아이디 찾기</a> </span> | <span><a
 									href="/member/findPw">비밀번호 찾기</a></span> | <span>-->
