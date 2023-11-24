@@ -14,8 +14,8 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 @Autowired
 MemberInterceptor memberInterceptor;
 
-//@Autowired
-//MemberBlockInterceptor memberBlockInterceptor;
+@Autowired
+MemberBlockInterceptor memberBlockInterceptor;
 
 
 @Override
@@ -29,7 +29,7 @@ MemberInterceptor memberInterceptor;
 			,"/report/**"
 	)
 	.excludePathPatterns(
-			"/freeBoard/list",
+			"/freeBoard/list**",
 			"/freeBoard/detail**",
 			"/member/join*",
 			"/member/login",
@@ -40,21 +40,22 @@ MemberInterceptor memberInterceptor;
 	);
 	
 	
-//	registry.addInterceptor(memberBlockInterceptor)
-//	.addPathPatterns(
-//			"/freeBoard/**",
-//			"/rest/freeBoardReply/**",
-//			"/rest/moimBoardReply/**",
-//			"/member/**",
-//			"/pay/**"
-//			,"/report/**")
-//	.excludePathPatterns(
-//
-//			"/member/join*",
-//			"/member/login",
-//			"/member/exitFinish",
-//			"/member/find**"
-//);
+	registry.addInterceptor(memberBlockInterceptor)
+	.addPathPatterns(
+			"/freeBoard/**",
+			"/rest/freeBoardReply/**",
+			"/rest/moimBoardReply/**",
+			"/member/**",
+			"/pay/**"
+			,"/report/**")
+	.excludePathPatterns(
+
+			"/member/join*",
+			"/member/login",
+			"/member/logout",
+			"/member/exitFinish",
+			"/member/find**"
+);
 
 	
 }
