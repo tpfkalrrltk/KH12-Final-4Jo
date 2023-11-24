@@ -23,6 +23,7 @@ import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
+import com.kh.EveryFit.vo.LeagueMatchListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -103,4 +104,9 @@ public class LeagueRestController {
 		}
 	}
 	
+	
+	@PostMapping("/findLeagueMatchVO")
+	public LeagueMatchListVO findLeagueMatchVO(@RequestParam int leagueMatchNo){
+		return leagueDao.selectOneLeagueMatchListVO(leagueMatchNo);
+	}
 }

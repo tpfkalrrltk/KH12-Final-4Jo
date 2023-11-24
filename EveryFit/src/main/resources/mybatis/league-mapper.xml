@@ -275,7 +275,13 @@
     
     <!-- 리그경기리스트vo 조회 -->
     <select id="listLeagueMatchListVO" resultType="LeagueMatchListVO">
-		SELECT * FROM league_match_list_view WHERE league_no = #{leagueNo} ORDER BY league_match_no asc
+		SELECT * FROM league_match_list_view WHERE league_no = #{leagueNo}
+		ORDER BY league_match_date asc, league_match_no asc
+    </select>
+    
+    <!-- 리그경기리스트VO 단일조회 -->
+    <select id="findLeagueMatchListVO" resultType="LeagueMatchListVO">
+    	SELECT * FROM league_match_list_view WHERE league_match_no = #{leagueMatchNo}
     </select>
     
     <!-- 리그경기 업데이트 -->

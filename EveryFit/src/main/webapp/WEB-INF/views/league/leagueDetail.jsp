@@ -2,32 +2,41 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
-
-<div class="row">
-  <div class="col-md-8 offset-md-2">
-    <div class="row">
+<style>
+a{
+	text-decoration:none;
+}
+</style>
+<div class="container-fluid">
+	<div class="row"><div class="col-md-8 offset-md-2">
+		<div class="p-5 bg-primary text-light rounded">
+        	<h1>
+        		${leagueDto.leagueTitle}
+        		<i class="fa-solid fa-ranking-star"></i>
+        	</h1>
+        	<hr>
+        	<div class="text-end">
+        		<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+		        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
+		        <a class="btn btn-info" href="leagueMatch?leagueNo=${leagueDto.leagueNo}">경기일정관리</a>
+        	</div>
+      	</div>
+    
+    <div class="row mt-5 text-center">
       <div class="col">
-        <h1>${leagueDto.leagueTitle} 상세</h1>
+        <h3>순위</h3>
       </div>
-    </div>
-    <hr>
-    <div class="row text-end">
-      <div class="col p-1">
-        <button type="button" class="btn btn-primary" id="loadLeagueTeamList">신청팀 관리</button>
-        <a class="btn btn-secondary" href="leagueMatch?leagueNo=${leagueDto.leagueNo}">경기일정관리</a>
-      </div>
-    </div>
-    <div class="row mt-4">
       <div class="col">
-        <h3>리그 순위</h3>
+      </div>
+      <div class="col">
       </div>
     </div>
     
-    <div class="row">
+    <div class="row mt-2">
       <div class="col">
-        <table class="table">
+        <table class="table table-hover text-center">
           <thead>
-            <tr>
+            <tr class="table-secondary">
               <th>순위</th>
               <th>팀</th>
               <th>경기수</th>
@@ -42,12 +51,11 @@
           </thead>
           <tbody>
             <c:forEach var="vo" items="${rankList}">
-              <tr>
+              <tr style="height: 30px;">
                 <td>${vo.leagueTeamRank}</td>
                 <td>
                 	${vo.leagueTeamName}
-                		<img class="rounded img-fluid" src="/image?moimNo=${vo.moimNo}" 
-                			onerror="">
+               		<img style="height: 35px; width: 35px;" class="rounded" src="/image?moimNo=${vo.moimNo}"> 
                 </td>
                 <td>${vo.leagueTeamMatchCount}</td>
                 <td>${vo.leagueTeamWin}</td>
@@ -62,8 +70,9 @@
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
+	</div></div>
+</div>
+
 </div>
 
 <!-- 미승인 팀목록 모달 -->
@@ -74,7 +83,18 @@
         <h4 class="modal-title">팀목록</h4>
       </div>
       <div class="modal-body">
-        
+      	<table class="table table-hover text-center">
+			<thead>
+				<tr class="table-secondary">
+					<th>번호</th>
+					<th>팀이름</th>
+					<th>모임번호</th>
+					<th>승인관리</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="closeTeamListModal">닫기</button>
@@ -84,86 +104,87 @@
 </div>
 
 <script>
-function loadLeagueTeamList(leagueNo, successCallback, errorCallback){
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8080/rest/league/loadLeagueTeamList",
-    data: { leagueNo: leagueNo},
-    success: function(response) {
-      if (typeof successCallback === 'function') {
-        successCallback(response);
-      }
-    },
-    error: function(error){
-      if (typeof errorCallback === 'function') {
-        errorCallback(error);
-      }
-      else{
-        alert("오류발생", error);
-      }
-    }
-  });
-};
 
-$("#loadLeagueTeamList").click(function(){
-  var leagueNo = ${leagueDto.leagueNo};
-  updateTeamListAndModal(leagueNo);
-});
+	function loadLeagueTeamList(leagueNo, successCallback, errorCallback){
+	  $.ajax({
+	    type: "POST",
+	    url: "http://localhost:8080/rest/league/loadLeagueTeamList",
+	    data: { leagueNo: leagueNo},
+	    success: function(response) {
+	      if (typeof successCallback === 'function') {
+	        successCallback(response);
+	      }
+	    },
+	    error: function(error){
+	      if (typeof errorCallback === 'function') {
+	        errorCallback(error);
+	      }
+	      else{
+	        alert("오류발생", error);
+	      }
+	    }
+	  });
+	};
+	
+	$("#loadLeagueTeamList").click(function(){
+	  var leagueNo = ${leagueDto.leagueNo};
+	  updateTeamListModal(leagueNo);
+	});
+	
+	function updateTeamListModal(leagueNo){
+		loadLeagueTeamList(leagueNo, function(response){
+			var tbody = $("#teamListModal tbody");
+			tbody.empty();
+			$.each(response, function(index, leagueTeamDto){
+				var row = $("<tr>");
+				row.append('<td>' + leagueTeamDto.leagueTeamNo + '</td>');
+	            row.append('<td>' + leagueTeamDto.leagueTeamName + '</td>');
+	            var moimNoCell = $('<td>');
+	            var moimNoLink = $('<a>')
+	                .attr('href', '/moim/detail?moimNo=' + leagueTeamDto.moimNo)
+	                .text(leagueTeamDto.moimNo)
+	                .addClass("alert-link text-warning");
+	            moimNoCell.append(moimNoLink);
+	            row.append(moimNoCell);
+	           
+	            var approveButton = $("<button>")
+	            .text(leagueTeamDto.leagueTeamStatus === 'N' ? "승인" : "승인취소")
+	            .addClass("updateStatus btn btn-info")
+	            .data("league-team-no", leagueTeamDto.leagueTeamNo);
 
-function updateTeamListAndModal(leagueNo) {
-  loadLeagueTeamList(leagueNo, function (response) {
-    $("#teamListModal .modal-body").empty();
-
-    // 받아온 리스트를 모달 내용에 추가
-    $.each(response, function (index, leagueTeamDto) {
-      // 리스트 항목을 생성하고 추가
-      var listItem = $("<p>").text(
-        "팀 번호: " +
-        leagueTeamDto.leagueTeamNo +
-        ", 팀 이름: " +
-        leagueTeamDto.leagueTeamName +
-        ", 모임 번호: " +
-        leagueTeamDto.moimNo +
-        ", 팀 상태: " +
-        leagueTeamDto.leagueTeamStatus
-      );
-      var approveButton = $("<button>")
-        .text(leagueTeamDto.leagueTeamStatus === 'N' ? "승인" : "승인취소")
-        .addClass("updateStatus")
-        .data("league-team-no", leagueTeamDto.leagueTeamNo);
-      
-
-      listItem.append(approveButton);
-      $("#teamListModal .modal-body").append(listItem);
-    });
-    $("#teamListModal").modal('show');
-  });
-}
-
-$("#closeTeamListModal").click(function(){
-  $("#teamListModal").modal('hide');  
-});
-
-$("#teamListModal").on('hidden.bs.modal', function (e) {
-  location.reload();
-});
-
-$("#teamListModal .modal-body").on("click", ".updateStatus", function () {
-  var leagueTeamNo = $(this).data("league-team-no");
-   
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8080/rest/league/updateLeagueTeamStatus",
-    data: { leagueTeamNo: leagueTeamNo },
-    success: function(response) {
-      alert("업데이트 성공");
-      updateTeamListAndModal(${leagueDto.leagueNo});
-    },
-    error: function(error) {
-      alert("업데이트 실패", error);
-    }
-  }); 
-});
+	            var buttonCell = $("<td>").append(approveButton);
+	            row.append(buttonCell);
+	            
+	            tbody.append(row);            
+			})
+			 $("#teamListModal").modal('show');
+		});
+	}
+	
+	$("#closeTeamListModal").click(function(){
+	  $("#teamListModal").modal('hide');  
+	});
+	
+	$("#teamListModal").on('hidden.bs.modal', function (e) {
+	  location.reload();
+	});
+	
+	$("#teamListModal .modal-body").on("click", ".updateStatus", function () {
+	  var leagueTeamNo = $(this).data("league-team-no");
+	   
+	  $.ajax({
+	    type: "POST",
+	    url: "http://localhost:8080/rest/league/updateLeagueTeamStatus",
+	    data: { leagueTeamNo: leagueTeamNo },
+	    success: function(response) {
+	      alert("완료되었습니다.");
+	      updateTeamListModal(${leagueDto.leagueNo});
+	    },
+	    error: function(error) {
+	      alert("오류가 발생하였습니다.", error);
+	    }
+	  }); 
+	});
 
 
 </script>

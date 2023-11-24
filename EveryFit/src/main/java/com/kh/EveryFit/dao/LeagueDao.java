@@ -63,6 +63,7 @@ public interface LeagueDao {
 	void deleteLeagueMatch(int leagueMatchNo);
 	List<LeagueMatchDto> selectLeagueMatchList(int leagueNo);
 	List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo);
+	LeagueMatchListVO selectOneLeagueMatchListVO(int leaugeMatchNo);
 	
 	
 	
