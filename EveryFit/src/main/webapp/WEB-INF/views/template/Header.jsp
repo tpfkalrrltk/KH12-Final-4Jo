@@ -173,14 +173,24 @@ body {
 	}
 </script>
 
+<script type="text/javascript">
+	function reportApply() {
+		window
+				.open("/report/apply", "report",
+						"width=700px, height=800px,scrollbars=yes left=500, top=300,  resizable=no");
+	}
+</script>
+
 
 <body>
 
 
 
 
+
 	<nav class="navbar navbar-expand-lg bg-primary fixed-top" style="z-index: 1040"
 		data-bs-theme="dark">
+
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
 				width="110px" /></a>
@@ -299,9 +309,7 @@ body {
 								나의결제내역리스트 </a>
 
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
-
+							<a class="dropdown-item fw-bold" onclick="reportApply()">신고하기</a>
 						</div></li>
 
 
