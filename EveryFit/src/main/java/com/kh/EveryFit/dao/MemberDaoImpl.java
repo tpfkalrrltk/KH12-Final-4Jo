@@ -34,8 +34,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberDto selectOne(String memberEmail) {
 		MemberDto memberDto = sqlSession.selectOne("member.findByMemberEmail", memberEmail);
-//		if (memberDto == null)
-//			throw new NoTargetException();
 		return memberDto;
 	}
 

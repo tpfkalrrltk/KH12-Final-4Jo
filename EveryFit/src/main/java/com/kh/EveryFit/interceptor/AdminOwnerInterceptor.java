@@ -33,8 +33,10 @@ AdminDao adminDao;
 			return true;
 		}
 		else { 
-				throw new AuthenticationException("관리자가 아닙니다. 돌아가 주세요."); 
+				//throw new AuthenticationException("관리자가 아닙니다. 돌아가 주세요."); 
+				response.sendRedirect(request.getContextPath()+"/error/AdminException");
 		}
+		return false;
 	
 	}
 }
