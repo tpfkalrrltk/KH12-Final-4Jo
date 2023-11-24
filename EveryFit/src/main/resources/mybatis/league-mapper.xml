@@ -278,6 +278,11 @@
 		SELECT * FROM league_match_list_view WHERE league_no = #{leagueNo} ORDER BY league_match_no asc
     </select>
     
+    <!-- 리그경기리스트VO 단일조회 -->
+    <select id="findLeagueMatchListVO" resultType="LeagueMatchListVO">
+    	SELECT * FROM league_match_list_view WHERE league_match_no = #{leagueMatchNo}
+    </select>
+    
     <!-- 리그경기 업데이트 -->
     <update id="updateLeagueMatch">
         UPDATE league_match

@@ -2,7 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ include file="/WEB-INF/views/template/Header.jsp"%>
-
+<style>
+a{
+	text-decoration:none;
+}
+</style>
 <div class="container-fluid">
 	<div class="row"><div class="col-md-8 offset-md-2">
 		<div class="p-5 bg-primary text-light rounded">
@@ -85,8 +89,7 @@
 					<th>번호</th>
 					<th>팀이름</th>
 					<th>모임번호</th>
-					<th>팀상태</th>
-					<th>관리</th>
+					<th>승인관리</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -136,8 +139,13 @@
 				var row = $("<tr>");
 				row.append('<td>' + leagueTeamDto.leagueTeamNo + '</td>');
 	            row.append('<td>' + leagueTeamDto.leagueTeamName + '</td>');
-	            row.append('<td>' + leagueTeamDto.moimNo + '</td>');
-	            row.append('<td>' + leagueTeamDto.leagueTeamStatus + '</td>');
+	            var moimNoCell = $('<td>');
+	            var moimNoLink = $('<a>')
+	                .attr('href', '/moim/detail?moimNo=' + leagueTeamDto.moimNo)
+	                .text(leagueTeamDto.moimNo)
+	                .addClass("alert-link text-warning");
+	            moimNoCell.append(moimNoLink);
+	            row.append(moimNoCell);
 	           
 	            var approveButton = $("<button>")
 	            .text(leagueTeamDto.leagueTeamStatus === 'N' ? "승인" : "승인취소")
@@ -169,11 +177,11 @@
 	    url: "http://localhost:8080/rest/league/updateLeagueTeamStatus",
 	    data: { leagueTeamNo: leagueTeamNo },
 	    success: function(response) {
-	      alert("업데이트 성공");
-	      updateTeamListAndModal(${leagueDto.leagueNo});
+	      alert("완료되었습니다.");
+	      updateTeamListModal(${leagueDto.leagueNo});
 	    },
 	    error: function(error) {
-	      alert("업데이트 실패", error);
+	      alert("오류가 발생하였습니다.", error);
 	    }
 	  }); 
 	});
