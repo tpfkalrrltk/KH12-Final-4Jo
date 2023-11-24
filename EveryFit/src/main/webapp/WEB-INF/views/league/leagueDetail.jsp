@@ -45,10 +45,9 @@
               <tr>
                 <td>${vo.leagueTeamRank}</td>
                 <td>
-                	<div>
                 	${vo.leagueTeamName}
-                		<img class="rounded" src="/image?moimNo=${vo.moimNo}" height="30" width="30">
-	               	</div>
+                		<img class="rounded img-fluid" src="/image?moimNo=${vo.moimNo}" 
+                			onerror="">
                 </td>
                 <td>${vo.leagueTeamMatchCount}</td>
                 <td>${vo.leagueTeamWin}</td>
