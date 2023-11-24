@@ -25,7 +25,7 @@
 	rel="stylesheet">
 
 
-<link rel="preload" href="webfont-path" as="font" crossorigin />
+
 
 
 <script
@@ -339,14 +339,14 @@ body {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
-									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+									<div class="text-light fw-bold">${nickName}님 환영합니다.</div>
+								
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
 							<li class="nav-item ms-5">
-								<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+								
 							</li>
 						</c:otherwise>
 					</c:choose>

@@ -27,7 +27,7 @@
 <!-- datetimepicker -->
 <link rel="stylesheet" href="/css/jquery.datetimepicker.min.css" />
 
-<link rel="preload" href="webfont-path" as="font" crossorigin />
+
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
@@ -138,12 +138,15 @@ body {
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <!-- jQuery UI JS -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
-	
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- 썸머노트 -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>	
-	
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 </head>
 
 
@@ -162,6 +165,11 @@ body {
 		document.getElementById('txt').innerHTML = h + "시" + " " + m + "분"
 				+ " " + s + "초";
 		setTimeout(startTime, 1000);
+
+		
+
+		
+
 	}
 
 	function checkTime(i) {
@@ -182,14 +190,16 @@ body {
 </script>
 
 
+
+
 <body>
 
 
 
 
 
-	<nav class="navbar navbar-expand-lg bg-primary fixed-top" style="z-index: 1040"
-		data-bs-theme="dark">
+	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
+		style="z-index: 1040" data-bs-theme="dark">
 
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
@@ -320,8 +330,8 @@ body {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
-
+									<div class="text-light fw-bold">${nickName}님환영합니다.</div>
+									<div id="divClock" class="clock"></div>
 								</h5>
 							</li>
 						</c:when>

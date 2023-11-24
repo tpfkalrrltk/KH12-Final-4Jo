@@ -96,6 +96,10 @@ public class MemberController {
 	         session.setAttribute("name", findDto.getMemberEmail());
 	         session.setAttribute("level", findDto.getMemberLevel());
 	         session.setAttribute("nickName", findDto.getMemberNick());
+	         
+	      
+	         
+	         
 
 	        // 아이디 저장하기를 체크했다면 쿠키 생성
 	        if (autoLogin != null) {
