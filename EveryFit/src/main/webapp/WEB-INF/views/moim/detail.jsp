@@ -90,11 +90,6 @@ textarea {
 	padding:0 !important;
 }
 
-.fa-crown {
-	position:absolute;
-	margin-right:100%;
-}
-
 </style>
 
 <title>모임 상세페이지</title>
