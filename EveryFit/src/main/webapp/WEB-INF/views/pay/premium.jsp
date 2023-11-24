@@ -152,7 +152,7 @@
 	<div class="d-flex">
 	  <div class="box p-2 w-100 text-center">
 		<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
-		<img src="/images/mypagememberCardBefore.png" class="main-image text-center fixed-size-image mt-3">
+		<img src="/images/mypagememberExampleBefore.png" class="main-image text-center fixed-size-image mt-1">
 	</div> <label style="margin-top: 90px">▶</label>
 	  <div class="box p-2 w-100 text-center">
 		<span class="text-center mb-2">★프리미엄 회원 badge 예시(After)★</span>

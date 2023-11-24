@@ -71,12 +71,7 @@ text{
 
 								</c:otherwise>
 							</c:choose>
-<c:choose>
-												
-						<c:when test="${memberDto.memberLevel == '프리미엄'}">
-							<div><span class="badge bg-info" >프리미엄 회원</span>
-						</div></c:when>
-						</c:choose>
+
 							<div class="d-flex flex-column mb-3 mt-1">
 								<div class="p-2">
 									<label> <input type="file" class="profile-chooser "
@@ -94,9 +89,12 @@ text{
 					<div class="col align-self-center d-flex">
 						<div class="d-flex flex-column ">
 						<div class="p-2 flex-fill text-start">
-						
+						<c:if test="${memberDto.memberLevel == '프리미엄'}">
+							<span class="badge bg-success btn btn-success" >프리미엄 회원</span>
+						</c:if>
+						</div>
+						<div class="p-2 flex-fill text-start">
 						<i class="fa-solid fa-user-tag" style="color: #34b79d;">  : ${memberDto.memberNick}</i>
-												
 						</div>
 						<div class="p-2 mt-2 text-start">
 						<i class="fa-solid fa-user-group" style="color: #34b79d;"> : ${memberDto.memberMoimCount} 개</i>
