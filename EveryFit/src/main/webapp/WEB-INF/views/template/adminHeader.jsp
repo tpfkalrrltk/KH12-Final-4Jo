@@ -165,8 +165,10 @@ body {
 
 
 
-	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
-		style="z-index: 99999999" data-bs-theme="dark">
+
+	<nav class="navbar navbar-expand-lg bg-primary fixed-top" style="z-index: 1040"
+		data-bs-theme="dark">
+
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
 				width="110px" /></a>

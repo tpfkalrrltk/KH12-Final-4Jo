@@ -43,8 +43,15 @@
 	<!-- 일부조회 -->
 	<select id="findByMemberEmail" resultType="memberDto">
 		select * from member
-		where member_email = #{memberEmail}
+		where member_email = #{session}
 	</select>
+	
+	
+	<!-- 회원 닉네임 중복 조회 -->
+<!-- 	<select id="findByMemberNick" resultType="memberDto">
+		select * from member
+		where member_nick = #{memberNick}
+	</select> -->
 
 
 
@@ -142,12 +149,18 @@
 		where member_email = #{memberEmail}
 	</update>
 	
-		<update id="memberChangePw">
-		update member
-		set
-		member_pw = #{memberPw}
-		where member_email = #{memberEmail}
-	</update>
+		<!-- <update id="memberChangePw">
+	update member
+	set
+	member_pw = #{memberPw}
+	where member_email = #{memberEmail}
+</update> -->
+
+ <update id="memberChangePw">
+        UPDATE member
+        SET member_pw = #{changePw}
+        WHERE member_email = #{memberEmail}
+    </update>
 
 	<!-- 회원권 구매 후 member_moim_count (3->10) 수정 -->
 	<update id="changeMemberMoimCount">

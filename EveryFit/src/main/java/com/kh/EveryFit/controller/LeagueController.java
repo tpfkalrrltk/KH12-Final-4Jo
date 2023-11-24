@@ -139,6 +139,7 @@ public class LeagueController {
 			Date applicationEnd = DateFormatUtils.parseStringToDate(applicationDto.getLeagueApplicationEnd());
 			model.addAttribute("applicationStart", applicationStart);
 			model.addAttribute("applicationEnd", applicationEnd);
+			model.addAttribute("applicationDto", applicationDto);
 		}
 		model.addAttribute("locationDto", locationDto);
 		model.addAttribute("eventDto", eventDto);

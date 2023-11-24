@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
+import com.kh.EveryFit.dto.PeriodPaymentDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
@@ -75,8 +76,9 @@ public interface MoimDao {
 	
 	//프리미엄 모임 결제 후, 모임의 상태를 프리미엄으로 변경(N->Y)
 	boolean upgradeToPrimium(MoimDto moimDto);
-	//프리미엄 모임 구독취소 후, 모임의 상태를 일반으로 변경(Y->N)
+	//프리미엄 모임 구독취소 후, 모임의 상태를sssss 일반으로 변경(Y->N)
 	boolean upgradeToNotPrimium(MoimDto moimDto);
-
+	//프리미엄 모임 정기결제 후 자동으로 end date 업데이트
+	boolean updateToEndDate(int moimNo);
 	
 }
