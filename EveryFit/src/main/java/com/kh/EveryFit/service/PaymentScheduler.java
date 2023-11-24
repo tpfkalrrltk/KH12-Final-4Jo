@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.kh.EveryFit.configuration.PeriodKakaoPayProperties;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dto.PaymentDto;
 import com.kh.EveryFit.dto.PeriodPaymentDto;
@@ -23,13 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class PaymentScheduler {
 
 	@Autowired
+	private MoimDao moimDao;
+	
+	@Autowired
 	private PaymentDao paymentDao;
 	@Autowired
 	private KakaoPayService kakoPayService;
 	@Autowired
 	private PeriodKakaoPayProperties periodProperties;
 	
-	//@Scheduled(cron = "0 */1 * * * *")
+	@Scheduled(cron = "0 */1 * * * *")
 	private void periodPayment() throws URISyntaxException {
 		List<PaymentListAllVO> list = paymentDao.selectListAll();
 		for (PaymentListAllVO paymentListAllVO : list) {
@@ -73,6 +77,7 @@ public class PaymentScheduler {
 			PeriodPaymentDto periodPaymentDto =paymentDao.selectOne(paymentListAllVO.getPeriodPaymentNo());
 			
 			paymentDao.update(periodPaymentDto);
+			moimDao.updateToEndDate(paymentListAllVO.getPeriodPaymentMoimNo());
 			
 		}
 	}

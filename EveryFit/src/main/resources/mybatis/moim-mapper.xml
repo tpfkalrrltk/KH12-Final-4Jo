@@ -449,6 +449,15 @@
 		moim_upgrade ='N' 
 		where moim_no = #{moimNo}
 	</update>
+	
+	<!-- 프리미엄 정기결제가 되면, moim_end_time update -->
+	<update id="updateEndDate">
+    <![CDATA[
+        UPDATE moim 
+        SET moim_end_time = ADD_MONTHS(#{moimEndTime}, 1) 
+        WHERE moim_no = #{moimNo}
+    ]]>
+</update>
 </mapper>
 
 
