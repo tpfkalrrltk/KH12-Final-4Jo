@@ -39,7 +39,7 @@ public interface MoimBoardDao {
 	
 
 	
-	public List<MoimBoardDto> selectList(String type,String keyword);
+	public List<MoimBoardDto> selectList(String type,String keyword, int moimNo);
 
 
 	public List<MoimBoardDto> selectListByPage(String type, String keyword, int page, int moimNo);
