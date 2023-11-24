@@ -6,7 +6,9 @@
 
 <jsp:include page="../template/Header.jsp"></jsp:include>
 
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <style>
 .box {
@@ -93,11 +95,11 @@ text{
 						<div class="d-flex flex-column ">
 						<div class="p-2 flex-fill text-start">
 						
-						<i class="fa-solid fa-user-tag fa-2x" style="color: #34b79d;">  : ${memberDto.memberNick}</i>
+						<i class="fa-solid fa-user-tag" style="color: #34b79d;">  : ${memberDto.memberNick}</i>
 												
 						</div>
-						<div class="p-2 mt-4">
-						<i class="fa-solid fa-people-group  fa-2x" style="color: #34b79d;"> : 개</i>
+						<div class="p-2 mt-2 text-start">
+						<i class="fa-solid fa-user-group" style="color: #34b79d;"> : ${memberDto.memberMoimCount} 개</i>
 						</div>
 						</div>
 					</div>
@@ -111,7 +113,7 @@ text{
 							</button>
 						</c:when>
 						<c:otherwise>
-							<button class="btn btn-success w-50 ">
+							<button class="btn btn-success  ">
 								<a onclick="Premium()" style="text-decoration:none; color:white;">프리미엄 회원권 구매하기</a>						
 							</button>
 						</c:otherwise>
@@ -125,71 +127,12 @@ text{
 						</div>
 
 						<div>
-							<!-- 	
-						 Button trigger modal
-							<button type="button" class="btn btn-info mt-2"
-								data-bs-toggle="modal" data-bs-target="#exampleModal">
-								프로필 등록/수정</button>
- -->
-							<!-- Modal -->
-							<%-- <div class="modal fade" id="exampleModal" tabindex="-1"
-								aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="exampleModalLabel">회원정보
-												등록/수정</h1>
-											<button type="button" class="btn-close"
-												data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<div>
-												email<input value="${memberDto.memberEmail}" disabled>
-											</div>
-
-											<div>
-												pw<input type="password" value="${memberDto.memberPw}" disabled>
-												<button class="btn btn-warning" id="changePasswordButton">변경</button>
-											</div>
-
-											<div>
-												name<input value="${memberDto.memberName}" disabled>
-											</div>
-
-											<div>
-												nick<input value="${memberDto.memberNick}" disabled>
-											</div>
-
-											<div>
-												gender<input  value="${memberDto.membergender}">
-											</div>
-
-											<div>
-												contact<input value="${memberDto.memberContact}" disabled>
-											</div>
-
-											<div>
-												birth<input type="date" value="${memberDto.memberBirth}" disabled>
-											</div>
-
-
-
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save
-										changes</button>
-								</div>
-							</div>  --%>
 						</div>
 					</div>
 				</div>
 			</div>
 
-
+ <!-- <textarea id="summernote"></textarea> -->
 			<div class="container text-center mt-3 box">
 				<div class="d-flex">
 					 <p><a href="#" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-tag="소개">소개</a></p>
@@ -211,37 +154,6 @@ text{
 		</div>
 	</div>
 </div>
-
-
-
-
-
-<%-- <table>
-		<tr>
-		
-			<th>email</th>
-			<td>${memberDto.memberEmail}</td>
-			
-			<th>pw</th>
-			<td>${memberDto.memberPw}</td>
-			
-			<th>name</th>
-			<td>${memberDto.membername}</td>
-			
-			<th>nick</th>
-			<td>${memberDto.memberNick}</td>
-			
-			<th>gender</th>
-			<td>${memberDto.membeGgender}</td>
-			
-			<th>contact</th>
-			<td>${memberDto.memberContact}</td>
-			
-			<th>birth</th>
-			<td>${memberDto.memberBirth}</td>
-		
-		</tr>
-	</table> --%>
 
 <script>
 	$(function() {
@@ -340,7 +252,7 @@ text{
 	});
 	
 	/* a태그클릭시 밑줄, 정보불러오기 */
-/* 	document.addEventListener('DOMContentLoaded', function () {
+ 	document.addEventListener('DOMContentLoaded', function () {
       var links = document.querySelectorAll('.container a');
 
       links.forEach(function (link) {
@@ -360,7 +272,7 @@ text{
           
         });
       });
-    }); */
+    }); 
 	
 	//회원정보변경
 	function mypage() {
@@ -409,7 +321,70 @@ $(function() {
     	});
     });
 });
+
+//'소개' 링크 클릭 시
+document.addEventListener('DOMContentLoaded', function () {
+  var links = document.querySelectorAll('.container a');
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault(); // 기본 동작 방지
+      links.forEach(function (otherLink) {
+        otherLink.classList.remove('active');
+      });
+      link.classList.add('active');
+
+      // 클릭된 링크의 태그 이름을 가져와서 출력
+      var tag = link.getAttribute('data-tag');
+      console.log('선택된 태그: ' + tag);
+
+      // '소개' 링크를 클릭하면 해당 내용을 summernote에 추가
+      if (tag === '소개') {
+        var introductionContent = '여기에 소개 내용을 작성하세요...';
+        $('#summernote').summernote('code', introductionContent);
+      }
+
+      // 이제 여기에 실제 정보를 불러오는 로직을 추가하세요.
+      // 예를 들면, Ajax를 사용하여 서버에서 데이터를 가져오거나, 미리 정의된 데이터를 사용할 수 있습니다.
+    });
+  });
+});
+
+// 나머지 JavaScript 코드는 그대로 유지합니다.
+
+// 나머지 JavaScript 코드도 그대로 유지합니다.
+//회원정보변경
+function mypage() {
+  window.location.href = '/member/change';
+}
+
+//내가보유한카드리스트
+function Premium() {
+  window.location.href = '/pay/list';
+}
 </script>
+
+<textarea id="summernote"></textarea>
+<!-- <script>
+        $('#summernote').summernote({
+            placeholder: 'Hello stand alone ui',
+            tabsize: 2,
+            height: 120,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    </script> -->
+    
+    
+    
+    
 <jsp:include page="../template/Footer.jsp"></jsp:include>
 
 

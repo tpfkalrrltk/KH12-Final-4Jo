@@ -25,8 +25,8 @@
 			<div class="col-md-4 offset-md-4 mt-3">
 				<div class="d-flex flex-row">
 					<div class="col-md-4 offset-md-4">
-						<button type="submit" class="btn btn-Danger btn-resetPw ms-2">비밀번호
-							찾기</button>
+						<button type="submit" class="btn btn-Danger btn-resetPw ms-2">인증번호 보내기
+							</button>
 
 
 					</div>
