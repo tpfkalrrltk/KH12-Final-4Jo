@@ -307,12 +307,19 @@ public class KakaoPayController {
 						.periodPaymentStatus("N")
 						.periodPaymentNo(periodPaymentNo)
 						.build());
+				
+				//periodPaymentStatus 이게 Y 여야 정기결제가 실행되므로,
+				//취소를 하게되면 N이 되기때문에 정기결제는 멈춤
+				//또다른 스케줄러로
+				//moim_end_time이 오늘날짜보다 작으면 moim_upgrade를 Y->N으로 변경하고 moim_member_count도 30으로 변경
+				
+				
 				//모임테이블의 moim_upgrade가 Y->N으로 변경
 				
-				moimDao.upgradeToNotPrimium(MoimDto.builder()
-						.moimNo(periodPaymentDto.getPeriodPaymentMoimNo())
-						.build());
-				log.debug("비활성화 완료");
+//				moimDao.upgradeToNotPrimium(MoimDto.builder()
+//						.moimNo(periodPaymentDto.getPeriodPaymentMoimNo())
+//						.build());
+//				log.debug("비활성화 완료");
 				
 			    // 취소 상태를 나타내는 속성 추가
 			    redirectAttributes.addFlashAttribute("cancellationStatus", "success");

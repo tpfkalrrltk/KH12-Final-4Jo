@@ -454,14 +454,15 @@
 	<!-- 프리미엄 모임 결제 후, 모임의 상태를 프리미엄으로 변경(N->Y) -->
 	<update id="upgradeToPrimium">
 		update moim set 
-		moim_upgrade ='Y' 
+		moim_upgrade ='Y', moim_member_count=100  
 		where moim_no = #{moimNo} 
 	</update>
 	
 		<!-- 프리미엄 모임 구독 취소하면, 모임의 상태를 일반 으로 변경(Y->N) -->
 	<update id="upgradeToNotPrimium">
 		update moim set 
-		moim_upgrade ='N' 
+		moim_upgrade ='N', 
+		moim_member_count=30
 		where moim_no = #{moimNo}
 	</update>
 	
@@ -473,6 +474,15 @@
         WHERE moim_no = #{moimNo}
     ]]>
 </update>
+
+	<!-- 스케줄러로 지금 moim_end_time이 오늘날짜 이전인 날짜만 불러오기 -->
+	<select id="selectMoimListBeforeToday" resultType="MoimDto">
+	        <![CDATA[
+	        SELECT *
+	        FROM moim
+	        WHERE moim_end_time < SYSDATE
+	        ]]>
+	</select>
 </mapper>
 
 

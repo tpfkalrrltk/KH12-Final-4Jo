@@ -23,6 +23,7 @@
     <hr>
 
     <c:forEach var="PaymentListByMemberVO" items="${PaymentListByMemberVO}">
+      ${PaymentListByMemberVO}
       <div>
         <h3>[${PaymentListByMemberVO.moimTitle}] 모임을 위한 프리미엄 카드</h3>
       </div>
