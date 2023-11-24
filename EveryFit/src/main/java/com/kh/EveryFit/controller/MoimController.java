@@ -2,11 +2,12 @@ package com.kh.EveryFit.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -33,7 +34,6 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
-import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
@@ -325,6 +325,23 @@ public class MoimController {
 			@RequestParam int jungmoNo) {
 		jungmoDao.deleteJungmoMember(memberEmail, jungmoNo);
 		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		
+        // 현재 날짜를 가져오기
+        LocalDate currentDate = LocalDate.now();
+
+        // Timestamp를 LocalDate로 변환
+        Timestamp jungmoScheduleTimestamp = jungmoDto.getJungmoSchedule();
+        LocalDateTime jungmoScheduleLocalDateTime = jungmoScheduleTimestamp.toLocalDateTime();
+        LocalDate jungmoScheduleLocalDate = jungmoScheduleLocalDateTime.toLocalDate();
+		
+		if(currentDate.equals(jungmoScheduleLocalDate)) {
+			MoimMemberStatusVO vo = new MoimMemberStatusVO();
+			vo.setMemberCancel("memberCancel");
+			vo.setMemberEmail(memberEmail);
+			vo.setMoimNo(jungmoDto.getMoimNo());
+			moimDao.updateMoimMember(vo);			
+		}
+		
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	

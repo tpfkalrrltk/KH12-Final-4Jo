@@ -34,7 +34,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberDto selectOne(String memberEmail) {
 		MemberDto memberDto = sqlSession.selectOne("member.findByMemberEmail", memberEmail);
-	
 		return memberDto;
 	}
 
@@ -177,12 +176,16 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public boolean deleteProfile(String memberEmail) {
+	public boolean deleteProfile(String memberEmail) { 
 //		sqlSession.delete(memberEmail);
 		  return sqlSession.delete("attach.deleteProfile", memberEmail) > 0;
 //		return sqlSession.delete("memberEmail.deleteMemberimage",memberEmail) > 0;
 	}
-}
+	 @Override
+	    public void changeMemberPassword(MemberDto memberDto) {
+	        sqlSession.update("com.example.mapper.MemberMapper.memberChangePw", memberDto);
+	    }
+	}
 
 //	로그인 시간 갱신 
 //	@Override

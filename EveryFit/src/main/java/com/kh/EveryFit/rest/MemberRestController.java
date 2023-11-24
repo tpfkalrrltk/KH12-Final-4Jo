@@ -16,6 +16,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +70,34 @@ public class MemberRestController {
 			return "N";
 		}
 	}
+	
+	@PostMapping("/memberChangePw")
+	public String memberChangePw(HttpSession session, @RequestParam String originPw, @RequestParam String changePw,
+			Model model) {
+		String memberEmail = (String) session.getAttribute("name");
+		MemberDto findDto = memberDao.selectOne(memberEmail);
+
+// 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
+		if (encoder.matches(originPw, findDto.getMemberPw())) {
+// 새로운 비밀번호를 암호화
+			String encryptedNewPassword = encoder.encode(changePw);
+
+// 암호화된 비밀번호를 DTO에 설정
+			findDto.setMemberPw(encryptedNewPassword);
+
+// memberDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
+			memberDao.changeMemberInfo(findDto);
+
+// 세션 무효화
+			session.invalidate();
+
+// 로그인 페이지로 이동
+			return "/member/login";
+		} else {
+			model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
+			return "redirect:memberchangePw?error";
+		}
+	}
 
 //	@PostMapping("/changePw")
 //	public String changePw(HttpSession session,
@@ -98,6 +127,8 @@ public class MemberRestController {
 //	        return "redirect:memberchangePw?error";
 //	    }
 //	}
+	
+	
 //	프로필 업로드&다운로드 기능
 		@Autowired
 		private AttachDao attachDao;

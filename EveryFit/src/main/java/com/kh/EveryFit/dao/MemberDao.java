@@ -43,7 +43,9 @@ public interface MemberDao {
 	//비밀정보 변경
 	void changePw(MemberDto memberDto);
 	void changeMemberInfo(MemberDto memberDto);
-	
+//    void changePassword(String memberEmail, String newPassword);
+    
+    
 	MemberDto selectOneByMemberNick(String memberNick);
 
 	
@@ -61,6 +63,10 @@ public interface MemberDao {
 		void insertProfile(String memberEmail, int attachNo);
 		boolean deleteProfile(String memberEmail);
 		Integer findProfile(String memberEmail);
+
+
+
+		void changeMemberPassword(MemberDto memberDto);
 
 
 
