@@ -212,5 +212,9 @@ public class MoimDaoImpl implements MoimDao {
 	    params.put("moimNo", moimNo);
 		return sqlSession.selectOne("moim.moimMemberInfo", params);
 	}
+	@Override
+	public boolean updateToEndDate(int moimNo) {
+		return sqlSession.update("moim.updateEndDate", moimNo)>0;
+	}
 
 }

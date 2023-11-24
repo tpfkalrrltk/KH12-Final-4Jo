@@ -20,7 +20,7 @@ public class MoimDto {
     private int moimMemberCount;
     private String moimGenderCheck;
     private int chatRoomNo;
-    
+    private Date moimEndTime;
     
     private boolean image;
 }
