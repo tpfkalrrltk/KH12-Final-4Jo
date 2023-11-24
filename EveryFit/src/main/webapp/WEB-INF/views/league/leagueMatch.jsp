@@ -14,8 +14,8 @@
 	<div class="row"><div class="col-md-6 offset-md-3">
 		<div class="p-5 bg-primary text-light rounded mb-5">
 			<h1>
-				경기일정
-		        <i class="fa-solid fa-ranking-star"></i>
+				${leagueDto.leagueTitle} 일정
+		        <i class="fa-solid fa-calendar-day"></i>
 			</h1>
 			<hr>
 			<div class="row text-end"><div class="col"></div><div class="col input-group">
@@ -28,6 +28,7 @@
 				<button class="btn btn-info auto-match-btn" data-league-no="${param.leagueNo}">생성</button>
 			</div></div>
 			<div class="row mt-2 text-end"><div class="col">
+				<a href="leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">돌아가기</a>
 				<button class="btn btn-success insert-btn">경기등록</button>
 			</div></div>
 		</div>
@@ -312,7 +313,18 @@ $(".edit-btn").click(function(e){
 		url:"http://localhost:8080/rest/league/findLeagueMatchVO",
 		data:{leagueMatchNo:leagueMatchNo},
 		success:function(response){
-			console.log(response);
+			$("#matchEditModal input").each(function() {
+                var inputName = $(this).attr('name');
+                $(this).val(response[inputName]);
+            });
+			
+			$("#matchEditModal select").each(function() {
+				var selectName = $(this).attr('name');
+				var selectedValue = response[selectName];
+
+				$(this).val(selectedValue);
+			});
+			
 			$("#matchEditModal").modal("show");
 		},
 		error:function(error){
