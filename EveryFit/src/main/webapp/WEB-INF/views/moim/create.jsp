@@ -10,20 +10,21 @@
     }
     .preview-wrapper1 {
     	object-fit:cover;
+    	z-index: 9999;
     }
 </style>
 <title>등록해보기</title>
 
 
-  <div class="col-md-6 offset-md-3">
+  <div class="col-md-8 offset-md-2">
     <div class="row">
       <div class="col">
-		<div class="row mt-2">
-		<div class="col-6 offset-3 text-center">
+		<div class="row">
+		<div class="col-6 offset-3 text-start text-primary">
 		<h1>모임개설</h1>
 		</div>
 		</div>
-<div class="row mt-4">
+<div class="row">
 	<c:if test="${profile != null}">
 	<img src="/rest/attach/download?attachNo=${profile}"
 			class="rounded profile-image">		
@@ -36,21 +37,22 @@
 		<label>
 		<input type="file" name="attach" accept="image/*" multiple id="attach-selector" style="display:none;">
 		
-		<img src="/images/image.png" class="w-100 image">
+		<div class="preview-wrapper1" width="300px;" height="200px;">
+		<img src="/images/add-moim-image.png" class="w-100 image">
+		</div>
 		</label>
-		<div class="preview-wrapper1"></div>
 		</div>
 		</div>
 	
 		<div class="row mt-2">
-		<div class="col-3 text-end"><label class="form-label ">모임명</label></div>
-		<div class="col-6"><input type="text" name="moimTitle" class="form-control"></div>
+<!-- 		<div class="col-3 text-end"><label class="form-label ">모임명</label></div> -->
+		<div class="col-6 offset-3"><input type="text" name="moimTitle" class="form-control" placeholder="모임명"></div>
 		</div>
 		
 		<div class="row mt-2">
-		<div class="col-3 text-end">
-		<label class="form-label">시/도</label></div>
-		<div class="col-6">
+<!-- 		<div class="col-3 text-end"> -->
+<!-- 		<label class="form-label">시/도</label></div> -->
+		<div class="col-6 offset-3">
 		<select class="form-select location-depth1">
 			<option value="">시/도</option>
 			<c:forEach var="locationDto" items="${locationList}">
@@ -58,21 +60,23 @@
 			</c:forEach>
 		</select></div>
 		</div>
-		<div class="row mt-2"><div class="col-3 text-end">
-		<label class="form-label">구/시 선택</label></div>
-		<div class="col-6"><select class="form-select" name="locationNo">
-			<option value="">시/도</option>
+		<div class="row mt-2">
+<!-- 		<div class="col-3 text-end"> -->
+<!-- 		<label class="form-label">구/시 선택</label></div> -->
+		<div class="col-6 offset-3"><select class="form-select" name="locationNo">
+			<option value="">시/군/구</option>
 		</select>
   		</div></div>
 
 		<div class="row mt-2">
-		<div class="col-3 text-end"><label class="form-label">종목</label></div>
-		<div class="col-6">
-		<select name="eventNo"  class="form-select">
+<!-- 		<div class="col-3 text-end"><label class="form-label">종목</label></div> -->
+		<div class="col-6 offset-3">
+		<select name="eventNo"  class="form-select" id="eventSelect">
+             <option value="">종목</option>
 		         <c:forEach var="event" items="${eventList}">
 		             <option value="${event.eventNo}">${event.eventName}</option>
 		         </c:forEach>
-		     </select>
+	     </select>
 		</div>
 		</div>
 		
@@ -83,7 +87,7 @@
 		<div class="row mt-2">
 	 	<div class="col-3 offset-3 text-end p-2"><label class="form-label">정원(~30명)</label></div>
 	 	<div class="col-3">
-	 	<input type="number" name="moimMemberCount"  class="form-control"></div>
+	 	<input type="number" name="moimMemberCount" class="form-control" id="moimMemberCount"></div>
 	 	</div>
 		<div class="row mt-2">
 	 	<div class="col-6 offset-3 text-end"><label class="form-label">여성전용</label>
@@ -143,7 +147,7 @@
 					var select = $("[name=locationNo]");
 					
 					select.empty();
-					select.append('<option value="">구/시 선택</option>');
+					select.append('<option value="">시/군/구</option>');
 					$.each(data, function(index, locationDto){
 						var depth2Value = locationDto.locationDepth2;
 						var locationNo = locationDto.locationNo;
@@ -194,7 +198,93 @@
 
     });
     
+    document.getElementById("moimMemberCount").addEventListener("input", function() {
+        // 현재 입력된 값 가져오기
+        var inputValue = this.value;
+
+        // 최소값(min)과 최대값(max) 설정
+        var minValue = 1;
+        var maxValue = 30;
+
+        // 입력값이 최소값 미만이면 최소값으로 설정
+        if (inputValue < minValue) {
+            this.value = minValue;
+        }
+
+        // 입력값이 최대값 초과하면 최대값으로 설정
+        if (inputValue > maxValue) {
+            this.value = maxValue;
+        }
+    });	
     
+    // jQuery 코드로 선택 옵션의 변경을 감지하고 알림창을 띄웁니다.
+    $(document).ready(function () {
+        $("#eventSelect").change(function () {
+            // 현재 선택된 값 가져오기
+            var selectedValue = $(this).val();
+
+            // 선택된 값이 빈 문자열인 경우 알림창 띄우기
+            if (selectedValue === "") {
+                alert("종목을 선택해주세요.");
+            }
+        });
+    });
     
+    $("form").submit(function (event) {
+        if (!validateForm()) {
+            event.preventDefault(); // form 제출 중단
+        }
+    });
+
+    function validateForm() {
+        // 필수 입력 필드들을 배열로 저장
+        var requiredFields = [
+            "moimTitle",
+            "locationNo",
+            "eventNo",
+            "moimContent",
+            "moimMemberCount"
+        ];
+
+        // 필수 입력 필드를 확인하고 누락된 경우 알림창 표시
+        for (var i = 0; i < requiredFields.length; i++) {
+            var fieldName = requiredFields[i];
+            var fieldValue = $("[name=" + fieldName + "]").val().trim();
+
+	            if (fieldValue === "") {
+	                alert("모든 항목을 입력해주세요.");
+	                return false; // form 제출 중단
+	            }
+	        }
+	
+	        return true; // form 제출 허용
+	    }
     
+    $('textarea[name="moimContent"]').on('input', function () {
+        var maxLength = 1000; // 최대 글자 수
+        var currentLength = $(this).val().length;
+
+        if (currentLength > maxLength) {
+            // 입력 길이가 제한을 초과한 경우, 알림창 표시
+            alert("최대 한글 천글자까지 입력 가능합니다.");
+
+            // 초과된 부분을 자르고 입력값 설정
+            var trimmedValue = $(this).val().substring(0, maxLength);
+            $(this).val(trimmedValue);
+        }
+    });
+    
+    $('input[name="moimTitle"]').on('input', function () {
+        var maxLength = 20; // 최대 글자 수
+        var currentLength = $(this).val().length;
+
+        if (currentLength > maxLength) {
+            // 입력 길이가 제한을 초과한 경우, 알림창 표시
+            alert("최대 한글 20글자까지 입력 가능합니다.");
+
+            // 초과된 부분을 자르고 입력값 설정
+            var trimmedValue = $(this).val().substring(0, maxLength);
+            $(this).val(trimmedValue);
+        }
+    });
  </script> 
