@@ -18,6 +18,7 @@
 		        <i class="fa-solid fa-ranking-star"></i>
 			</h1>
 			<hr>
+			${sessionScope.level}
 			<div class="row mt-4 text-center">
 				<div class="col">
 					<a href="leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">순위</a>
@@ -34,15 +35,17 @@
 			</div></div>
 		</div>
 		
-		<div class="row text-end"><div class="col"></div><div class="col input-group">
-			<label class="input-group-text">경기자동생성</label>
-			<select class="form-select" name="isDouble">
-				<option value="">리그방식 선택</option>
-				<option value="false">싱글라운드</option>
-				<option value="true">더블라운드</option>
-			</select>
-			<button class="btn btn-info auto-match-btn" data-league-no="${param.leagueNo}">생성</button>
-		</div></div>
+		<c:if test="${sessionScope.level=='관리자' && leagueDto.leagueStatus=='접수마감'}">
+			<div class="row text-end"><div class="col"></div><div class="col input-group">
+				<label class="input-group-text">경기자동생성</label>
+				<select class="form-select" name="isDouble">
+					<option value="">리그방식 선택</option>
+					<option value="false">싱글라운드</option>
+					<option value="true">더블라운드</option>
+				</select>
+				<button class="btn btn-info auto-match-btn" data-league-no="${param.leagueNo}">생성</button>
+			</div></div>
+		</c:if>
 		
 		
 		
