@@ -34,8 +34,10 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/member/**",
 			"/pay/**",
 			"/report/**",
-			"/moim/**"
-			//"/league/**" //체크하고 추가할게요
+			"/moim/**",
+			"/league/leagueTeamInsert",
+			"/league/leagueInsert",
+			"/league/leagueEdit"
 	)
 	.excludePathPatterns(
 			"/freeBoard/list",
@@ -61,7 +63,7 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/pay/**",
 			"/report/**",	
 			"/moim/**",
-			//"/league/**",
+			"/league/**",
 			"/faq/**"
 			)
 	.excludePathPatterns(
@@ -79,7 +81,9 @@ MemberBlockInterceptor memberBlockInterceptor;
 //	registry.addInterceptor(adminOwnerInterceptor)
 //	.order(5).addPathPatterns("/admin/**");
 	
-	
+//	"/league/leagueInsert",
+//	"/league/leagueEdit"
+	//리그는 이거 관리자 이거 두개만 막으면 돼요
 }
 }
 
