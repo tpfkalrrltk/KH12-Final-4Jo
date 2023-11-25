@@ -25,6 +25,7 @@ a{
 			</div>
 			<div class="row mt-4"><div class="col">
 	        	<div class="text-end">
+	        		<a href="/default/${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">리그채팅</a> 
 	        		<c:if test="${sessionScope.level=='관리자'}">
 				        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
 	        		</c:if>
@@ -56,7 +57,7 @@ a{
 	                <td>${vo.leagueTeamRank}</td>
 	                <td>
 	                	<a href="leagueTeamDetail?leagueTeamNo=${vo.leagueTeamNo}">
-		                	${vo.leagueTeamName}
+		                	<span class="text-dark alert-link">${vo.leagueTeamName}</span>
 		               		<img style="height: 35px; width: 35px;" class="rounded" src="/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}">
 	               		</a> 
 	                </td>

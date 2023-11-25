@@ -189,7 +189,8 @@ public class LeagueController {
 	public String leagueTeamInsert(@RequestParam String[] memberEmail, 
 									@RequestParam int leagueNo,
 									@RequestParam int moimNo, @RequestParam String leagueTeamName, 
-									@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+									@RequestParam MultipartFile attach,
+									HttpSession session) throws IllegalStateException, IOException {
 		int leagueTeamNo = leagueDao.leagueTeamSequence();
 		leagueDao.insertLeagueTeam(LeagueTeamDto.builder()
 									.leagueTeamNo(leagueTeamNo)
@@ -206,6 +207,12 @@ public class LeagueController {
 						.memberEmail(email)
 						.build());
 		}
+		
+		//채팅방 입장
+		String moimjangEmail = (String)session.getAttribute("name");
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
+		int chatRoomNo = leagueDto.getChatRoomNo();
+		chatDao.addChatMember(chatRoomNo, moimjangEmail);
 		
 		if(!attach.isEmpty()) {
 			//첨부파일등록(파일이 있을때만)
