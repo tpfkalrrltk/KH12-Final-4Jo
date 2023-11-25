@@ -73,7 +73,7 @@
 	<select id="moimMemberList" resultType="MoimMemberDto">
 		select * from moim_member_list 
 		where moim_no = #{moimNo} 
-		and moim_member_status != '차단'	
+<!-- 		and moim_member_status != '차단'	 -->
 	</select>
 	
 	<!-- 모임장이 볼 목록 -->
@@ -162,40 +162,23 @@
 	
 	<!-- 모임 가입할 때 멤버 등록 -->
 	<insert id="insertMoimMember">
-<!-- 	    <selectKey keyProperty="GenderCheck" resultType="String" order="BEFORE"> -->
-<!-- 	        select moim_gender_check from moim where moim_no = #{moimNo} -->
-<!-- 	    </selectKey> -->
-	
-<!-- 	    <if test="GenderCheck == 'Y'"> -->
-	        <!-- 젠더체크를 할 경우 상태 미승인 -->
-<!-- 	       	insert into moim_member( -->
-<!-- 	       		moim_no,  -->
-<!-- 	       		member_email,  -->
-<!-- 	       		moim_member_level, -->
-<!-- 	       		moim_member_status -->
-<!-- 	       		) -->
-<!-- 	        values(#{moimNo}, #{memberEmail}, '일반', '미승인') -->
-<!-- 	    </if> -->
-	
-<!-- 	    <if test="GenderCheck == 'N'"> -->
-	        <!-- 젠더체크를 안 할 경우 상태 승인 -->
 	        insert into moim_member(
 	        	moim_no, 
 	        	member_email, 
 	        	moim_member_level,
 	        	moim_member_status
 	        	)
-	        values(#{moimNo}, #{memberEmail}, '일반', '승인')
-<!-- 	    </if> -->
+	        values(#{moimNo}, #{memberEmail}, '일반', #{moimMemberStatus})
 	</insert>
 	<!-- 회원이 모임 등록할 때 이미 등록되어있는지 조회하기 -->
 	<!-- 
 		회원이 모임 등록할 때 회원등급을 조회해서 
 		이미 등록된 모임개수확인 후 초과하지않았으면 등록 아니면 반려 
 	-->
-	<!-- 가입한 모임의 count 확인 -->
+	<!-- 가입한 모임의 count 확인(모임장제외) -->
 	<select id="moimCountByMemberEmail" resultType="Integer">
 		select count(*) from moim_member where member_email = #{memberEmail} 
+		and moim_member_level = '일반'
 	</select>
 	
 	<!-- 모임 중복가입 방지를 위한 조회구문 -->

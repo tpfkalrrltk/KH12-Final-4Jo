@@ -34,6 +34,7 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
+import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
@@ -128,6 +129,8 @@ public class MoimController {
 	@RequestMapping("/detail")
 	public String detail(Model model, @RequestParam int moimNo,
 			HttpSession session) {
+		
+		
 		//모임상세
 		MoimDto moimDto = moimDao.selectOne(moimNo);
 		model.addAttribute("moimDto", moimDto);

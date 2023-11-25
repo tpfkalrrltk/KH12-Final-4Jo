@@ -354,11 +354,13 @@ public class MoimRestController {
 	        
 	        if (Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { // 여성전용모임
                 
-            	if (Objects.equals(memberDto.getMemberGender(), "F")) { // 여성회원인지 검사
+            	if (memberDto.getMemberGender().equals("F")) { // 여성회원인지 검사
                     moimMemberDto.setMemberEmail(memberEmail);
                     moimMemberDto.setMoimNo(moimNo);
                     moimMemberDto.setMoimMemberStatus("미승인");
                     moimDao.addMoimMember(moimMemberDto);
+                    log.debug("여기까지오는지");
+                    log.debug("moimMemberDto={}", moimMemberDto);
                     return "join";
                 } 
                 // 여성회원만 가입 가능하다는 응답
@@ -366,6 +368,7 @@ public class MoimRestController {
             } 
                 moimMemberDto.setMemberEmail(memberEmail);
                 moimMemberDto.setMoimNo(moimNo);
+                moimMemberDto.setMoimMemberStatus("승인");
                 moimDao.addMoimMember(moimMemberDto);
                 return "join";
 
@@ -396,11 +399,23 @@ public class MoimRestController {
 //		return "Y";
 //	}
 @PostMapping("/list")
-
 public List<moimListForMyPageVO> moimList(HttpSession session) {
 	String memberEmail = (String) session.getAttribute("name");
 	List<moimListForMyPageVO> list = moimDao.moimListForMyPage(memberEmail);
 	
 	return list;
 }
+
+@PostMapping("/moimjang/check")
+public String moimjangCheck(@RequestParam String memberEmail, int moimNo) {
+	MoimMemberDto moimMemberDto = moimDao.findMoimMemberInfo(memberEmail, moimNo);
+	if(moimMemberDto.getMoimMemberLevel().equals("일반")) {
+		return "N";
+	}
+	else {
+		return "Y";
+	}
+	
+}
+
 }
