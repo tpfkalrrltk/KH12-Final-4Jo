@@ -18,8 +18,10 @@ p {
 			<div class="row text-end">
 				<div class="col">
 					<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
-					<a class="btn btn-info" href="leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
-					<a class="btn btn-danger del-btn" href="leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
+					<c:if test="${sessionScope.level=='관리자'}">
+						<a class="btn btn-info" href="leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
+						<a class="btn btn-danger del-btn" href="leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

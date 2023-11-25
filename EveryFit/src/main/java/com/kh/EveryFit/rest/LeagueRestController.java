@@ -94,6 +94,9 @@ public class LeagueRestController {
 		Collections.shuffle(matchList);
 		log.debug("matchList={}", matchList);
 		for(List<Integer> match : matchList) {
+			log.debug("match = {}", match);
+			log.debug("홈팀 = {}", match.get(0));
+			log.debug("어웨이팀 = {}", match.get(1));
 			int leagueMatchNo = leagueDao.leagueMatchSequence();
 			leagueDao.insertLeagueMatch(LeagueMatchDto.builder()
 										.leagueNo(leagueNo)

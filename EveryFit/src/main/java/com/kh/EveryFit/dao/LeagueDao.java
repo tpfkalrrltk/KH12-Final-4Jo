@@ -39,6 +39,8 @@ public interface LeagueDao {
 	boolean updateLeagueTeamStatus(int leagueTeamNo, String status);
 	void leagueTeamCalculate(int leagueTeamNo);
 	List<LeagueTeamDto> isTeamRegistered(int leagueNo, int moimNo);//참여가능확인
+	void insertLeagueTeamImage(int leagueTeamNo, int attachNo);//리그팀이미지
+	
 	
 	//리그 접수 관련
 	List<LeagueApplicationDto> selectLeagueApplcationList();
@@ -63,8 +65,10 @@ public interface LeagueDao {
 	void updateLeagueMatch(int leagueMatchNo, LeagueMatchDto leagueMatchDto);
 	void deleteLeagueMatch(int leagueMatchNo);
 	List<LeagueMatchDto> selectLeagueMatchList(int leagueNo);
-	List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo);
 	LeagueMatchListVO selectOneLeagueMatchListVO(int leaugeMatchNo);
+	List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo);
+	List<LeagueMatchListVO> selectLeagueMatchVOListByTeamNo(int leagueNo, int leagueTeamNo);
+	
 	
 	
 	

@@ -11,33 +11,48 @@
 </style>
 
 <div class="container-fluid">
-	<div class="row"><div class="col-md-6 offset-md-3">
+	<div class="row"><div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1">
 		<div class="p-5 bg-primary text-light rounded mb-5">
 			<h1>
-				${leagueDto.leagueTitle} 일정
-		        <i class="fa-solid fa-calendar-day"></i>
+				${leagueDto.leagueTitle}
+		        <i class="fa-solid fa-ranking-star"></i>
 			</h1>
 			<hr>
-			<div class="row text-end"><div class="col"></div><div class="col input-group">
-				<label class="input-group-text">경기자동생성</label>
-				<select class="form-select" name="isDouble">
-					<option value="">리그방식 선택</option>
-					<option value="true">싱글라운드</option>
-					<option value="false">더블라운드</option>
-				</select>
-				<button class="btn btn-info auto-match-btn" data-league-no="${param.leagueNo}">생성</button>
-			</div></div>
-			<div class="row mt-2 text-end"><div class="col">
-				<a href="leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">돌아가기</a>
-				<button class="btn btn-success insert-btn">경기등록</button>
+			<div class="row mt-4 text-center">
+				<div class="col">
+					<a href="leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">순위</a>
+				</div>
+				<div class="col">
+					<a class="btn btn-lg btn-dark w-100 disabled">경기</a>
+				</div>
+			</div>
+			<div class="row mt-4 text-end"><div class="col">
+				<c:if test="${sessionScope.level=='관리자'}">
+					<button class="btn btn-info insert-btn">경기등록</button>
+				</c:if>
+				<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 			</div></div>
 		</div>
+		
+		<div class="row text-end"><div class="col"></div><div class="col input-group">
+			<label class="input-group-text">경기자동생성</label>
+			<select class="form-select" name="isDouble">
+				<option value="">리그방식 선택</option>
+				<option value="false">싱글라운드</option>
+				<option value="true">더블라운드</option>
+			</select>
+			<button class="btn btn-info auto-match-btn" data-league-no="${param.leagueNo}">생성</button>
+		</div></div>
+		
+		
 		
 		<c:forEach var="matchDto" items="${leagueMatchList}">
 			<div class="row mt-5 p-3 border border-light rounded shadow-sm"><div class="col">
 				<div class="row text-center">
 					<div class="col-2">
-						<img src="https://picsum.photos/200" class="rounded w-100 m-2">
+						<a href="leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchHome}">
+							<img src="/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchHome}" class="rounded w-100 m-2">
+						</a>
 					</div>
 					<div class="col">
 						<div class="row m-2"><div class="col">
@@ -65,7 +80,9 @@
 						</div></div>
 					</div>
 					<div class="col-2">
-						<img src="https://picsum.photos/200" class="rounded w-100 m-2">
+						<a href="leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchAway}">
+							<img src="/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchAway}" class="rounded w-100 m-2">
+						</a>
 					</div>
 					<div class="row"><div class="col">
 						<h5>${matchDto.homeTeamName} vs ${matchDto.awayTeamName}</h5>

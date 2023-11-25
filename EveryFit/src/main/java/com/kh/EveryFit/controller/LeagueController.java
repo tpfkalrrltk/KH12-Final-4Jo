@@ -188,7 +188,8 @@ public class LeagueController {
 	@PostMapping("/leagueTeamInsert")
 	public String leagueTeamInsert(@RequestParam String[] memberEmail, 
 									@RequestParam int leagueNo,
-									@RequestParam int moimNo, @RequestParam String leagueTeamName) {
+									@RequestParam int moimNo, @RequestParam String leagueTeamName, 
+									@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
 		int leagueTeamNo = leagueDao.leagueTeamSequence();
 		leagueDao.insertLeagueTeam(LeagueTeamDto.builder()
 									.leagueTeamNo(leagueTeamNo)
@@ -205,6 +206,25 @@ public class LeagueController {
 						.memberEmail(email)
 						.build());
 		}
+		
+		if(!attach.isEmpty()) {
+			//첨부파일등록(파일이 있을때만)
+			int attachNo = attachDao.sequence();
+
+			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+			attach.transferTo(target);
+			
+			AttachDto attachDto = new AttachDto();
+			attachDto.setAttachNo(attachNo);
+			attachDto.setAttachName(attach.getOriginalFilename());
+			attachDto.setAttachSize(attach.getSize());
+			attachDto.setAttachType(attach.getContentType());
+			attachDao.insert(attachDto);
+
+			//연결(파일이 있을때만)
+			leagueDao.insertLeagueTeamImage(leagueTeamNo, attachNo);
+		}
+		
 		return "redirect:leagueGuide?leagueNo="+leagueNo;
 	}
 	
@@ -213,6 +233,8 @@ public class LeagueController {
 		LeagueTeamDto leagueTeamDto = leagueDao.selectOneLeagueTeam(leagueTeamNo);
 		MoimDto moimDto = moimDao.selectOne(leagueTeamDto.getMoimNo());
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueTeamDto.getLeagueNo());
+		List<LeagueMatchListVO> leagueMatchList = leagueDao.selectLeagueMatchVOListByTeamNo(leagueTeamDto.getLeagueNo(), leagueTeamNo);
+		model.addAttribute("leagueMatchList", leagueMatchList);
 		model.addAttribute("leagueTeamDto", leagueTeamDto);
 		model.addAttribute("moimDto", moimDto);
 		model.addAttribute("leagueDto", leagueDto);
@@ -250,6 +272,32 @@ public class LeagueController {
 	public ResponseEntity<ByteArrayResource> 
 							download(@RequestParam int leagueNo) throws IOException {
 		AttachDto attachDto = attachDao.selectOneleague(leagueNo);
+		
+		if(attachDto == null) {
+			return ResponseEntity.notFound().build(); //404반환
+		}
+		
+		File target = new File(dir, String.valueOf(attachDto.getAttachNo()));
+		
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data);
+		
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				.contentLength(attachDto.getAttachSize())
+				.header(HttpHeaders.CONTENT_TYPE, attachDto.getAttachType())
+				.header(HttpHeaders.CONTENT_DISPOSITION, 
+					ContentDisposition.attachment()
+					.filename(attachDto.getAttachName(), StandardCharsets.UTF_8)
+					.build().toString()
+				)
+				.body(resource);
+	}
+	
+	@RequestMapping("/leagueTeamImage")
+	public ResponseEntity<ByteArrayResource> 
+							downloadLeagueTeam(@RequestParam int leagueTeamNo) throws IOException {
+		AttachDto attachDto = attachDao.selectOneLeagueTeam(leagueTeamNo);
 		
 		if(attachDto == null) {
 			return ResponseEntity.notFound().build(); //404반환

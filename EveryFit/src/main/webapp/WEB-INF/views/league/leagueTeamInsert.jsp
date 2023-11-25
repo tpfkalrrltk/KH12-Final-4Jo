@@ -16,28 +16,41 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="preview-wrapper col-4 offset-4 mt-5">
+			<img id="preview" class="w-100 rounded">
+		</div>
 
 		<div class="row mt-5"><div class="col">
-			<form method="post" id="insertLeaueTeamForm">
+			<form method="post" id="insertLeaueTeamForm" enctype="multipart/form-data">
 				<input type="hidden" name="leagueNo" value="${param.leagueNo}">
 				<input type="hidden" name="moimNo" value="${param.moimNo}">
+				
+				<div class="row mt-2"><div class="col">
+					<label class="form-label">로고 이미지</label>
+					<input type="file" accept="image/*" class="form-control" name="attach" onchange="checkForm()">
+				</div></div>
+				
 				<div class="row"><div class="col">
 					<label class="form-label">팀이름</label>
 					<input type="text" class="form-control" name="leagueTeamName" onchange="checkForm()"
 						placeholder="한글, 영어, 숫자 3~10글자">
 				</div></div>
-				<div class="row mt-4"><div class="col">
+				
+				<div class="row mt-4 text-center"><div class="col">
 					<c:forEach var="memberDto" items="${memberList}">
-						<div class="form-check">
-						<input class="form-check-input" id="flexCheckChecked" type="checkbox" name="memberEmail" 
-							value="${memberDto.memberEmail}" onchange="checkForm()">
-						<label class="form-check-label" for="flexCheckChecked">
-				          ${memberDto.memberNick} - [ ${memberDto.memberEmail} ]
+						<div class="input-group">
+							<div class="input-group-text">
+								<input class="form-check-input" id="flexCheckChecked" type="checkbox" name="memberEmail" 
+									value="${memberDto.memberEmail}" onchange="checkForm()">
+							</div>
+						<label class="form-control" for="flexCheckChecked">
+				        	${memberDto.memberNick} - [ ${memberDto.memberEmail} ]
 				        </label> 
 						</div>		
 					</c:forEach>
 				</div></div>
-				<div class="row mt-4"><div class="col">
+				<div class="row mt-4 text-end me-5"><div class="col">
 					<label id="checkedCount">0</label> / <label id="roasterCount">${leagueDto.leagueRoasterCount}명</label>
 				</div></div>
 				<div class="row mt-4"><div class="col">
@@ -62,6 +75,9 @@
         var pattern = /^[a-zA-Z가-힣0-9\s]{3,10}$/;
         var teamName = $("[name=leagueTeamName]").val();
         var checkLeagueTeam = pattern.test(teamName) && teamName.length > 0;
+        
+        var attachCheck = $("[name=attach]").val().length > 0;
+        
         if(checkLeagueTeam){
         	$("[name=leagueTeamName]").addClass("is-valid");
         }
@@ -69,7 +85,7 @@
         	$("[name=leagueTeamName]").removeClass("is-valid");
         }
 		
-        if (count === roasterCount && checkLeagueTeam) {
+        if (count === roasterCount && checkLeagueTeam && attachCheck) {
             // 버튼 활성화
             $('#button-add').prop('disabled', false);
         } else {
@@ -107,8 +123,27 @@
 				return;
 			}
     	});
-    	
     });
+    	
+	$("[name=attach]").change(function(e){
+		
+		$(".preview-wrapper").empty();
+		
+		if (this.files && this.files[0]) {
+        	var reader = new FileReader();
+	
+           	// 파일을 읽고 로드되면 미리보기 이미지 업데이트
+           	reader.onload = function (e) {
+           		$("<img>").attr("id", "preview").attr("src", e.target.result)
+           		.addClass("w-100 rounded").appendTo(".preview-wrapper");
+           	}
+	
+           	// 파일 읽기 시작
+           	reader.readAsDataURL(this.files[0]);
+       	}
+	});
+    	
+   
 </script>
 
 

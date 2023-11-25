@@ -8,70 +8,74 @@ a{
 }
 </style>
 <div class="container-fluid">
-	<div class="row"><div class="col-md-8 offset-md-2">
+	<div class="row"><div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1">
 		<div class="p-5 bg-primary text-light rounded">
         	<h1>
         		${leagueDto.leagueTitle}
         		<i class="fa-solid fa-ranking-star"></i>
         	</h1>
         	<hr>
-        	<div class="text-end">
-        		<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
-		        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
-		        <a class="btn btn-info" href="leagueMatch?leagueNo=${leagueDto.leagueNo}">경기일정관리</a>
-        	</div>
+        	<div class="row mt-4 text-center">
+				<div class="col">
+					<a class="btn btn-lg btn-dark w-100 disabled">순위</a>
+				</div>
+				<div class="col">
+					<a href="leagueMatch?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">경기</a>
+				</div>
+			</div>
+			<div class="row mt-4"><div class="col">
+	        	<div class="text-end">
+	        		<c:if test="${sessionScope.level=='관리자'}">
+				        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
+	        		</c:if>
+	        		<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+	        	</div>
+        	</div></div>
       	</div>
-    
-    <div class="row mt-5 text-center">
-      <div class="col">
-        <h3>순위</h3>
-      </div>
-      <div class="col">
-      </div>
-      <div class="col">
-      </div>
-    </div>
-    
-    <div class="row mt-2">
-      <div class="col">
-        <table class="table table-hover text-center">
-          <thead>
-            <tr class="table-secondary">
-              <th>순위</th>
-              <th>팀</th>
-              <th>경기수</th>
-              <th>승</th>
-              <th>무</th>
-              <th>패</th>
-              <th>득점</th>
-              <th>실점</th>
-              <th>득실차</th>
-              <th>승점</th>
-            </tr>
-          </thead>
-          <tbody>
-            <c:forEach var="vo" items="${rankList}">
-              <tr style="height: 30px;">
-                <td>${vo.leagueTeamRank}</td>
-                <td>
-                	${vo.leagueTeamName}
-               		<img style="height: 35px; width: 35px;" class="rounded" src="/image?moimNo=${vo.moimNo}"> 
-                </td>
-                <td>${vo.leagueTeamMatchCount}</td>
-                <td>${vo.leagueTeamWin}</td>
-                <td>${vo.leagueTeamLose}</td>
-                <td>${vo.leagueTeamDraw}</td>
-                <td>${vo.leagueTeamG}</td>
-                <td>${vo.leagueTeamD}</td>
-                <td>${vo.leagueTeamGD}</td>
-                <td>${vo.leagueTeamPoint}</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
+      	
+	    <div class="row mt-5">
+	      <div class="col">
+	        <table class="table table-hover text-center">
+	          <thead>
+	            <tr class="table-secondary">
+	              <th>순위</th>
+	              <th>팀</th>
+	              <th>경기수</th>
+	              <th>승</th>
+	              <th>무</th>
+	              <th>패</th>
+	              <th>득점</th>
+	              <th>실점</th>
+	              <th>득실차</th>
+	              <th>승점</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            <c:forEach var="vo" items="${rankList}">
+	              <tr style="height: 30px;">
+	                <td>${vo.leagueTeamRank}</td>
+	                <td>
+	                	<a href="leagueTeamDetail?leagueTeamNo=${vo.leagueTeamNo}">
+		                	${vo.leagueTeamName}
+		               		<img style="height: 35px; width: 35px;" class="rounded" src="/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}">
+	               		</a> 
+	                </td>
+	                <td>${vo.leagueTeamMatchCount}</td>
+	                <td>${vo.leagueTeamWin}</td>
+	                <td>${vo.leagueTeamDraw}</td>
+	                <td>${vo.leagueTeamLose}</td>
+	                <td>${vo.leagueTeamG}</td>
+	                <td>${vo.leagueTeamD}</td>
+	                <td>${vo.leagueTeamGD}</td>
+	                <td>${vo.leagueTeamPoint}</td>
+	              </tr>
+	            </c:forEach>
+	          </tbody>
+	        </table>
+	      </div>
+		</div>
+	
 	</div></div>
-</div>
 
 </div>
 
