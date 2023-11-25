@@ -110,7 +110,7 @@ data-backdrop="static" data-keyboard="false">
 
 
 <div class="container-fluid">
-		<div class="col-md-8 offset-md-2">
+		<div class="col-md-6 offset-md-3">
 		
 			<div class="row">
 			<div class="col-10">
@@ -1025,7 +1025,7 @@ data-backdrop="static" data-keyboard="false">
 
         if (currentLength > maxLength) {
             // 입력 길이가 제한을 초과한 경우, 알림창 표시
-            alert("최대 한글 10글자까지 입력 가능합니다.");
+            alert("최대 한글 20글자까지 입력 가능합니다.");
 
             // 초과된 부분을 자르고 입력값 설정
             var trimmedValue = $(this).val().substring(0, maxLength);
