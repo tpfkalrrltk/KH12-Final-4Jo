@@ -19,7 +19,7 @@ public interface ChannelService {
 	void exitUser(WebSocketSession session, Integer chatRoomNo);
 	void sendMessage(Integer chatRoomNo, TextMessage message,  Map<String, Object> params) throws IOException;
 	//해당 채팅방의 대화이력을 전송
-	void sendMessageList(Integer chatRoomNo, TextMessage message) throws JsonProcessingException, IOException;
+	void sendMessageList(ClientVO client, Integer chatRoomNo, TextMessage message) throws JsonProcessingException, IOException;
 	//채팅방의 회원목록을 전송
 	void sendUserList(TextMessage message,  Integer chatRoomNo) throws JsonProcessingException, IOException;
 }
