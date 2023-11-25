@@ -22,8 +22,11 @@ public class ChatDaoImpl implements ChatDao{
 	}
 	
 	@Override
-	public List<ChatDto> list(int chatRoomNo) {
-		return sqlSession.selectList("chat.list", chatRoomNo);
+	public List<ChatDto> list(int chatRoomNo, String memberEmail) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberEmail", memberEmail);
+		params.put("chatRoomNo", chatRoomNo);
+		return sqlSession.selectList("chat.list", params);
 	}
 	
 	@Override

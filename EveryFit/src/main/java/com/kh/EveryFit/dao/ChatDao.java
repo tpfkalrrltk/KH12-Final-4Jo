@@ -9,7 +9,7 @@ public interface ChatDao {
 	//채팅메시지 저장
 	void insert(ChatDto dto);
 	//채팅 목록
-	List<ChatDto> list(int chatRoomNo);
+	List<ChatDto> list(int chatRoomNo, String memberEmail);
 	//방번호시퀀스
 	int sequence();
 	//채팅방만들기
