@@ -73,9 +73,16 @@ p {
 		
 		<div class="row mt-4">
 			<div class="col">
-				<button type="button" class="btn btn-primary btn-lg w-100" id="enter-btn" disabled>
-					리그참여
-				</button>
+				<c:choose>
+					<c:when test="${leagueDto.leagueStatus=='접수중'}">
+						<button type="button" class="btn btn-primary btn-lg w-100" id="enter-btn" disabled>
+							리그참여
+						</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" class="btn btn-primary btn-lg w-100" disabled>접수기간이 아닙니다</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div></div>
@@ -84,6 +91,11 @@ p {
 <script>
 $(document).ready(function(){
 	$("#enter-btn").click(function(){
+	var memberEmail = "${sessionScope.name}";
+	if(memberEmail==""){
+	alert("로그인후 이용 가능합니다.");
+		return;
+	}
 
 		var stringApplicaionStart = "${applicationDto.leagueApplicationStart}";
 		var stringApplicaionEnd = "${applicationDto.leagueApplicationEnd}";
@@ -125,7 +137,7 @@ $(document).ready(function(){
                     modalContent += '<h4 class="card-title">모임 이름 : ' + moimList[i].moimTitle +'</h4>';
                     if(moimList[i].moimMemberLevel=='모임장'){
                     modalContent += '<a href="leagueTeamInsert?leagueNo=' + ${leagueDto.leagueNo} + '&moimNo=' + moimList[i].moimNo + 
-                    				'" class="btn btn-primary">신청</a>';
+                    				'" class="btn btn-primary insert-btn" data-moim-no='+ moimList[i].moimNo + '>신청</a>';
                     }
                     else{
                     	modalContent += '<button class="btn btn-primary" disabled>모임장만 신청 가능합니다</button>';	

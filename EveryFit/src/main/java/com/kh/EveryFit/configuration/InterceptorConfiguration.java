@@ -34,8 +34,8 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/member/**",
 			"/pay/**",
 			"/report/**",
-			"/moim/**",
-			"/league/**"
+			"/moim/**"
+			//"/league/**" //체크하고 추가할게요
 	)
 	.excludePathPatterns(
 			"/freeBoard/list",
@@ -61,7 +61,7 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/pay/**",
 			"/report/**",	
 			"/moim/**",
-			"/league/**",
+			//"/league/**",
 			"/faq/**"
 			)
 	.excludePathPatterns(

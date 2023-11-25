@@ -202,6 +202,11 @@
     <delete id="deleteLeagueTeam">
         DELETE FROM league_team WHERE league_team_no = #{leagueTeamNo}
     </delete>
+    
+    <!-- 리그접수가능한지 체크 -->
+    <select id="isTeamRegistered" resultType="LeagueTeamDto">
+    	select * from league_team where league_no = #{leagueNo} and moim_no = #{moimNo}
+    </select>
 	
 	<!-- 리그접수 관련 -->
 	<!-- 리그접수 시퀀스 -->

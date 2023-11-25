@@ -181,6 +181,7 @@ public class LeagueController {
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
 		model.addAttribute("memberList", moimDao.selectAllMoimMembers(moimNo));
 		model.addAttribute("leagueDto", leagueDto);
+		model.addAttribute("moimNo", moimNo);
 		return "league/leagueTeamInsert";
 	}
 	
@@ -204,7 +205,7 @@ public class LeagueController {
 						.memberEmail(email)
 						.build());
 		}
-		return "redirect:leagueTeamDetail?leagueTeamNo="+leagueTeamNo;
+		return "redirect:leagueGuide?leagueNo="+leagueNo;
 	}
 	
 	@RequestMapping("/leagueTeamDetail")

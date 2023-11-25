@@ -260,4 +260,10 @@ public class LeagueDaoImpl implements LeagueDao{
 	public LeagueMatchListVO selectOneLeagueMatchListVO(int leaugeMatchNo) {
 		return sqlSession.selectOne("league.findLeagueMatchListVO", leaugeMatchNo);
 	}
+	
+	@Override
+	public List<LeagueTeamDto> isTeamRegistered(int leagueNo, int moimNo) {
+		Map<String, Object> param = Map.of("leagueNo", leagueNo, "moimNo", moimNo);
+		return sqlSession.selectList("league.isTeamRegistered", param);
+	}
 }

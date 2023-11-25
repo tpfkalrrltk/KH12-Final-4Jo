@@ -109,4 +109,10 @@ public class LeagueRestController {
 	public LeagueMatchListVO findLeagueMatchVO(@RequestParam int leagueMatchNo){
 		return leagueDao.selectOneLeagueMatchListVO(leagueMatchNo);
 	}
+	
+	@PostMapping("/isTeamRegistered")
+	public String isTeamRegistered(@RequestParam int leagueNo, @RequestParam int moimNo) {
+		List<LeagueTeamDto> findDto = leagueDao.isTeamRegistered(leagueNo, moimNo);
+		return findDto.size()==0 ? "legal" : "illegal"; 
+	}
 }
