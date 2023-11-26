@@ -90,9 +90,7 @@ public class LeagueRestController {
 		}
 		LeagueMatchMaker.addTeamList(leagueTeamNoList);
 		List<List<Integer>> matchList = LeagueMatchMaker.makeMatch(leagueTeamNoList, isDouble);
-		log.debug("matchList={}", matchList);
 		Collections.shuffle(matchList);
-		log.debug("matchList={}", matchList);
 		for(List<Integer> match : matchList) {
 			int leagueMatchNo = leagueDao.leagueMatchSequence();
 			leagueDao.insertLeagueMatch(LeagueMatchDto.builder()
@@ -108,5 +106,11 @@ public class LeagueRestController {
 	@PostMapping("/findLeagueMatchVO")
 	public LeagueMatchListVO findLeagueMatchVO(@RequestParam int leagueMatchNo){
 		return leagueDao.selectOneLeagueMatchListVO(leagueMatchNo);
+	}
+	
+	@PostMapping("/isTeamRegistered")
+	public String isTeamRegistered(@RequestParam int leagueNo, @RequestParam int moimNo) {
+		List<LeagueTeamDto> findDto = leagueDao.isTeamRegistered(leagueNo, moimNo);
+		return findDto.size()==0 ? "legal" : "illegal"; 
 	}
 }

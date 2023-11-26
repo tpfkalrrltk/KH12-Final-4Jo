@@ -202,6 +202,11 @@
     <delete id="deleteLeagueTeam">
         DELETE FROM league_team WHERE league_team_no = #{leagueTeamNo}
     </delete>
+    
+    <!-- 리그접수가능한지 체크 -->
+    <select id="isTeamRegistered" resultType="LeagueTeamDto">
+    	select * from league_team where league_no = #{leagueNo} and moim_no = #{moimNo}
+    </select>
 	
 	<!-- 리그접수 관련 -->
 	<!-- 리그접수 시퀀스 -->
@@ -275,7 +280,13 @@
     
     <!-- 리그경기리스트vo 조회 -->
     <select id="listLeagueMatchListVO" resultType="LeagueMatchListVO">
-		SELECT * FROM league_match_list_view WHERE league_no = #{leagueNo}
+		SELECT * FROM league_match_list_view
+		<where>
+			league_no = #{leagueNo}
+			<if test="leaugeTeamNo != 0 and leagueTeamNo != null">
+				and	(league_match_home = #{leagueTeamNo} or league_match_away = #{leagueTeamNo})
+			</if>
+		</where>
 		ORDER BY league_match_date asc, league_match_no asc
     </select>
     
@@ -362,6 +373,10 @@
     
     <insert id="insertLeagueImage">
     	insert into league_image(league_no, attach_no) values(#{leagueNo}, #{attachNo})
+    </insert>
+    
+    <insert id="insertLeagueTeamImage">
+    	insert into league_team_image(league_team_no, attach_no) values(#{leagueTeamNo}, #{attachNo})
     </insert>
     
 </mapper>    

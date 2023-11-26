@@ -22,7 +22,9 @@ a{
 			<hr>
 			<div class="text-end">
 				<a href="/" class="btn btn-outline-success bg-light">홈으로</a>
-				<a href="leagueInsert" class="btn btn-info">리그등록</a>
+				<c:if test="${sessionScope.level=='관리자'}">
+					<a href="leagueInsert" class="btn btn-info">리그등록</a>
+				</c:if>
 			</div>
 		</div>
 		
@@ -70,7 +72,9 @@ a{
 							<th width="10%">상태</th>
 							<th width="15%">지역</th>
 							<th width="15%">참가요강</th>
-							<th width="10%" class="text-info">접수</th>
+							<c:if test="${sessionScope.level=='관리자'}">
+								<th width="10%" class="text-info">접수</th>
+							</c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -84,11 +88,13 @@ a{
 								<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="alert-link">
 									<i class="fa-solid fa-arrow-up-right-from-square"></i>
 									참가요강</a></td>
-								<td>
-									<div class="edit-application text-info cursor fw-bold" data-league-no="${leagueDto.leagueNo}">
-										<i class="fa-regular fa-pen-to-square"></i>관리
-									</div>
-								</td>
+								<c:if test="${sessionScope.level=='관리자'}">
+									<td>
+										<div class="edit-application text-info cursor fw-bold" data-league-no="${leagueDto.leagueNo}">
+											<i class="fa-regular fa-pen-to-square"></i>관리
+										</div>
+									</td>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -214,6 +220,8 @@ $(function(){
 			return;
 		}
 		
+		Modal.hide();
+		
 		$("#appInsert input[name='leagueApplicationStart']").val(convertToLocal(applicationStart));
 		$("#appInsert input[name='leagueApplicationEnd']").val(convertToLocal(applicationEnd));
 		
@@ -227,11 +235,10 @@ $(function(){
 			data:formData,
 			success:function(data){
 				alert("완료되었습니다");
-				Modal.hide();
+				
 			},
 			error:function(){
 				alert("오류발생")
-				Modal.hide();
 			}
 		});
 	});
