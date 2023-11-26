@@ -58,7 +58,25 @@
 		</set>
 		where moim_no=#{moimNo}
 	</update>
+	
+	<!-- 모임 상태 변경 -->
+	<update id="updateMoimState">
+	    update moim
+	    <set>
+	        <if test="isOver">
+	            moim_state = '마감',
+	        </if>
+	        <if test="isZero">
+	            moim_state = '비활성화',
+	        </if>
+	        <if test="!isOver and !isZero">
+	            moim_state = '모집중',
+	        </if>
+	    </set>       
+	    where moim_no = #{moimNo}
+	</update>
 
+	
 	<select id="moimList" resultType="MoimDto">
 		select * from moim order by moim_no asc 
 		<!-- 나중에 복합검색 구현하기 -->
@@ -186,7 +204,7 @@
 		select moim_no from moim_member 
 		where member_email = #{memberEmail} 
 	</select>
-
+	
 	<!-- 정모CRUD -->
 	
 	<select id="jungmoSequence" resultType="int">
@@ -297,7 +315,8 @@
 	<select id="jungmoListAll" resultMap="jungmoWithMembersVO">
 		select * from jungmo_list 
 		where moim_no = #{moimNo} 
-		and jungmo_schedule >= current_timestamp
+		and jungmo_schedule >= current_timestamp 
+		order by jungmo_schedule desc
 	</select>
 	
 <!-- 	<select id="jungmoListAllForMoimjang" resultMap="jungmoWithMembersVO"> -->
@@ -364,8 +383,25 @@
 	<update id="updateJungmoMemberCancelCount">
 		update moim_member set moim_member_cancel_count = moimo_member_cancel_count + 1 
 		where member_email = #{memberEmail} and moim_no = #{moimNo}
-	</update>	
-		
+	</update>
+	
+	<!-- 정모 상태 변경 -->	
+	<update id="updateJungmoStatus">
+		update jungmo 
+		<set> 
+		<if test="isOver == true">
+		jungmo_status = '인원마감' 
+		</if>
+		<if test="isOver == false">
+		jungmo_status = '모집중' 
+		</if>
+		<if test="isCancel == true">
+		jungmo_status = '취소'
+		</if>
+		</set>
+		where jungmo_no = #{jungmoNo}
+	</update>
+			
 	<!-- 프로필사진 등록 -->
 	<insert id="insertMoimProfile">
 		insert into moim_image

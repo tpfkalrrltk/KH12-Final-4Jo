@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.vo.JungmoMemberListVO;
+import com.kh.EveryFit.vo.JungmoStatusVO;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
 
 public interface JungmoDao {
@@ -27,4 +28,5 @@ public interface JungmoDao {
 
 	String selectMemberEmail(String memberEmail, int jungmoNo);
 	
+	boolean updateJungmoStatus(JungmoStatusVO vo);
 }

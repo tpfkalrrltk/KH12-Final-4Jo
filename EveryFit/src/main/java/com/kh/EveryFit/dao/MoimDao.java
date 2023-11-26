@@ -5,7 +5,7 @@ import java.util.List;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
-import com.kh.EveryFit.dto.PeriodPaymentDto;
+import com.kh.EveryFit.dto.MoimStateDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
@@ -56,6 +56,10 @@ public interface MoimDao {
 	Integer findMyMoim (String memberEmail);
 	//모임 가입 여부 확인하기
 	List<Integer> findMoimNoByMemberEmail(String memberEmail);
+	//모임의 회원 수 카운트
+	Integer findMoimMemberCount(int moimNo);
+	//모임 상태 변경
+	boolean updateMoimState(MoimStateDto moimStateDto);
 	
 
 	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회
@@ -80,5 +84,6 @@ public interface MoimDao {
 	boolean upgradeToNotPrimium(MoimDto moimDto);
 	//프리미엄 모임 정기결제 후 자동으로 end date 업데이트
 	boolean updateToEndDate(int moimNo);
+	
 	
 }

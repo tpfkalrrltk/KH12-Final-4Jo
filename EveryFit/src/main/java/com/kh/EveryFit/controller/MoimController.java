@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,9 +33,11 @@ import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.LocationDto;
-import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
+import com.kh.EveryFit.dto.MoimStateDto;
+import com.kh.EveryFit.vo.JungmoMemberListVO;
+import com.kh.EveryFit.vo.JungmoStatusVO;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
@@ -147,6 +148,10 @@ public class MoimController {
 		//모임이미지
 		Integer profile = moimDao.findMoimProfile(moimNo);
 		model.addAttribute("profile", profile);
+		//모임회원수
+		Integer memberCount = moimDao.findMoimMemberCount(moimNo);
+		model.addAttribute("memberCount", memberCount);
+		
 		
 //		//정모 목록
 //		model.addAttribute("jungmoList", jungmoDao.selectList(moimNo));		
@@ -212,11 +217,10 @@ public class MoimController {
 		return "redirect:detail?moimNo="+moimNo;
 		
 	}
-	
 
 	
 	@RequestMapping("/member/exit")
-	public String jungmoExit(@RequestParam int moimNo,
+	public String memberExit(@RequestParam int moimNo,
 			HttpSession session) {
 		String memberEmail = (String)session.getAttribute("name");
 		
@@ -225,6 +229,25 @@ public class MoimController {
 		moimMemberDto.setMemberEmail(memberEmail);
 		
 		moimDao.deleteMoimMember(moimMemberDto);
+		//채팅방에서도 내쫓기
+		MoimDto moimDto = moimDao.selectOne(moimNo);
+		chatDao.deleteChatMember(moimDto.getChatRoomNo(), memberEmail);
+    	
+		//회원수 카운트세서 상태변경
+		MoimStateDto moimStateDto = new MoimStateDto();
+		int count = moimDao.findMoimMemberCount(moimNo);
+	    if(moimDto.getMoimMemberCount() == count) {
+		    moimStateDto.setOver(true);
+	    }
+	    else if(count == 0) {
+	    	moimStateDto.setZero(true);
+	    }
+	    else {
+	    	moimStateDto.setOver(false);
+	    }
+	    moimStateDto.setMoimNo(moimNo);
+	    moimDao.updateMoimState(moimStateDto);	    	
+	    
 		return "redirect:/";
 	}
 	
@@ -235,64 +258,64 @@ public class MoimController {
 		return "redirect:detail?moimNo="+moimNo;
 	}
 	
-	@RequestMapping(value = "/jungmo/create", method = RequestMethod.POST)
-	public String jungmoCreate(
-			@ModelAttribute JungmoDto jungmoDto, 
-			@RequestParam MultipartFile attach,
-			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr,
-			HttpSession session) throws IllegalStateException, IOException {
-
-		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
-		
-		int jungmoNo = jungmoDao.sequence();
-		jungmoDto.setJungmoNo(jungmoNo);
-		
-		try {
-	        // 문자열을 LocalDateTime으로 파싱
-	        LocalDateTime localDateTime = LocalDateTime.parse(jungmoScheduleStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
-
-	        // LocalDateTime을 java.sql.Timestamp으로 변환
-	        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(localDateTime);
-
-	        jungmoDto.setJungmoSchedule(timestamp);
-	    } catch (DateTimeParseException e) {
-	        // 예외 처리 로직 추가
-	    }
-		
-		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
-		int chatRoomNo = chatDao.sequence();
-		log.debug("chatRoomNo");
-		
-		String memberEmail = (String)session.getAttribute("name");
-		chatDao.insertChatRoom(chatRoomNo);
-		jungmoDto.setChatRoomNo(chatRoomNo);
-		jungmoDao.insert(jungmoDto);
-
-		//채팅참가자 추가
-		chatDao.addChatMember(chatRoomNo, memberEmail);
-				
-		//첨부파일등록(파일있을때)
-		if(!attach.isEmpty()) {
-			//첨부파일등록(파일이 있을때만)
-			int attachNo = attachDao.sequence();
-
-			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
-			attach.transferTo(target);
-			
-
-			AttachDto attachDto = new AttachDto();
-			attachDto.setAttachNo(attachNo);
-			attachDto.setAttachName(attach.getOriginalFilename());
-			attachDto.setAttachSize(attach.getSize());
-			attachDto.setAttachType(attach.getContentType());
-			attachDao.insert(attachDto);
-
-			//연결(파일이 있을때만)
-			moimDao.insertJungmoProfile(jungmoNo, attachNo);
-		}
-		
-		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
-	}
+//	@RequestMapping(value = "/jungmo/create", method = RequestMethod.POST)
+//	public String jungmoCreate(
+//			@ModelAttribute JungmoDto jungmoDto, 
+//			@RequestParam MultipartFile attach,
+//			@RequestParam("jungmoDto.jungmoScheduleStr") String jungmoScheduleStr,
+//			HttpSession session) throws IllegalStateException, IOException {
+//
+//		String subStrJungmoSchedule = jungmoScheduleStr.substring(0, 10);
+//		
+//		int jungmoNo = jungmoDao.sequence();
+//		jungmoDto.setJungmoNo(jungmoNo);
+//		
+//		try {
+//	        // 문자열을 LocalDateTime으로 파싱
+//	        LocalDateTime localDateTime = LocalDateTime.parse(jungmoScheduleStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+//
+//	        // LocalDateTime을 java.sql.Timestamp으로 변환
+//	        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(localDateTime);
+//
+//	        jungmoDto.setJungmoSchedule(timestamp);
+//	    } catch (DateTimeParseException e) {
+//	        // 예외 처리 로직 추가
+//	    }
+//		
+//		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
+//		int chatRoomNo = chatDao.sequence();
+//		log.debug("chatRoomNo");
+//		
+//		String memberEmail = (String)session.getAttribute("name");
+//		chatDao.insertChatRoom(chatRoomNo);
+//		jungmoDto.setChatRoomNo(chatRoomNo);
+//		jungmoDao.insert(jungmoDto);
+//
+//		//채팅참가자 추가(추가할필요가없음)
+////		chatDao.addChatMember(chatRoomNo, memberEmail);
+//				
+//		//첨부파일등록(파일있을때)
+//		if(!attach.isEmpty()) {
+//			//첨부파일등록(파일이 있을때만)
+//			int attachNo = attachDao.sequence();
+//
+//			File target = new File(dir, String.valueOf(attachNo)); //저장할 파일
+//			attach.transferTo(target);
+//			
+//
+//			AttachDto attachDto = new AttachDto();
+//			attachDto.setAttachNo(attachNo);
+//			attachDto.setAttachName(attach.getOriginalFilename());
+//			attachDto.setAttachSize(attach.getSize());
+//			attachDto.setAttachType(attach.getContentType());
+//			attachDao.insert(attachDto);
+//
+//			//연결(파일이 있을때만)
+//			moimDao.insertJungmoProfile(jungmoNo, attachNo);
+//		}
+//		
+//		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
+//	}
 	
 	//정모 참가
 	@RequestMapping("/jungmo/join")
@@ -302,23 +325,36 @@ public class MoimController {
 		//[1] 이미 참가한 회원인지 검색
 		//[2] 정원이 가득 찼는지 검색
 		//정모 조회
+		int count = 0;
 		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
 		//해당정모의 정모멤버 카운트와 정모Dto의 정원 수 비교
-		int count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
+		count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
 		//만약 등록된 회원 수가 정원보다 같거나 많으면
-		if(count >= jungmoDto.getJungmoCapacity()) {
-			redirectAttributes.addAttribute("errorFlag", true);
+		if(count == jungmoDto.getJungmoCapacity()) {
+			redirectAttributes.addAttribute("errorFlag", true);			
 	        return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 		}
 		
 		String memberCheck = jungmoDao.selectMemberEmail(memberEmail, jungmoNo);
 		if(memberCheck == null) {
 			jungmoDao.memberJoin(memberEmail, jungmoNo);			
+			count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
+			//인원마감으로 상태변경!
+			if(count == jungmoDto.getJungmoCapacity()) {
+			JungmoStatusVO vo = new JungmoStatusVO();	
+			vo.setOver(true);
+			vo.setJungmoNo(jungmoNo);
+			jungmoDao.updateJungmoStatus(vo);
+			
+			//채팅방에 강제참여
+			chatDao.addChatMember(jungmoDto.getChatRoomNo(), memberEmail);
+			}
 		}
 		else {
-			redirectAttributes.addAttribute("errorFlag", true);
+			redirectAttributes.addAttribute("errorFlag2", true);
 	        return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 		}
+		
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
@@ -327,8 +363,9 @@ public class MoimController {
 	public String jungmoDelete(@RequestParam String memberEmail,
 			@RequestParam int jungmoNo) {
 		jungmoDao.deleteJungmoMember(memberEmail, jungmoNo);
+		//채팅방에서 내쫓기
 		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
-		
+		chatDao.deleteChatMember(jungmoDto.getChatRoomNo(), memberEmail);
         // 현재 날짜를 가져오기
         LocalDate currentDate = LocalDate.now();
 
@@ -342,8 +379,25 @@ public class MoimController {
 			vo.setMemberCancel("memberCancel");
 			vo.setMemberEmail(memberEmail);
 			vo.setMoimNo(jungmoDto.getMoimNo());
-			moimDao.updateMoimMember(vo);			
+			moimDao.updateMoimMember(vo);	
 		}
+		
+		JungmoStatusVO vo = new JungmoStatusVO();
+		//정모회원수를센다
+		int count = jungmoDao.selectOneJungmoMemberCount(jungmoNo);
+		//회원수가 인원마감수보다 적으면 상태변경
+		if(count < jungmoDto.getJungmoCapacity()) {
+			vo.setOver(false);
+			vo.setJungmoNo(jungmoNo);
+			jungmoDao.updateJungmoStatus(vo);
+		}
+		else {
+			vo.setOver(true);
+			vo.setJungmoNo(jungmoNo);
+			jungmoDao.updateJungmoStatus(vo);
+			
+		}
+		
 		
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
@@ -360,6 +414,14 @@ public class MoimController {
 	public String jungmoCancel(@RequestParam int jungmoNo) {
 		jungmoDao.cancel(jungmoNo);
 		JungmoDto jungmoDto = jungmoDao.selectOneByJungmoNo(jungmoNo);
+		
+		//채팅참여자들 다 내쫓기
+		List<JungmoMemberListVO> list = jungmoDao.selectListByJungmoNo(jungmoNo);
+		for (JungmoMemberListVO member : list) {
+		    String memberEmail = member.getMemberEmail(); 
+		    chatDao.deleteChatMember(jungmoDto.getChatRoomNo(), memberEmail);
+		}
+		
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	

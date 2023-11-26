@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +32,7 @@ import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
+import com.kh.EveryFit.dto.MoimStateDto;
 import com.kh.EveryFit.vo.JungmoDetailVO;
 import com.kh.EveryFit.vo.MemberLikeVO;
 import com.kh.EveryFit.vo.moimListForMyPageVO;
@@ -53,21 +51,6 @@ public class MoimRestController {
 	@Autowired private AttachDao attachDao;
 	@Autowired private MemberDao memberDao;
 	
-	//모임프로필사진 등록/삭제
-	//정모프로필사진 등록/삭제
-	//모임수정
-	
-	//정모 목록
-//	@PostMapping("/list")
-//	public List<JungmoListByMoimNoVO> list(@RequestParam int moimNo) {
-//		return jungmoDao.selectList(moimNo);
-//	}
-	//정모회원리스트
-//	@PostMapping("/memberList")
-//	public List<JungmoMemberListVO> memberList(@RequestParam int jungmoNo) {
-//		return jungmoDao.selectListByJungmoNo(jungmoNo);
-//	}
-
 	
 	@Autowired
 	private FileUploadProperties props;
@@ -167,13 +150,13 @@ public class MoimRestController {
 		int chatRoomNo = chatDao.sequence();
 		log.debug("chatRoomNo");
 		
-		String memberEmail = (String)session.getAttribute("name");
+//		String memberEmail = (String)session.getAttribute("name");
 		chatDao.insertChatRoom(chatRoomNo);
 		jungmoDto.setChatRoomNo(chatRoomNo);
 		jungmoDao.insert(jungmoDto);
 
-		//채팅참가자 추가
-		chatDao.addChatMember(chatRoomNo, memberEmail);
+		//채팅참가자 추가(추가할필요없음)
+//		chatDao.addChatMember(chatRoomNo, memberEmail);
 				
 		//첨부파일등록(파일있을때)
 		if(!attach.isEmpty()) {
@@ -308,6 +291,7 @@ public class MoimRestController {
 //        }
 //	}
 	
+	//멤버의 모임 가입
 	@PostMapping("/member/join")
 	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
 	    String memberEmail = (String) session.getAttribute("name");
@@ -343,40 +327,59 @@ public class MoimRestController {
 	    
 	    List<Integer> list = moimDao.findMoimNoByMemberEmail(memberEmail);
 //	    List<Integer> list = new ArrayList<>(moimDao.findMoimNoByMemberEmail(memberEmail));
-	    log.debug("list={}", list);
-
-	    if (myMoim != null) {
+	    
+	    if ( list != null && myMoim != null && list.contains(moimNo)) {
 	    	
-	        if (list != null && list.contains(moimNo)) {
+//	        if (list != null && list.contains(moimNo)) {
 	        	//이미 가입 되었음
 	        	return "joined";
-	        }	
+//	        }	
 	        
-	        if (Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { // 여성전용모임
-                
-            	if (memberDto.getMemberGender().equals("F")) { // 여성회원인지 검사
-                    moimMemberDto.setMemberEmail(memberEmail);
-                    moimMemberDto.setMoimNo(moimNo);
-                    moimMemberDto.setMoimMemberStatus("미승인");
-                    moimDao.addMoimMember(moimMemberDto);
-                    log.debug("여기까지오는지");
-                    log.debug("moimMemberDto={}", moimMemberDto);
-                    return "join";
-                } 
-                // 여성회원만 가입 가능하다는 응답
-                return "genderCheck";                    
-            } 
+	    }
+	    int count = 0;
+	    MoimStateDto moimStateDto = new MoimStateDto();
+        if (Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { // 여성전용모임
+            
+        	if (memberDto.getMemberGender().equals("F")) { // 여성회원인지 검사
                 moimMemberDto.setMemberEmail(memberEmail);
                 moimMemberDto.setMoimNo(moimNo);
-                moimMemberDto.setMoimMemberStatus("승인");
+                moimMemberDto.setMoimMemberStatus("미승인");
                 moimDao.addMoimMember(moimMemberDto);
+                //채팅방에 강제참여
+                chatDao.addChatMember(moimDto.getChatRoomNo(), memberEmail);
+                //모임회원수체크
+                count = moimDao.findMoimMemberCount(moimNo);
+        	    if(moimDto.getMoimMemberCount() == count) {
+        		    moimStateDto.setOver(true);
+        		    moimStateDto.setMoimNo(moimNo);
+        	    	moimDao.updateMoimState(moimStateDto);
+        		}
                 return "join";
+            } 
+            // 여성회원만 가입 가능하다는 응답
+            return "genderCheck";                    
+        } 
+//                moimMemberDto.setMemberEmail(memberEmail);
+//                moimMemberDto.setMoimNo(moimNo);
+//                moimMemberDto.setMoimMemberStatus("승인");
+//                moimDao.addMoimMember(moimMemberDto);
+//                //채팅방에 강제 참여
+//                chatDao.addChatMember(moimDto.getChatRoomNo(), memberEmail);
+//                return "join";
 
-	    }
+	    
 	    //myMoim이 null일경우
 	    moimMemberDto.setMemberEmail(memberEmail);
 	    moimMemberDto.setMoimNo(moimNo);
 	    moimDao.addMoimMember(moimMemberDto);
+	    //채팅방에 강제 참여
+	    chatDao.addChatMember(moimDto.getChatRoomNo(), memberEmail);
+	    count = moimDao.findMoimMemberCount(moimNo);
+	    if(moimDto.getMoimMemberCount() == count) {
+		    moimStateDto.setOver(true);
+		    moimStateDto.setMoimNo(moimNo);
+	    	moimDao.updateMoimState(moimStateDto);
+	    }
 	    return "join";
 	}
 
