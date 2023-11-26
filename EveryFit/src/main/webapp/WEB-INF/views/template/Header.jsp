@@ -5,9 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script>
-	window.contextPath = "${pageContext.request.contextPath}";
-</script>
 
 <!DOCTYPE html>
 <html>
@@ -16,6 +13,9 @@
 <title>Every Fit</title>
 
 
+<script>
+	window.contextPath = "${pageContext.request.contextPath}";
+</script>
 
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

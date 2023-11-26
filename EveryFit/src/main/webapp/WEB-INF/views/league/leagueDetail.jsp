@@ -20,16 +20,16 @@ a{
 					<a class="btn btn-lg btn-dark w-100 disabled">순위</a>
 				</div>
 				<div class="col">
-					<a href="leagueMatch?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">경기</a>
+					<a href="${pageContext.request.contextPath}/league/leagueMatch?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">경기</a>
 				</div>
 			</div>
 			<div class="row mt-4"><div class="col">
 	        	<div class="text-end">
-	        		<a href="/default/${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">리그채팅</a> 
+	        		<a href="${pageContext.request.contextPath}/default/${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">리그채팅</a> 
 	        		<c:if test="${sessionScope.level=='관리자'}">
 				        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
 	        		</c:if>
-	        		<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+	        		<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 	        	</div>
         	</div></div>
       	</div>
@@ -56,9 +56,9 @@ a{
 	              <tr style="height: 30px;">
 	                <td>${vo.leagueTeamRank}</td>
 	                <td>
-	                	<a href="leagueTeamDetail?leagueTeamNo=${vo.leagueTeamNo}">
+	                	<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${vo.leagueTeamNo}">
 		                	<span class="text-dark alert-link">${vo.leagueTeamName}</span>
-		               		<img style="height: 35px; width: 35px;" class="rounded" src="/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}">
+		               		<img style="height: 35px; width: 35px;" class="rounded" src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}">
 	               		</a> 
 	                </td>
 	                <td>${vo.leagueTeamMatchCount}</td>
@@ -113,7 +113,7 @@ a{
 	function loadLeagueTeamList(leagueNo, successCallback, errorCallback){
 	  $.ajax({
 	    type: "POST",
-	    url: "http://localhost:8080/rest/league/loadLeagueTeamList",
+	    url: window.contextPath + "/rest/league/loadLeagueTeamList",
 	    data: { leagueNo: leagueNo},
 	    success: function(response) {
 	      if (typeof successCallback === 'function') {
@@ -146,7 +146,7 @@ a{
 	            row.append('<td>' + leagueTeamDto.leagueTeamName + '</td>');
 	            var moimNoCell = $('<td>');
 	            var moimNoLink = $('<a>')
-	                .attr('href', '/moim/detail?moimNo=' + leagueTeamDto.moimNo)
+	                .attr('href', '${pageContext.request.contextPath}/moim/detail?moimNo=' + leagueTeamDto.moimNo)
 	                .text(leagueTeamDto.moimNo)
 	                .addClass("alert-link text-warning");
 	            moimNoCell.append(moimNoLink);
@@ -179,7 +179,7 @@ a{
 	   
 	  $.ajax({
 	    type: "POST",
-	    url: "http://localhost:8080/rest/league/updateLeagueTeamStatus",
+	    url: window.contextPath + "/rest/league/updateLeagueTeamStatus",
 	    data: { leagueTeamNo: leagueTeamNo },
 	    success: function(response) {
 	      alert("완료되었습니다.");

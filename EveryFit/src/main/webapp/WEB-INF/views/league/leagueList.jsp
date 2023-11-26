@@ -16,16 +16,16 @@ a{
 	<div class="row"><div class="col-md-8 offset-md-2">
 		<div class="p-5 bg-primary text-light rounded">
 			<h1>
-				<a href="leagueList" class="text-light">
+				<a href="${pageContext.request.contextPath}/league/leagueList" class="text-light">
 					리그 목록 
 					<i class="fa-solid fa-trophy"></i>
 				</a>
 			</h1>
 			<hr>
 			<div class="text-end">
-				<a href="/" class="btn btn-outline-success bg-light">홈으로</a>
+				<a href="${pageContext.request.contextPath}/" class="btn btn-outline-success bg-light">홈으로</a>
 				<c:if test="${sessionScope.level=='관리자'}">
-					<a href="leagueInsert" class="btn btn-info">리그등록</a>
+					<a href="${pageContext.request.contextPath}/league/leagueInsert" class="btn btn-info">리그등록</a>
 				</c:if>
 			</div>
 		</div>
@@ -136,10 +136,10 @@ a{
 							<tr>
 								<td>${leagueDto.leagueNo}</td>
 								<td>${leagueDto.eventName}</td>
-								<td><a class="alert-link" href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
+								<td><a class="alert-link" href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
 								<td>${leagueDto.leagueStatus}</td>
 								<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
-								<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="alert-link">
+								<td><a href="${pageContext.request.contextPath}/league/leagueGuide?leagueNo=${leagueDto.leagueNo}" class="alert-link">
 									<i class="fa-solid fa-arrow-up-right-from-square"></i>
 									참가요강</a></td>
 								<c:if test="${sessionScope.level=='관리자'}">
@@ -161,7 +161,7 @@ a{
 	            <ul class="pagination justify-content-center">
 	                <c:if test="${!vo.isFirst()}">
 	                    <li class="page-item">
-	                        <a class="page-link" href="leagueList?page=${vo.page - 1}${vo.generateQueryString()}" aria-label="Previous">
+	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.page - 1}${vo.generateQueryString()}" aria-label="Previous">
 	                            <span aria-hidden="true">&laquo;</span>
 	                        </a>
 	                    </li>
@@ -171,12 +171,12 @@ a{
 	                	<c:choose>
 	                		<c:when test="${vo.page==i}">
 	                			<li class="page-item">
-			                        <a class="page-link active" href="leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
+			                        <a class="page-link active" href="${pageContext.request.contextPath}/league/leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
 			                    </li>
 	                		</c:when>
 	                		<c:otherwise>
 			                    <li class="page-item">
-			                        <a class="page-link" href="leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
+			                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
 			                    </li>
 	                		</c:otherwise>
 	                	</c:choose>
@@ -184,7 +184,7 @@ a{
 	
 	                <c:if test="${!vo.isLast()}">
 	                    <li class="page-item">
-	                        <a class="page-link" href="leagueList?page=${vo.page + 1}${vo.generateQueryString()}" aria-label="Next">
+	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.page + 1}${vo.generateQueryString()}" aria-label="Next">
 	                            <span aria-hidden="true">&raquo;</span>
 	                        </a>
 	                    </li>
@@ -242,7 +242,7 @@ $(function(){
 		var locationDepth1 = e.target.value;
 		if(locationDepth1=="") return;
 		$.ajax({
-			url:"http://localhost:8080/rest/location/depth2List",
+			url:window.contextPath + "/rest/location/depth2List",
 			type:"post",
 			data:{locationDepth1:locationDepth1},
 			success:function (data){
@@ -270,7 +270,7 @@ $(function(){
 	
 	function loadApplication(leagueNo){
 		$.ajax({
-			url:"http://localhost:8080/rest/league/findLeagueApplication",
+			url:window.contextPath + "/rest/league/findLeagueApplication",
 			type:"post",
 			data:{leagueNo:leagueNo},
 			success:function(data){
@@ -319,7 +319,7 @@ $(function(){
 		var formData = $("#appInsert").serialize();
 		
 		
-		var url = ($("#actionType").val() === "add") ? "http://localhost:8080/rest/league/addLeagueApplication" : "http://localhost:8080/rest/league/updateLeagueApplication";
+		var url = ($("#actionType").val() === "add") ? window.contextPath + "/rest/league/addLeagueApplication" : window.contextPath +  "/rest/league/updateLeagueApplication";
 		$.ajax({
 			url:url,
 			type:"post", 

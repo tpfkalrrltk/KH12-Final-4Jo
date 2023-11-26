@@ -17,17 +17,17 @@ p {
 			<hr>
 			<div class="row text-end">
 				<div class="col">
-					<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+					<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 					<c:if test="${sessionScope.level=='관리자'}">
-						<a class="btn btn-info" href="leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
-						<a class="btn btn-danger del-btn" href="leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
+						<a class="btn btn-info" href="${pageContext.request.contextPath}/league/leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
+						<a class="btn btn-danger del-btn" href="${pageContext.request.contextPath}/league/leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
 					</c:if>
 				</div>
 			</div>
 		</div>
 	
 		<div class="row mt-2 text-center"><div class="col">
-			<img class="img-fluid" src="/league/leagueImage?leagueNo=${leagueDto.leagueNo}"
+			<img class="img-fluid" src="${pageContext.request.contextPath}/league/leagueImage?leagueNo=${leagueDto.leagueNo}"
 				onerror="this.style.display='none'">
 		</div></div>
 		<div class="row mt-5"><div class="col">
@@ -112,7 +112,7 @@ $(document).ready(function(){
 			
 		var leagueNo = ${leagueDto.leagueNo};
 		$.ajax({
-			url:"http://localhost:8080/rest/league/checkMoim",
+			url:window.contextPath + "/rest/league/checkMoim",
 			method:"post",
 			data:{leagueNo:leagueNo},
 			success:function(response){
@@ -138,7 +138,7 @@ $(document).ready(function(){
                     modalContent += '<div class="card-body text-center">';
                     modalContent += '<h4 class="card-title">모임 이름 : ' + moimList[i].moimTitle +'</h4>';
                     if(moimList[i].moimMemberLevel=='모임장'){
-                    modalContent += '<a href="leagueTeamInsert?leagueNo=' + ${leagueDto.leagueNo} + '&moimNo=' + moimList[i].moimNo + 
+                    modalContent += '<a href="${pageContext.request.contextPath}/league/leagueTeamInsert?leagueNo=' + ${leagueDto.leagueNo} + '&moimNo=' + moimList[i].moimNo + 
                     				'" class="btn btn-primary insert-btn" data-moim-no='+ moimList[i].moimNo + '>신청</a>';
                     }
                     else{
