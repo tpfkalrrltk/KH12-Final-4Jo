@@ -18,6 +18,7 @@ public interface LeagueDao {
 	int leagueSequence();
 	List<LeagueListDto> selectLeagueList();
 	List<LeagueListDto> selectLeagueListSearch(LeagueListVO vo);
+	int countLeague(LeagueListVO vo);
 	void insertLeague(LeagueDto leagueDto);
 	void updateLeague(int leagueNo, LeagueDto leagueDto);
 	LeagueDto selectOneLeague(int leagueNo);

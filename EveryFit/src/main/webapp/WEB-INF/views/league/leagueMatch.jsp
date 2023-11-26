@@ -309,8 +309,6 @@ $(".closeModal").click(function(){
 $(".match-submit-btn").click(function(){
 	var homeTeam = $(".leagueMatchForm select[name='leagueMatchHome']").val();
 	var awayTeam = $(".leagueMatchForm select[name='leagueMatchAway']").val();
-	console.log('hometeam = '+ homeTeam);
-	console.log('awayteam = '+ awayTeam);
 	var formData = $(".leagueMatchForm").serialize();
 	$.ajax({
 		type:"post",

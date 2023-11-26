@@ -16,8 +16,10 @@ a{
 	<div class="row"><div class="col-md-8 offset-md-2">
 		<div class="p-5 bg-primary text-light rounded">
 			<h1>
-				리그 목록 
-				<i class="fa-solid fa-trophy"></i>
+				<a href="leagueList" class="text-light">
+					리그 목록 
+					<i class="fa-solid fa-trophy"></i>
+				</a>
 			</h1>
 			<hr>
 			<div class="text-end">
@@ -35,27 +37,79 @@ a{
 				<select class="form-select" name="eventName">
 					<option value="">종목</option>
 					<c:forEach var="eventDto" items="${eventList}">
-						<option value="${eventDto.eventName}">${eventDto.eventName}</option>
+						<c:choose>
+							<c:when test="${vo.eventName==eventDto.eventName}">
+								<option value="${eventDto.eventName}" selected>${eventDto.eventName}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${eventDto.eventName}">${eventDto.eventName}</option>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</select>
 				<select class="form-select" name="leagueStatus">
-					<option value="">리그상태</option>
-					<option value="접수중">접수중</option>
-					<option value="접수마감">접수마감</option>
-					<option value="대기상태">대기상태</option>
-					<option value="진행중">진행중</option>
-					<option value="종료됨">종료됨</option>
+		            <option value="">리그상태</option>
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '접수중'}">
+				            <option value="접수중" selected>접수중</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="접수중">접수중</option>
+				        </c:otherwise>
+				    </c:choose>
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '접수마감'}">
+				            <option value="접수마감" selected>접수마감</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="접수마감">접수마감</option>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '대기상태'}">
+				            <option value="대기상태" selected>대기상태</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="대기상태">대기상태</option>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '진행중'}">
+				            <option value="진행중" selected>진행중</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="진행중">진행중</option>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '종료됨'}">
+				            <option value="종료됨" selected>종료됨</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="종료됨">종료됨</option>
+				        </c:otherwise>
+				    </c:choose>
 				</select>
 				<select class="form-select" name="locationDepth1">
 					<option value="">시/도</option>
 					<c:forEach var="locationDto" items="${locationList}">
-						<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
+						<c:choose>
+							<c:when test="${vo.locationDepth1 eq locationDto.locationDepth1}">
+								<option value="${locationDto.locationDepth1}" selected>${locationDto.locationDepth1}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</select>
 				<select class="form-select" name="locationDepth2">
 					<option value="">시/군/구</option>
 				</select>
-				<input type="text" class="form-control" name="leagueTitle" placeholder="제목검색">
+				<input type="text" class="form-control" name="leagueTitle" placeholder="제목검색" value="${vo.leagueTitle}">
 				<button class="btn btn-primary">검색</button>
 			</div>
 		</div></div>
@@ -101,6 +155,43 @@ a{
 				</table>
 			</div>
 		</div>
+		
+		<div class="row mt-5"><div class="col">
+			<nav aria-label="Page navigation">
+	            <ul class="pagination justify-content-center">
+	                <c:if test="${!vo.isFirst()}">
+	                    <li class="page-item">
+	                        <a class="page-link" href="leagueList?page=${vo.page - 1}${vo.generateQueryString()}" aria-label="Previous">
+	                            <span aria-hidden="true">&laquo;</span>
+	                        </a>
+	                    </li>
+	                </c:if>
+	
+	                <c:forEach var="i" begin="${vo.begin}" end="${vo.end}">
+	                	<c:choose>
+	                		<c:when test="${vo.page==i}">
+	                			<li class="page-item">
+			                        <a class="page-link active" href="leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
+			                    </li>
+	                		</c:when>
+	                		<c:otherwise>
+			                    <li class="page-item">
+			                        <a class="page-link" href="leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
+			                    </li>
+	                		</c:otherwise>
+	                	</c:choose>
+	                </c:forEach>
+	
+	                <c:if test="${!vo.isLast()}">
+	                    <li class="page-item">
+	                        <a class="page-link" href="leagueList?page=${vo.page + 1}${vo.generateQueryString()}" aria-label="Next">
+	                            <span aria-hidden="true">&raquo;</span>
+	                        </a>
+	                    </li>
+	                </c:if>
+	            </ul>
+	        </nav>
+		</div></div>			
 		
 		<c:if test="${empty list}">
 			<div class="row text-warning"><div class="col">
