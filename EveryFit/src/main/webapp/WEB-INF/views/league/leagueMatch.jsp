@@ -53,7 +53,8 @@
 				<div class="row text-center">
 					<div class="col-2">
 						<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchHome}">
-							<img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchHome}" class="rounded w-100 m-2">
+							<img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchHome}" class="rounded w-100 m-2"
+								onerror="this.onerror=null; this.src='/images/no-image.png';">
 						</a>
 					</div>
 					<div class="col">
@@ -83,7 +84,8 @@
 					</div>
 					<div class="col-2">
 						<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchAway}">
-							<img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchAway}" class="rounded w-100 m-2">
+							<img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchAway}" class="rounded w-100 m-2"
+								onerror="this.onerror=null; this.src='/images/no-image.png';">
 						</a>
 					</div>
 					<div class="row"><div class="col">

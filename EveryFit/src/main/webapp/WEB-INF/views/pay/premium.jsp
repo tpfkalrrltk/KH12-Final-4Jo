@@ -248,7 +248,7 @@
 							</c:if>
 							
 							<c:if test="${MoimDtoList.moimUpgrade eq 'Y'}" >
-							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
+							<a href="${pageContext.request.contextPath}/pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
 							class="ataglink mb-1 disabled-link w-50 text-center">
 							[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다. <br>이용해 주셔서 감사합니다.
 							</a>

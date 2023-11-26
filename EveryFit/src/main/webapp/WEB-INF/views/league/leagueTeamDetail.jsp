@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-3">
 			        <img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${leagueTeamDto.leagueTeamNo}" 
-			        	class="rounded m-2 w-100" height="">
+			        	class="rounded m-2 w-100" onerror="this.onerror=null; this.src='/images/no-image.png';">
 			    </div>
 			    <div class="col">
 			    	<div class="row"><div class="col">

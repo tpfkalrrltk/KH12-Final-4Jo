@@ -48,7 +48,7 @@ a {
 										value="${memberDto.memberPw}" disabled>
 								</div>
 								<button type="button" class="btn btn-info ms-2 ">
-								    <a href="/member/memberChangePw">비밀번호 변경</a>
+								    <a href="${pageContext.request.contextPath}/member/memberChangePw">비밀번호 변경</a>
 								</button>
 								
 										</div>
@@ -72,7 +72,7 @@ a {
 							</div>
 							
 							<div class="col-md-4 offset-md-4 text-center mt-4">
-								<button class="btn btn-danger"><a onclick="location.href=/member/exit">회원탈퇴</a></button>
+								<button class="btn btn-danger"><a onclick="location.href=${pageContext.request.contextPath}/member/exit">회원탈퇴</a></button>
 								
 								<button type="submit" class="btn btn-info"
 									style="margin-left: 10px;">정보변경</button>

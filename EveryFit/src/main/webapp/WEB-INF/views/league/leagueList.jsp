@@ -13,11 +13,11 @@ a{
 </style>
 
 <div class="container-fluid">
-	<div class="row"><div class="col-md-8 offset-md-2">
+	<div class="row"><div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
 		<div class="p-5 bg-primary text-light rounded">
 			<h1>
 				<a href="${pageContext.request.contextPath}/league/leagueList" class="text-light">
-					리그 목록 
+					EVERY LEAGUE
 					<i class="fa-solid fa-trophy"></i>
 				</a>
 			</h1>
@@ -158,11 +158,11 @@ a{
 		
 		<div class="row mt-5"><div class="col">
 			<nav aria-label="Page navigation">
-	            <ul class="pagination justify-content-center">
+	            <ul class="pagination pagination-sm justify-content-center">
 	                <c:if test="${!vo.isFirst()}">
 	                    <li class="page-item">
-	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.page - 1}${vo.generateQueryString()}" aria-label="Previous">
-	                            <span aria-hidden="true">&laquo;</span>
+	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.begin - 1}${vo.generateQueryString()}">
+	                            <span>&laquo;</span>
 	                        </a>
 	                    </li>
 	                </c:if>
@@ -184,8 +184,8 @@ a{
 	
 	                <c:if test="${!vo.isLast()}">
 	                    <li class="page-item">
-	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.page + 1}${vo.generateQueryString()}" aria-label="Next">
-	                            <span aria-hidden="true">&raquo;</span>
+	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.end + 1}${vo.generateQueryString()}">
+	                            <span>&raquo;</span>
 	                        </a>
 	                    </li>
 	                </c:if>

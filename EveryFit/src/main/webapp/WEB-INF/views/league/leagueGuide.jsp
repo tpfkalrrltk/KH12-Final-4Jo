@@ -133,16 +133,16 @@ $(document).ready(function(){
                 
                 // 각 팀에 대한 목록을 모달에 추가
                 for (var i = 0; i < moimList.length; i++) {
-                	modalContent += '<div class="card border-primary mb-3" style="max-width: 20rem;">';
+                	modalContent += '<div class="card border-primary mb-3">';
                 	modalContent += '<div class="card-header">' + '모임번호 : '+ moimList[i].moimNo + '</div>';
-                    modalContent += '<div class="card-body text-center">';
+                    modalContent += '<div class="card-body text-center mt-3">';
                     modalContent += '<h4 class="card-title">모임 이름 : ' + moimList[i].moimTitle +'</h4>';
                     if(moimList[i].moimMemberLevel=='모임장'){
                     modalContent += '<a href="${pageContext.request.contextPath}/league/leagueTeamInsert?leagueNo=' + ${leagueDto.leagueNo} + '&moimNo=' + moimList[i].moimNo + 
-                    				'" class="btn btn-primary insert-btn" data-moim-no='+ moimList[i].moimNo + '>신청</a>';
+                    				'" class="btn btn-primary insert-btn w-100 mt-3" data-moim-no='+ moimList[i].moimNo + '>신청</a>';
                     }
                     else{
-                    	modalContent += '<button class="btn btn-primary" disabled>모임장만 신청 가능합니다</button>';	
+                    	modalContent += '<button class="btn btn-primary w-100" disabled>모임장만 신청 가능합니다</button>';	
                     }
                     modalContent += '</div></div>';
                 }
