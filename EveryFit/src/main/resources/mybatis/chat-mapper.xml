@@ -61,6 +61,12 @@
 		values(#{chatRoomNo}, #{memberEmail})
 	</insert>
 	
+	<!-- 채팅방에서 나가기 -->	
+	<delete id="deleteChatMember">
+		delete chat_entry where chat_room_no = #{chatRoomNo} 
+		and member_email = #{memberEmail} 
+	</delete>
+
 	<!-- 회원의 참여 채팅방 조회 -->
 	<select id="chatRoomNoByMemberEmail" resultType="list">
 		select chat_room_no from chat_entry 

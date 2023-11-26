@@ -16,6 +16,8 @@ public interface ChatDao {
 	void insertChatRoom(int chatRoomNo);
 	//채팅참가자 추가
 	void addChatMember(Integer chatRoomNo, String memberEmail);
+	//채팅참가자 삭제
+	boolean deleteChatMember(Integer chatRoomNo, String memberEmail);
 	//채팅방정보조회
 	List<Integer> selectChatRoomNoList(String memberEmail);
 	
