@@ -233,4 +233,9 @@ public class MoimDaoImpl implements MoimDao {
 	public List<MoimDto> selectMoimListBeforeToday() {
 	return sqlSession.selectList("moim.selectMoimListBeforeToday");
 	}
+  
+	  @Override
+	public Integer findMoimJangCount(int moimNo) {
+		return sqlSession.selectOne("moim.moimJangCheck", moimNo);
+	}
 }

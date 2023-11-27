@@ -14,6 +14,7 @@ public class MoimMemberStatusVO {
 	private String memberUnBlock;
 	private String memberTransfer;
 	private String memberCancel;
+	private String memberTransferManager;
 	private int moimNo;
 	
 }

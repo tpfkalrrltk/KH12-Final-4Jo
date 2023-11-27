@@ -415,8 +415,11 @@ public String moimjangCheck(@RequestParam String memberEmail, int moimNo) {
 	if(moimMemberDto.getMoimMemberLevel().equals("일반")) {
 		return "N";
 	}
+	else if(moimMemberDto.getMoimMemberLevel().equals("매니저")) {
+		return "M";
+	}
 	else {
-		return "Y";
+		return "Y";		
 	}
 	
 }

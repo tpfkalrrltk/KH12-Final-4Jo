@@ -60,6 +60,8 @@ public interface MoimDao {
 	Integer findMoimMemberCount(int moimNo);
 	//모임 상태 변경
 	boolean updateMoimState(MoimStateDto moimStateDto);
+	//모임장 확인
+	Integer findMoimJangCount(int moimNo);
 	
 
 	//회원EMAIL이 모임장으로 가입된 MOIM 번호 조회

@@ -206,23 +206,57 @@ public class MoimController {
 	
 	//모임장 권한 넘기기
 	@RequestMapping("/memberTransfer")
-	public String memberTransfer(@RequestParam String memberEmail,
+	public String memberTransfer(@RequestParam String memberEmail, HttpSession session,
 				@RequestParam int moimNo, RedirectAttributes redirectAttributes) {
+	
+		String moimJangMemberEmail = (String) session.getAttribute("name");
+		
+		Integer moimJangCount = moimDao.findMoimJangCount(moimNo);
+		//모임장이 한명이면 
+		if(moimJangCount == 1) {
+			MoimMemberStatusVO vo = new MoimMemberStatusVO();
+			vo.setMemberTransfer("memberTransfer");
+			vo.setMemberEmail(memberEmail);
+			vo.setMoimNo(moimNo);
+			moimDao.updateMoimMember(vo);
+			redirectAttributes.addAttribute("transfer", true);			
+			
+			MoimMemberStatusVO vo2 = new MoimMemberStatusVO();
+			vo2.setMemberTransferManager("memberTransferManager");
+			vo2.setMemberEmail(moimJangMemberEmail);
+			vo2.setMoimNo(moimNo);
+			moimDao.updateMoimMember(vo2);
+		}			
+		return "redirect:detail?moimNo="+moimNo;
+	}
+
+	@RequestMapping("/memberManager")
+	public String memberManager(@RequestParam String memberEmail,
+			@RequestParam int moimNo, RedirectAttributes redirectAttributes) {
 		MoimMemberStatusVO vo = new MoimMemberStatusVO();
-		vo.setMemberTransfer("memberTransfer");
+		vo.setMemberTransferManager("memberTransferManager");
 		vo.setMemberEmail(memberEmail);
 		vo.setMoimNo(moimNo);
 		moimDao.updateMoimMember(vo);
-		redirectAttributes.addAttribute("transfer", true);
+		redirectAttributes.addAttribute("manager", true);
 		return "redirect:detail?moimNo="+moimNo;
-		
 	}
 
 	
 	@RequestMapping("/member/exit")
 	public String memberExit(@RequestParam int moimNo,
-			HttpSession session) {
+			HttpSession session, RedirectAttributes redirectAttributes) {
 		String memberEmail = (String)session.getAttribute("name");
+		
+		MoimMemberDto findMemberDto = moimDao.findMoimMemberInfo(memberEmail, moimNo);
+		Integer moimMemberCount = moimDao.findMoimJangCount(moimNo);
+		//만약 모임장이면 
+		//회원수 카운트세서 상태변경
+		int count = moimDao.findMoimMemberCount(moimNo);
+		if(findMemberDto.getMoimMemberLevel().equals("모임장") && count != 1) {
+			redirectAttributes.addAttribute("exitError", true);	
+			return "redirect:/moim/detail?moimNo="+moimNo;				
+		}
 		
 		MoimMemberDto moimMemberDto = new MoimMemberDto();
 		moimMemberDto.setMoimNo(moimNo);
@@ -233,9 +267,7 @@ public class MoimController {
 		MoimDto moimDto = moimDao.selectOne(moimNo);
 		chatDao.deleteChatMember(moimDto.getChatRoomNo(), memberEmail);
     	
-		//회원수 카운트세서 상태변경
 		MoimStateDto moimStateDto = new MoimStateDto();
-		int count = moimDao.findMoimMemberCount(moimNo);
 	    if(moimDto.getMoimMemberCount() == count) {
 		    moimStateDto.setOver(true);
 	    }
@@ -425,6 +457,11 @@ public class MoimController {
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
+	//모임삭제
+	@RequestMapping("/delete") 
+	public void delete(@RequestParam int moimNo) {
+		
+	}
 
 	
 }

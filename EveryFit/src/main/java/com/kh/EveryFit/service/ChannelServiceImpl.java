@@ -18,6 +18,9 @@ import com.kh.EveryFit.dto.ChatDto;
 import com.kh.EveryFit.vo.ChatRoomVO;
 import com.kh.EveryFit.vo.ClientVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class ChannelServiceImpl implements ChannelService{
 	private List<ChatRoomVO> roomList = new CopyOnWriteArrayList<>();
@@ -48,7 +51,8 @@ public class ChannelServiceImpl implements ChannelService{
 	@Override
 	public ChatRoomVO findRoom(Integer chatRoomNo) {
 		for(ChatRoomVO room : roomList) {
-			if(room.getChatRoomNo() == chatRoomNo) {
+			//if(room.getChatRoomNo().equals(chatRoomNo)) {
+			if(room.getChatRoomNo().intValue() == chatRoomNo.intValue()) {
 				return room;
 			}
 		}
@@ -70,6 +74,10 @@ public class ChannelServiceImpl implements ChannelService{
 			room = createRoom(chatRoomNo); //만들고
 		}
 		room.enter(client);
+		log.debug("사용자 입장");
+		for(ChatRoomVO r : roomList) {
+			log.debug("r = {}", r);
+		}
 	}
 	@Override
 	public void exitUser(WebSocketSession session, Integer chatRoomNo) {
@@ -185,4 +193,3 @@ public class ChannelServiceImpl implements ChannelService{
 	}
 
 }
-
