@@ -23,16 +23,20 @@
     <hr>
 
     <c:forEach var="PaymentListByMemberVO" items="${PaymentListByMemberVO}">
+      <c:if test="${PaymentListByMemberVO.moimMemberLevel == '모임장'}">
       ${PaymentListByMemberVO}
       <div>
         <h3>[${PaymentListByMemberVO.moimTitle}] 모임을 위한 프리미엄 카드</h3>
+        <p>[${PaymentListByMemberVO.moimTitle}] 은 "${PaymentListByMemberVO.moimEndTime}" 까지 프리미엄 유지됩니다.</p>
       </div>
        <div class="col text-start"><img src="/images/moinCard.png" ></div>
       <div>
+      
         <a href="#" class="ataglink" onclick="confirmCancellation(${PaymentListByMemberVO.periodPaymentNo})">
           [${PaymentListByMemberVO.moimTitle}] 프리미엄 카드 구독 취소
         </a>
       </div>
+      </c:if>
     </c:forEach>
   </div>
 </div>
@@ -59,7 +63,8 @@
 
 <script>
   function confirmCancellation(periodPaymentNo) {
-    var confirmCancel = confirm("정말 프리미엄 카드 구독을 취소하시겠습니까?");
+    
+	  var confirmCancel = confirm("정말 프리미엄 카드 구독을 취소하시겠습니까?");
     if (confirmCancel) {
       // If user clicks OK, navigate to the cancellation URL
       window.location.href = window.contextPath + "/pay/periodCancel?periodPaymentNo=" + periodPaymentNo;

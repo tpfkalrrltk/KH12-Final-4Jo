@@ -58,7 +58,25 @@
 		</set>
 		where moim_no=#{moimNo}
 	</update>
+	
+	<!-- 모임 상태 변경 -->
+	<update id="updateMoimState">
+	    update moim
+	    <set>
+	        <if test="isOver">
+	            moim_state = '마감',
+	        </if>
+	        <if test="isZero">
+	            moim_state = '비활성화',
+	        </if>
+	        <if test="!isOver and !isZero">
+	            moim_state = '모집중',
+	        </if>
+	    </set>       
+	    where moim_no = #{moimNo}
+	</update>
 
+	
 	<select id="moimList" resultType="MoimDto">
 		select * from moim order by moim_no asc 
 		<!-- 나중에 복합검색 구현하기 -->
@@ -73,7 +91,7 @@
 	<select id="moimMemberList" resultType="MoimMemberDto">
 		select * from moim_member_list 
 		where moim_no = #{moimNo} 
-		and moim_member_status != '차단'	
+<!-- 		and moim_member_status != '차단'	 -->
 	</select>
 	
 	<!-- 모임장이 볼 목록 -->
@@ -104,6 +122,9 @@
         <if test="memberTransfer != null">
         moim_member_level = '모임장' 
         </if>
+        <if test="memberTransferManager != null">
+        moim_member_level = '매니저' 
+        </if>
         <if test="memberCancel != null">
         moim_member_cancel_count = moim_member_cancel_count + 1 
         </if>
@@ -116,6 +137,12 @@
 	<delete id="exitMoimMember">
 		delete moim_member where moim_no = #{moimNo} and member_email = #{memberEmail}
 	</delete>
+	
+	<!-- 모임의 모임장 확인 -->
+	<select id="moimJangCheck" resultType="Integer">
+		select count(*) from moim_member where moim_no=#{moimNo} 
+		and moim_member_level='모임장'
+	</select>
 	
 	<!-- 이메일로 회원이 가입한 모임 목록 조회 -->
 	<select id="moimListByEmail" resultType="MoimDto">
@@ -162,40 +189,23 @@
 	
 	<!-- 모임 가입할 때 멤버 등록 -->
 	<insert id="insertMoimMember">
-<!-- 	    <selectKey keyProperty="GenderCheck" resultType="String" order="BEFORE"> -->
-<!-- 	        select moim_gender_check from moim where moim_no = #{moimNo} -->
-<!-- 	    </selectKey> -->
-	
-<!-- 	    <if test="GenderCheck == 'Y'"> -->
-	        <!-- 젠더체크를 할 경우 상태 미승인 -->
-<!-- 	       	insert into moim_member( -->
-<!-- 	       		moim_no,  -->
-<!-- 	       		member_email,  -->
-<!-- 	       		moim_member_level, -->
-<!-- 	       		moim_member_status -->
-<!-- 	       		) -->
-<!-- 	        values(#{moimNo}, #{memberEmail}, '일반', '미승인') -->
-<!-- 	    </if> -->
-	
-<!-- 	    <if test="GenderCheck == 'N'"> -->
-	        <!-- 젠더체크를 안 할 경우 상태 승인 -->
 	        insert into moim_member(
 	        	moim_no, 
 	        	member_email, 
 	        	moim_member_level,
 	        	moim_member_status
 	        	)
-	        values(#{moimNo}, #{memberEmail}, '일반', '승인')
-<!-- 	    </if> -->
+	        values(#{moimNo}, #{memberEmail}, '일반', #{moimMemberStatus})
 	</insert>
 	<!-- 회원이 모임 등록할 때 이미 등록되어있는지 조회하기 -->
 	<!-- 
 		회원이 모임 등록할 때 회원등급을 조회해서 
 		이미 등록된 모임개수확인 후 초과하지않았으면 등록 아니면 반려 
 	-->
-	<!-- 가입한 모임의 count 확인 -->
+	<!-- 가입한 모임의 count 확인(모임장제외) -->
 	<select id="moimCountByMemberEmail" resultType="Integer">
 		select count(*) from moim_member where member_email = #{memberEmail} 
+		and moim_member_level = '일반'
 	</select>
 	
 	<!-- 모임 중복가입 방지를 위한 조회구문 -->
@@ -203,7 +213,7 @@
 		select moim_no from moim_member 
 		where member_email = #{memberEmail} 
 	</select>
-
+	
 	<!-- 정모CRUD -->
 	
 	<select id="jungmoSequence" resultType="int">
@@ -314,7 +324,8 @@
 	<select id="jungmoListAll" resultMap="jungmoWithMembersVO">
 		select * from jungmo_list 
 		where moim_no = #{moimNo} 
-		and jungmo_schedule >= current_timestamp
+		and jungmo_schedule >= current_timestamp 
+		order by jungmo_schedule desc
 	</select>
 	
 <!-- 	<select id="jungmoListAllForMoimjang" resultMap="jungmoWithMembersVO"> -->
@@ -381,8 +392,25 @@
 	<update id="updateJungmoMemberCancelCount">
 		update moim_member set moim_member_cancel_count = moimo_member_cancel_count + 1 
 		where member_email = #{memberEmail} and moim_no = #{moimNo}
-	</update>	
-		
+	</update>
+	
+	<!-- 정모 상태 변경 -->	
+	<update id="updateJungmoStatus">
+		update jungmo 
+		<set> 
+		<if test="isOver == true">
+		jungmo_status = '인원마감' 
+		</if>
+		<if test="isOver == false">
+		jungmo_status = '모집중' 
+		</if>
+		<if test="isCancel == true">
+		jungmo_status = '취소'
+		</if>
+		</set>
+		where jungmo_no = #{jungmoNo}
+	</update>
+			
 	<!-- 프로필사진 등록 -->
 	<insert id="insertMoimProfile">
 		insert into moim_image
@@ -483,6 +511,14 @@
 	        WHERE moim_end_time < SYSDATE
 	        ]]>
 	</select>
+	
+	<!-- 모인번호로 모임장 찾기 -->
+	<select id="findMoimJang" resultType="moimMemberDto">
+		select * from moim_member mm join moim m 
+		on mm.moim_no = m.moim_no
+		where mm.moim_member_level = '모임장' and m.moim_no = #{moimNo}
+	</select>
+	
 </mapper>
 
 

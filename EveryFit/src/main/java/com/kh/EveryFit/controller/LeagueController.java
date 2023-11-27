@@ -33,6 +33,7 @@ import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
+import com.kh.EveryFit.dto.ChatEntryDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
@@ -233,11 +234,11 @@ public class LeagueController {
 			leagueDao.insertLeagueTeamImage(leagueTeamNo, attachNo);
 		}
 		
-		return "redirect:leagueGuide?leagueNo="+leagueNo;
+		return "redirect:leagueTeamDetail?leagueTeamNo="+leagueTeamNo;
 	}
 	
 	@RequestMapping("/leagueTeamDetail")
-	public String leagueTeamDetail(@RequestParam int leagueTeamNo, Model model) {
+	public String leagueTeamDetail(@RequestParam int leagueTeamNo, Model model, HttpSession session) {
 		LeagueTeamDto leagueTeamDto = leagueDao.selectOneLeagueTeam(leagueTeamNo);
 		MoimDto moimDto = moimDao.selectOne(leagueTeamDto.getMoimNo());
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueTeamDto.getLeagueNo());
@@ -246,28 +247,46 @@ public class LeagueController {
 		model.addAttribute("leagueTeamDto", leagueTeamDto);
 		model.addAttribute("moimDto", moimDto);
 		model.addAttribute("leagueDto", leagueDto);
+		
+		String memberEmail = (String)session.getAttribute("name");
+		if(memberEmail!=null) {
+			ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), memberEmail);
+			model.addAttribute("chatEntryDto", chatEntryDto);
+		}
+		
 		return "/league/leagueTeamDetail";
 	}
 	
 	@RequestMapping("/leagueDetail")
-	public String leagueDetail(@RequestParam int leagueNo, Model model) {
+	public String leagueDetail(@RequestParam int leagueNo, Model model, HttpSession session) {
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
 		List<LeagueTeamDto> nonApproveList = leagueDao.listLeagueTeamNonApprove(leagueNo);
 		List<LeagueTeamRankListVO> rankList = leagueDao.leagueTeamRank(leagueNo);
 		model.addAttribute("nonApproveList", nonApproveList);
 		model.addAttribute("rankList", rankList);
 		model.addAttribute("leagueDto", leagueDto);
+		
+		String memberEmail = (String)session.getAttribute("name");
+		if(memberEmail!=null) {
+			ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), memberEmail);
+			model.addAttribute("chatEntryDto", chatEntryDto);
+		}
 		return "league/leagueDetail";
 	}
 	
 	@RequestMapping("/leagueMatch")
-	public String leagueMatch(@RequestParam int leagueNo, Model model) {
+	public String leagueMatch(@RequestParam int leagueNo, Model model, HttpSession session) {
 		List<LeagueMatchListVO> leagueMatchList = leagueDao.selectLeagueMatchVOList(leagueNo);
 		List<LeagueTeamDto> leagueTeamList = leagueDao.listLeagueTeamByLeague(leagueNo);
 		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueNo);
 		model.addAttribute("leagueDto", leagueDto);
 		model.addAttribute("leagueTeamList", leagueTeamList);
 		model.addAttribute("leagueMatchList", leagueMatchList);
+		String memberEmail = (String)session.getAttribute("name");
+		if(memberEmail!=null) {
+			ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), memberEmail);
+			model.addAttribute("chatEntryDto", chatEntryDto);
+		}
 		return "league/leagueMatch";
 	}
 	

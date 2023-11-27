@@ -1,5 +1,7 @@
 package com.kh.EveryFit.dto;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +17,5 @@ public class MoimMemberDto {
     private String memberNick;
     private String memberBlock;
     private Integer attachNo;
+    private Date moimMemberJoin;
 }

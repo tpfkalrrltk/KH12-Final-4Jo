@@ -129,6 +129,7 @@
         m.MOIM_NO , 
         m.MOIM_TITLE , 
         m.MOIM_UPGRADE , 
+        m.MOIM_END_TIME, 
         mm.MEMBER_EMAIL, 
         mm.MOIM_MEMBER_LEVEL,
         p.PERIOD_PAYMENT_NO,
