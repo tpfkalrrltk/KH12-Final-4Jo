@@ -203,7 +203,7 @@ data-backdrop="static" data-keyboard="false">
 		</div></div>
 		
 		<h1 class="text-primary">
-		<a href="board/list?moimNo=${moimDto.moimNo}"
+		<a href="board/photoList?moimNo=${moimDto.moimNo}"
 		class="btn btn-primary">게시판가기</a>
 		</h1>	
 		
