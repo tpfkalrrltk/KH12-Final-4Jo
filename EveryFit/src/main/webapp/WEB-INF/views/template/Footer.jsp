@@ -29,7 +29,7 @@ p {
 #wrapper{
   height: auto;
   min-height: 100%;
-  padding-bottom: 200px;
+  padding-bottom: 270px;
 }
 
 footer{

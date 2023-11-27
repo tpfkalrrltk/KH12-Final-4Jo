@@ -178,7 +178,7 @@ body {
 
 		<div class="row mt-5 p-5 ">
 
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light "
+			<div class="col-5 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 p-5 m-4 bg-primary rounded-3  text-light "
 				id="Premium">
 				<h1 class="display-5 fw-bold">Premium</h1>
 
@@ -187,16 +187,16 @@ body {
 
 
 
-		<div class="row align-items-center m-5">
+		<div class="row align-items-center">
 
 			<c:forEach var="PremiumMoimList" items="${PremiumMoimList}"
 				varStatus="loopStatus" end="7">
-				<div class="col pe-0 ">
-					<div class="card border-primary mb-3 w-100 Premium bg-primary"
+				<div class="col pe-0  h-100 w-100 ">
+					<div class="card border-primary mb-3 w-100 Premium bg-primary  w-100 h-100"
 						style="max-width: 400px;">
-						<div class="card-header bg-light text-primary fw-bold ">Moim
+						<div class="card-header bg-light text-primary fw-bold w-100 h-100">Moim
 							No.${PremiumMoimList.moimNo}</div>
-						<div class="card-body ">
+						<div class="card-body  w-100 h-100">
 							<div class="text-center">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${PremiumMoimList.moimNo}">
@@ -258,7 +258,7 @@ body {
 
 
 		<div class="row mt-5 p-5">
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
 				id="NowMoim">
 				<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
 			</div>
@@ -336,7 +336,7 @@ body {
 
 
 		<div class="row mt-5 p-5">
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+			<div class="col-4  col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
 				id="GenderCheck">
 				<h1 class="display-5 fw-bold">여성전용 모임</h1>
 			</div>
@@ -347,7 +347,7 @@ body {
 
 			<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
 				varStatus="loopStatus" end="7">
-				<div class="col pe-0 ">
+				<div class="col pe-0  ">
 					<div class="card border-primary mb-3 w-100 "
 						style="max-width: 400px;">
 						<div class="card-header bg-primary text-light  fw-bold ">Moim
