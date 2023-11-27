@@ -24,25 +24,24 @@
 	</insert>
 	
 <select id="list" resultType="ChatDto">
-	<![CDATA[
 	select 
 	    c.*, 
 	    m.member_nick, 
 	    mi.attach_no
 	from 
 	    chat c 
-	    join moim mo on c.chat_room_no = mo.chat_room_no
-	    join moim_member mm on mo.moim_no = mm.moim_no 
 	    join member m on c.member_email = m.member_email 
 	    left outer join member_image mi 
 	    on m.member_email = mi.member_email 
 	where 
-	    mm.member_email = #{memberEmail} 
-	    and c.chat_room_no = #{chatRoomNo} 
-	    and c.chat_time >= mm.moim_member_join
+	    c.chat_room_no = #{chatRoomNo} 
+	    <if test="moimMemberJoin != null">
+	<![CDATA[
+	    and c.chat_time >= #{moimMemberJoin} 
+	]]>
+	    </if>
 	order by 
 	    c.chat_time asc
-	]]>
 	</select>
 	
 	<select id="sequence" resultType="int">
@@ -76,6 +75,11 @@
 	<!-- 채팅방 번호랑 이메일로 채팅참여 멤버 조회(내가 들어가있는지확인) -->
 	<select id="checkChatEntry" resultType="chatEntryDto">
 		select * from chat_entry where chat_room_no = #{chatRoomNo} and member_email = #{memberEmail}
+	</select>
+	
+	<!-- 채팅방번호로 모임번호 찾기 -->
+	<select id="findMoimNoByChatRoomNo" resultType="Integer">
+		select moim_no from moim where chat_room_no = #{chatRoomNo} 
 	</select>
 	
 </mapper>

@@ -23,9 +23,9 @@ public class ChatDaoImpl implements ChatDao{
 	}
 	
 	@Override
-	public List<ChatDto> list(int chatRoomNo, String memberEmail) {
+	public List<ChatDto> list(int chatRoomNo, String moimMemberJoin) {
 		Map<String, Object> params = new HashMap<>();
-		params.put("memberEmail", memberEmail);
+		params.put("memberEmail", moimMemberJoin);
 		params.put("chatRoomNo", chatRoomNo);
 		return sqlSession.selectList("chat.list", params);
 	}
@@ -60,13 +60,16 @@ public class ChatDaoImpl implements ChatDao{
 		params.put("chatRoomNo", chatRoomNo);
 		return sqlSession.delete("chat.deleteChatMember", params)>0;
 	}
-
-
 	
 	@Override
 	public ChatEntryDto checkChatEntry(int chatRoomNo, String memberEmail) {
 		Map<String, Object>param = Map.of("chatRoomNo", chatRoomNo, "memberEmail", memberEmail);
 		return sqlSession.selectOne("chat.checkChatEntry", param);
+	}
+	
+	@Override
+	public Integer selectOneMoimNo(int chatRoomNo) {
+		return sqlSession.selectOne("chat.findMoimNoByChatRoomNo", chatRoomNo);
 	}
 }
 
