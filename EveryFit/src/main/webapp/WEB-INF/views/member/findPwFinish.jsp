@@ -20,11 +20,13 @@ a {
 
 			</div>
 			<div class="col-md-5 offset-md-4 mt-3">
-				<button class=" btn btn-info" style="width: 250px;">
+
+				<button class=" btn btn-primary" style="width: 250px;">
 					<a href="${pageContext.request.contextPath}/">홈</a>
 				</button>
-				<button class="btn btn-info" style="width: 250px; margin-top: 20px;">
+				<button class="btn btn-primary" style="width: 250px; margin-top: 20px;">
 					<a href="${pageContext.request.contextPath}/member/login">로그인</a>
+
 				</button>
 			</div>
 		</div>

@@ -25,7 +25,7 @@
 			<div class="col-md-4 offset-md-4 mt-3">
 				<div class="d-flex flex-row">
 					<div class="col-md-4 offset-md-4">
-						<button type="submit" class="btn btn-Danger btn-resetPw ms-2">인증번호 보내기
+						<button type="submit" class="btn btn-primary btn-resetPw ms-2 w-100">인증번호 보내기
 							</button>
 
 
@@ -39,7 +39,7 @@
 				<div class="ms-3 mt-3 ">
 					<label class="cert-result"></label>
 					<div class="col-md-4 offset-md-4 mt-3">
-						<button class="btn btn-success btn-cert" type="button" style="width:100px">확인</button>
+						<button class="btn btn-primary btn-cert w-100" type="button" style="width:100px">확인</button>
 					</div>
 				</div>
 			</div>

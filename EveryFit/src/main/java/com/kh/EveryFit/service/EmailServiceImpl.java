@@ -30,7 +30,7 @@ public class EmailServiceImpl implements EmailService{
 	public void sendCelebration(String email) throws MessagingException, IOException {
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message,false,"UTF-8");
-		helper.setTo("1998_225@naver.com");
+		helper.setTo(email);
 		helper.setSubject("[Every Fit] 가입을 축하드립니다!");//메일 제목 
 		
 		ClassPathResource resource = new ClassPathResource("templates/celebration.html");

@@ -59,6 +59,9 @@ public interface MemberDao {
 	// 회원권 구매 후 member_moim_count (3->10) 수정 
 	boolean updateMemberMoimCount(String memberEmail);
 	
+	//내가 가입한 모임 갯수 
+	boolean updateMemberMoimProduce(int memberEmail);
+	
 	//프로필 관련 기능
 		void insertProfile(String memberEmail, int attachNo);
 		boolean deleteProfile(String memberEmail);

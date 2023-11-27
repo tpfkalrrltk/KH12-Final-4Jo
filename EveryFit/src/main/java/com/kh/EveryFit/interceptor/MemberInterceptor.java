@@ -1,3 +1,4 @@
+
 package com.kh.EveryFit.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,3 +41,4 @@ public class MemberInterceptor implements HandlerInterceptor{
 		return false;
 	}
 }
+

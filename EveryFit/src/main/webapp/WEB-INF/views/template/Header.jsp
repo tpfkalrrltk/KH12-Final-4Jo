@@ -99,6 +99,11 @@ body {
 		var(--bs-dropdown-border-color);
 	border-radius: var(--bs-dropdown-border-radius);
 }
+/* 다크모드  */
+body.dark-mode {
+	background-color: #1C1C1C;
+	color: white;
+}
 </style>
 <!--     부트 스트랩 -->
 <link
@@ -179,6 +184,31 @@ body {
 		;
 		return i;
 	}
+	// Dark Mode 토글을 위한 스크립트
+	document.addEventListener('DOMContentLoaded', function () {
+        const body = document.querySelector('body');
+        const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+
+        // 페이지 로드 시 저장된 다크 모드 설정을 확인하여 적용
+        const darkModeSetting = localStorage.getItem('darkMode');
+        if (darkModeSetting === 'enabled') {
+            body.classList.add('dark-mode');
+            toggleDarkModeButton.classList.add('fa-sun');
+        }
+
+        // 토글 버튼 클릭 시 다크 모드 설정을 업데이트하고 저장
+        toggleDarkModeButton.addEventListener('click', function () {
+            body.classList.toggle('dark-mode');
+            toggleDarkModeButton.classList.toggle('fa-sun');
+
+            // 다크 모드 설정 저장
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    });
 </script>
 
 <script type="text/javascript">
@@ -193,6 +223,7 @@ body {
 
 
 <body>
+
 
 
 
@@ -283,8 +314,6 @@ body {
 						</h1>
 					</li>
 
-
-
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -321,9 +350,19 @@ body {
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold" onclick="reportApply()">신고하기</a>
 						</div></li>
-
-
-
+						
+					<!-- 다크모드 관련  -->
+					<li class="nav-item mt-3 ms-2">
+							<a class="nav-link ms-3" href="#"> <i id="toggleDarkMode"class="fa-solid fa-moon" style="cursor: pointer; font-size: 24px"></i>
+							</a>
+					</li>
+					
+						<!-- <li class="nav-item">
+							<i id="toggleDarkMode"class="fa-solid fa-moon" style="cursor: pointer; font-size: 24px"></i>
+						</li> -->
+					
+					<!-- 여기까지 -->
+					
 					<c:choose>
 						<c:when test="${sessionScope.name != null}">
 
@@ -356,6 +395,8 @@ body {
 						type="search" placeholder="Search" style="height: 52px">
 					<button class="btn btn-light   text-primary mt-3  fw-bold"
 						type="submit" style="height: 52px">Search</button>
+
+
 				</form>
 			</div>
 		</div>

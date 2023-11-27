@@ -50,3 +50,4 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 		return false;
 	}
 }
+
