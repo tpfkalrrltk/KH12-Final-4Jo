@@ -139,6 +139,7 @@ body {
 		document.getElementById('txt').innerHTML = h + "시" + " " + m + "분"
 				+ " " + s + "초";
 		setTimeout(startTime, 1000);
+
 	}
 
 	function checkTime(i) {
@@ -148,6 +149,34 @@ body {
 		;
 		return i;
 	}
+	// Dark Mode 토글을 위한 스크립트
+	document.addEventListener('DOMContentLoaded', function() {
+		const body = document.querySelector('body');
+
+		const toggleDarkModeButton = document.getElementById('toggleDarkMode');
+
+		// 페이지 로드 시 저장된 다크 모드 설정을 확인하여 적용
+		const darkModeSetting = localStorage.getItem('darkMode');
+		if (darkModeSetting === 'enabled') {
+			body.classList.add('dark-mode');
+
+			
+			toggleDarkModeButton.classList.add('fa-sun');
+		}
+
+		// 토글 버튼 클릭 시 다크 모드 설정을 업데이트하고 저장
+		toggleDarkModeButton.addEventListener('click', function() {
+			body.classList.toggle('dark-mode');
+			toggleDarkModeButton.classList.toggle('fa-sun');
+
+			// 다크 모드 설정 저장
+			if (body.classList.contains('dark-mode')) {
+				localStorage.setItem('darkMode', 'enabled');
+			} else {
+				localStorage.setItem('darkMode', 'disabled');
+			}
+		});
+	});
 </script>
 
 
@@ -159,18 +188,24 @@ body {
 	}
 </script>
 
-
+<style>
+/* 다크모드  */
+body.dark-mode {
+	background-color: #1C1C1C;
+	color: white;
+}</style>
 <body>
 
 
 
 
 
-	<nav class="navbar navbar-expand-lg bg-primary fixed-top" style="z-index: 1040"
-		data-bs-theme="dark">
+	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
+		style="z-index: 1040; height: 85px" data-bs-theme="dark">
 
 		<div class="container-fluid">
-			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
+			<a class="navbar-brand ms-4" href="/"><img
+				src="${pageContext.request.contextPath}/images/mainLogo.png"
 				width="110px" /></a>
 
 			<button class="navbar-toggler" type="button"
@@ -184,151 +219,124 @@ body {
 
 
 
-					<c:choose>
-						<c:when test="${sessionScope.name==null}">
-
-							<li class="nav-item">
-								<h1>
-									<a class="nav-link ms-3" href="/member/login"> <i
-										class="fa-solid fa-user mt-2"></i>
-									</a>
-								</h1>
-							</li>
-						</c:when>
-
-						<c:otherwise>
-							<li class="nav-item">
-								<h1>
-									<a class="nav-link ms-3" href="/member/logout"> <i
-										class="fa-solid fa-user-slash mt-2"></i>
-									</a>
-								</h1>
-							</li>
-
-						</c:otherwise>
-					</c:choose>
-					<li class="nav-item">
-						<h1>
-							<a class="nav-link ms-3" href="/member/join"> <i
-								class="fa-solid fa-user-plus mt-2"></i> <span
-								class="visually-hidden">(current)</span>
-							</a>
-						</h1>
-					</li>
-
-
-					<li class="nav-item">
-						<h1>
-							<a class="nav-link ms-3" href=/member/mypage> <i
-								class="fa-solid fa-user-gear mt-2"></i>
-							</a>
-						</h1>
-					</li>
-
-
-
-					<li class="nav-item">
-						<h1>
-							<a class="nav-link ms-3" href="#"> <i
-								class="fa-solid fa-ranking-star mt-2"></i>
-							</a>
-						</h1>
-					</li>
-
-					<li class="nav-item">
-						<h1>
-							<a class="nav-link ms-3" href="#"> <i
-								class="fa-solid fa-route  mt-2"></i>
-							</a>
-						</h1>
-					</li>
-
-					<li class="nav-item">
-						<h1>
-							<a class="nav-link ms-3" href="#"> <i
-								class="fa-solid fa-people-group  mt-2"></i>
-							</a>
-						</h1>
-					</li>
-
-
-
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
-						href="#" role="button" aria-haspopup="true" aria-expanded="false">
-							<h2>
-								<i class="fa-solid fa-users-gear mt-2"></i>
-							</h2>
-					</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/moim/create"> 모임
-								만들기 </a> <a class="dropdown-item  fw-bold"
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=5">
-								모임상세(테스트용) </a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold" href="/league/leagueList">리그
-								목록</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold" href="#">여성전용 모임</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/freeBoard/list">자유게시판</a>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/faq/list">FAQ</a>
+						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">Member</a>
+
+
+						<div class="dropdown-menu" style="margin-top: 13px">
+
 							<c:choose>
-								<c:when test="${sessionScope.name != null}">
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item fw-bold"
-										href="${pageContext.request.contextPath}/pay?productNo=1">
-										프리미엄회원권 </a>
-									<a class="dropdown-item fw-bold"
-										href="${pageContext.request.contextPath}/pay?productNo=2">
-										프리미엄모임권 </a>
-									<a class="dropdown-item fw-bold"
-										href="${pageContext.request.contextPath}/pay/list">
-										나의결제내역리스트 </a>
-
-
+								<c:when test="${sessionScope.name==null}">
+									<a class="dropdown-item"
+										href="${pageContext.request.contextPath}/member/login"><i
+										class="fa-solid fa-user mt-2"></i> Log in </a>
 								</c:when>
+								<c:otherwise>
+									<a class="dropdown-item"
+										href="${pageContext.request.contextPath}/member/logout"> <i
+										class="fa-solid fa-user-slash mt-2"></i> Log out
+									</a>
+								</c:otherwise>
 							</c:choose>
-
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/member/mypage"><i
+								class="fa-solid fa-user-gear mt-2"></i> MyPage</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/member/join"><i
+								class="fa-solid fa-user-plus mt-2"></i> Join</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								onclick="reportApply()">신고하기</a>
-
+							<a class="dropdown-item" onclick="reportApply()">Report</a>
 						</div></li>
 
 
 
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle ms-3" data-bs-toggle="dropdown"
-						href="#" role="button" aria-haspopup="true" aria-expanded="false">
-							<h2>
-								<i class="fa-solid fa-lock mt-2"></i>
-							</h2>
-					</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/admin/member">
-								(관리자)회원 관리 </a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/admin/moim">(관리자)모임
-								관리</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/admin/jungmo">(관리자)정모
-								관리</a>
-
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold" href="/league/leagueList">(관리자)리그
-								관리</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/admin/report">(관리자)신고
-								목록</a>
+						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">Moim</a>
+						<div class="dropdown-menu" style="margin-top: 13px">
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/moim/create"><i
+								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
+								class="fa-solid fa-users-viewfinder mt-2"></i> Detail Moim</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
+								class="fa-solid fa-venus mt-2"></i> Women only Moim</a>
 						</div></li>
+
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">Board</a>
+						<div class="dropdown-menu" style="margin-top: 13px">
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/faq/list"><i
+								class="fa-solid fa-rectangle-list mt-2"></i> FAQ</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/freeBoard/list"><i
+								class="fa-solid fa-rectangle-list mt-2"></i> Free Board</a>
+						</div></li>
+
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">Pay</a>
+						<div class="dropdown-menu" style="margin-top: 13px">
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/pay?productNo=1"><i
+								class="fa-solid fa-money-check-dollar mt-2"></i> Premium Member</a>
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/pay?productNo=2"><i
+								class="fa-solid fa-money-check-dollar mt-2"></i> Premium Moim</a><a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/pay/list"><i
+								class="fa-solid fa-money-check-dollar mt-2"></i> My Pay List</a>
+						</div></li>
+
+
+					<li class="nav-item"><a class="nav-link mt-2"
+						href="${pageContext.request.contextPath}/league/leagueList">League</a>
+					</li>
+
+
+					<!-- 다크모드 관련  -->
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">Setting</a>
+						<div class="dropdown-menu" style="margin-top: 13px">
+							<a class="dropdown-item" href="#" id="toggleDarkMode"> <i
+								class="fa-solid fa-moon" style="cursor: pointer;"></i> Dark Mode
+							</a>
+						</div></li>
+
+
+
+
+
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
+						href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+						<div class="dropdown-menu" style="margin-top: 13px">
+							<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/admin/member"><i
+								class="fa-solid fa-lock mt-2"></i> (관리자)회원 관리</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/admin/moim"><i
+								class="fa-solid fa-lock mt-2"></i> (관리자)모임 관리</a><a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/admin/jungmo"><i
+								class="fa-solid fa-lock mt-2"></i> (관리자)정모 관리</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/league/leagueList"><i
+								class="fa-solid fa-lock mt-2"></i> (관리자)리그 관리</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/admin/report"><i
+								class="fa-solid fa-lock mt-2"></i> (관리자)신고 목록</a>
+						</div></li>
+
+
 
 
 
@@ -339,15 +347,13 @@ body {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${nickName}님 환영합니다.</div>
-								
+									<div class="text-light fw-bold mt-3">${level}님환영합니다.</div>
+
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item ms-5">
-								
-							</li>
+							<li class="nav-item ms-5"></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
@@ -362,10 +368,9 @@ body {
 				</div>
 
 				<form class="d-flex">
-					<input
-						class="form-control me-sm-2 mt-3 bg-light text-primary fw-bold"
+					<input class="form-control me-sm-2  bg-light text-primary fw-bold"
 						type="search" placeholder="Search" style="height: 52px">
-					<button class="btn btn-light   text-primary mt-3  fw-bold"
+					<button class="btn btn-light   text-primary   fw-bold"
 						type="submit" style="height: 52px">Search</button>
 				</form>
 			</div>
