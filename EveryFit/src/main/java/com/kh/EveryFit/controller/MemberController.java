@@ -73,56 +73,46 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public String login(
-	    @ModelAttribute MemberDto inputDto,
-	    @RequestParam String memberEmail,
-	    @RequestParam String memberPw,
-	    @RequestParam(required = false) String autoLogin,
-	    HttpServletResponse response,
-	    HttpSession session) {
+	public String login(@ModelAttribute MemberDto inputDto, @RequestParam String memberEmail,
+			@RequestParam String memberPw, @RequestParam(required = false) String autoLogin,
+			HttpServletResponse response, HttpSession session) {
 
-	    //[1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
-	    MemberDto findDto = memberDao.selectOne(inputDto.getMemberEmail());
+		// [1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
+		MemberDto findDto = memberDao.selectOne(inputDto.getMemberEmail());
 
-	    //[2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
-	    if (findDto == null) {
-	        return "redirect:login?error";
-	    }
+		// [2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
+		if (findDto == null) {
+			return "redirect:login?error";
+		}
 
 //	    boolean isCorrectPw = inputDto.getMemberPw().equals(findDto.getMemberPw());
-	    boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
+		boolean isCorrectPw = encoder.matches(inputDto.getMemberPw(), findDto.getMemberPw());
 
+		// [3] 비밀번호가 일치하면 메인페이지로 이동
+		if (isCorrectPw) {
+			// 세션에 아이디+등급 저장
+			session.setAttribute("name", findDto.getMemberEmail());
+			session.setAttribute("level", findDto.getMemberLevel());
+			session.setAttribute("nickName", findDto.getMemberNick());
 
-	    
-	  //[3] 비밀번호가 일치하면 메인페이지로 이동
-	      if(isCorrectPw ) {
-	         //세션에 아이디+등급 저장
-	         session.setAttribute("name", findDto.getMemberEmail());
-	         session.setAttribute("level", findDto.getMemberLevel());
-	         session.setAttribute("nickName", findDto.getMemberNick());
-	         
-	      
-	         
-	         
+			// 아이디 저장하기를 체크했다면 쿠키 생성
+			if (autoLogin != null) {
+				Cookie cookie = new Cookie("saveId", memberEmail);
+				cookie.setMaxAge(4 * 7 * 24 * 60 * 60); // 4주
+				response.addCookie(cookie);
+			} else {
+				// 아이디 저장하기를 체크하지 않았다면 쿠키 삭제
+				Cookie cookie = new Cookie("saveId", memberEmail);
+				cookie.setMaxAge(0); // 발행 즉시 삭제
+				response.addCookie(cookie);
+			}
 
-	        // 아이디 저장하기를 체크했다면 쿠키 생성
-	        if (autoLogin != null) {
-	            Cookie cookie = new Cookie("saveId", memberEmail);
-	            cookie.setMaxAge(4 * 7 * 24 * 60 * 60); // 4주
-	            response.addCookie(cookie);
-	        } else {
-	            // 아이디 저장하기를 체크하지 않았다면 쿠키 삭제
-	            Cookie cookie = new Cookie("saveId", memberEmail);
-	            cookie.setMaxAge(0); // 발행 즉시 삭제
-	            response.addCookie(cookie);
-	        }
-
-	        return "redirect:/";
-	    }
-	    //[4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
-	    else {
-	        return "redirect:login?error";
-	    }
+			return "redirect:/";
+		}
+		// [4] 비밀번호가 일치하지 않으면 로그인페이지로 이동
+		else {
+			return "redirect:login?error";
+		}
 	}
 
 	// 마이페이지
@@ -151,11 +141,9 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
 		session.removeAttribute("nickName");
-		session.removeAttribute("level");//확인받아야
+		session.removeAttribute("level");// 확인받아야
 		return "redirect:/";
 	}
-
-	
 
 	// 개인정보 변경
 	@GetMapping("/change")
@@ -192,7 +180,7 @@ public class MemberController {
 	// 비밀번호 변경
 	@GetMapping("/changePw")
 //	public String changePw(HttpSession session, Model model) {
-		public String changePw() {
+	public String changePw() {
 //			String memberEmail = (String) session.getAttribute("name");//아이디 꺼내오는 
 //			MemberDto memberDto = memberDao.selectOne(memberEmail);//로그인한 현재회원 정보 
 //			model.addAttribute("memberDto",memberDto);//로그인된 회원정보를 model에 넘긴다 
@@ -201,72 +189,73 @@ public class MemberController {
 
 	@PostMapping("/changePw")
 	public String changePw(HttpSession session, String changePw, Model model) {
-	    // 1. 세션에서 이메일 가져오기
-	    String resetPwMemberEmail = (String) session.getAttribute("resetPwMemberEmail");
+		// 1. 세션에서 이메일 가져오기
+		String resetPwMemberEmail = (String) session.getAttribute("resetPwMemberEmail");
 
-	    // 2. 이메일로 회원 정보 가져오기
-	    MemberDto findDto = memberDao.selectOne(resetPwMemberEmail);
+		// 2. 이메일로 회원 정보 가져오기
+		MemberDto findDto = memberDao.selectOne(resetPwMemberEmail);
 
-	    // 3. 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
-	    if (findDto != null && encoder.matches(changePw, findDto.getMemberPw())) {
-	        // 새로운 비밀번호를 암호화
-	        String encryptedNewPassword = encoder.encode(changePw);
+		// 3. 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
+		if (findDto != null && encoder.matches(changePw, findDto.getMemberPw())) {
+			// 새로운 비밀번호를 암호화
+			String encryptedNewPassword = encoder.encode(changePw);
 
-	        // 암호화된 비밀번호를 DTO에 설정
-	        findDto.setMemberPw(encryptedNewPassword);
+			// 암호화된 비밀번호를 DTO에 설정
+			findDto.setMemberPw(encryptedNewPassword);
 
-	        // 4. memberDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
-	        memberDao.edit(resetPwMemberEmail, encryptedNewPassword);
+			// 4. memberDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
+			memberDao.edit(resetPwMemberEmail, encryptedNewPassword);
 
-	        // 5. 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
+			// 5. 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
 //	        session.invalidate();
+
+			return "/member/login";
+		} else {
+			model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
+			return "redirect:changePw?error";
+		}
+	}
+
+	@GetMapping("/memberChangePw")
+	public String memberChangePw(HttpSession session, Model model) {
+		String memberEmail = (String) session.getAttribute("name");
+		MemberDto memberDto = memberDao.selectOne(memberEmail);
+		model.addAttribute("memberDto", memberDto);
+		return "/member/memberChangePw";
+	}
+
+	@PostMapping("/memberChangePw")
+	public String memberChangePw(HttpSession session, 
+	                             @RequestParam String originPw,
+	                             @RequestParam String changePw,
+	                             @RequestParam String memberEmail,
+	                             Model model) {
+	    // [1] 사용자가 입력한 아이디로 데이터베이스에서 정보를 조회
+	    MemberDto findDto = memberDao.selectOne(memberEmail);
+
+	    //[2] 1번에서 정보가 있다면 비밀번호를 검사(없으면 차단)
+	    if (findDto == null) {
+	        return "redirect:login?error";
+	    }
+
+	    boolean isCorrectPw = encoder.matches(originPw, findDto.getMemberPw());
+
+	    //[3] 비밀번호가 일치하면 메인페이지로 이동
+	    if (isCorrectPw) {
+	        // 세션에 아이디+등급 저장
+	        session.setAttribute("name", findDto.getMemberEmail());
+
+	        // 비밀번호 업데이트
+	        findDto.setMemberPw(encoder.encode(changePw));
+	        memberDao.updatePassword(findDto);
 
 	        return "/member/login";
 	    } else {
 	        model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
-	        return "redirect:memberchangePw?error";
+	        return "redirect:memberChangePw?error";
 	    }
 	}
 
-
-	@GetMapping("/memberChangePw")
-	public String memberChangePw(HttpSession session, Model model) {
-	    String memberEmail = (String) session.getAttribute("name");
-	    MemberDto memberDto = memberDao.selectOne(memberEmail);
-	    model.addAttribute("memberDto", memberDto);
-	    return "/member/memberChangePw";
-	}
-
-	@PostMapping("/memberChangePw")
-	public String memberChangePw(HttpSession session,
-            @RequestParam String originPw,
-            @RequestParam String changePw,
-            Model model) {
-			String memberEmail = (String) session.getAttribute("name");
-			//이메일로 회원 정보 가져오기
-			MemberDto findDto = memberDao.selectOne(memberEmail);
-			
-			// 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
-			if (encoder.matches(originPw, findDto.getMemberPw())) {
-			
-			// 새로운 비밀번호를 암호화
-			String encryptedNewPassword = encoder.encode(changePw);
-			
-			// 암호화된 비밀번호를 DTO에 설정
-			findDto.setMemberPw(encryptedNewPassword);
-			
-			// customerDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
-			memberDao.changeMemberInfo(findDto);
-			
-			// 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
-//			session.invalidate();
-			
-			return "/member/login";
-			} else {
-			model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
-			return "redirect:memberchangePw?error";
-			}
-			}
 
 	@GetMapping("/exit")
 	public String exit() {
@@ -277,7 +266,7 @@ public class MemberController {
 	public String exit(HttpSession session, @RequestParam("memberPw") String memberPw) {
 		String memberEmail = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberEmail);
-		boolean isCorrectPw = encoder.matches(memberPw,memberDto.getMemberPw());
+		boolean isCorrectPw = encoder.matches(memberPw, memberDto.getMemberPw());
 		if (isCorrectPw) {// 비밀번호 확인
 
 			memberDao.delete(memberEmail);
@@ -310,16 +299,19 @@ public class MemberController {
 			message.setText(findDto.getMemberPw());
 			sender.send(message);
 //			session.setAttribute(memberDto.getMemberEmail());
-
+			//이메일 찾기에 입력한 이메일을 memberChangePw페이지에 보내야됨 
+			 // 세션에 이메일 저장
+	        session.setAttribute("resetEmail", memberDto.getMemberEmail());
+	        
 			return "redirect:findPwFinish";
 		} else {// 이메일이 다르다면
 			return "redirect:findPw?error";
 		}
 	}
 
-	@RequestMapping("findPwFinish")
+	@RequestMapping("/findPwFinish")
 	public String findPwFinish() {
-		return "/member/findPwFinish";
+		return "/member/memberChangePw";
 	}
 
 // 자동 로그인 쿠키 

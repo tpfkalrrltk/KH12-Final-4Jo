@@ -31,7 +31,6 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/freeBoard/**",
 			"/rest/freeBoardReply/**",
 			"/rest/moimBoardReply/**",
-			"/member/**",
 			"/pay/**",
 			"/report/**",
 			"/moim/**",
@@ -48,7 +47,8 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/member/find**",
 			"/rest/freeBoardReply/list",
 			"/faq/list",
-			"/faq/detail**"
+			"/faq/detail**",
+			"/member/memberChangePw"
 
 	);
 	
@@ -59,7 +59,6 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/freeBoard/*",
 			"/rest/freeBoardReply/**",
 			"/rest/moimBoardReply/**",
-			"/member/**",
 			"/pay/**",
 			"/report/**",	
 			"/moim/**",
@@ -75,7 +74,8 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/member/login",
 			"/member/logout",
 			"/member/exitFinish",
-			"/member/find**"
+			"/member/find**",
+			"/member/memberChangePw"
 );
 	
 //	registry.addInterceptor(adminOwnerInterceptor)

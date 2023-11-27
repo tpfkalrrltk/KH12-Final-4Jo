@@ -126,6 +126,11 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	
 	@Override
+	public void changeMemberPw(MemberDto memberDto) {
+		sqlSession.update("com.example.mapper.MemberMapper.memberChangePw", memberDto);
+	}
+	
+	@Override
 	public void changeMemberInfo(MemberDto memberDto) {
 //		String origin = memberDto.getMemberPw();
 //		String encrypt = encoder.encode(origin);
@@ -151,6 +156,12 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+//	로그인 안된 상태에서 비밀번호 찾기
+	@Override
+    public void updatePassword(MemberDto memberDto) {
+        sqlSession.update("updatePassword", memberDto);
+    }
 
 	@Override
 	public MemberDto login(MemberDto memberDto) {
@@ -186,10 +197,10 @@ public class MemberDaoImpl implements MemberDao {
 		  return sqlSession.delete("attach.deleteProfile", memberEmail) > 0;
 //		return sqlSession.delete("memberEmail.deleteMemberimage",memberEmail) > 0;
 	}
-	 @Override
-	    public void changeMemberPassword(MemberDto memberDto) {
-	        sqlSession.update("com.example.mapper.MemberMapper.memberChangePw", memberDto);
-	    }
+//	 @Override
+//	    public void changeMemberPassword(MemberDto memberDto) {
+//	        sqlSession.update("com.example.mapper.MemberMapper.memberChangePw", memberDto);
+//	    }
 	}
 
 //	로그인 시간 갱신 

@@ -13,5 +13,4 @@ public interface EmailService {
 	
 	void sendCelebration(String email) throws MessagingException, IOException;
 	
-	
 }

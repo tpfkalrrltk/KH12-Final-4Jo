@@ -26,14 +26,14 @@
 				<label>비밀번호</label>
 			</div>
 			<div class="col-md-4 offset-md-4 text-start">
-				<input class="form-control" name="memberPw">
+				<input type="password" class="form-control" name="memberPw">
 			</div>
 
 			<div class="col-md-4 offset-md-4 mt-3 text-start">
 				<label>비밀번호 확인</label>
 			</div>
 			<div class="col-md-4 offset-md-4 text-start">
-				<input class="form-control" name="changePwCheck">
+				<input type="password" class="form-control" name="changePwCheck">
 			</div>
 			
 			<div class="col-md-4 offset-md-4 text-start mt-5">

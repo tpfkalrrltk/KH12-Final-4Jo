@@ -8,7 +8,7 @@
 
 </style>
 
-<form id="changePasswordForm" action="" method="post" autocomplete="off">
+<form  action="" method="post" autocomplete="off">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-10 offset-md-1">
