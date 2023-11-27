@@ -65,7 +65,7 @@
 			$(".btn-resetPw").find(".fa-spinner").show();
 			$(".btn-resetPw").find("span").text("이메일 발송중");
 			$.ajax({
-				url : "http://localhost:8080/rest/cert/resetPw",
+				url : window.contextPath + "/rest/cert/resetPw",
 				method : "post",
 				data : {
 					certEmail : email
@@ -92,7 +92,7 @@
 						return;
 
 					$.ajax({
-						url : "http://localhost:8080/rest/cert/resetPwCheck",
+						url : window.contextPath + "/rest/cert/resetPwCheck",
 						method : "post",
 						data : {
 							certEmail : email,
@@ -109,7 +109,7 @@
 										"green");
 								
 								 // 인증 성공 시 비밀번호 변경 페이지로 이동
-				                window.location.href = "http://localhost:8080/member/changePw"; // 실제 경로로 변경
+				                window.location.href = window.contextPath + "/member/changePw"; // 실제 경로로 변경
 				                
 							} else {
 								$(".cert-input").removeClass("success fail")

@@ -198,7 +198,7 @@ span {
 			$(".btn-send").find(".fa-spinner").show();
 			$(".btn-send").find("span").text("이메일 발송중");
 			$.ajax({
-				url : "http://localhost:8080/rest/cert/send",
+				url : window.contextPath + "/rest/cert/send",
 				method : "post",
 				data : {
 					certEmail : email
@@ -225,7 +225,7 @@ span {
 						return;
 
 					$.ajax({
-						url : "http://localhost:8080/rest/cert/check",
+						url : window.contextPath + "/rest/cert/check",
 						method : "post",
 						data : {
 							certEmail : email,

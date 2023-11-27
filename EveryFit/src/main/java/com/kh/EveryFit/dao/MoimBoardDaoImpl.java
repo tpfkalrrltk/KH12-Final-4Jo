@@ -140,10 +140,11 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 	
 	
 	@Override
-	public List<MoimBoardDto> selectList(String type, String keyword) {
+	public List<MoimBoardDto> selectList(String type, String keyword, int moimNo) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("type", type);
 		params.put("keyword", keyword);
+		params.put("moimNo", moimNo);
 		return sqlSession.selectList("MoimBoard.selectList", params);
 	}
 

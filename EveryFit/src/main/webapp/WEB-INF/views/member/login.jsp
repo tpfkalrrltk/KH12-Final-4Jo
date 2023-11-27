@@ -58,6 +58,15 @@ a {
 
 
 
+<!-- 황민하 지금 보안관련 기능 추가중 -->
+<div class="duplicate-login-alert">
+	<c:if test="${DUPLICATE_LOGIN eq 'true'}">													
+		<script> alert("다른 기기에서 로그인되어 현재 로그인이 종료되었습니다.") </script>											
+	</c:if>
+</div>
+
+
+
 
 <form action="login" method="post" autocomplete="off">
 
@@ -112,11 +121,13 @@ a {
 						
 
 						<button type="button" class="btn btn-link mt-3" data-bs-target="#findPw">
-							<a href="/member/findPw" class="text-primary" style="text-decoration: none;">비밀번호를 잊으셨나요?</a>
+
+							<a href="${pageContext.request.contextPath}/member/findPw" class="text-primary" style="text-decoration: none;">비밀번호를 잊으셨나요?</a>
 						</button>
 
 						<button type="button" class="btn btn-link">
-							<a href="/member/join" class="text-primary">회원가입</a>
+							<a href="${pageContext.request.contextPath}/member/join" class="text-primary">회원가입</a>
+
 						</button>
 
 

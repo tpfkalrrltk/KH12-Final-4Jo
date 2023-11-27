@@ -73,12 +73,13 @@ text {
 									</div>
 								</c:when>
 								<c:otherwise>
-									<img src="/rest/attach/download?attachNo=${profile}"
+									<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
 										class="image image-circle image-border profile-image"
 										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
 
 								</c:otherwise>
 							</c:choose>
+
 							<c:choose>
 
 								<c:when test="${memberDto.memberLevel == '프리미엄'}">
@@ -87,6 +88,7 @@ text {
 									</div>
 								</c:when>
 							</c:choose>
+
 							<div class="d-flex flex-column mb-3 mt-1">
 								<div class="p-2">
 									<label> <input type="file" class="profile-chooser "
@@ -103,6 +105,13 @@ text {
 
 					<div class="col align-self-center d-flex">
 						<div class="d-flex flex-column ">
+
+       
+                 <div class="p-2 flex-fill text-start">
+						<c:if test="${memberDto.memberLevel == '프리미엄'}">
+							<span class="badge bg-success btn btn-success" >프리미엄 회원</span>
+						</c:if>
+						</div>
 							<div class="p-2 flex-fill text-start">
 
 								<i class="fa-solid fa-user-tag" style="color: #118ab2;"> :
@@ -113,6 +122,7 @@ text {
 								<i class="fa-solid fa-user-group" style="color: #118ab2;"> :
 									${memberDto.memberMoimProduce} 개</i>
 							</div>
+
 						</div>
 					</div>
 
@@ -268,12 +278,14 @@ text {
 
 	//회원정보변경
 	function mypage() {
-		window.location.href = '/member/change';
+
+		window.location.href =window.contextPath +'/member/change';
 	}
 	//내가보유한카드리스트
 	function Premium() {
-		window.location.href = '/pay?productNo=1';
+		window.location.href = window.contextPath +'/pay?productNo=1';
 	}
+
 
 	/* 모임링크 클릭시  */
 	$(function() {
@@ -319,6 +331,84 @@ text {
 	
 </script>
 
+<script>
+$(function() {
+    $(".moimList").click(function() {
+        // Rest 호출
+    	$.ajax({
+    	    url: window.contextPath + "/rest/moim/list",
+    	    method: "post",
+    	    dataType: "json", // JSON 형식으로 응답을 기대하는 경우 반드시 명시
+    	    success: function(response) {
+    	        console.log(response); // 확인용 출력
+
+    	        // 기존 내용 삭제
+                $(".moimListAppend").empty();
+    	        // 예상대로 응답이 배열 형태인 경우
+    	        for (var i = 0; i < response.length; i++) {
+    	           
+
+
+    	            // 각각의 moimNo에 맞는 URL을 생성
+    	            var moimDetailUrl = window.contextPath + "/moim/detail?moimNo=" + response[i].moimNo;
+
+    	            // <a> 태그로 감싸진 <p> 태그를 append
+    	            $(".moimListAppend").append("<p><a href='" + moimDetailUrl + "'>" + response[i].moimTitle + " ("+response[i].moimMemberLevel+")" +"</a></p>");
+    	            
+    	        }
+
+    	        // 예상대로 응답이 객체 형태인 경우
+    	        // $(".moimListAppend").append("<p>" + response.moimName + "</p>");
+    	        // 예시: response.moimName은 실제 데이터 구조에 맞게 변경
+    	    },
+    	    error: function(xhr, status, error) {
+    	        console.error("Ajax 요청 에러:", status, error);
+    	    },
+    	});
+    });
+});
+
+//'소개' 링크 클릭 시
+document.addEventListener('DOMContentLoaded', function () {
+  var links = document.querySelectorAll('.container a');
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault(); // 기본 동작 방지
+      links.forEach(function (otherLink) {
+        otherLink.classList.remove('active');
+      });
+      link.classList.add('active');
+
+      // 클릭된 링크의 태그 이름을 가져와서 출력
+      var tag = link.getAttribute('data-tag');
+      console.log('선택된 태그: ' + tag);
+
+      // '소개' 링크를 클릭하면 해당 내용을 summernote에 추가
+      if (tag === '소개') {
+        var introductionContent = '여기에 소개 내용을 작성하세요...';
+        $('#summernote').summernote('code', introductionContent);
+      }
+
+      // 이제 여기에 실제 정보를 불러오는 로직을 추가하세요.
+      // 예를 들면, Ajax를 사용하여 서버에서 데이터를 가져오거나, 미리 정의된 데이터를 사용할 수 있습니다.
+    });
+  });
+});
+
+// 나머지 JavaScript 코드는 그대로 유지합니다.
+
+// 나머지 JavaScript 코드도 그대로 유지합니다.
+//회원정보변경
+function mypage() {
+  window.location.href = window.contextPath + '/member/change';
+}
+
+//내가보유한카드리스트
+function Premium() {
+  window.location.href = window.contextPath + '/pay/list';
+}
+</script>
 
 
 

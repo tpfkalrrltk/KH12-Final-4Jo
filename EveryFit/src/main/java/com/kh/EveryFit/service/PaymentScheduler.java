@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.kh.EveryFit.configuration.PeriodKakaoPayProperties;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dao.PaymentDao;
 import com.kh.EveryFit.dto.PaymentDto;
 import com.kh.EveryFit.dto.PeriodPaymentDto;
@@ -22,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class PaymentScheduler {
 
+	@Autowired
+	private MoimDao moimDao;
+	
 	@Autowired
 	private PaymentDao paymentDao;
 	@Autowired
@@ -73,6 +77,7 @@ public class PaymentScheduler {
 			PeriodPaymentDto periodPaymentDto =paymentDao.selectOne(paymentListAllVO.getPeriodPaymentNo());
 			
 			paymentDao.update(periodPaymentDto);
+			moimDao.updateToEndDate(paymentListAllVO.getPeriodPaymentMoimNo());
 			
 		}
 	}

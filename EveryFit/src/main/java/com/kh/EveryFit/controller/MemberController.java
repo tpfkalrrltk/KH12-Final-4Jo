@@ -94,6 +94,10 @@ public class MemberController {
 	         session.setAttribute("name", findDto.getMemberEmail());
 	         session.setAttribute("level", findDto.getMemberLevel());
 	         session.setAttribute("nickName", findDto.getMemberNick());
+	         
+	      
+	         
+	         
 
 	        // 아이디 저장하기를 체크했다면 쿠키 생성
 	        if (autoLogin != null) {
@@ -137,7 +141,7 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
 		session.removeAttribute("nickName");
-//			session.removeAttribute("level");//확인받아야
+		session.removeAttribute("level");//확인받아야
 		return "redirect:/";
 	}
 

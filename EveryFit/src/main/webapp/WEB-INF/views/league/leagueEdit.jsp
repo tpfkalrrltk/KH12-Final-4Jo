@@ -14,7 +14,7 @@
 			</div>
 			<div class="row text-end">
 				<div class="col">
-					<a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-info">돌아가기</a>
+					<a href="${pageContext.request.contextPath}/league/leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-info">돌아가기</a>
 				</div>
 			</div>
 		</div>		
@@ -113,7 +113,7 @@
 	function loadLoactionList(e){
 		var locationDepth1 = e.target.value;
 	    $.ajax({
-	        url: "http://localhost:8080/rest/location/depth2List",
+	        url: window.contextPath + "/rest/location/depth2List",
 	        type: "post",
 	        data: { locationDepth1: locationDepth1 },
 	        success: function (data) {

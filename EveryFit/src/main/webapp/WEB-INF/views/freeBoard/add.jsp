@@ -72,7 +72,7 @@ $(function(){
 		</div>
 
 		<div class="row">
-			<a href="/freeBoard/list" style="text-decoration: none"
+			<a href="${pageContext.request.contextPath}/freeBoard/list" style="text-decoration: none"
 				class="text-end btn-light fw-bold">목록으로 돌아가기 </a>
 		</div>
 

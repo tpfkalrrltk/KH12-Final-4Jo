@@ -17,15 +17,17 @@ p {
 			<hr>
 			<div class="row text-end">
 				<div class="col">
-					<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
-					<a class="btn btn-info" href="leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
-					<a class="btn btn-danger del-btn" href="leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
+					<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+					<c:if test="${sessionScope.level=='관리자'}">
+						<a class="btn btn-info" href="${pageContext.request.contextPath}/league/leagueEdit?leagueNo=${leagueDto.leagueNo}">수정</a>
+						<a class="btn btn-danger del-btn" href="${pageContext.request.contextPath}/league/leagueDelete?leagueNo=${leagueDto.leagueNo}">삭제</a>
+					</c:if>
 				</div>
 			</div>
 		</div>
 	
 		<div class="row mt-2 text-center"><div class="col">
-			<img class="img-fluid" src="/league/leagueImage?leagueNo=${leagueDto.leagueNo}"
+			<img class="img-fluid" src="${pageContext.request.contextPath}/league/leagueImage?leagueNo=${leagueDto.leagueNo}"
 				onerror="this.style.display='none'">
 		</div></div>
 		<div class="row mt-5"><div class="col">
@@ -73,9 +75,16 @@ p {
 		
 		<div class="row mt-4">
 			<div class="col">
-				<button type="button" class="btn btn-primary btn-lg w-100" id="enter-btn" disabled>
-					리그참여
-				</button>
+				<c:choose>
+					<c:when test="${leagueDto.leagueStatus=='접수중'}">
+						<button type="button" class="btn btn-primary btn-lg w-100" id="enter-btn" disabled>
+							리그참여
+						</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" class="btn btn-primary btn-lg w-100" disabled>접수기간이 아닙니다</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div></div>
@@ -84,6 +93,11 @@ p {
 <script>
 $(document).ready(function(){
 	$("#enter-btn").click(function(){
+	var memberEmail = "${sessionScope.name}";
+	if(memberEmail==""){
+	alert("로그인후 이용 가능합니다.");
+		return;
+	}
 
 		var stringApplicaionStart = "${applicationDto.leagueApplicationStart}";
 		var stringApplicaionEnd = "${applicationDto.leagueApplicationEnd}";
@@ -91,14 +105,14 @@ $(document).ready(function(){
 		var applicationEnd = new Date(stringApplicaionEnd);
 		var curr = new Date();
 
-		if(curr < applicationStart || curr > applicationEnd || applicationStart!=null || applicationEnd!=null){
+		if(curr < applicationStart || curr > applicationEnd || applicationStart==null || applicationEnd==null){
 			alert("접수기간이 아닙니다.");
 			return;
 		}
 			
 		var leagueNo = ${leagueDto.leagueNo};
 		$.ajax({
-			url:"http://localhost:8080/rest/league/checkMoim",
+			url:window.contextPath + "/rest/league/checkMoim",
 			method:"post",
 			data:{leagueNo:leagueNo},
 			success:function(response){
@@ -119,16 +133,16 @@ $(document).ready(function(){
                 
                 // 각 팀에 대한 목록을 모달에 추가
                 for (var i = 0; i < moimList.length; i++) {
-                	modalContent += '<div class="card border-primary mb-3" style="max-width: 20rem;">';
+                	modalContent += '<div class="card border-primary mb-3">';
                 	modalContent += '<div class="card-header">' + '모임번호 : '+ moimList[i].moimNo + '</div>';
-                    modalContent += '<div class="card-body text-center">';
+                    modalContent += '<div class="card-body text-center mt-3">';
                     modalContent += '<h4 class="card-title">모임 이름 : ' + moimList[i].moimTitle +'</h4>';
                     if(moimList[i].moimMemberLevel=='모임장'){
-                    modalContent += '<a href="leagueTeamInsert?leagueNo=' + ${leagueDto.leagueNo} + '&moimNo=' + moimList[i].moimNo + 
-                    				'" class="btn btn-primary">신청</a>';
+                    modalContent += '<a href="${pageContext.request.contextPath}/league/leagueTeamInsert?leagueNo=' + ${leagueDto.leagueNo} + '&moimNo=' + moimList[i].moimNo + 
+                    				'" class="btn btn-primary insert-btn w-100 mt-3" data-moim-no='+ moimList[i].moimNo + '>신청</a>';
                     }
                     else{
-                    	modalContent += '<button class="btn btn-primary" disabled>모임장만 신청 가능합니다</button>';	
+                    	modalContent += '<button class="btn btn-primary w-100" disabled>모임장만 신청 가능합니다</button>';	
                     }
                     modalContent += '</div></div>';
                 }

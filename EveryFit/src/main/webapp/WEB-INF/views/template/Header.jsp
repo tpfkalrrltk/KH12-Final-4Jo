@@ -5,9 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script>
-	window.contextPath = "${pageContext.request.contextPath}";
-</script>
 
 <!DOCTYPE html>
 <html>
@@ -16,6 +13,9 @@
 <title>Every Fit</title>
 
 
+<script>
+	window.contextPath = "${pageContext.request.contextPath}";
+</script>
 
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
 <!-- datetimepicker -->
 <link rel="stylesheet" href="/css/jquery.datetimepicker.min.css" />
 
-<link rel="preload" href="webfont-path" as="font" crossorigin />
+
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
@@ -170,6 +170,11 @@ body.dark-mode {
 		document.getElementById('txt').innerHTML = h + "시" + " " + m + "분"
 				+ " " + s + "초";
 		setTimeout(startTime, 1000);
+
+		
+
+		
+
 	}
 
 	function checkTime(i) {
@@ -206,14 +211,27 @@ body.dark-mode {
     });
 </script>
 
+<script type="text/javascript">
+	function reportApply() {
+		window
+				.open("/report/apply", "report",
+						"width=700px, height=800px,scrollbars=yes left=500, top=300,  resizable=no");
+	}
+</script>
+
+
+
 
 <body>
 
 
 
 
+
+
 	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
-		style="z-index: 99999999" data-bs-theme="dark">
+		style="z-index: 1040" data-bs-theme="dark">
+
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
 				width="110px" /></a>
@@ -330,9 +348,7 @@ body.dark-mode {
 								나의결제내역리스트 </a>
 
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
-
+							<a class="dropdown-item fw-bold" onclick="reportApply()">신고하기</a>
 						</div></li>
 						
 					<!-- 다크모드 관련  -->
@@ -353,8 +369,8 @@ body.dark-mode {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
-
+									<div class="text-light fw-bold">${nickName}님환영합니다.</div>
+									<div id="divClock" class="clock"></div>
 								</h5>
 							</li>
 						</c:when>

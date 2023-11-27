@@ -52,6 +52,9 @@
     max-height: 300px;
     min-height:100px;
 }
+.h5 {
+	margin : -7px;
+}
 </style>
 
 <!-- 회원 멤버쉽 모달 코드 추가 -->
@@ -151,14 +154,27 @@
 
 	<div class="d-flex">
 	  <div class="box p-2 w-100 text-center">
-		<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
-		<img src="/images/mypagememberCardBefore.png" class="main-image text-center fixed-size-image mt-3">
-	</div> <label style="margin-top: 90px">▶</label>
+	  <c:choose>
+							<c:when test="${productDto.productType == '단건'}">
+							<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
+		<img src="/images/mypagememberExampleBefore.png" class="main-image text-center fixed-size-image mt-1">
+		</div> <label style="margin-top: 90px">▶</label>
 	  <div class="box p-2 w-100 text-center">
 		<span class="text-center mb-2">★프리미엄 회원 badge 예시(After)★</span>
-		<img src="/images/mypagememberCard.png" class="main-image text-center fixed-size-image mt-3">
+		<img src="/images/mypagememberExampleAfter.png" class="main-image text-center fixed-size-image mt-3">
+							</c:when>
+							<c:otherwise>
+									<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
+		<img src="/images/mymoimExampleBefore.png" class="main-image text-center fixed-size-image mt-1">
+		</div> <label style="margin-top: 90px">▶</label>
+	  <div class="box p-2 w-100 text-center">
+		<span class="text-center mb-2">★프리미엄 회원 badge 예시(After)★</span>
+		<img src="/images/mymoimExampleAfter.png" class="main-image text-center fixed-size-image mt-3">					
+							</c:otherwise>
+	</c:choose>
 	</div>
 	</div>
+
 
 
 
@@ -174,7 +190,8 @@
 							<c:when test="${productDto.productType == '단건'}">
 								<h4>♥프리미엄 회원권 혜택♥</h4><br>
 									<span class="text-start">▶ EeveryFit 프리미엄 회원권은 한번 결제하면 평생 이용이 가능합니다.</span> <br>
-									<span class="text-start">▶ 최대 가입 가능한 모임 개수 3 -> 10로 증가 (일반 회원은 최대 3개의 모임에 가입이 가능합니다)</span>
+									<span class="text-start">▶ 최대 가입 가능한 모임 개수 3 -> 10로 증가 (일반 회원은 최대 3개의 모임에 가입이 가능합니다)</span> <br>
+									<span class="text-start">▶ 마이페이지에 프리미엄 회원 뱃지 제공 -> 상단 예시에서 볼 수 있습니다.</span>
 									<br><br>
 										<c:if test="${memberDto.memberLevel != '프리미엄'}">
 											<%-- <a href="pay/purchase?productNo=${productDto.productNo}"
@@ -193,11 +210,28 @@
 							
 							<c:otherwise>
 								<h4>♥프리미엄 모임권 혜택♥</h4><br>
-								<span class="text-start">▶ EeveryFit 프리미엄 모임권은 정기결제로 언제든 해지할 수 있습니다.</span> <br>
-								<span class="text-start">▶ 모임 비활성화 해제 (일반 모임은 1달 후 비활성화 -> 프리미엄 모임권 결제 시, 비활성화 해제)</span>
-								<br><br><br>
-							<h4>♥[${memberDto.memberEmail}] 님이 모임장으로 이용하고 있는 모임 내역♥</h4><br>
+								<div class="mb-2">▶ EeveryFit 프리미엄 모임권은 정기결제로 언제든 해지할 수 있습니다.</div>
+								<div class="mb-2">▶ 모임 정원 30 -> 100 명으로 증가</div>
+								<div class="mb-3">▶ 모임 비활성화 해제 (일반 모임은 1달 후 비활성화 -> 프리미엄 모임권 결제 시, 비활성화 해제)</div>
+								<br>
+							<h4 class="h5">♥[${memberDto.memberEmail}] 님이 모임장으로 이용하고 있는 모임 내역♥</h4><br>
+							
+							<c:choose>
+    <c:when test="${empty MoimDtoList}">
+    <button class="btn btn-warning w-25 mb-2">
+			<a href="${pageContext.request.contextPath}/moim/create" style="text-decoration:none; color:white;">모임 생성</a>						
+		</button>
+        <div class="mb-2">▶ 모임장으로 운영중인 모임이 없습니다.</div>
+        <div class="mb-2">▶ 모임을 만들어 볼까요? 모임 만들기를 원하시면 모임 생성 버튼을 클릭 해 주세요</div>
+        
+    </c:when>
+    <c:otherwise>
+							
 							<c:forEach var="MoimDtoList" items="${MoimDtoList}">
+							
+							
+  
+
 							
 							<c:if test="${MoimDtoList.moimUpgrade eq 'N'}" >
 							
@@ -213,20 +247,24 @@
 							
 							</c:if>
 							
-														<c:if test="${MoimDtoList.moimUpgrade eq 'Y'}" >
-							
-							
-							
-							<a href="pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
+							<c:if test="${MoimDtoList.moimUpgrade eq 'Y'}" >
+							<a href="${pageContext.request.contextPath}/pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
 							class="ataglink mb-1 disabled-link w-50 text-center">
 							[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다. <br>이용해 주셔서 감사합니다.
 							</a>
 <%-- 							(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
-
 							<br>
-							
 							</c:if>
+							
+							  
+							
+							
 							</c:forEach>
+
+</c:otherwise>
+</c:choose>							
+							
+							
 							</c:otherwise>
 						</c:choose>
 					</div>

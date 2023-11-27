@@ -12,4 +12,16 @@ public class ErrorController {
 	public String MemberBlockException () {
 		return "/error/MemberBlockException";
 	}
+	
+	
+	@GetMapping("/AuthorityException")
+	public String AuthorityException () {
+		return "/error/AuthorityException";
+	}
+	
+	
+	@GetMapping("/AdminException")
+	public String AdminException () {
+		return "/error/AdminException";
+	}
 }

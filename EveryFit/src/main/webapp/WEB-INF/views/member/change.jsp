@@ -43,9 +43,11 @@ a {
 								<label>비밀번호</label>
 								<div class="col-md-4 offset-md-4 text-start d-flex flex-row">
 
+
 									<div>
 										<input type="password" class="form-control " name="memberPw"
 											value="${memberDto.memberPw}" disabled>
+
 									</div>
 									<button type="button" class="btn btn-primary ms-2 ">
 										<a href="/member/memberChangePw">비밀번호 변경</a>
@@ -62,6 +64,7 @@ a {
 						class="form-control" value="${memberDto.memberNick}" required>
 				</div>
 
+
 				<div class="col-md-4 offset-md-4 text-start">
 					<label>연락처</label> <input type="tel" name="memberContact"
 						class="form-control" value="${memberDto.memberContact}">
@@ -70,6 +73,7 @@ a {
 					<label>생년월일</label> <input type="date" name="memberBirth"
 						class="form-control" value="${memberDto.memberBirth}" disabled>
 				</div>
+
 
 				<div class="col-md-4 offset-md-4 text-center mt-4">
 					<!-- <button class="btn btn-danger"> -->

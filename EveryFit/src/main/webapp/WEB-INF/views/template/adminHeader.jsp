@@ -5,16 +5,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<script>
-	window.contextPath = "${pageContext.request.contextPath}";
-</script>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Every Fit</title>
 
+
+<script>
+	window.contextPath = "${pageContext.request.contextPath}";
+</script>
 
 
 <!-- 구글 웹 폰트 사용을 위한 CDN -->
@@ -25,7 +25,7 @@
 	rel="stylesheet">
 
 
-<link rel="preload" href="webfont-path" as="font" crossorigin />
+
 
 
 <script
@@ -151,13 +151,24 @@ body {
 </script>
 
 
+<script type="text/javascript">
+	function reportApply() {
+		window
+				.open("/report/apply", "report",
+						"width=700px, height=800px,scrollbars=yes left=500, top=300,  resizable=no");
+	}
+</script>
+
+
 <body>
 
 
 
 
-	<nav class="navbar navbar-expand-lg bg-primary fixed-top" style="z-index: 99999999"
+
+	<nav class="navbar navbar-expand-lg bg-primary fixed-top" style="z-index: 1040"
 		data-bs-theme="dark">
+
 		<div class="container-fluid">
 			<a class="navbar-brand ms-4" href="/"><img src="/images/logo.png"
 				width="110px" /></a>
@@ -284,8 +295,8 @@ body {
 
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item fw-bold"
-								href="${pageContext.request.contextPath}/report/apply">신고하기</a>
-								
+								onclick="reportApply()">신고하기</a>
+
 						</div></li>
 
 
@@ -328,14 +339,14 @@ body {
 
 							<li class="nav-item ms-5">
 								<h5>
-									<div class="text-light fw-bold">${name}회원님환영합니다.</div>
-									<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+									<div class="text-light fw-bold">${nickName}님 환영합니다.</div>
+								
 								</h5>
 							</li>
 						</c:when>
 						<c:otherwise>
 							<li class="nav-item ms-5">
-								<div class="text-light fw-bold">관리자 헤더 입니다.</div>
+								
 							</li>
 						</c:otherwise>
 					</c:choose>
