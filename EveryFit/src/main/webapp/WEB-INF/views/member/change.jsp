@@ -50,7 +50,7 @@ a {
 
 									</div>
 									<button type="button" class="btn btn-primary ms-2 ">
-										<a href="/member/memberChangePw">비밀번호 변경</a>
+										<a href="/member/changePw">비밀번호 변경</a>
 									</button>
 
 								</div>

@@ -109,24 +109,25 @@ span {
 							<div class="col-md-4 offset-md-4 text-start">
 								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
 								<label>비밀번호</label> <input type="password" name="memberPw"
-									class="form-control" placeholder="Everyfit1!">
+									class="form-control" placeholder="Everyfit1!" id="passwordInput">
+									<input class="form-check-input" type="checkbox" id="showPassword" > 비밀번호 표시
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								<label> 비밀번호 확인 </label> <input type="password" required
 									class="form-control" 
-									id="password-check">
+									id="password-check" >
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								이름<input type="text" name="memberName" class="form-control">
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								닉네임<input type="text" name="memberNick" class="form-control">
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								성별<select class="form-select country" name="memberGender">
 									<option>성별</option>
 									<option >M</option>
@@ -134,7 +135,7 @@ span {
 								</select>
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								관심종목<select class="form-select">
 									<option>종목선택</option>
 									<option>육상</option>
@@ -145,12 +146,12 @@ span {
 								</select>
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								전화번호<input type="text" name="memberContact" class="form-control"
 									placeholder="- 제외하고 입력">
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start">
+							<div class="col-md-4 offset-md-4 text-start mt-3">
 								생년월일<input type="date" name="memberBirth" class="form-control">
 							</div>
 
@@ -324,6 +325,23 @@ span {
          $(this).removeClass("success fail");
          $(this).addClass(isValid ? "success" : "fail");
      });
+     
+     /* 비밀번호 보기  */
+ 	$(document).ready(function() {
+ 		console.log("Script is running!");
+
+ 		$("#showPassword").change(function() {
+ 			console.log("Checkbox changed!"); // 추가
+ 			var passwordInput = $("#passwordInput");
+ 			if (this.checked) {
+ 				console.log("Checkbox is checked!"); // 추가
+ 				passwordInput.attr("type", "text");
+ 			} else {
+ 				console.log("Checkbox is unchecked!"); // 추가
+ 				passwordInput.attr("type", "password");
+ 			}
+ 		});
+ 	});
 </script>
 
 <jsp:include page="../template/Footer.jsp"></jsp:include>

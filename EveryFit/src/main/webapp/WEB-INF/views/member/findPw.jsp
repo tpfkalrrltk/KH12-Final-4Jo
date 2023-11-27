@@ -8,7 +8,7 @@
 
 
 
-<form action="findPw" method="post">
+<form id="updatePassword" action="" method="post" autocomplete="off">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-4 offset-md-4">
@@ -109,7 +109,7 @@
 										"green");
 								
 								 // 인증 성공 시 비밀번호 변경 페이지로 이동
-				                window.location.href = window.contextPath + "/member/changePw"; // 실제 경로로 변경
+				                window.location.href = window.contextPath + "/member/memberChangePw"; // 실제 경로로 변경
 				                
 							} else {
 								$(".cert-input").removeClass("success fail")

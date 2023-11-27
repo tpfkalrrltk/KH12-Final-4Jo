@@ -3,7 +3,11 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<!-- 부트스트랩 CSS 파일 추가 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- 부트스트랩 Icons CSS 파일 추가 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet">
 <jsp:include page="../template/Header.jsp"></jsp:include>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -27,19 +31,25 @@ text {
 }
 
 .container a {
-	text-decoration: none;
-	color: #007BFF;
+    text-decoration: none;
+    color: #007BFF;
 }
 
 .container a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .container a.active {
-	text-decoration: underline; ! important; /* 클릭된 링크에만 밑줄 효과 유지 */
-	color: ee6c4d !important; /* 원하는 색상으로 변경 */
+    text-decoration: underline !important;
+    color: #ee6c4d !important;
 }
 
+/* .editable-content {
+	border: 1px solid #1C1C1C;
+	padding: 10px;
+	min-height: 100px;
+	color: #A4A4A4;
+} */
 
 </style>
 
@@ -92,9 +102,8 @@ text {
 							<div class="d-flex flex-column mb-3 mt-1">
 								<div class="p-2">
 									<label> <input type="file" class="profile-chooser "
-										accept="image/*" style="display: none;"> <i
-										class="fa-solid fa-camera blue fa-2x"></i>
-									</label> <i class="ms-2 fa-solid fa-trash-can red fa-2x profile-delete"></i>
+										accept="image/*" style="display: none;"><i class="fa-solid fa-camera-retro blue fa-2x"></i>
+									</label> <i class="ms-2 fa-regular fa-trash-can red fa-2x profile-delete"></i>
 
 								</div>
 							</div>
@@ -160,18 +169,18 @@ text {
 			<!-- <textarea id="summernote"></textarea> -->
 			<div class="container text-center mt-3 box">
 				<div class="d-flex">
-					<p>
+				<!-- 	<p>
 						<a href="#"
 							class="summernote link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
 							data-tag="소개">소개</a>
-					</p>
+					</p> -->
 
 					<p>
-						<a href="#"
+						<a 
 							class="moimList link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
 							data-tag="모임"> 모임 </a>
 					</p>
-					<p>
+					<!-- <p>
 						<a href="#"
 							class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
 							data-tag="정모">정모</a>
@@ -180,7 +189,7 @@ text {
 						<a href="#"
 							class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
 							data-tag="리그">리그</a>
-					</p>
+					</p> -->
 
 				</div>
 				<div>
@@ -238,7 +247,7 @@ text {
 		//삭제아이콘을 누르면 프로필이 제거되도록 구현
 		$(".profile-delete").click(function() {
 			//확인창
-			var choice = window.confirm("정말 프로필을 지우시겠습니까?");
+			var choice = window.confirm("프로필을 삭제하시겠습니까?");
 			if (choice == false)
 				return;
 
@@ -288,51 +297,68 @@ text {
 
 
 	/* 모임링크 클릭시  */
+	
 	$(function() {
-		$(".moimList").click(
-				function() {
-					// Rest 호출
-					$.ajax({
-						url : window.contextPath + "/rest/moim/list",
-						method : "post",
-						dataType : "json", // JSON 형식으로 응답을 기대하는 경우 반드시 명시
-						success : function(response) {
-							console.log(response); // 확인용 출력
+    var moimListAppended = false;
 
-							// 기존 내용 삭제
-							$(".moimListAppend").empty();
-							// 예상대로 응답이 배열 형태인 경우
-							for (var i = 0; i < response.length; i++) {
+    // 모임 목록을 닫는 함수
+    function closeMoimList() {
+        // 기존 내용 삭제
+        $(".moimListAppend").empty();
+        // 추가된 상태를 해제
+        moimListAppended = false;
+    }
 
-								// 각각의 moimNo에 맞는 URL을 생성
-								var moimDetailUrl = window.contextPath
-										+ "/moim/detail?moimNo="
-										+ response[i].moimNo;
+    // 모임 목록 클릭 이벤트
+    $(".moimList").click(function() {
+        // 모임 목록이 띄워진 상태인 경우
+        if (moimListAppended) {
+            // 모임 목록 닫기
+            closeMoimList();
+        } else {
+            // 모임 목록 열기
+            // Rest 호출
+            $.ajax({
+                url: window.contextPath + "/rest/moim/list",
+                method: "post",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
 
-								// <a> 태그로 감싸진 <p> 태그를 append
-								$(".moimListAppend").append(
-										"<p><a href='" + moimDetailUrl + "'>"
-												+ response[i].moimTitle + " ("
-												+ response[i].moimMemberLevel
-												+ ")" + "</a></p>");
+                    // 기존 내용 삭제
+                    $(".moimListAppend").empty();
 
-							}
+                    // 예상대로 응답이 배열 형태인 경우
+                    for (var i = 0; i < response.length; i++) {
+                        var moimDetailUrl = window.contextPath + "/moim/detail?moimNo=" + response[i].moimNo;
 
-							// 예상대로 응답이 객체 형태인 경우
-							// $(".moimListAppend").append("<p>" + response.moimName + "</p>");
-							// 예시: response.moimName은 실제 데이터 구조에 맞게 변경
-						},
-						error : function(xhr, status, error) {
-							console.error("Ajax 요청 에러:", status, error);
-						},
-					});
-				});
-	});
+                        $(".moimListAppend").append("<p><a href='" + moimDetailUrl + "'>" +
+                            response[i].moimTitle + " (" + response[i].moimMemberLevel + ")" + "</a></p>");
+                    }
+
+                    // 추가된 상태로 변경
+                    moimListAppended = true;
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax 요청 에러:", status, error);
+                },
+            });
+        }
+    });
+
+    // 모임 목록 닫기 이벤트
+    $(document).on('click', function(event) {
+        // 클릭한 요소가 .moimList 또는 .moimListAppend의 자손이 아닌 경우 모임 목록 닫기
+        if (!$(event.target).closest('.moimList, .moimListAppend').length) {
+            closeMoimList();
+        }
+    });
+});
 	
 </script>
 
 <script>
-$(function() {
+/* $(function() {
     $(".moimList").click(function() {
         // Rest 호출
     	$.ajax({
@@ -366,10 +392,10 @@ $(function() {
     	    },
     	});
     });
-});
+}); */
 
 //'소개' 링크 클릭 시
-document.addEventListener('DOMContentLoaded', function () {
+/* document.addEventListener('DOMContentLoaded', function () {
   var links = document.querySelectorAll('.container a');
 
   links.forEach(function (link) {
@@ -395,10 +421,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
-
-// 나머지 JavaScript 코드는 그대로 유지합니다.
-
-// 나머지 JavaScript 코드도 그대로 유지합니다.
+ */
 //회원정보변경
 function mypage() {
   window.location.href = window.contextPath + '/member/change';
@@ -408,6 +431,10 @@ function mypage() {
 function Premium() {
   window.location.href = window.contextPath + '/pay/list';
 }
+
+var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
 </script>
 
 
@@ -417,3 +444,60 @@ function Premium() {
 <jsp:include page="../template/Footer.jsp"></jsp:include>
 
 
+
+$(function() {
+    var moimListAppended = false;
+
+    // 모임 목록을 닫는 함수
+    function closeMoimList() {
+        // 기존 내용 삭제
+        $(".moimListAppend").empty();
+        // 추가된 상태를 해제
+        moimListAppended = false;
+    }
+
+    // 모임 목록 클릭 이벤트
+    $(".moimList").click(function() {
+        // 모임 목록이 띄워진 상태인 경우
+        if (moimListAppended) {
+            // 모임 목록 닫기
+            closeMoimList();
+        } else {
+            // 모임 목록 열기
+            // Rest 호출
+            $.ajax({
+                url: window.contextPath + "/rest/moim/list",
+                method: "post",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+
+                    // 기존 내용 삭제
+                    $(".moimListAppend").empty();
+
+                    // 예상대로 응답이 배열 형태인 경우
+                    for (var i = 0; i < response.length; i++) {
+                        var moimDetailUrl = window.contextPath + "/moim/detail?moimNo=" + response[i].moimNo;
+
+                        $(".moimListAppend").append("<p><a href='" + moimDetailUrl + "'>" +
+                            response[i].moimTitle + " (" + response[i].moimMemberLevel + ")" + "</a></p>");
+                    }
+
+                    // 추가된 상태로 변경
+                    moimListAppended = true;
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax 요청 에러:", status, error);
+                },
+            });
+        }
+    });
+
+    // 모임 목록 닫기 이벤트
+    $(document).on('click', function(event) {
+        // 클릭한 요소가 .moimList 또는 .moimListAppend의 자손이 아닌 경우 모임 목록 닫기
+        if (!$(event.target).closest('.moimList, .moimListAppend').length) {
+            closeMoimList();
+        }
+    });
+});

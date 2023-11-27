@@ -39,15 +39,19 @@ public interface MemberDao {
 	//회원 개인정보변경 
 	void updateMemberInfo(MemberDto inputDto);
 //	void changeMemberInfo(MemberDto inputDto);
+	void changeMemberInfo(MemberDto memberDto);
 	
 	//비밀정보 변경
 	void changePw(MemberDto memberDto);
-	void changeMemberInfo(MemberDto memberDto);
+	void changeMemberPw(MemberDto memberDto);
 //    void changePassword(String memberEmail, String newPassword);
-    
-    
-	MemberDto selectOneByMemberNick(String memberNick);
+//	void changeMemberPassword(MemberDto memberDto);
+//	로그인 안된 상태에서 비밀번호 찾기
+    void updatePassword(MemberDto memberDto);
 
+	
+	MemberDto selectOneByMemberNick(String memberNick);
+	
 	
 	
 	MemberDto login(MemberDto dto);
@@ -69,7 +73,7 @@ public interface MemberDao {
 
 
 
-		void changeMemberPassword(MemberDto memberDto);
+	
 
 
 
