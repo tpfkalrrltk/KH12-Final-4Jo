@@ -227,16 +227,11 @@ body {
 
 							<div class="container">
 								<div class="row">
-									<div class="col-4 offset-6 p-0">
+									<div class="col-7 offset-5 ">
 										<p class="card-text text-end text-light  ">
-											<small class="memberCount "> 현재 인원
-												${PremiumMoimList.memberCount}</small>
-										</p>
-									</div>
-									<div class="col ">
-										<small>
-											<p class="text-light  m-0 ">/
-												${PremiumMoimList.moimMemberCount}</p>
+											<small class="memberCount"> 현재 인원
+												${PremiumMoimList.memberCount}
+									 / ${PremiumMoimList.moimMemberCount}
 										</small>
 
 									</div>
