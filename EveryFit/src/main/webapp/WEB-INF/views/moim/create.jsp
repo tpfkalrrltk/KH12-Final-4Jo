@@ -91,9 +91,8 @@
 	 	</div>
 		<div class="row mt-2">
 	 	<div class="col-6 offset-3 text-end"><label class="form-label">여성전용</label>
-		<input type="checkbox"  id="moimGenderCheck" 
-		name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
-		data-original-value="${moimDto.moimGenderCheck}" class="form-check-input">
+		<input type="checkbox"  id="moimGenderCheck" value="Y" 
+		name="moimGenderCheck" class="form-check-input">
 		</div>
 	 	</div>
 		<div class="row mt-2">
@@ -185,17 +184,8 @@
 	                console.error("Ajax 요청 중 에러 발생:", error);
 	            }
 	        });
-	    } else {
-	        // 체크가 해제되면 체크를 가능하도록 해제
-	        $("#moimGenderCheck").prop("disabled", false);
 	    }
-     
-        if ($(this).is(":checked")) {
-            $(this).val("Y");
-        } else {
-            $(this).val("N");
-        }
-
+   
     });
     
     document.getElementById("moimMemberCount").addEventListener("input", function() {

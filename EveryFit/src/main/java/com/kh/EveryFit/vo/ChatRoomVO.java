@@ -7,13 +7,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-//@ToString(of = {"chatRoomNo", "clientList"}) // 출력할 때 작성한 항목만 출력해라!
+@ToString(of = {"chatRoomNo", "members"}) // 출력할 때 작성한 항목만 출력해라!
 public class ChatRoomVO {
 	
     private Integer chatRoomNo;

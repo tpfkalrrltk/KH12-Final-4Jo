@@ -142,9 +142,18 @@ $(function(){
 
 <script type="text/javascript">
 
+
+
+
+
 function popClose() {
-	window.alert("소중한 신고 감사합니다.\n신고 내용이 전송되었습니다.")
-	   window.close();
+	   window.alert("소중한 신고 감사합니다.\n신고 내용이 전송되었습니다.")
+	  $('#report-from').submit(); 
+	    setTimeout(function() {  	 
+	    	self.close(); 
+	    }, 300);
+	 
+
 }
 
 
@@ -163,7 +172,7 @@ $(document).keydown(function(e){
 <body>
 	<div class="container ">
 
-		<div class="row mt-5 p-5">
+		<div class="row ms-3">
 			<div
 				class="col-7 offset-2 p-5 m-4 bg-primary rounded-3 text-center  text-light">
 
@@ -177,7 +186,7 @@ $(document).keydown(function(e){
 		<div class="row mt-3">
 			<div class="col">
 				<form action="" method="post" enctype="multipart/form-data"
-					name="report">
+					id="report-from">
 
 					<div class="row">
 						<div class="col-5 offset-1">
@@ -232,10 +241,13 @@ $(document).keydown(function(e){
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-10 offset-1">
+						<div class="col-11">
 							<button type="submit"
-								class="btn btn-primary w-100 m-5 btn-save fw-bold"
-								onclick="popClose()">등록</button>
+								class="btn btn-primary w-100 m-5 btn-save fw-bold" 
+					
+								id="report-btn" onclick="popClose()" >등록</button>
+							
+								
 						</div>
 					</div>
 				</form>

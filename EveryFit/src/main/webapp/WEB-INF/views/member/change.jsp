@@ -40,60 +40,66 @@ a {
 									class="form-control" value="${memberDto.memberEmail}" disabled>
 							</div>
 							<div class="mt-3">
-							<label>비밀번호</label>
-							<div class="col-md-4 offset-md-4 text-start d-flex flex-row">
+								<label>비밀번호</label>
+								<div class="col-md-4 offset-md-4 text-start d-flex flex-row">
 
-								<div>
-									<input type="password" class="form-control " name="memberPw"
-										value="${memberDto.memberPw}" disabled>
-								</div>
-								<button type="button" class="btn btn-info ms-2 ">
-								    <a href="/member/memberChangePw">비밀번호 변경</a>
-								</button>
-								
-										</div>
-								</div>
+
+									<div>
+										<input type="password" class="form-control " name="memberPw"
+											value="${memberDto.memberPw}" disabled>
+
 									</div>
+									<button type="button" class="btn btn-primary ms-2 ">
+										<a href="/member/memberChangePw">비밀번호 변경</a>
+									</button>
+
 								</div>
 							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								<label> 닉네임 </label> <input type="text" name="memberNick"
-									class="form-control" value="${memberDto.memberNick}" required>
-							</div>
-
-							<div class="col-md-4 offset-md-4 text-start">
-								<label>연락처</label> <input type="tel" name="memberContact"
-									class="form-control" value="${memberDto.memberContact}">
-							</div>
-							<div class="col-md-4 offset-md-4 text-start">
-								<label>생년월일</label> <input type="date" name="memberBirth"
-									class="form-control" value="${memberDto.memberBirth}" disabled>
-							</div>
-							
-							<div class="col-md-4 offset-md-4 text-center mt-4">
-								<button class="btn btn-danger"><a onclick="location.href=/member/exit">회원탈퇴</a></button>
-								
-								<button type="submit" class="btn btn-info"
-									style="margin-left: 10px;">정보변경</button>
-									
-							</div>
-
-
-
-							
 						</div>
-
-
-
-
-						
 					</div>
 				</div>
+
+				<div class="col-md-4 offset-md-4 text-start">
+					<label> 닉네임 </label> <input type="text" name="memberNick"
+						class="form-control" value="${memberDto.memberNick}" required>
+				</div>
+
+
+				<div class="col-md-4 offset-md-4 text-start">
+					<label>연락처</label> <input type="tel" name="memberContact"
+						class="form-control" value="${memberDto.memberContact}">
+				</div>
+				<div class="col-md-4 offset-md-4 text-start">
+					<label>생년월일</label> <input type="date" name="memberBirth"
+						class="form-control" value="${memberDto.memberBirth}" disabled>
+				</div>
+
+
+				<div class="col-md-4 offset-md-4 text-center mt-4">
+					<!-- <button class="btn btn-danger"> -->
+						<a href="/member/exit" class="btn btn-danger">회원탈퇴</a>
+					<!-- </button> -->
+
+					<button type="submit" class="btn btn-primary"
+						style="margin-left: 10px;">정보변경</button>
+
+				</div>
+
+
+
+
+			</div>
+
+
+
+
+
+		</div>
+	</div>
 
 </form>
 
 <script>
-	
+
 	</script>
 <jsp:include page="../template/Footer.jsp"></jsp:include>

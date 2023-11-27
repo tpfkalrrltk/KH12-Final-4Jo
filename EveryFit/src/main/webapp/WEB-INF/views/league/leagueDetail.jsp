@@ -8,70 +8,86 @@ a{
 }
 </style>
 <div class="container-fluid">
-	<div class="row"><div class="col-md-8 offset-md-2">
+	<div class="row"><div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1">
 		<div class="p-5 bg-primary text-light rounded">
         	<h1>
         		${leagueDto.leagueTitle}
         		<i class="fa-solid fa-ranking-star"></i>
         	</h1>
         	<hr>
-        	<div class="text-end">
-        		<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
-		        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
-		        <a class="btn btn-info" href="leagueMatch?leagueNo=${leagueDto.leagueNo}">경기일정관리</a>
-        	</div>
+        	<div class="row mt-4 text-center">
+				<div class="col">
+					<a class="btn btn-lg btn-dark w-100 disabled">순위</a>
+				</div>
+				<div class="col">
+					<a href="${pageContext.request.contextPath}/league/leagueMatch?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">경기</a>
+				</div>
+			</div>
+			<div class="row mt-4"><div class="col">
+	        	<div class="text-end">
+	        		<c:if test="${sessionScope.level=='관리자'}">
+				        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
+	        		</c:if>
+	        		<c:if test="${chatEntryDto!=null}">
+		        		<a href="${pageContext.request.contextPath}/default/${leagueDto.chatRoomNo}" class="btn btn-success">리그채팅</a> 
+	        		</c:if>
+	        		<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+	        	</div>
+        	</div></div>
       	</div>
-    
-    <div class="row mt-5 text-center">
-      <div class="col">
-        <h3>순위</h3>
-      </div>
-      <div class="col">
-      </div>
-      <div class="col">
-      </div>
-    </div>
-    
-    <div class="row mt-2">
-      <div class="col">
-        <table class="table table-hover text-center">
-          <thead>
-            <tr class="table-secondary">
-              <th>순위</th>
-              <th>팀</th>
-              <th>경기수</th>
-              <th>승</th>
-              <th>무</th>
-              <th>패</th>
-              <th>득점</th>
-              <th>실점</th>
-              <th>득실차</th>
-              <th>승점</th>
-            </tr>
-          </thead>
-          <tbody>
-            <c:forEach var="vo" items="${rankList}">
-              <tr style="height: 30px;">
-                <td>${vo.leagueTeamRank}</td>
-                <td>
-                	${vo.leagueTeamName}
-               		<img style="height: 35px; width: 35px;" class="rounded" src="/image?moimNo=${vo.moimNo}"> 
-                </td>
-                <td>${vo.leagueTeamMatchCount}</td>
-                <td>${vo.leagueTeamWin}</td>
-                <td>${vo.leagueTeamLose}</td>
-                <td>${vo.leagueTeamDraw}</td>
-                <td>${vo.leagueTeamG}</td>
-                <td>${vo.leagueTeamD}</td>
-                <td>${vo.leagueTeamGD}</td>
-                <td>${vo.leagueTeamPoint}</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
+      	
+      	<c:choose>
+      	<c:when test="${rankList.size()==0}">
+      		<div class="row mt-5 text-center text-warning"><div class="col">
+	      		<h1>아직 리그 정보가 없습니다</h1>
+      		</div></div>
+      	</c:when>
+      	<c:otherwise>
+   		<div class="row mt-5">
+	      <div class="col">
+	        <table class="table table-hover text-center">
+	          <thead>
+	            <tr class="table-secondary">
+	              <th>순위</th>
+	              <th>팀</th>
+	              <th>경기수</th>
+	              <th>승</th>
+	              <th>무</th>
+	              <th>패</th>
+	              <th>득점</th>
+	              <th>실점</th>
+	              <th>득실차</th>
+	              <th>승점</th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            <c:forEach var="vo" items="${rankList}">
+	              <tr style="height: 30px;">
+	                <td>${vo.leagueTeamRank}</td>
+	                <td>
+	                	<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${vo.leagueTeamNo}">
+		                	<span class="text-dark alert-link">${vo.leagueTeamName}</span>
+		               		<img style="height: 35px; width: 35px;" class="rounded" src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}"
+		               			onerror="this.style.display='none';"></a>
+	                </td>
+	                <td>${vo.leagueTeamMatchCount}</td>
+	                <td>${vo.leagueTeamWin}</td>
+	                <td>${vo.leagueTeamDraw}</td>
+	                <td>${vo.leagueTeamLose}</td>
+	                <td>${vo.leagueTeamG}</td>
+	                <td>${vo.leagueTeamD}</td>
+	                <td>${vo.leagueTeamGD}</td>
+	                <td>${vo.leagueTeamPoint}</td>
+	              </tr>
+	            </c:forEach>
+	          </tbody>
+	        </table>
+	      </div>
+		</div>
+      	</c:otherwise>
+      	</c:choose>
+	
 	</div></div>
-</div>
 
 </div>
 
@@ -108,7 +124,7 @@ a{
 	function loadLeagueTeamList(leagueNo, successCallback, errorCallback){
 	  $.ajax({
 	    type: "POST",
-	    url: "http://localhost:8080/rest/league/loadLeagueTeamList",
+	    url: window.contextPath + "/rest/league/loadLeagueTeamList",
 	    data: { leagueNo: leagueNo},
 	    success: function(response) {
 	      if (typeof successCallback === 'function') {
@@ -141,7 +157,7 @@ a{
 	            row.append('<td>' + leagueTeamDto.leagueTeamName + '</td>');
 	            var moimNoCell = $('<td>');
 	            var moimNoLink = $('<a>')
-	                .attr('href', '/moim/detail?moimNo=' + leagueTeamDto.moimNo)
+	                .attr('href', '${pageContext.request.contextPath}/moim/detail?moimNo=' + leagueTeamDto.moimNo)
 	                .text(leagueTeamDto.moimNo)
 	                .addClass("alert-link text-warning");
 	            moimNoCell.append(moimNoLink);
@@ -174,7 +190,7 @@ a{
 	   
 	  $.ajax({
 	    type: "POST",
-	    url: "http://localhost:8080/rest/league/updateLeagueTeamStatus",
+	    url: window.contextPath + "/rest/league/updateLeagueTeamStatus",
 	    data: { leagueTeamNo: leagueTeamNo },
 	    success: function(response) {
 	      alert("완료되었습니다.");

@@ -12,7 +12,7 @@
 			<hr>
 			<div class="row text-end">
 				<div class="col">
-					<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+					<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 				</div>
 			</div>
 		</div>
@@ -82,7 +82,7 @@
 		var locationDepth1 = e.target.value;
 		if(locationDepth1=="") return;
 		$.ajax({
-			url:"http://localhost:8080/rest/location/depth2List",
+			url:window.contextPath + "/rest/location/depth2List",
 			type:"post",
 			data:{locationDepth1:locationDepth1},
 			success:function (data){

@@ -129,7 +129,7 @@
 		<div class="col-1 offset-5">
 			<c:if test="${!boardVO.first}">
 				<a
-					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimNo}&${boardVO.prevQueryString}">
+					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}&${boardVO.prevQueryString}">
 					<i class="fa-solid fa-angle-left text-primary fw-bold"></i>
 				</a>
 			</c:if>
@@ -144,7 +144,7 @@
 					</c:when>
 					<c:otherwise>
 						<a
-							href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimNo}&${boardVO.getQueryString(i)}">${i}</a>
+							href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}&${boardVO.getQueryString(i)}">${i}</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -153,7 +153,7 @@
 		<div class="col-1">
 			<c:if test="${!boardVO.last}">
 				<a
-					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimNo}&${boardVO.nextQueryString}">
+					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}&${boardVO.nextQueryString}">
 					<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</c:if>
@@ -166,7 +166,7 @@
 	<div align="center" class="row mt-5 ">
 		<div class="col-2 offset-2 p-0">
 			<form action="list" method="get">
-				<input type="hidden" value="${moimNo}" name="moimNo">
+				<input type="hidden" value="${param.moimNo}" name="moimNo">
 				<c:choose>
 					<c:when test="${param.type == 'member_nick'}">
 						<select name="type" required="required"

@@ -67,7 +67,7 @@
 	  var confirmCancel = confirm("정말 프리미엄 카드 구독을 취소하시겠습니까?");
     if (confirmCancel) {
       // If user clicks OK, navigate to the cancellation URL
-      window.location.href = "periodCancel?periodPaymentNo=" + periodPaymentNo;
+      window.location.href = window.contextPath + "/pay/periodCancel?periodPaymentNo=" + periodPaymentNo;
     }
     // If user clicks Cancel, do nothing
   }

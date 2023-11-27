@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.MemberDto;
@@ -96,6 +94,10 @@ public class MemberController {
 	         session.setAttribute("name", findDto.getMemberEmail());
 	         session.setAttribute("level", findDto.getMemberLevel());
 	         session.setAttribute("nickName", findDto.getMemberNick());
+	         
+	      
+	         
+	         
 
 	        // 아이디 저장하기를 체크했다면 쿠키 생성
 	        if (autoLogin != null) {
@@ -139,15 +141,11 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");
 		session.removeAttribute("nickName");
-//			session.removeAttribute("level");//확인받아야
+		session.removeAttribute("level");//확인받아야
 		return "redirect:/";
 	}
 
-	// modal
-	@RequestMapping("/modal")
-	public String modal(HttpSession session) {
-		return "/member/modal";
-	}
+	
 
 	// 개인정보 변경
 	@GetMapping("/change")
@@ -235,10 +233,12 @@ public class MemberController {
             @RequestParam String changePw,
             Model model) {
 			String memberEmail = (String) session.getAttribute("name");
+			//이메일로 회원 정보 가져오기
 			MemberDto findDto = memberDao.selectOne(memberEmail);
 			
 			// 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
 			if (encoder.matches(originPw, findDto.getMemberPw())) {
+			
 			// 새로운 비밀번호를 암호화
 			String encryptedNewPassword = encoder.encode(changePw);
 			
@@ -249,7 +249,7 @@ public class MemberController {
 			memberDao.changeMemberInfo(findDto);
 			
 			// 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
-			session.invalidate();
+//			session.invalidate();
 			
 			return "/member/login";
 			} else {
@@ -264,10 +264,10 @@ public class MemberController {
 	}
 
 	@PostMapping("/exit")
-	public String exit(HttpSession session, @RequestParam String memberPw) {
+	public String exit(HttpSession session, @RequestParam("memberPw") String memberPw) {
 		String memberEmail = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberEmail);
-		boolean isCorrectPw = encoder.matches(memberPw, memberDto.getMemberPw());
+		boolean isCorrectPw = encoder.matches(memberPw,memberDto.getMemberPw());
 		if (isCorrectPw) {// 비밀번호 확인
 
 			memberDao.delete(memberEmail);

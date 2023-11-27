@@ -36,7 +36,7 @@
         </div>
 
         <div class="col-md-4 offset-md-4 text-start mt-5">
-    <button type="submit" class="btn btn-success w-100" >변경하기</button>
+    <button type="submit" class="btn btn-primary w-100" >변경하기</button>
 </div>
 
       </div>

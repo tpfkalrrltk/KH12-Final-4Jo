@@ -30,6 +30,8 @@ public interface AdminDao {
 	List<MoimDto> adminMoimSearch(AdminMoimSearchVO adminMoimSearchVO);
 	
 	Integer moimMemberCount(int moimNo);
+	
+	List<MoimDto>homeMoimSearchList(String moimTitle);
 
 	
 	//정모

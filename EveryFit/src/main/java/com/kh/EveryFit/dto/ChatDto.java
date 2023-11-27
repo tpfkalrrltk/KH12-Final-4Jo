@@ -17,4 +17,5 @@ public class ChatDto {
 	private Date chatTime;
 	private String memberNick;
 	private Integer attachNo;
+	private Date moimMemberJoin;
 }

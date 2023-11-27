@@ -61,7 +61,7 @@ $(function(){
 		</div>
 
 		<div class="row">
-			<a href="/moim/board/list?moimNo=${param.moimNo}"
+			<a href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}"
 				style="text-decoration: none" class="text-end btn-light fw-bold">목록으로
 				돌아가기 </a>
 		</div>

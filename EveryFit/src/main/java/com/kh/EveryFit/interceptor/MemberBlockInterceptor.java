@@ -28,30 +28,26 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		
-		
-		String memberBlock ="";
-		
-		
-		
-		   if(memberDto != null) {
-			   memberBlock = memberDto.getMemberBlock();
-	        }
-		
-		boolean isNotBlock =   memberBlock.equals("N") && memberBlock !=null ;
+
+		String memberBlock = "";
+
+		if (memberDto != null) {
+			memberBlock = memberDto.getMemberBlock();
+		}
+
+		boolean isNotBlock = memberBlock.equals("N") && memberBlock != null;
 		if (isNotBlock) {
-			log.debug("messageTrue={}",isNotBlock);
+			log.debug("messageTrue={}", isNotBlock);
 
 			return true;
 		} else {
 			// throw new AuthorityException("차단당한 회원입니다. 관리자에게 문의 하세요");
-			log.debug("messageFalse={}",isNotBlock);
+			log.debug("messageFalse={}", isNotBlock);
 			response.sendRedirect(request.getContextPath() + "/error/MemberBlockException");
-	
 
 		}
 
-	
 		return false;
 	}
 }
+
