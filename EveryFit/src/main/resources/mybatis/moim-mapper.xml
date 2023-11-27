@@ -511,6 +511,14 @@
 	        WHERE moim_end_time < SYSDATE
 	        ]]>
 	</select>
+	
+	<!-- 모인번호로 모임장 찾기 -->
+	<select id="findMoimJang" resultType="moimMemberDto">
+		select * from moim_member mm join moim m 
+		on mm.moim_no = m.moim_no
+		where mm.moim_member_level = '모임장' and m.moim_no = #{moimNo}
+	</select>
+	
 </mapper>
 
 

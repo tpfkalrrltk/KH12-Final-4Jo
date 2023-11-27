@@ -29,12 +29,14 @@ p {
 #wrapper{
   height: auto;
   min-height: 100%;
-  padding-bottom: 96px;
+  padding-bottom: 270px;
 }
-Footer{
-  height:10px;
+
+footer{
+  height:0px;
   position : relative;
   transform : translateY(-100%);
+
 }
 
 </style>

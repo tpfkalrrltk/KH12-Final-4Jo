@@ -73,5 +73,9 @@
 		where member_email = #{memberEmail}
 	</select>
 	
+	<!-- 채팅방 번호랑 이메일로 채팅참여 멤버 조회(내가 들어가있는지확인) -->
+	<select id="checkChatEntry" resultType="chatEntryDto">
+		select * from chat_entry where chat_room_no = #{chatRoomNo} and member_email = #{memberEmail}
+	</select>
 	
 </mapper>

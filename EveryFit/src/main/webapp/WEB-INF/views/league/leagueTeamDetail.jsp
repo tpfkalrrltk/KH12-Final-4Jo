@@ -21,7 +21,10 @@
 						리그 : ${leagueDto.leagueTitle}
 					</div></div>
 					<div class="row mt-4 text-end"><div class="col">
-						<a href="${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}" class="btn btn-outline-success bg-light">모임정보</a>
+						<c:if test="${chatEntryDto!=null}">
+			        		<a href="${pageContext.request.contextPath}/default/${leagueDto.chatRoomNo}" class="btn btn-success">리그채팅</a> 
+		        		</c:if>
+						<a href="${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}" class="btn btn-info">모임정보</a>
 						<a href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">리그페이지</a>
 					</div></div>
 			    
@@ -29,6 +32,13 @@
 			</div>
 		</div>
 
+		<c:choose>
+      	<c:when test="${leagueMatchList.size()==0}">
+      		<div class="row mt-5 text-center text-warning"><div class="col">
+	      		<h1>아직 경기 정보가 없습니다</h1>
+      		</div></div>
+      	</c:when>
+      	<c:otherwise>
 
 		<c:forEach var="matchDto" items="${leagueMatchList}">
 			<div class="row mt-5 p-3 border border-light rounded shadow-sm"><div class="col">
@@ -78,8 +88,9 @@
 				</div>
 			</div></div>
 		</c:forEach>
-
-
+		
+		</c:otherwise>
+		</c:choose>
 
 	</div></div>
 </div>

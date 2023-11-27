@@ -25,16 +25,25 @@ a{
 			</div>
 			<div class="row mt-4"><div class="col">
 	        	<div class="text-end">
-	        		<a href="${pageContext.request.contextPath}/default/${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">리그채팅</a> 
 	        		<c:if test="${sessionScope.level=='관리자'}">
 				        <button type="button" class="btn btn-info" id="loadLeagueTeamList">신청팀 관리</button>
+	        		</c:if>
+	        		<c:if test="${chatEntryDto!=null}">
+		        		<a href="${pageContext.request.contextPath}/default/${leagueDto.chatRoomNo}" class="btn btn-success">리그채팅</a> 
 	        		</c:if>
 	        		<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 	        	</div>
         	</div></div>
       	</div>
       	
-	    <div class="row mt-5">
+      	<c:choose>
+      	<c:when test="${rankList.size()==0}">
+      		<div class="row mt-5 text-center text-warning"><div class="col">
+	      		<h1>아직 리그 정보가 없습니다</h1>
+      		</div></div>
+      	</c:when>
+      	<c:otherwise>
+   		<div class="row mt-5">
 	      <div class="col">
 	        <table class="table table-hover text-center">
 	          <thead>
@@ -75,6 +84,8 @@ a{
 	        </table>
 	      </div>
 		</div>
+      	</c:otherwise>
+      	</c:choose>
 	
 	</div></div>
 

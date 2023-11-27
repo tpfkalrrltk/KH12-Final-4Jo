@@ -3,6 +3,7 @@ package com.kh.EveryFit.dao;
 import java.util.List;
 
 import com.kh.EveryFit.dto.ChatDto;
+import com.kh.EveryFit.dto.ChatEntryDto;
 
 public interface ChatDao {
 
@@ -21,4 +22,7 @@ public interface ChatDao {
 	//채팅방정보조회
 	List<Integer> selectChatRoomNoList(String memberEmail);
 	
+	//채팅방 참여중인지 쳌,
+	ChatEntryDto checkChatEntry(int chatRoomNo, String memberEmail); 
 }
+

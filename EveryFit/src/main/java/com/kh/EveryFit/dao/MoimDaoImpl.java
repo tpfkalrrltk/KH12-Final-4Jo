@@ -229,9 +229,14 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.update("moim.updateMoimState", moimStateDto)>0;
   }
 
-  @Override
-	public List<MoimDto> selectMoimListBeforeToday() {
-	return sqlSession.selectList("moim.selectMoimListBeforeToday");
+	@Override
+		public List<MoimDto> selectMoimListBeforeToday() {
+		return sqlSession.selectList("moim.selectMoimListBeforeToday");
+	}
+	
+	@Override
+	public MoimMemberDto findMoimJang(int moimNo) {
+		return sqlSession.selectOne("moim.findMoimJang", moimNo);
 	}
   
 	  @Override
