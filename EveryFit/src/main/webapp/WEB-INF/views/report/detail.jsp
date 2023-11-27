@@ -18,11 +18,13 @@
 				<h1 class="display-5 fw-bold">${reportDto.reportReason}</h1>
 			</div>
 		</div>
-<a href="/admin/report" style="text-decoration: none" class="text-light ">
-		<div class="text-center me-5 mb-2  bg-primary col-2  offset-9 text-light rounded-3 fw-bold" style="width: 150px">
-			목록 전환
-		</div></a>
-		
+		<a href="/admin/report" style="text-decoration: none"
+			class="text-light ">
+			<div
+				class="text-center me-5 mb-2  bg-primary col-2  offset-9 text-light rounded-3 fw-bold"
+				style="width: 150px">목록 전환</div>
+		</a>
+
 		<div class="row mt-3">
 			<div class="col-10 offset-1">
 
@@ -30,14 +32,17 @@
 					<tr class="table-primary text-center ">
 						<th class="fw-bold">번호</th>
 						<th class="fw-bold">카테고리</th>
+						<th class="fw-bold">아이디</th>
 						<th class="fw-bold">시간</th>
+
 
 					</tr>
 					<tr class="text-center">
 
 						<td class="fw-bold text-primary">${reportDto.reportNo}</td>
 						<td class="fw-bold text-primary">${reportDto.reportCategory}</td>
-						<td class="fw-bold text-primary">${reportDto.reportTime}  <fmt:formatDate
+							<td class="fw-bold text-primary">${reportDto.memberEmail}</td>
+						<td class="fw-bold text-primary">${reportDto.reportTime}<fmt:formatDate
 								value="${reportDto.reportTime}" pattern="a h:mm" type="date" />
 						</td>
 
