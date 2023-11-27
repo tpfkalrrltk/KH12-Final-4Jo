@@ -87,7 +87,9 @@ public interface MoimDao {
 	
 
 	//스케줄러로 지금 moim_end_time이 오늘날짜 이전인 날짜만 불러오기
-		List<MoimDto> selectMoimListBeforeToday();
+	List<MoimDto> selectMoimListBeforeToday();
 
+	//모임번호로 모임장 찾기
+	MoimMemberDto findMoimJang(int moimNo);
 	
 }

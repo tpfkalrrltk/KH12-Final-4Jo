@@ -31,10 +31,11 @@ p {
   min-height: 100%;
   padding-bottom: 96px;
 }
+
 Footer{
-  height:10px;
-  position : relative;
-  transform : translateY(-100%);
+	height:10px;
+	position : relative;
+	transform : translateY(-100%);
 }
 
 </style>
