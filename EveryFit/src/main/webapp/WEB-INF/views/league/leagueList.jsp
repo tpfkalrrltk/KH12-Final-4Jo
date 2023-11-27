@@ -13,17 +13,19 @@ a{
 </style>
 
 <div class="container-fluid">
-	<div class="row"><div class="col-md-8 offset-md-2">
+	<div class="row"><div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
 		<div class="p-5 bg-primary text-light rounded">
 			<h1>
-				리그 목록 
-				<i class="fa-solid fa-trophy"></i>
+				<a href="${pageContext.request.contextPath}/league/leagueList" class="text-light">
+					EVERY LEAGUE
+					<i class="fa-solid fa-trophy"></i>
+				</a>
 			</h1>
 			<hr>
 			<div class="text-end">
-				<a href="/" class="btn btn-outline-success bg-light">홈으로</a>
+				<a href="${pageContext.request.contextPath}/" class="btn btn-outline-success bg-light">홈으로</a>
 				<c:if test="${sessionScope.level=='관리자'}">
-					<a href="leagueInsert" class="btn btn-info">리그등록</a>
+					<a href="${pageContext.request.contextPath}/league/leagueInsert" class="btn btn-info">리그등록</a>
 				</c:if>
 			</div>
 		</div>
@@ -35,27 +37,79 @@ a{
 				<select class="form-select" name="eventName">
 					<option value="">종목</option>
 					<c:forEach var="eventDto" items="${eventList}">
-						<option value="${eventDto.eventName}">${eventDto.eventName}</option>
+						<c:choose>
+							<c:when test="${vo.eventName==eventDto.eventName}">
+								<option value="${eventDto.eventName}" selected>${eventDto.eventName}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${eventDto.eventName}">${eventDto.eventName}</option>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</select>
 				<select class="form-select" name="leagueStatus">
-					<option value="">리그상태</option>
-					<option value="접수중">접수중</option>
-					<option value="접수마감">접수마감</option>
-					<option value="대기상태">대기상태</option>
-					<option value="진행중">진행중</option>
-					<option value="종료됨">종료됨</option>
+		            <option value="">리그상태</option>
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '접수중'}">
+				            <option value="접수중" selected>접수중</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="접수중">접수중</option>
+				        </c:otherwise>
+				    </c:choose>
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '접수마감'}">
+				            <option value="접수마감" selected>접수마감</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="접수마감">접수마감</option>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '대기상태'}">
+				            <option value="대기상태" selected>대기상태</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="대기상태">대기상태</option>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '진행중'}">
+				            <option value="진행중" selected>진행중</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="진행중">진행중</option>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <c:choose>
+				        <c:when test="${vo.leagueStatus eq '종료됨'}">
+				            <option value="종료됨" selected>종료됨</option>
+				        </c:when>
+				        <c:otherwise>
+				            <option value="종료됨">종료됨</option>
+				        </c:otherwise>
+				    </c:choose>
 				</select>
 				<select class="form-select" name="locationDepth1">
 					<option value="">시/도</option>
 					<c:forEach var="locationDto" items="${locationList}">
-						<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
+						<c:choose>
+							<c:when test="${vo.locationDepth1 eq locationDto.locationDepth1}">
+								<option value="${locationDto.locationDepth1}" selected>${locationDto.locationDepth1}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</select>
 				<select class="form-select" name="locationDepth2">
 					<option value="">시/군/구</option>
 				</select>
-				<input type="text" class="form-control" name="leagueTitle" placeholder="제목검색">
+				<input type="text" class="form-control" name="leagueTitle" placeholder="제목검색" value="${vo.leagueTitle}">
 				<button class="btn btn-primary">검색</button>
 			</div>
 		</div></div>
@@ -82,10 +136,10 @@ a{
 							<tr>
 								<td>${leagueDto.leagueNo}</td>
 								<td>${leagueDto.eventName}</td>
-								<td><a class="alert-link" href="leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
+								<td><a class="alert-link" href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=${leagueDto.leagueNo}">${leagueDto.leagueTitle}</a></td>
 								<td>${leagueDto.leagueStatus}</td>
 								<td>${leagueDto.locationDepth1}-${leagueDto.locationDepth2}</td>
-								<td><a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="alert-link">
+								<td><a href="${pageContext.request.contextPath}/league/leagueGuide?leagueNo=${leagueDto.leagueNo}" class="alert-link">
 									<i class="fa-solid fa-arrow-up-right-from-square"></i>
 									참가요강</a></td>
 								<c:if test="${sessionScope.level=='관리자'}">
@@ -101,6 +155,43 @@ a{
 				</table>
 			</div>
 		</div>
+		
+		<div class="row mt-5"><div class="col">
+			<nav aria-label="Page navigation">
+	            <ul class="pagination pagination-sm justify-content-center">
+	                <c:if test="${!vo.isFirst()}">
+	                    <li class="page-item">
+	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.begin - 1}${vo.generateQueryString()}">
+	                            <span>&laquo;</span>
+	                        </a>
+	                    </li>
+	                </c:if>
+	
+	                <c:forEach var="i" begin="${vo.begin}" end="${vo.end}">
+	                	<c:choose>
+	                		<c:when test="${vo.page==i}">
+	                			<li class="page-item">
+			                        <a class="page-link active" href="${pageContext.request.contextPath}/league/leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
+			                    </li>
+	                		</c:when>
+	                		<c:otherwise>
+			                    <li class="page-item">
+			                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${i}${vo.generateQueryString()}">${i}</a>
+			                    </li>
+	                		</c:otherwise>
+	                	</c:choose>
+	                </c:forEach>
+	
+	                <c:if test="${!vo.isLast()}">
+	                    <li class="page-item">
+	                        <a class="page-link" href="${pageContext.request.contextPath}/league/leagueList?page=${vo.end + 1}${vo.generateQueryString()}">
+	                            <span>&raquo;</span>
+	                        </a>
+	                    </li>
+	                </c:if>
+	            </ul>
+	        </nav>
+		</div></div>			
 		
 		<c:if test="${empty list}">
 			<div class="row text-warning"><div class="col">
@@ -151,7 +242,7 @@ $(function(){
 		var locationDepth1 = e.target.value;
 		if(locationDepth1=="") return;
 		$.ajax({
-			url:"http://localhost:8080/rest/location/depth2List",
+			url:window.contextPath + "/rest/location/depth2List",
 			type:"post",
 			data:{locationDepth1:locationDepth1},
 			success:function (data){
@@ -179,7 +270,7 @@ $(function(){
 	
 	function loadApplication(leagueNo){
 		$.ajax({
-			url:"http://localhost:8080/rest/league/findLeagueApplication",
+			url:window.contextPath + "/rest/league/findLeagueApplication",
 			type:"post",
 			data:{leagueNo:leagueNo},
 			success:function(data){
@@ -228,7 +319,7 @@ $(function(){
 		var formData = $("#appInsert").serialize();
 		
 		
-		var url = ($("#actionType").val() === "add") ? "http://localhost:8080/rest/league/addLeagueApplication" : "http://localhost:8080/rest/league/updateLeagueApplication";
+		var url = ($("#actionType").val() === "add") ? window.contextPath + "/rest/league/addLeagueApplication" : window.contextPath +  "/rest/league/updateLeagueApplication";
 		$.ajax({
 			url:url,
 			type:"post", 

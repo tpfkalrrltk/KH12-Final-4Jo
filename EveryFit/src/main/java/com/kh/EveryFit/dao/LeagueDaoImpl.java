@@ -280,4 +280,9 @@ public class LeagueDaoImpl implements LeagueDao{
 		sqlSession.insert("league.insertLeagueTeamImage",param);
 	}
 	
+	@Override
+	public int countLeague(LeagueListVO vo) {
+		return sqlSession.selectOne("league.countLeague", vo);
+	}
+	
 }

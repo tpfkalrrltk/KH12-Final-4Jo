@@ -20,7 +20,7 @@
 		</div>
 		
 		<div class="row me-5 pe-4">
-			<a href="/faq/list"
+			<a href="${pageContext.request.contextPath}/faq/list"
 				style="text-decoration: none"
 				class="text-end btn-light fw-bold  p-4 "> 목록으로 돌아가기 </a>
 		</div>
@@ -30,7 +30,7 @@
 
 			<div class="col-1 offset-9">
 
-				<a href="edit?faqNo=${faqDto.faqNo}" class="text-light"
+				<a href="${pageContext.request.contextPath}/faq/edit?faqNo=${faqDto.faqNo}" class="text-light"
 					style="text-decoration: none">
 					<div class="text-center bg-info rounded-3  text-light">
 						<h7 class="display-5"> <i class="fa-solid fa-gear"></i></h7>
@@ -38,7 +38,7 @@
 				</a>
 			</div>
 			<div class="col-1">
-				<a href="delete?faqNo=${faqDto.faqNo}" class="text-light"
+				<a href="${pageContext.request.contextPath}/faq/delete?faqNo=${faqDto.faqNo}" class="text-light"
 					style="text-decoration: none">
 					<div class="text-center bg-danger rounded-3  text-light">
 						<h7 class="display-5"> <i class="fa-solid fa-trash-can"></i></h7>
@@ -85,7 +85,7 @@
 								<c:when test="${faqImage == null}">
 								</c:when>
 								<c:otherwise>
-									<img src="/faq/rest/attach/download?attachNo=${faqImage}"
+									<img src="${pageContext.request.contextPath}/faq/rest/attach/download?attachNo=${faqImage}"
 										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>

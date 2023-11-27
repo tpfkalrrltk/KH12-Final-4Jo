@@ -60,6 +60,7 @@ public class LeagueController {
 	
 	@RequestMapping("/leagueList")
 	public String leagueList(Model model,@ModelAttribute(name="vo") LeagueListVO vo) {
+		vo.setCount(leagueDao.countLeague(vo));
 		List<LeagueListDto> list = leagueDao.selectLeagueListSearch(vo);
 		List<EventDto> eventList = memberDao.selectEventList();
 		List<LocationDto> locationList = memberDao.selectLocationList();

@@ -63,7 +63,7 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/pay/**",
 			"/report/**",	
 			"/moim/**",
-			"/league/**",
+			//"/league/**",
 			"/faq/**"
 			)
 	.excludePathPatterns(

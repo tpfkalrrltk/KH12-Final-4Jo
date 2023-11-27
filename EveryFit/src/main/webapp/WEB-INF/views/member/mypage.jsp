@@ -65,7 +65,7 @@ text{
 									</div>
 								</c:when>
 								<c:otherwise>
-									<img src="/rest/attach/download?attachNo=${profile}"
+									<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
 										class="image image-circle image-border profile-image"
 										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
 
@@ -274,11 +274,11 @@ text{
 	
 	//회원정보변경
 	function mypage() {
-        window.location.href = '/member/change';
+        window.location.href = window.contextPath + '/member/change';
     }
 	//내가보유한카드리스트
 	function Premium() {
-        window.location.href = '/pay/list';
+        window.location.href = window.contextPath + '/pay/list';
     }
 
 </script>
@@ -353,12 +353,12 @@ document.addEventListener('DOMContentLoaded', function () {
 // 나머지 JavaScript 코드도 그대로 유지합니다.
 //회원정보변경
 function mypage() {
-  window.location.href = '/member/change';
+  window.location.href = window.contextPath + '/member/change';
 }
 
 //내가보유한카드리스트
 function Premium() {
-  window.location.href = '/pay/list';
+  window.location.href = window.contextPath + '/pay/list';
 }
 </script>
 

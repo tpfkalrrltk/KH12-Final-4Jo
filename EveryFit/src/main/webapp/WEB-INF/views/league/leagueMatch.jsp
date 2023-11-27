@@ -18,10 +18,9 @@
 		        <i class="fa-solid fa-ranking-star"></i>
 			</h1>
 			<hr>
-			${sessionScope.level}
 			<div class="row mt-4 text-center">
 				<div class="col">
-					<a href="leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">순위</a>
+					<a href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=${leagueDto.leagueNo}" class="btn btn-lg btn-dark w-100">순위</a>
 				</div>
 				<div class="col">
 					<a class="btn btn-lg btn-dark w-100 disabled">경기</a>
@@ -31,7 +30,7 @@
 				<c:if test="${sessionScope.level=='관리자'}">
 					<button class="btn btn-info insert-btn">경기등록</button>
 				</c:if>
-				<a href="leagueList" class="btn btn-outline-success bg-light">목록으로</a>
+				<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 			</div></div>
 		</div>
 		
@@ -53,8 +52,9 @@
 			<div class="row mt-5 p-3 border border-light rounded shadow-sm"><div class="col">
 				<div class="row text-center">
 					<div class="col-2">
-						<a href="leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchHome}">
-							<img src="/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchHome}" class="rounded w-100 m-2">
+						<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchHome}">
+							<img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchHome}" class="rounded w-100 m-2"
+								onerror="this.onerror=null; this.src='/images/no-image.png';">
 						</a>
 					</div>
 					<div class="col">
@@ -83,8 +83,9 @@
 						</div></div>
 					</div>
 					<div class="col-2">
-						<a href="leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchAway}">
-							<img src="/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchAway}" class="rounded w-100 m-2">
+						<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${matchDto.leagueMatchAway}">
+							<img src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${matchDto.leagueMatchAway}" class="rounded w-100 m-2"
+								onerror="this.onerror=null; this.src='/images/no-image.png';">
 						</a>
 					</div>
 					<div class="row"><div class="col">
@@ -283,7 +284,7 @@ $(".auto-match-btn").click(function(){
 	
 	$.ajax({
 		type:"post",
-		url:"http://localhost:8080/rest/league/autoMatchInsert/",
+		url:window.contextPath + "/rest/league/autoMatchInsert/",
 		data:{leagueNo:leagueNo, isDouble:isDouble},
 		success:function(response){
 			alert("생성되었습니다.");
@@ -309,12 +310,10 @@ $(".closeModal").click(function(){
 $(".match-submit-btn").click(function(){
 	var homeTeam = $(".leagueMatchForm select[name='leagueMatchHome']").val();
 	var awayTeam = $(".leagueMatchForm select[name='leagueMatchAway']").val();
-	console.log('hometeam = '+ homeTeam);
-	console.log('awayteam = '+ awayTeam);
 	var formData = $(".leagueMatchForm").serialize();
 	$.ajax({
 		type:"post",
-		url:"http://localhost:8080/leagueMatch/",
+		url: window.contextPath + "/leagueMatch/",
 		data:formData,
 		success:function(response){
 			alert("등록되었습니다.");
@@ -330,7 +329,7 @@ $(".edit-btn").click(function(e){
 	var leagueMatchNo = $(this).data('league-match-no');
 	$.ajax({
 		type:"post",
-		url:"http://localhost:8080/rest/league/findLeagueMatchVO",
+		url:window.contextPath + "/rest/league/findLeagueMatchVO",
 		data:{leagueMatchNo:leagueMatchNo},
 		success:function(response){
 			$("#matchEditModal input").each(function() {
@@ -359,7 +358,7 @@ $(".result-btn").click(function(){
 	var leagueMatchNo = $(this).data('league-match-no');
 	$.ajax({
 		type:"post",
-		url:"http://localhost:8080/rest/league/findLeagueMatchVO",
+		url:window.contextPath + "/rest/league/findLeagueMatchVO",
 		data:{leagueMatchNo:leagueMatchNo},
 		success:function(response){
 			console.log(response);
@@ -380,7 +379,7 @@ $(".match-edit-btn").click(function(){
 	var leagueMatchNo = $(".leagueMatchEditForm input[name='leagueMatchNo']").val();
 	$.ajax({
 		type:"put",
-		url:"http://localhost:8080/leagueMatch/" + leagueMatchNo,
+		url:window.contextPath + "/leagueMatch/" + leagueMatchNo,
 		data:formData,
 		success:function(response){
 			alert("수정되었습니다.");
@@ -399,7 +398,7 @@ $(".match-result-btn").click(function(){
 	var leagueMatchNo = $(".leagueMatchResultForm input[name='leagueMatchNo']").val();
 	$.ajax({
 		type:"put",
-		url:"http://localhost:8080/leagueMatch/result/" + leagueMatchNo,
+		url:window.contextPath + "/leagueMatch/result/" + leagueMatchNo,
 		data:formData,
 		success:function(response){
 			alert("등록되었습니다.");

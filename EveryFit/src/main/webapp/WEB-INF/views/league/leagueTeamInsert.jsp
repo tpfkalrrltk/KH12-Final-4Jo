@@ -12,7 +12,7 @@
 			<span>${leagueDto.leagueTitle}</span>
 			<div class="row text-end">
 				<div class="col">
-					<a href="leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">돌아가기</a>
+					<a href="${pageContext.request.contextPath}/league/leagueGuide?leagueNo=${leagueDto.leagueNo}" class="btn btn-outline-success bg-light">돌아가기</a>
 				</div>
 			</div>
 		</div>
@@ -103,7 +103,7 @@
     	e.preventDefault();
     	
     	$.ajax({
-    		url:"http://localhost:8080/rest/league/isTeamRegistered",
+    		url:window.contextPath + "/rest/league/isTeamRegistered",
 			method:"post",
 			data:{leagueNo:leagueNo, moimNo:moimNo},
 			success:function(response){

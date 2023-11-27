@@ -34,32 +34,64 @@
     
     <!-- 리그 메인 조회 -->
     <select id="listLeagueSearch" resultType="LeagueListDto">
-    	select * from league_list_view
-    	<where>
-    		<if test="leagueNo>0">
-			 	and league_no = #{leagueNo}    		
-    		</if>
-    		<if test="leagueManager!=null and !leagueManager.equals('')">
-				and instr(league_manager, #{leagueManager})>0    		
-    		</if>
-    		<if test="leagueTitle!=null and !leagueTitle.equals('')">
-				and instr(league_title, #{leagueTitle})>0	
-    		</if>
-    		<if test="leagueStatus!=null and !leagueStatus.equals('')">
-				and league_status = #{leagueStatus}	
-    		</if>
-    		<if test="eventName!=null and !eventName.equals('')">
-				and instr(event_name, #{eventName})>0
-    		</if>
-    		<if test="locationDepth1!=null and !locationDepth1.equals('')">
-				and location_depth1 = #{locationDepth1}
-    		</if>
-    		<if test="locationDepth2!=null and !locationDepth2.equals('')">
-    			and instr(location_depth2, #{locationDepth2})>0
-    		</if>
-    	</where>
-    	order by league_no desc
+    	select * from(
+    		select rownum rn, TMP.* from(
+		    	select * from league_list_view
+		    	<where>
+		    		<if test="leagueNo>0">
+					 	and league_no = #{leagueNo}    		
+		    		</if>
+		    		<if test="leagueManager!=null and !leagueManager.equals('')">
+						and instr(league_manager, #{leagueManager})>0    		
+		    		</if>
+		    		<if test="leagueTitle!=null and !leagueTitle.equals('')">
+						and instr(league_title, #{leagueTitle})>0	
+		    		</if>
+		    		<if test="leagueStatus!=null and !leagueStatus.equals('')">
+						and league_status = #{leagueStatus}	
+		    		</if>
+		    		<if test="eventName!=null and !eventName.equals('')">
+						and instr(event_name, #{eventName})>0
+		    		</if>
+		    		<if test="locationDepth1!=null and !locationDepth1.equals('')">
+						and location_depth1 = #{locationDepth1}
+		    		</if>
+		    		<if test="locationDepth2!=null and !locationDepth2.equals('')">
+		    			and instr(location_depth2, #{locationDepth2})>0
+		    		</if>
+		    	</where>
+		    	order by league_no desc
+		    )TMP
+		)where rn between #{startRow} and #{finishRow}
     </select>
+    
+    <!-- 리그 개수 -->
+    <select id="countLeague" resultType="int">
+	    select count(*) from league_list_view
+	    <where>
+	        <if test="leagueNo>0">
+	            and league_no = #{leagueNo}    		
+	        </if>
+	        <if test="leagueManager!=null and !leagueManager.equals('')">
+	            and instr(league_manager, #{leagueManager})>0    		
+	        </if>
+	        <if test="leagueTitle!=null and !leagueTitle.equals('')">
+	            and instr(league_title, #{leagueTitle})>0	
+	        </if>
+	        <if test="leagueStatus!=null and !leagueStatus.equals('')">
+	            and league_status = #{leagueStatus}	
+	        </if>
+	        <if test="eventName!=null and !eventName.equals('')">
+	            and instr(event_name, #{eventName})>0
+	        </if>
+	        <if test="locationDepth1!=null and !locationDepth1.equals('')">
+	            and location_depth1 = #{locationDepth1}
+	        </if>
+	        <if test="locationDepth2!=null and !locationDepth2.equals('')">
+	            and instr(location_depth2, #{locationDepth2})>0
+	        </if>
+	    </where>
+	</select>
     
     <!-- 리그 상세 조회 -->
     <select id="findLeague" resultType="LeagueDto">

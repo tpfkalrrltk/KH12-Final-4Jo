@@ -159,11 +159,11 @@ a {
 							data-bs-target="#findPw"><a href="/#" class="text-info">아이디를 잊으셨나요?</a></button> -->
 
 						<button type="button" class="btn btn-link mt-3" data-bs-target="#findPw">
-							<a href="/member/findPw" class="text-info">비밀번호를 잊으셨나요?</a>
+							<a href="${pageContext.request.contextPath}/member/findPw" class="text-info">비밀번호를 잊으셨나요?</a>
 						</button>
 
 						<button type="button" class="btn btn-link">
-							<a href="/member/join" class="text-info">회원가입</a>
+							<a href="${pageContext.request.contextPath}/member/join" class="text-info">회원가입</a>
 						</button>
 
 
