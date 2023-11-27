@@ -128,6 +128,10 @@ a {
 	border: 1px solid lightgray;
 	border-radius: 14px;
 }
+
+.cursor{
+	cursor:pointer;
+
 </style>
 
 <title>모임 상세페이지</title>
@@ -420,7 +424,7 @@ data-backdrop="static" data-keyboard="false">
             <nav id="sidebar" class="row">
                 <!-- Sidebar Content -->
                 <ul class="nav flex-column text-center box">
-                    <li class="nav-item p-3 moim-member-list">
+                    <li class="nav-item p-3 moim-member-list cursor">
 						<span class="text-primary fs-6 fw-bold">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
                     </li>
                     <li class="nav-item p-3">
@@ -430,6 +434,11 @@ data-backdrop="static" data-keyboard="false">
 						<a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
 						<i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
                     </li>
+                    <c:if test="${leagueList.size()>0}">
+                    	<li class="nav-item p-3 cursor league-list-btn">
+                    		<span class="text-primary fs-6 fw-bold">참여중인 리그 <i class="fa-solid fa-ranking-star"></i></span>
+                    	</li>
+                    </c:if>
                     <!-- 추가적인 메뉴 항목들을 필요에 따라 추가하세요 -->
                 </ul>
             </nav>
@@ -604,6 +613,26 @@ data-backdrop="static" data-keyboard="false">
   </div>
 </div>
 
+
+ 	<!-- 참여중인 리그 모달 -->
+    <div class="modal fade" id="leagueList" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">참여중인 리그</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary leagueListClose">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <div class="modal-overlay"></div>
@@ -1363,6 +1392,50 @@ data-backdrop="static" data-keyboard="false">
             }
         });
     });
+    
+    $(".league-list-btn").click(function(e){
+    	var moimNo = ${moimDto.moimNo};
+
+    	$.ajax({
+    		method:"post",
+    		data:{moimNo: moimNo},
+    		url:window.contextPath + "/rest/league/listLeagueByMoimNo",
+    		success:function(response){
+    			var leagueList = response;
+    			
+				var modalContent="";    	
+				
+                for (var i = 0; i < leagueList.length; i++) {
+                	modalContent += '<div class="card border-primary m-3">';
+                	modalContent += '<div class="card-header">' + '리그번호 : '+ leagueList[i].leagueNo + '</div>';
+                    modalContent += '<div class="card-body text-center mt-1">';
+                    modalContent += '<h4 class="card-title"><a href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=' 
+                    				+ leagueList[i].leagueNo + '">' + leagueList[i].leagueTitle +'</a></h4>';
+                    
+                    modalContent += '<p class="card-text mt-2">리그상태 : ' + leagueList[i].leagueStatus + '</p>';
+                   	modalContent += '</div></div>';
+                    console.log(modalContent);
+                }
+    			
+                $('#leagueList .modal-body').empty().append(modalContent);
+                
+                $("#leagueList").modal("show");
+    			
+    		
+    		},
+    		error:function(err){
+    			alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.")
+    		},
+    	})
+    	
+    	
+    	
+    });
+    
+    $('.leagueListClose').click(function(){
+        $('#leagueList').modal('hide');
+    });
+    
     
 
     // 문서 전체에 클릭 이벤트 추가

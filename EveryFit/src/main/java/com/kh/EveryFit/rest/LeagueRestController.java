@@ -126,4 +126,9 @@ public class LeagueRestController {
 		List<LeagueTeamDto> findDto = leagueDao.isTeamRegistered(leagueNo, moimNo);
 		return findDto.size()==0 ? "legal" : "illegal"; 
 	}
+	
+	@PostMapping("/listLeagueByMoimNo")
+	public List<LeagueDto> listLeagueByMoimNo(@RequestParam int moimNo){
+		return leagueDao.listLeagueBymoimNo(moimNo);
+	}
 }

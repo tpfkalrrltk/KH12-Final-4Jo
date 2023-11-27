@@ -36,6 +36,7 @@ public interface LeagueDao {
 	List<LeagueTeamDto> listLeagueTeamByLeague(int leagueNo);
 	List<LeagueTeamDto> listLeagueTeamNonApprove(int leagueNo);
 	List<LeagueTeamDto> lsitLeagueTeamApprove(int leagueNo);
+	List<LeagueDto> listLeagueBymoimNo(int moimNo);
 	List<LeagueTeamRankListVO> leagueTeamRank(int leagueNo);
 	boolean updateLeagueTeamStatus(int leagueTeamNo, String status);
 	void leagueTeamCalculate(int leagueTeamNo);
