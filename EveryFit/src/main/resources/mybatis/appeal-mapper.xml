@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="appeal">
+
+	<select id="sequence" resultType="int">
+		select appeal_seq.nextval from
+		dual
+	</select>
+
+	<select id="List" resultType="AppealDto">
+		select * from appeal
+		order by
+		appeal_no asc
+	</select>
+	<insert id="add">
+		insert into appeal(
+		appeal_no,
+		member_email,
+		appeal_reason,
+		appeal_content,
+		appeal_category,
+		appeal_time
+		)
+		values(
+		#{appealNo},
+		#{memberEmail},
+		#{appealReason},
+		#{appealContent},
+		#{appealCategory},
+		sysdate
+		)
+	</insert>
+
+
+
+	<select id="adminAppealSearch" resultType="AppealDto">
+		select * from appeal
+
+		<where>
+
+			<if test="appealNo != null">
+				and instr(appeal_no, #{appealNo}) > 0
+			</if>
+			<if test="appealContent != null">
+				and instr(appeal_content, #{appealContent}) > 0
+			</if>
+			<if test="memberEmail != null">
+				and instr(member_email, #{memberEmail}) > 0
+			</if>
+			<if test="appealReason != null">
+				and instr(appeal_reason, #{appealReason}) > 0
+			</if>
+
+
+			<choose>
+				<when test="appealTimeStart != null and appealTimeEnd !=null ">
+					and to_date(appeal_time, 'YYYY-MM-DD') between
+					to_date(#{appealTimeStart} || ' ' || '00:00:00', 'YYYY-MM-DD
+					HH24:MI:SS') and
+					to_date(#{appealTimeEnd} || ' ' || '23:59:59',
+					'YYYY-MM-DD HH24:MI:SS')
+
+
+
+				</when>
+				<when test="appealTimeStart != null">
+				<![CDATA[	
+				and to_date(appeal_time, 'YYYY-MM-DD') <= 
+				to_date(#{appealTimeStart} || ' ' ||'00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+				<when test="appealTimeEnd !=null">
+				<![CDATA[
+				and to_date(appeal_time, 'YYYY-MM-DD') >=
+				to_date(#{appealTimeEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
+				]]>
+				</when>
+
+			</choose>
+
+
+			<if
+				test="appealCategoryList !=null and appealCategoryList.size()>0">
+				and appeal_category in
+				<foreach collection="appealCategoryList" open="(" close=")"
+					separator="," item="appealCategoryList">
+					#{appealCategoryList}
+				</foreach>
+			</if>
+
+		</where>
+
+
+
+		<if test="orderList != null  and  orderList.size() >0">
+			order by
+			<foreach collection="orderList" separator="," item="order">
+				${order}
+			</foreach>
+		</if>
+	</select>
+
+
+	<select id="Detail" resultType="appealDto">
+		select * from appeal where
+		appeal_no = #{appealNo}
+	</select>
+
+</mapper>
