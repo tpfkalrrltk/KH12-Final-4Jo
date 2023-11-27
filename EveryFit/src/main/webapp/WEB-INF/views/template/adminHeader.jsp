@@ -160,7 +160,6 @@ body {
 		if (darkModeSetting === 'enabled') {
 			body.classList.add('dark-mode');
 
-			
 			toggleDarkModeButton.classList.add('fa-sun');
 		}
 
@@ -193,7 +192,8 @@ body {
 body.dark-mode {
 	background-color: #1C1C1C;
 	color: white;
-}</style>
+}
+</style>
 <body>
 
 
@@ -245,12 +245,13 @@ body.dark-mode {
 								class="dropdown-item"
 								href="${pageContext.request.contextPath}/member/join"><i
 								class="fa-solid fa-user-plus mt-2"></i> Join</a>
-				
-							
+
+
 							<c:if test="${sessionScope.name!=null}">
-							<div class="dropdown-divider"></div>
-								<a class="dropdown-item" onclick="reportApply()">
-							<i class="fa-solid fa-land-mine-on"></i>Report</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" onclick="reportApply()"> <i
+									class="fa-solid fa-land-mine-on"></i>Report
+								</a>
 							</c:if>
 						</div></li>
 
@@ -338,7 +339,10 @@ body.dark-mode {
 								class="fa-solid fa-lock mt-2"></i> (관리자)리그 관리</a> <a
 								class="dropdown-item"
 								href="${pageContext.request.contextPath}/admin/report"><i
-								class="fa-solid fa-lock mt-2"></i> (관리자)신고 목록</a>
+								class="fa-solid fa-lock mt-2"></i> (관리자)신고 목록</a> <a
+								class="dropdown-item"
+								href="${pageContext.request.contextPath}/appeal/list"><i
+								class="fa-solid fa-lock mt-2"></i> (관리자)항소 목록</a>
 						</div></li>
 
 
@@ -372,9 +376,11 @@ body.dark-mode {
 					</div>
 				</div>
 
-				<form class="d-flex" action="${pageContext.request.contextPath}/home/moimSerach">
+				<form class="d-flex"
+					action="${pageContext.request.contextPath}/home/moimSerach">
 					<input class="form-control me-sm-2  bg-light text-primary fw-bold"
-						type="search" placeholder="Search"  name="moimTitle" style="height: 52px">
+						type="search" placeholder="Search" name="moimTitle"
+						style="height: 52px">
 					<button class="btn btn-light   text-primary   fw-bold"
 						type="submit" style="height: 52px">Search</button>
 				</form>
