@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -27,11 +25,13 @@ import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AttachDao;
 import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.JungmoDao;
+import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.JungmoDto;
+import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
@@ -53,6 +53,7 @@ public class MoimController {
 	@Autowired private JungmoDao jungmoDao;
 	@Autowired private AttachDao attachDao;	
 	@Autowired private ChatDao chatDao;
+	@Autowired private LeagueDao leagueDao;
 	
 	@GetMapping("/create")
 	public String create(Model model) {
@@ -151,6 +152,10 @@ public class MoimController {
 		//모임회원수
 		Integer memberCount = moimDao.findMoimMemberCount(moimNo);
 		model.addAttribute("memberCount", memberCount);
+		
+		//참여중인 리그
+		List<LeagueDto> leagueList = leagueDao.listLeagueBymoimNo(moimNo);
+		if(leagueList.size()>0) model.addAttribute("leagueList", leagueList);
 		
 		
 //		//정모 목록

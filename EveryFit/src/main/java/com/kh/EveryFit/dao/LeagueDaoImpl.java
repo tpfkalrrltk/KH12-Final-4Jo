@@ -285,4 +285,9 @@ public class LeagueDaoImpl implements LeagueDao{
 		return sqlSession.selectOne("league.countLeague", vo);
 	}
 	
+	@Override
+	public List<LeagueDto> listLeagueBymoimNo(int moimNo) {
+		return sqlSession.selectList("league.listLeagueBymoimNo", moimNo);
+	}
+	
 }

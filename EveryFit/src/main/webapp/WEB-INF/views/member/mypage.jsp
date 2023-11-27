@@ -3,19 +3,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- 부트스트랩 CSS 파일 추가 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- 부트스트랩 Icons CSS 파일 추가 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.19.0/font/bootstrap-icons.css" rel="stylesheet">
 <jsp:include page="../template/Header.jsp"></jsp:include>
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<link
-	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <style>
 .box {
@@ -25,181 +14,107 @@
 	border-radius: 14px;
 }
 
-text {
-	text-decoration: none;
-	color: white;
-}
-
 .container a {
-    text-decoration: none;
-    color: #007BFF;
+	text-decoration: none;
 }
-
-.container a:hover {
-    text-decoration: underline;
-}
-
-.container a.active {
-    text-decoration: underline !important;
-    color: #ee6c4d !important;
-}
-
-/* .editable-content {
-	border: 1px solid #1C1C1C;
-	padding: 10px;
-	min-height: 100px;
-	color: #A4A4A4;
-} */
 
 </style>
 
 
 
-
-
-
-
-
-<!-- ---------------------------------------------------------------------------------------- -->
-
-
 <div class="container-fluid ">
-	<div class="row">
-		<div class="col-md-10 offset-md-1">
-
-
-
-			<div class="container text-center mt-5 box">
-				<div class="row">
-					<div class="col align-self-start">
-						<div>
-
-							<c:choose>
-								<c:when test="${profile == null }">
-									<div class="p-2">
-										<img src="/images/profile.png"
-											class="image image-circle image-border profile-image"
-											style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
-									</div>
-								</c:when>
-								<c:otherwise>
-									<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
-										class="image image-circle image-border profile-image"
-										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
-
-								</c:otherwise>
-							</c:choose>
-
-							<c:choose>
-
-								<c:when test="${memberDto.memberLevel == '프리미엄'}">
-									<div>
-										<span class="badge bg-info">프리미엄 회원</span>
-									</div>
-								</c:when>
-							</c:choose>
-
-							<div class="d-flex flex-column mb-3 mt-1">
-								<div class="p-2">
-									<label> <input type="file" class="profile-chooser "
-										accept="image/*" style="display: none;"><i class="fa-solid fa-camera-retro blue fa-2x"></i>
-									</label> <i class="ms-2 fa-regular fa-trash-can red fa-2x profile-delete"></i>
-
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-
-					<div class="col align-self-center d-flex">
-						<div class="d-flex flex-column ">
-
-       
-                 <div class="p-2 flex-fill text-start">
-						<c:if test="${memberDto.memberLevel == '프리미엄'}">
-							<span class="badge bg-success btn btn-success" >프리미엄 회원</span>
-						</c:if>
-						</div>
-							<div class="p-2 flex-fill text-start">
-
-								<i class="fa-solid fa-user-tag" style="color: #118ab2;"> :
-									${memberDto.memberNick}</i>
-
-							</div>
-							<div class="p-2 mt-2 text-start">
-								<i class="fa-solid fa-user-group" style="color: #118ab2;"> :
-									${memberDto.memberMoimProduce} 개</i>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="col align-self-end">
-						<div>
-							<c:choose>
-								<c:when test="${memberDto.memberLevel == '프리미엄'}">
-									<button class="btn btn-primary w-100 ">
-										<a onclick="Premium()"
-											style="text-decoration: none; color: white;">보유중인 프리미엄</a>
-									</button>
-								</c:when>
-								<c:otherwise>
-									<button class="btn btn-primary w-100 ">
-										<a onclick="Premium()"
-											style="text-decoration: none; color: white;">프리미엄 회원권
-											구매하기</a>
-									</button>
-								</c:otherwise>
-							</c:choose>
-						</div>
-
-						<div>
-							<button class="btn btn-primary mt-2 w-100">
-								<a onclick="mypage()"
-									style="text-decoration: none; color: white;">프로필 등록/수정</a>
-							</button>
-						</div>
-
-						<div></div>
-					</div>
+	<div class="row"><div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+		<div class="row mt-5 p-3 border border-primary rounded shadow-sm"><div class="col">
+			<div class="row m-1">
+				<div class="col-4">
+					<c:choose>
+						<c:when test="${profile == null }">
+							<img src="/images/profile.png"
+								class="rounded-circle border shadow-sm bg-dark profile-image w-100">
+						</c:when>
+						<c:otherwise>
+							<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
+								class="rounded-circle border shadow-sm bg-dark profile-image w-25">
+						</c:otherwise>
+					</c:choose>
+					<div class="row mt-2 text-center"><div class="col">
+						<label> 
+							<input type="file" class="profile-chooser "
+										accept="image/*" style="display: none;">
+							<i class="fa-solid fa-camera-retro text-primary fa-2x"></i>
+						</label> 
+						<i class="ms-2 fa-regular fa-trash-can text-danger fa-2x profile-delete"></i>
+					</div></div>
 				</div>
-			</div>
-
-			<!-- <textarea id="summernote"></textarea> -->
-			<div class="container text-center mt-3 box">
-				<div class="d-flex">
-				<!-- 	<p>
-						<a href="#"
-							class="summernote link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-							data-tag="소개">소개</a>
-					</p> -->
-
-					<p>
-						<a 
-							class="moimList link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
-							data-tag="모임"> 모임 </a>
-					</p>
-					<!-- <p>
-						<a href="#"
-							class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
-							data-tag="정모">정모</a>
-					</p>
-					<p>
-						<a href="#"
-							class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
-							data-tag="리그">리그</a>
-					</p> -->
-
+				<div class="col-8">
+					<div class="row mt-4 ms-2"><div class="col d-flex align-items-center">
+						<h3>${memberDto.memberNick}</h3>
+						<c:choose>
+							<c:when test="${memberDto.memberLevel=='프리미엄'}">
+								<span class="ms-2 badge bg-info">${memberDto.memberLevel}</span>
+							</c:when>
+							<c:otherwise>
+								<span class="ms-2 badge bg-secondary">${memberDto.memberLevel}</span>
+							</c:otherwise>
+						</c:choose>
+					</div></div>
+					<div class="row ms-2"><div class="col">
+						<i class="fa-solid fa-user-group"></i> 가입한 모임 : ${memberDto.memberMoimCount}
+						<c:choose>
+							<c:when test="${memberDto.memberLevel=='프리미엄'}">
+								/ 10 개
+							</c:when>
+							<c:otherwise>
+								/ 3 개
+							</c:otherwise>
+						</c:choose>
+					</div></div> 
+					<div class="row mt-5 ms-2"><div class="col">
+						<c:choose>
+							<c:when test="${memberDto.memberLevel == '프리미엄'}">
+								<a href="${pageContext.request.contextPath}/pay/list" class="btn btn-primary w-100">보유중인 프리미엄</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/pay?productNo=1" class="btn btn-primary">프리미엄 회원권 구매</a>
+							</c:otherwise>
+						</c:choose>
+					</div></div>
+					<div class="row mt-2 ms-2"><div class="col">
+						<a href="${pageContext.request.contextPath}/member/change" class="btn btn-primary w-100">
+							프로필 수정
+						</a>	
+					</div></div>
 				</div>
-				<div>
+				<div class="row"><div class="col">
 					<hr>
-					<div class="moimListAppend"></div>
-				</div>
+				</div></div>
+				<div class="row mt-2 text-center"><div class="col">
+					<h3>참여중인 모임</h3>
+				</div></div>
+				<c:forEach var="moimDto" items="${moimList}">
+					<div class="row mt-2"><div class="col">
+						<div class="card border-dark mb-3">
+							<div class="card-header">모임번호 : ${moimDto.moimNo}</div>
+							  <div class="card-body">
+							    <h4 class="card-title text-center">${moimDto.moimTitle}</h4>
+							    	<div class="row mt-4">
+							    		<div class="col">
+									    	<a href="${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}" 
+									    		class="btn btn-primary w-100">모임 상세</a>
+							    		</div>
+										<div class="col">
+							    			<a href="${pageContext.request.contextPath}/default/${moimDto.chatRoomNo}" 
+								    			class="btn btn-primary w-100">채팅방 입장</a>
+								    	</div>
+							  		</div>
+							  	</div>
+							</div>
+					</div></div>
+				</c:forEach>
 			</div>
-
 		</div>
-	</div>
+	</div></div>
+</div>
 </div>
 
 <script>
@@ -247,7 +162,7 @@ text {
 		//삭제아이콘을 누르면 프로필이 제거되도록 구현
 		$(".profile-delete").click(function() {
 			//확인창
-			var choice = window.confirm("프로필을 삭제하시겠습니까?");
+			var choice = window.confirm("정말 프로필을 지우시겠습니까?");
 			if (choice == false)
 				return;
 
@@ -297,68 +212,51 @@ text {
 
 
 	/* 모임링크 클릭시  */
-	
 	$(function() {
-    var moimListAppended = false;
+		$(".moimList").click(
+				function() {
+					// Rest 호출
+					$.ajax({
+						url : window.contextPath + "/rest/moim/list",
+						method : "post",
+						dataType : "json", // JSON 형식으로 응답을 기대하는 경우 반드시 명시
+						success : function(response) {
+							console.log(response); // 확인용 출력
 
-    // 모임 목록을 닫는 함수
-    function closeMoimList() {
-        // 기존 내용 삭제
-        $(".moimListAppend").empty();
-        // 추가된 상태를 해제
-        moimListAppended = false;
-    }
+							// 기존 내용 삭제
+							$(".moimListAppend").empty();
+							// 예상대로 응답이 배열 형태인 경우
+							for (var i = 0; i < response.length; i++) {
 
-    // 모임 목록 클릭 이벤트
-    $(".moimList").click(function() {
-        // 모임 목록이 띄워진 상태인 경우
-        if (moimListAppended) {
-            // 모임 목록 닫기
-            closeMoimList();
-        } else {
-            // 모임 목록 열기
-            // Rest 호출
-            $.ajax({
-                url: window.contextPath + "/rest/moim/list",
-                method: "post",
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
+								// 각각의 moimNo에 맞는 URL을 생성
+								var moimDetailUrl = window.contextPath
+										+ "/moim/detail?moimNo="
+										+ response[i].moimNo;
 
-                    // 기존 내용 삭제
-                    $(".moimListAppend").empty();
+								// <a> 태그로 감싸진 <p> 태그를 append
+								$(".moimListAppend").append(
+										"<p><a href='" + moimDetailUrl + "'>"
+												+ response[i].moimTitle + " ("
+												+ response[i].moimMemberLevel
+												+ ")" + "</a></p>");
 
-                    // 예상대로 응답이 배열 형태인 경우
-                    for (var i = 0; i < response.length; i++) {
-                        var moimDetailUrl = window.contextPath + "/moim/detail?moimNo=" + response[i].moimNo;
+							}
 
-                        $(".moimListAppend").append("<p><a href='" + moimDetailUrl + "'>" +
-                            response[i].moimTitle + " (" + response[i].moimMemberLevel + ")" + "</a></p>");
-                    }
-
-                    // 추가된 상태로 변경
-                    moimListAppended = true;
-                },
-                error: function(xhr, status, error) {
-                    console.error("Ajax 요청 에러:", status, error);
-                },
-            });
-        }
-    });
-
-    // 모임 목록 닫기 이벤트
-    $(document).on('click', function(event) {
-        // 클릭한 요소가 .moimList 또는 .moimListAppend의 자손이 아닌 경우 모임 목록 닫기
-        if (!$(event.target).closest('.moimList, .moimListAppend').length) {
-            closeMoimList();
-        }
-    });
-});
+							// 예상대로 응답이 객체 형태인 경우
+							// $(".moimListAppend").append("<p>" + response.moimName + "</p>");
+							// 예시: response.moimName은 실제 데이터 구조에 맞게 변경
+						},
+						error : function(xhr, status, error) {
+							console.error("Ajax 요청 에러:", status, error);
+						},
+					});
+				});
+	});
 	
 </script>
 
 <script>
-/* $(function() {
+$(function() {
     $(".moimList").click(function() {
         // Rest 호출
     	$.ajax({
@@ -392,10 +290,10 @@ text {
     	    },
     	});
     });
-}); */
+});
 
 //'소개' 링크 클릭 시
-/* document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   var links = document.querySelectorAll('.container a');
 
   links.forEach(function (link) {
@@ -421,7 +319,10 @@ text {
     });
   });
 });
- */
+
+// 나머지 JavaScript 코드는 그대로 유지합니다.
+
+// 나머지 JavaScript 코드도 그대로 유지합니다.
 //회원정보변경
 function mypage() {
   window.location.href = window.contextPath + '/member/change';
@@ -431,10 +332,6 @@ function mypage() {
 function Premium() {
   window.location.href = window.contextPath + '/pay/list';
 }
-
-var quill = new Quill('#editor', {
-    theme: 'snow'
-  });
 </script>
 
 
@@ -444,60 +341,3 @@ var quill = new Quill('#editor', {
 <jsp:include page="../template/Footer.jsp"></jsp:include>
 
 
-
-$(function() {
-    var moimListAppended = false;
-
-    // 모임 목록을 닫는 함수
-    function closeMoimList() {
-        // 기존 내용 삭제
-        $(".moimListAppend").empty();
-        // 추가된 상태를 해제
-        moimListAppended = false;
-    }
-
-    // 모임 목록 클릭 이벤트
-    $(".moimList").click(function() {
-        // 모임 목록이 띄워진 상태인 경우
-        if (moimListAppended) {
-            // 모임 목록 닫기
-            closeMoimList();
-        } else {
-            // 모임 목록 열기
-            // Rest 호출
-            $.ajax({
-                url: window.contextPath + "/rest/moim/list",
-                method: "post",
-                dataType: "json",
-                success: function(response) {
-                    console.log(response);
-
-                    // 기존 내용 삭제
-                    $(".moimListAppend").empty();
-
-                    // 예상대로 응답이 배열 형태인 경우
-                    for (var i = 0; i < response.length; i++) {
-                        var moimDetailUrl = window.contextPath + "/moim/detail?moimNo=" + response[i].moimNo;
-
-                        $(".moimListAppend").append("<p><a href='" + moimDetailUrl + "'>" +
-                            response[i].moimTitle + " (" + response[i].moimMemberLevel + ")" + "</a></p>");
-                    }
-
-                    // 추가된 상태로 변경
-                    moimListAppended = true;
-                },
-                error: function(xhr, status, error) {
-                    console.error("Ajax 요청 에러:", status, error);
-                },
-            });
-        }
-    });
-
-    // 모임 목록 닫기 이벤트
-    $(document).on('click', function(event) {
-        // 클릭한 요소가 .moimList 또는 .moimListAppend의 자손이 아닌 경우 모임 목록 닫기
-        if (!$(event.target).closest('.moimList, .moimListAppend').length) {
-            closeMoimList();
-        }
-    });
-});

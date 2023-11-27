@@ -186,6 +186,11 @@
     	order by league_team_no asc
     </select>
     
+    <select id="listLeagueBymoimNo" resultType="LeagueDto">
+    	select l.* from league l join league_team lt on l.LEAGUE_NO = lt.LEAGUE_NO 
+    	where lt.MOIM_NO = #{moimNo} and lt.LEAGUE_TEAM_STATUS = 'Y'
+    </select>
+    
     <!-- 리그 순위표 리스트 -->
     <select id="listLeagueTeamRank" resultType="LeagueTeamRankListVO">
     	select league_team.*, rank() over (order by league_team_point desc, league_team_win desc, 

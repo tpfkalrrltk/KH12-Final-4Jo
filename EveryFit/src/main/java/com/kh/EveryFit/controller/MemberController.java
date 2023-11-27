@@ -1,6 +1,7 @@
 package com.kh.EveryFit.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.dao.MemberDao;
+import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +44,9 @@ public class MemberController {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private MoimDao moimDao;
 
 	// 회원가입
 	@GetMapping("/join")
@@ -121,6 +127,10 @@ public class MemberController {
 		model.addAttribute("memberDto", memberDto);
 		// 프로필 이미지 번호를 첨부한다
 		model.addAttribute("profile", memberDao.findProfile(memberEmail));
+		
+		//참여중인 모임
+		List<MoimDto> moimList = moimDao.moimListByEmail(memberEmail);
+		model.addAttribute("moimList", moimList);
 
 		return "/member/mypage";
 
