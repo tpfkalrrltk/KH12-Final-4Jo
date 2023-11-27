@@ -15,4 +15,5 @@ public class ReportDto {
 	int reportNo;
 	String reportReason, reportContent, reportCategory;
 	Date reportTime;
+	String memberEmail;
 }

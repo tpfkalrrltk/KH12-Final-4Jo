@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,7 +49,10 @@ public class ReportController {
 	}
 
 	@PostMapping("/apply")
-	public String apply(@ModelAttribute ReportDto reportDto, @RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+	public String apply(@ModelAttribute ReportDto reportDto, @RequestParam MultipartFile attach,
+			HttpSession session) throws IllegalStateException, IOException {
+		String memberEmail = (String) session.getAttribute("name");
+		reportDto.setMemberEmail(memberEmail);
 		int reportNo = adminDao.sequence();
 		reportDto.setReportNo(reportNo);
 		adminDao.reportApply(reportDto);
@@ -74,7 +79,7 @@ public class ReportController {
 		
 		
 
-		return "redirect:/";
+		return "redirect:/report/apply";
 	}
 
 }
