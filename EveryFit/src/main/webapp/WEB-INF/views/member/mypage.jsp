@@ -6,13 +6,6 @@
 
 <jsp:include page="../template/Header.jsp"></jsp:include>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<link
-	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-
 <style>
 .box {
 	margin: 20px;
@@ -21,176 +14,107 @@
 	border-radius: 14px;
 }
 
-text {
-	text-decoration: none;
-	color: white;
-}
-
 .container a {
 	text-decoration: none;
-	color: #007BFF;
 }
-
-.container a:hover {
-	text-decoration: underline;
-}
-
-.container a.active {
-	text-decoration: underline; ! important; /* 클릭된 링크에만 밑줄 효과 유지 */
-	color: ee6c4d !important; /* 원하는 색상으로 변경 */
-}
-
 
 </style>
 
 
 
-
-
-
-
-
-<!-- ---------------------------------------------------------------------------------------- -->
-
-
 <div class="container-fluid ">
-	<div class="row">
-		<div class="col-md-10 offset-md-1">
-
-
-
-			<div class="container text-center mt-5 box">
-				<div class="row">
-					<div class="col align-self-start">
-						<div>
-
-							<c:choose>
-								<c:when test="${profile == null }">
-									<div class="p-2">
-										<img src="/images/profile.png"
-											class="image image-circle image-border profile-image"
-											style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
-									</div>
-								</c:when>
-								<c:otherwise>
-									<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
-										class="image image-circle image-border profile-image"
-										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
-
-								</c:otherwise>
-							</c:choose>
-
-							<c:choose>
-
-								<c:when test="${memberDto.memberLevel == '프리미엄'}">
-									<div>
-										<span class="badge bg-info">프리미엄 회원</span>
-									</div>
-								</c:when>
-							</c:choose>
-
-							<div class="d-flex flex-column mb-3 mt-1">
-								<div class="p-2">
-									<label> <input type="file" class="profile-chooser "
-										accept="image/*" style="display: none;"> <i
-										class="fa-solid fa-camera blue fa-2x"></i>
-									</label> <i class="ms-2 fa-solid fa-trash-can red fa-2x profile-delete"></i>
-
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-
-					<div class="col align-self-center d-flex">
-						<div class="d-flex flex-column ">
-
-       
-                 <div class="p-2 flex-fill text-start">
-						<c:if test="${memberDto.memberLevel == '프리미엄'}">
-							<span class="badge bg-success btn btn-success" >프리미엄 회원</span>
-						</c:if>
-						</div>
-							<div class="p-2 flex-fill text-start">
-
-								<i class="fa-solid fa-user-tag" style="color: #118ab2;"> :
-									${memberDto.memberNick}</i>
-
-							</div>
-							<div class="p-2 mt-2 text-start">
-								<i class="fa-solid fa-user-group" style="color: #118ab2;"> :
-									${memberDto.memberMoimProduce} 개</i>
-							</div>
-
-						</div>
-					</div>
-
-					<div class="col align-self-end">
-						<div>
-							<c:choose>
-								<c:when test="${memberDto.memberLevel == '프리미엄'}">
-									<button class="btn btn-primary w-100 ">
-										<a onclick="Premium()"
-											style="text-decoration: none; color: white;">보유중인 프리미엄</a>
-									</button>
-								</c:when>
-								<c:otherwise>
-									<button class="btn btn-primary w-100 ">
-										<a onclick="Premium()"
-											style="text-decoration: none; color: white;">프리미엄 회원권
-											구매하기</a>
-									</button>
-								</c:otherwise>
-							</c:choose>
-						</div>
-
-						<div>
-							<button class="btn btn-primary mt-2 w-100">
-								<a onclick="mypage()"
-									style="text-decoration: none; color: white;">프로필 등록/수정</a>
-							</button>
-						</div>
-
-						<div></div>
-					</div>
+	<div class="row"><div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1">
+		<div class="row mt-5 p-3 border border-primary rounded shadow-sm"><div class="col">
+			<div class="row m-1">
+				<div class="col-4">
+					<c:choose>
+						<c:when test="${profile == null }">
+							<img src="/images/profile.png"
+								class="rounded-circle border shadow-sm bg-dark profile-image w-100">
+						</c:when>
+						<c:otherwise>
+							<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
+								class="rounded-circle border shadow-sm bg-dark profile-image w-25">
+						</c:otherwise>
+					</c:choose>
+					<div class="row mt-2 text-center"><div class="col">
+						<label> 
+							<input type="file" class="profile-chooser "
+										accept="image/*" style="display: none;">
+							<i class="fa-solid fa-camera-retro text-primary fa-2x"></i>
+						</label> 
+						<i class="ms-2 fa-regular fa-trash-can text-danger fa-2x profile-delete"></i>
+					</div></div>
 				</div>
-			</div>
-
-			<!-- <textarea id="summernote"></textarea> -->
-			<div class="container text-center mt-3 box">
-				<div class="d-flex">
-					<p>
-						<a href="#"
-							class="summernote link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-							data-tag="소개">소개</a>
-					</p>
-
-					<p>
-						<a href="#"
-							class="moimList link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
-							data-tag="모임"> 모임 </a>
-					</p>
-					<p>
-						<a href="#"
-							class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
-							data-tag="정모">정모</a>
-					</p>
-					<p>
-						<a href="#"
-							class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover ms-3"
-							data-tag="리그">리그</a>
-					</p>
-
+				<div class="col-8">
+					<div class="row mt-4 ms-2"><div class="col d-flex align-items-center">
+						<h3>${memberDto.memberNick}</h3>
+						<c:choose>
+							<c:when test="${memberDto.memberLevel=='프리미엄'}">
+								<span class="ms-2 badge bg-info">${memberDto.memberLevel}</span>
+							</c:when>
+							<c:otherwise>
+								<span class="ms-2 badge bg-secondary">${memberDto.memberLevel}</span>
+							</c:otherwise>
+						</c:choose>
+					</div></div>
+					<div class="row ms-2"><div class="col">
+						<i class="fa-solid fa-user-group"></i> 가입한 모임 : ${memberDto.memberMoimCount}
+						<c:choose>
+							<c:when test="${memberDto.memberLevel=='프리미엄'}">
+								/ 10 개
+							</c:when>
+							<c:otherwise>
+								/ 3 개
+							</c:otherwise>
+						</c:choose>
+					</div></div> 
+					<div class="row mt-5 ms-2"><div class="col">
+						<c:choose>
+							<c:when test="${memberDto.memberLevel == '프리미엄'}">
+								<a href="${pageContext.request.contextPath}/pay/list" class="btn btn-primary w-100">보유중인 프리미엄</a>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/pay?productNo=1" class="btn btn-primary">프리미엄 회원권 구매</a>
+							</c:otherwise>
+						</c:choose>
+					</div></div>
+					<div class="row mt-2 ms-2"><div class="col">
+						<a href="${pageContext.request.contextPath}/member/change" class="btn btn-primary w-100">
+							프로필 수정
+						</a>	
+					</div></div>
 				</div>
-				<div>
+				<div class="row"><div class="col">
 					<hr>
-					<div class="moimListAppend"></div>
-				</div>
+				</div></div>
+				<div class="row mt-2 text-center"><div class="col">
+					<h3>참여중인 모임</h3>
+				</div></div>
+				<c:forEach var="moimDto" items="${moimList}">
+					<div class="row mt-2"><div class="col">
+						<div class="card border-dark mb-3">
+							<div class="card-header">모임번호 : ${moimDto.moimNo}</div>
+							  <div class="card-body">
+							    <h4 class="card-title text-center">${moimDto.moimTitle}</h4>
+							    	<div class="row mt-4">
+							    		<div class="col">
+									    	<a href="${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}" 
+									    		class="btn btn-primary w-100">모임 상세</a>
+							    		</div>
+										<div class="col">
+							    			<a href="${pageContext.request.contextPath}/default/${moimDto.chatRoomNo}" 
+								    			class="btn btn-primary w-100">채팅방 입장</a>
+								    	</div>
+							  		</div>
+							  	</div>
+							</div>
+					</div></div>
+				</c:forEach>
 			</div>
-
 		</div>
-	</div>
+	</div></div>
+</div>
 </div>
 
 <script>
