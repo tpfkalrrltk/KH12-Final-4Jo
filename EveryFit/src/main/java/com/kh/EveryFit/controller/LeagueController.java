@@ -248,8 +248,11 @@ public class LeagueController {
 		model.addAttribute("moimDto", moimDto);
 		model.addAttribute("leagueDto", leagueDto);
 		
-		ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), (String)session.getAttribute("name"));
-		model.addAttribute("chatEntryDto", chatEntryDto);
+		String memberEmail = (String)session.getAttribute("name");
+		if(memberEmail!=null) {
+			ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), memberEmail);
+			model.addAttribute("chatEntryDto", chatEntryDto);
+		}
 		
 		return "/league/leagueTeamDetail";
 	}
@@ -263,8 +266,11 @@ public class LeagueController {
 		model.addAttribute("rankList", rankList);
 		model.addAttribute("leagueDto", leagueDto);
 		
-		ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), (String)session.getAttribute("name"));
-		model.addAttribute("chatEntryDto", chatEntryDto);
+		String memberEmail = (String)session.getAttribute("name");
+		if(memberEmail!=null) {
+			ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), memberEmail);
+			model.addAttribute("chatEntryDto", chatEntryDto);
+		}
 		return "league/leagueDetail";
 	}
 	
@@ -276,8 +282,11 @@ public class LeagueController {
 		model.addAttribute("leagueDto", leagueDto);
 		model.addAttribute("leagueTeamList", leagueTeamList);
 		model.addAttribute("leagueMatchList", leagueMatchList);
-		ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), (String)session.getAttribute("name"));
-		model.addAttribute("chatEntryDto", chatEntryDto);
+		String memberEmail = (String)session.getAttribute("name");
+		if(memberEmail!=null) {
+			ChatEntryDto chatEntryDto = chatDao.checkChatEntry(leagueDto.getChatRoomNo(), memberEmail);
+			model.addAttribute("chatEntryDto", chatEntryDto);
+		}
 		return "league/leagueMatch";
 	}
 	
