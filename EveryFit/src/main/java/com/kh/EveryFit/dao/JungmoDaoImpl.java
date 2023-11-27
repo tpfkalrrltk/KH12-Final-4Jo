@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.vo.JungmoMemberListVO;
+import com.kh.EveryFit.vo.JungmoStatusVO;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
 
 @Repository
@@ -84,5 +85,10 @@ public class JungmoDaoImpl implements JungmoDao{
 		params.put("memberEmail", memberEmail);
 		params.put("jungmoNo", jungmoNo);
 		return sqlSession.selectOne("moim.memberCheck", params);
+	}
+	
+	@Override
+	public boolean updateJungmoStatus(JungmoStatusVO vo) {
+		return sqlSession.update("moim.updateJungmoStatus", vo)>0;
 	}
 }

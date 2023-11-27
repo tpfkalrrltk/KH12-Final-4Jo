@@ -22,8 +22,11 @@ public class ChatDaoImpl implements ChatDao{
 	}
 	
 	@Override
-	public List<ChatDto> list(int chatRoomNo) {
-		return sqlSession.selectList("chat.list", chatRoomNo);
+	public List<ChatDto> list(int chatRoomNo, String memberEmail) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberEmail", memberEmail);
+		params.put("chatRoomNo", chatRoomNo);
+		return sqlSession.selectList("chat.list", params);
 	}
 	
 	@Override
@@ -47,5 +50,13 @@ public class ChatDaoImpl implements ChatDao{
 	@Override
 	public List<Integer> selectChatRoomNoList(String memberEmail) {
 		return sqlSession.selectList("chat.chatRoomNoByMemberEmail", memberEmail);
+	}
+	
+	@Override
+	public boolean deleteChatMember(Integer chatRoomNo, String memberEmail) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("memberEmail", memberEmail);
+		params.put("chatRoomNo", chatRoomNo);
+		return sqlSession.delete("chat.deleteChatMember", params)>0;
 	}
 }

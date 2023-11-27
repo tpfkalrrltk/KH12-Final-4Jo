@@ -138,8 +138,10 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			//같은아이디면 차단
 			channelService.sendUserList(message, chatRoomNo);
 			
-			
-			List<ChatDto> list = chatDao.list(chatRoomNo);
+			//모임챗방이면~~
+			log.debug("client = {}",client.getMemberEmail());
+			List<ChatDto> list = chatDao.list(chatRoomNo, client.getMemberEmail());
+			log.debug("list={}", list);
 			for(ChatDto dto : list) {
 				Map<String, Object> map = new HashMap<>();
 				Date chatTime = dto.getChatTime();
@@ -156,7 +158,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 				client.send(mss);
 			}
 			log.debug("방에 입장");
-		
+			//아니면~~
 			
 		}
 		

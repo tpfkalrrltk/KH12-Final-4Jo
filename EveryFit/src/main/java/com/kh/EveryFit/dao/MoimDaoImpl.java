@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.EveryFit.dto.MemberLikeDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
+import com.kh.EveryFit.dto.MoimStateDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.MoimMemberStatusVO;
 import com.kh.EveryFit.vo.MoimTitleForPaymentVO;
@@ -216,7 +217,19 @@ public class MoimDaoImpl implements MoimDao {
 	public boolean updateToEndDate(int moimNo) {
 		return sqlSession.update("moim.updateEndDate", moimNo)>0;
 	}
-@Override
+
+
+	@Override
+	public Integer findMoimMemberCount(int moimNo) {
+		return sqlSession.selectOne("moim.moimMemberCount", moimNo);
+	}
+	
+	@Override
+	public boolean updateMoimState(MoimStateDto moimStateDto) {
+		return sqlSession.update("moim.updateMoimState", moimStateDto)>0;
+  }
+
+  @Override
 	public List<MoimDto> selectMoimListBeforeToday() {
 	return sqlSession.selectList("moim.selectMoimListBeforeToday");
 	}

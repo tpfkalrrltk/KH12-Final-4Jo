@@ -123,11 +123,12 @@ public class ChannelServiceImpl implements ChannelService{
 	
 	//채팅방에 대화이력을 보내는 메소드(구현중)
 	@Override
-	public void sendMessageList(Integer chatRoomNo, TextMessage message) throws IOException {
+	public void sendMessageList(ClientVO client, Integer chatRoomNo, TextMessage message) throws IOException {
 		ChatRoomVO room = findRoom(chatRoomNo);
 		if(room == null) return;
-
-	    List<ChatDto> list = chatDao.list(chatRoomNo);
+		
+		
+	    List<ChatDto> list = chatDao.list(chatRoomNo, client.getMemberEmail());
 	    List<Map<String, Object>> chatHistory = new ArrayList<>();
 
 	    for (ChatDto dto : list) {
