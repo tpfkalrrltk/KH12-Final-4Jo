@@ -16,6 +16,7 @@ public class PaymentListByMemberVO {
 	private int periodPaymentNo;
 	private String moimTitle;
 	private String moimUpgrade;
+	private Date moimEndTime;
 	private String memberEmail;
 	private String moimMemberLevel;
 	private String periodPaymentStatus;

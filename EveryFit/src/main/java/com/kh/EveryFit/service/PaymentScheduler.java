@@ -32,7 +32,8 @@ public class PaymentScheduler {
 	private KakaoPayService kakoPayService;
 	@Autowired
 	private PeriodKakaoPayProperties periodProperties;
-	
+	//실행조건
+	//WHERE TRUNC(pp.period_payment_END) = TRUNC(SYSDATE) AND pp.period_payment_status = 'Y'
 	//@Scheduled(cron = "0 */1 * * * *")
 	private void periodPayment() throws URISyntaxException {
 		List<PaymentListAllVO> list = paymentDao.selectListAll();
