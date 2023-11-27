@@ -31,10 +31,12 @@ p {
   min-height: 100%;
   padding-bottom: 200px;
 }
+
 footer{
   height:0px;
   position : relative;
   transform : translateY(-100%);
+
 }
 
 </style>

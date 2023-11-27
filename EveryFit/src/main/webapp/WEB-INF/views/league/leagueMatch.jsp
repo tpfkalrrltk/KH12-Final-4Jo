@@ -30,6 +30,9 @@
 				<c:if test="${sessionScope.level=='관리자'}">
 					<button class="btn btn-info insert-btn">경기등록</button>
 				</c:if>
+				<c:if test="${chatEntryDto!=null}">
+	        		<a href="${pageContext.request.contextPath}/default/${leagueDto.chatRoomNo}" class="btn btn-success">리그채팅</a> 
+        		</c:if>
 				<a href="${pageContext.request.contextPath}/league/leagueList" class="btn btn-outline-success bg-light">목록으로</a>
 			</div></div>
 		</div>
@@ -47,7 +50,13 @@
 		</c:if>
 		
 		
-		
+		<c:choose>
+      	<c:when test="${leagueMatchList.size()==0}">
+      		<div class="row mt-5 text-center text-warning"><div class="col">
+	      		<h1>아직 경기 정보가 없습니다</h1>
+      		</div></div>
+      	</c:when>
+      	<c:otherwise>
 		<c:forEach var="matchDto" items="${leagueMatchList}">
 			<div class="row mt-5 p-3 border border-light rounded shadow-sm"><div class="col">
 				<div class="row text-center">
@@ -98,6 +107,8 @@
 				</div>
 			</div></div>
 		</c:forEach>
+		</c:otherwise>
+		</c:choose>
 		
 	</div></div>
 </div>

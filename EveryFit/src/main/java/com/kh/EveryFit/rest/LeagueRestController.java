@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.EveryFit.component.LeagueMatchMaker;
+import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.LeagueApplicationDto;
@@ -34,6 +35,7 @@ public class LeagueRestController {
 
 	@Autowired private LeagueDao leagueDao;
 	@Autowired private MoimDao moimDao;
+	@Autowired private ChatDao chatDao;	
 	
 	@PostMapping("/addLeagueApplication")
 	public void addLeagueApplication(@ModelAttribute LeagueApplicationDto applicationDto) throws ParseException {
@@ -70,9 +72,20 @@ public class LeagueRestController {
 	
 	@PostMapping("/updateLeagueTeamStatus")
 	public boolean updateLeagueTeamStatus(@RequestParam int leagueTeamNo) {
-		String origin = leagueDao.selectOneLeagueTeam(leagueTeamNo).getLeagueTeamStatus();
+		LeagueTeamDto leagueTeamDto = leagueDao.selectOneLeagueTeam(leagueTeamNo);
+		LeagueDto leagueDto = leagueDao.selectOneLeague(leagueTeamDto.getLeagueNo());
+		String originStatus = leagueTeamDto.getLeagueTeamStatus();
 		String status;
-		status = origin.equals("N") ? "Y" : "N";
+		String moimJang = moimDao.findMoimJang(leagueTeamDto.getMoimNo()).getMemberEmail();
+		int chatRoomNo = leagueDto.getChatRoomNo();
+		if(originStatus.equals("N")) {
+			status = "Y";
+			chatDao.addChatMember(leagueDto.getChatRoomNo(), moimJang);
+		}
+		else {
+			status = "N";
+			chatDao.deleteChatMember(chatRoomNo, moimJang);
+		}
 		return leagueDao.updateLeagueTeamStatus(leagueTeamNo, status); 
 	}
 	
