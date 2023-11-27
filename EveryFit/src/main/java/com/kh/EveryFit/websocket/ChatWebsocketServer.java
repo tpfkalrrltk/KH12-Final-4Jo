@@ -131,17 +131,16 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		boolean isJoin = params.get("type").equals("join");
 		log.debug("isjoin? = {}", isJoin);
 		
-		channelService.createRoom(chatRoomNo);
+//		channelService.findRoom(chatRoomNo);
 		channelService.enterUser(client, chatRoomNo);
 		
 		if(isJoin) { //입장이면!
-			//같은아이디면 차단
 			channelService.sendUserList(message, chatRoomNo);
 			
 			//모임챗방이면~~
-			log.debug("client = {}",client.getMemberEmail());
+//			log.debug("client = {}",client.getMemberEmail());
 			List<ChatDto> list = chatDao.list(chatRoomNo, client.getMemberEmail());
-			log.debug("list={}", list);
+//			log.debug("list={}", list);
 			for(ChatDto dto : list) {
 				Map<String, Object> map = new HashMap<>();
 				Date chatTime = dto.getChatTime();
@@ -152,7 +151,6 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 				map.put("memberNick", dto.getMemberNick());
 				map.put("chatTime", formattedChatTime);
 				map.put("attachNo", dto.getAttachNo());
-				log.debug("입장map={}", map);
 				String messageJson = mapper.writeValueAsString(map);
 				TextMessage mss = new TextMessage(messageJson);
 				client.send(mss);

@@ -27,6 +27,7 @@ public class WebsocketServerConfiguration implements WebSocketConfigurer {
 		registry.addHandler(chatWebSocketServer, "/ws/default")
 					.addInterceptors(new HttpSessionHandshakeInterceptor())
 					.withSockJS();
+//		.setAllowedOrigins("*")
 	}
 
 }

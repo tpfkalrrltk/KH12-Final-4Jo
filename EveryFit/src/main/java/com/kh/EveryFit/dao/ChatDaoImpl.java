@@ -60,6 +60,8 @@ public class ChatDaoImpl implements ChatDao{
 		params.put("chatRoomNo", chatRoomNo);
 		return sqlSession.delete("chat.deleteChatMember", params)>0;
 	}
+
+
 	
 	@Override
 	public ChatEntryDto checkChatEntry(int chatRoomNo, String memberEmail) {
@@ -67,3 +69,4 @@ public class ChatDaoImpl implements ChatDao{
 		return sqlSession.selectOne("chat.checkChatEntry", param);
 	}
 }
+

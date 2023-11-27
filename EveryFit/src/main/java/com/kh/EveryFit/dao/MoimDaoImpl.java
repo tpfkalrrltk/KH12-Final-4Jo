@@ -238,4 +238,9 @@ public class MoimDaoImpl implements MoimDao {
 	public MoimMemberDto findMoimJang(int moimNo) {
 		return sqlSession.selectOne("moim.findMoimJang", moimNo);
 	}
+  
+	  @Override
+	public Integer findMoimJangCount(int moimNo) {
+		return sqlSession.selectOne("moim.moimJangCheck", moimNo);
+	}
 }

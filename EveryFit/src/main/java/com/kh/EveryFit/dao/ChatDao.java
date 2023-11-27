@@ -25,3 +25,4 @@ public interface ChatDao {
 	//채팅방 참여중인지 쳌,
 	ChatEntryDto checkChatEntry(int chatRoomNo, String memberEmail); 
 }
+

@@ -23,13 +23,26 @@
 		)
 	</insert>
 	
-	<select id="list" resultType="ChatDto">
-select c.*, m.member_nick, mi.attach_no from chat c left outer join member m 
-		on c.member_email = m.member_email 
-		left outer join member_image mi
-		on m.member_email = mi.member_email 
-		where chat_room_no = #{chatRoomNo} 
-		order by chat_time asc
+<select id="list" resultType="ChatDto">
+	<![CDATA[
+	select 
+	    c.*, 
+	    m.member_nick, 
+	    mi.attach_no
+	from 
+	    chat c 
+	    join moim mo on c.chat_room_no = mo.chat_room_no
+	    join moim_member mm on mo.moim_no = mm.moim_no 
+	    join member m on c.member_email = m.member_email 
+	    left outer join member_image mi 
+	    on m.member_email = mi.member_email 
+	where 
+	    mm.member_email = #{memberEmail} 
+	    and c.chat_room_no = #{chatRoomNo} 
+	    and c.chat_time >= mm.moim_member_join
+	order by 
+	    c.chat_time asc
+	]]>
 	</select>
 	
 	<select id="sequence" resultType="int">
