@@ -141,21 +141,21 @@
 
 			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light "
 				id="Premium">
-				<h1 class="display-5 fw-bold">검색 결과</h1>
+				<h1 class="display-5 fw-bold">${param.moimTitle} 검색 결과</h1>
 
 			</div>
 		</div>
 
 
 
-		<div class="row align-items-center m-5">
+		<div class="row align-items-center m-5 p-5">
 
 			<c:forEach var="homeMoimSearchList" items="${homeMoimSearchList}"
 				varStatus="loopStatus">
 				<div class="col pe-0 ">
-					<div class="card border-primary mb-3 w-100 Premium bg-primary"
+					<div class="card border-primary mb-3 w-100 Premium bg-light"
 						style="max-width: 400px;">
-						<div class="card-header bg-light text-primary fw-bold ">Moim
+						<div class="card-header bg-primary text-light fw-bold ">Moim
 							No.${homeMoimSearchList.moimNo}</div>
 						<div class="card-body ">
 							<div class="text-center">
@@ -168,20 +168,20 @@
 							</div>
 							<c:choose>
 								<c:when test="${homeMoimSearchList.moimTitle.length() >=14}">
-									<h4 class="card-title text-light bg-primary">${homeMoimSearchList.moimTitle.substring(0, 14)}..</h4>
+									<h4 class="card-title text-primary bg-light">${homeMoimSearchList.moimTitle.substring(0, 14)}..</h4>
 								</c:when>
 								<c:otherwise>
-									<h4 class="card-title text-light bg-primary">${homeMoimSearchList.moimTitle}</h4>
+									<h4 class="card-title text-primary bg-light">${homeMoimSearchList.moimTitle}</h4>
 								</c:otherwise>
 							</c:choose>
 
 
 							<c:choose>
 								<c:when test="${homeMoimSearchList.moimContent.length() >=14}">
-									<p class="card-text lead text-light bg-primary">${homeMoimSearchList.moimContent.substring(0, 14)}...</p>
+									<p class="card-text lead text-primary bg-light">${homeMoimSearchList.moimContent.substring(0, 14)}...</p>
 								</c:when>
 								<c:otherwise>
-									<p class="card-text lead text-light bg-primary">${homeMoimSearchList.moimContent}</p>
+									<p class="card-text lead text-primary bg-light">${homeMoimSearchList.moimContent}</p>
 								</c:otherwise>
 							</c:choose>
 
@@ -189,7 +189,7 @@
 							<div class="container">
 								<div class="row">
 									<div class="col-6 offset-6 ">
-										<p class="card-text text-end text-light  ">
+										<p class="card-text text-end text-primary  ">
 											<small class="memberCount"> 현재 인원
 												${homeMoimSearchList.memberCount}
 									 / ${homeMoimSearchList.moimMemberCount}
@@ -201,7 +201,7 @@
 
 
 							<a
-								class="btn btn-light text-primary btn-lg fw-bold premium-btn btn-join"
+								class="btn btn-primary text-light btn-lg fw-bold premium-btn btn-join"
 								role="button" data-moim-no="${homeMoimSearchList.moimNo}">Join</a>
 
 						</div>

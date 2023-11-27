@@ -203,7 +203,7 @@ body.dark-mode {
 	<nav class="navbar navbar-expand-lg bg-primary fixed-top"
 		style="z-index: 1040; height: 85px" data-bs-theme="dark">
 
-		<div class="container-fluid">
+		<div class="container-fluid  bg-primary">
 			<a class="navbar-brand ms-4" href="/"><img
 				src="${pageContext.request.contextPath}/images/mainLogo.png"
 				width="110px" /></a>
