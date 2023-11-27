@@ -156,6 +156,13 @@
 	where member_email = #{memberEmail}
 </update> -->
 
+<!-- 로그인 안된 상태서 비밀번호변경  -->
+<!-- <update id="updatePassword"  >
+        UPDATE member
+        SET member_pw = #{memberPw}
+        WHERE member_email = #{memberEmail}
+    </update> -->
+
  <update id="memberChangePw">
         UPDATE member
         SET member_pw = #{changePw}

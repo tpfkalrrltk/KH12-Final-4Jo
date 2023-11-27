@@ -128,6 +128,9 @@ public class MemberRestController {
 //	    }
 //	}
 	
+//	마이페이지 자기소개
+	
+	
 	
 //	프로필 업로드&다운로드 기능
 		@Autowired
