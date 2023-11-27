@@ -172,4 +172,10 @@ public class AdminDaoImpl implements AdminDao {
 
 		sqlSession.selectOne("admin.deleteReportImage", reportNo);
 	}
+
+	@Override
+	public List<MoimDto> homeMoimSearchList(String moimTitle) {
+		List<MoimDto> list = sqlSession.selectList("admin.homeMoimSearchList", moimTitle);
+		return list;
+	}
 }

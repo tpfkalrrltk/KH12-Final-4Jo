@@ -227,7 +227,7 @@ body {
 
 							<div class="container">
 								<div class="row">
-									<div class="col-7 offset-5 ">
+									<div class="col-6 offset-6 ">
 										<p class="card-text text-end text-light  ">
 											<small class="memberCount"> 현재 인원
 												${PremiumMoimList.memberCount}
@@ -310,15 +310,9 @@ body {
 
 							<div class="container">
 								<div class="row">
-									<div class="col-4 offset-6 p-0">
+									<div class="col-6 offset-6 p-0">
 										<p class="card-text text-end ">
-											<small class="">현재 인원 ${NewMoimList.memberCount} </small>
-										</p>
-									</div>
-									<div class="col ">
-										<small>
-											<p class="text-primary m-0 ">/
-												${NewMoimList.moimMemberCount}</p>
+											<small >현재 인원 ${NewMoimList.memberCount}	 / ${NewMoimList.moimMemberCount}</p>
 										</small>
 
 									</div>
@@ -394,15 +388,9 @@ body {
 
 							<div class="container">
 								<div class="row">
-									<div class="col-4 offset-6 p-0">
+									<div class="col-6 offset-6 p-0">
 										<p class="card-text text-end ">
-											<small>현재 인원 ${GenderCheckMoimList.memberCount} </small>
-										</p>
-									</div>
-									<div class="col ">
-										<small>
-											<p class="text-primary m-0 ">/
-												${GenderCheckMoimList.moimMemberCount}</p>
+											<small>현재 인원 ${GenderCheckMoimList.memberCount} /	${GenderCheckMoimList.moimMemberCount}</p>
 										</small>
 
 									</div>

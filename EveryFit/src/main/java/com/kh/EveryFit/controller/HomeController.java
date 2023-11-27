@@ -55,6 +55,14 @@ public class HomeController {
 
 		return "/home";
 	}
+	
+	@GetMapping("/home/moimSerach")
+	public String homeMoimSerach(Model model,@RequestParam String moimTitle) {
+		model.addAttribute("homeMoimSearchList", adminDao.homeMoimSearchList(moimTitle));
+		model.addAttribute("memberCount", adminDao.memberCount());
+
+		return "/homeMoimSerach";
+	}
 
 	@ResponseBody
 	@RequestMapping("/image")
