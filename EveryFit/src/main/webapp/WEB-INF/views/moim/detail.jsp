@@ -92,13 +92,13 @@ a {
 .image-container {
 	position: relative;
 	width: 100%;
-	max-width: 1200px; /* 필요에 따라 조절 */
+/* 	max-width: 1200px;  */
 	margin: 0 auto;
 }
 
 .member-list {
-	height: 20vh;
-	min-height: 400px;
+/* 	height: 20vh; */
+/* 	min-height: 400px; */
 	overflow-y:scroll;
 	overflow-x: hidden;
 	padding-bottom: 20px;
@@ -120,6 +120,13 @@ a {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     display: none;
+}
+
+.box {
+/* 	margin: 20px; */
+	padding: 30px;
+	border: 1px solid lightgray;
+	border-radius: 14px;
 }
 </style>
 
@@ -247,7 +254,7 @@ data-backdrop="static" data-keyboard="false">
 		</div>
 	</div>
 
-			<button class="btn btn-primary jungmo-create"  type="button" style="display:none;">정모등록</button>
+	<button class="btn btn-primary jungmo-create"  type="button" style="display:none;">정모등록</button>
 
 			
 <!-- 			</div> -->
@@ -353,9 +360,9 @@ data-backdrop="static" data-keyboard="false">
 
 					</div>
 					
-<div class="col-lg-2">
+<div class="col-lg-2 col-md-3">
 
-				<div class="row" >
+				<div class="row box" >
 				<c:forEach var="moimMemberDto" items="${memberList}">
 					<c:if test="${sessionScope.name == moimMemberDto.memberEmail}">
 					<div class="row"><div class="col d-flex align-items-center justify-content-center">
@@ -389,15 +396,15 @@ data-backdrop="static" data-keyboard="false">
    
             <nav id="sidebar" class="row">
                 <!-- Sidebar Content -->
-                <ul class="nav flex-column text-center">
-                    <li class="nav-item border p-3 moim-member-list">
-						<span class="text-primary">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
+                <ul class="nav flex-column text-center box">
+                    <li class="nav-item p-3 moim-member-list">
+						<span class="text-primary fs-6 fw-bold">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
                     </li>
-                    <li class="nav-item border p-3">
-                        <a href="/default/${moimDto.chatRoomNo}">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></a>
+                    <li class="nav-item p-3">
+                        <a href="/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
                     </li>
-                    <li class="nav-item border p-3">
-						<a href="board/list?moimNo=${moimDto.moimNo}">모임 게시판
+                    <li class="nav-item p-3">
+						<a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
 						<i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
                     </li>
                     <!-- 추가적인 메뉴 항목들을 필요에 따라 추가하세요 -->
@@ -470,11 +477,35 @@ data-backdrop="static" data-keyboard="false">
 	<!-- 회원 정보 내용 -->
 	<div class="moim-member-info" style="display: none;">
     </div>
-    
-    <!-- 모임멤버 -->
+ 
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" id="appBtn" style="display: none;">모임수정</button>
+        <button type="button" class="btn btn-primary" id="jungmoInsertBtn" style="display: none;">정모등록</button>
+        <button type="button" class="btn btn-primary" id="jungmoEditBtn" style="display: none;">정모수정</button>
+      </div>
+    </div>
+</div>
+</div>
+
+
+
+<!-- 모임멤버모달 -->
+<div class="modal" id="modal3">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="list-modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <!-- 모임멤버 -->
     	<div class="row member-list" style="display:none;">
 			<c:forEach var="moimMemberDto" items="${memberList}">
-	        	<div class="image-container mb-1">
+	        	<div class="image-container">
 		        <c:choose>
 				<c:when test="${moimMemberDto.attachNo != null}">
 				<img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
@@ -516,17 +547,14 @@ data-backdrop="static" data-keyboard="false">
 				</div>
 			</c:forEach>
 		</div>
-   
-    </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary" id="appBtn" style="display: none;">모임수정</button>
-        <button type="button" class="btn btn-primary" id="jungmoInsertBtn" style="display: none;">정모등록</button>
-        <button type="button" class="btn btn-primary" id="jungmoEditBtn" style="display: none;">정모수정</button>
       </div>
     </div>
+  </div>
 </div>
-</div>
+
 
 
 <div class="modal-overlay"></div>
@@ -544,7 +572,7 @@ data-backdrop="static" data-keyboard="false">
 //     		console.log(moimNo)
 
     		$.ajax({
-    			url:"http://localhost:8080/rest/moim/likeCheck",
+    			url:window.contextPath+"/rest/moim/likeCheck",
     			method:"post",
     			data:{moimNo : moimNo},
     			success:function(response) {
@@ -565,7 +593,7 @@ data-backdrop="static" data-keyboard="false">
     		//[2]
     		$(".fa-heart").click(function() {
     			$.ajax({
-    				url:"http://localhost:8080/rest/moim/likeAction",
+    				url:window.contextPath+"/rest/moim/likeAction",
     				method:"post",
     				data:{moimNo : moimNo},
     				success:function(response) {
@@ -642,7 +670,7 @@ data-backdrop="static" data-keyboard="false">
 // 		form.append("jungmoNo", jungmoNo);
 		
 		$.ajax({
-			url:"http://localhost:8080/rest/attach/upload",
+			url:window.contextPath+"/rest/attach/upload",
 			method:"post",
 			processData:false,
 			contentType:false,
@@ -667,7 +695,7 @@ data-backdrop="static" data-keyboard="false">
 		
 		//삭제요청
 		$.ajax({
-			url:"http://localhost:8080/rest/attach/delete",
+			url:window.contextPath+"/rest/attach/delete",
 			method:"post",
 			data:{moimNo: moimNo},
 			success:function(response){
@@ -714,13 +742,14 @@ data-backdrop="static" data-keyboard="false">
 //         });
 //     });
     var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
+    var Modal3 = new bootstrap.Modal(document.getElementById('modal3'));
 	 
     $("#appBtn").click(function(){
 
 		 var formData = $("#appInsert").serialize();
 
 		 $.ajax({
-               url: "http://localhost:8080/rest/moim/infoChange",
+               url: window.contextPath+"/rest/moim/infoChange",
                type: "POST",
                data: formData,
                success: function (data) {
@@ -763,8 +792,7 @@ data-backdrop="static" data-keyboard="false">
 // 		}
 
 		 $.ajax({
-//                url:"http://localhost:8080/rest/moim/jungmo/" + (isCreate ? "create" : "edit"),
-               url:"http://localhost:8080/rest/moim/jungmo/create",
+               url:window.contextPath+"/rest/moim/jungmo/create",
                type: "POST",
                data: formData,
                contentType: false,
@@ -806,7 +834,7 @@ data-backdrop="static" data-keyboard="false">
     	var formData = new FormData(document.getElementById("jungmoInsertForm"));
     	
 		 $.ajax({
-               url: "http://localhost:8080/rest/moim/jungmo/edit",
+               url: window.contextPath+"/rest/moim/jungmo/edit",
                type: "POST",
                data: formData,
                contentType: false,
@@ -834,7 +862,7 @@ data-backdrop="static" data-keyboard="false">
 
         // AJAX 요청 보내기
         $.ajax({
-            url: "http://localhost:8080/rest/moim/jungmo/check",
+            url: window.contextPath+"/rest/moim/jungmo/check",
             type: "POST",
             data: { jungmoNo: jungmoNo },
             success: function (data) {
@@ -1018,8 +1046,11 @@ data-backdrop="static" data-keyboard="false">
     
     
     function getMemberInfo(memberEmail) {
+    	
+    	$('#applicationModal .moim-member-info').empty();
+    	
         $.ajax({
-            url: "http://localhost:8080/rest/moim/member/info", 
+            url: window.contextPath+"/rest/moim/member/info", 
             type: 'GET',
             data: { memberEmail: memberEmail, moimNo: moimNo },
             success: function(response) {
@@ -1105,17 +1136,17 @@ data-backdrop="static" data-keyboard="false">
  // fa-bars를 클릭하면 Ajax 요청을 보냄
     $('#barToggleMenu').click(function(e) {
     	
-        e.stopPropagation(); // 이벤트 전파 방지
+//         e.stopPropagation(); // 이벤트 전파 방지
         var menu = $(this).next('.bar-popup-menu');
         menu.toggle().css({
             'position': 'absolute',
             'top': $(this).offset().top + $(this).outerHeight(),
-            'left': $(this).offset().left
+            'right': $(this).offset().right
         });
         // Ajax 요청
         $.ajax({
-            url: window.contextPath+"/rest/moim/moimjang/check", // 서버의 엔드포인트를 지정해야 합니다.
-            type: 'POST', // 또는 'GET', 요청 방식에 따라 설정
+            url: window.contextPath+"/rest/moim/moimjang/check", 
+            type: 'POST', 
             data: { 
             	memberEmail: '${sessionScope.name}',
             	moimNo : moimNo	
@@ -1131,11 +1162,16 @@ data-backdrop="static" data-keyboard="false">
                 }
             },
             error: function() {
-                console.error('Ajax request failed');
+                console.error('에러');
             }
         });
     });
  
+	    
+	    $('.edit-mode').click(function(e) {
+	    	e.stopPropagation();
+	        $('.jungmo-create, .moim-edit, .jungmo-edit, .fa-image, .profile-delete, .jungmo-cancel').show();
+	    });
 
     // 다른 영역을 클릭하면 모든 팝업 메뉴를 닫음
     $(document).mouseup(function(e) {
@@ -1144,39 +1180,34 @@ data-backdrop="static" data-keyboard="false">
             containers.hide();
         }
     });
-    
-    $('.edit-mode').click(function() {
-        $('.jungmo-create, .moim-edit, .jungmo-edit, .fa-image, .profile-delete, .jungmo-cancel').show();
-    });
 
     $('.moim-member-list').on('click', function () {
         // 여기에 moim-member-list를 보여주는 코드를 추가하세요
-        $('.modal-overlay').show();
-        $('.modal-title').text('모임멤버');
+        $('.list-modal-title').text('모임멤버');
 
 	    // 모달 폭 조절
-	    $('#applicationModal .modal-dialog').removeClass('modal-lg').addClass('modal-sm');
+	    $('#modal3 .modal-dialog').removeClass('modal-lg').addClass('modal-sm');
 	
 	    // 모달 위치 이동 (옵션)
-	    $('#applicationModal').css('left', '30em'); // 원하는 위치로 수정
+	    $('#modal3').css('left', '30em'); // 원하는 위치로 수정
         
-        Modal.show();
-        $('.moim-edit-inputs').hide();
-        $('.jungmo-create-inputs').hide();
-        $('#jungmoEditBtn').hide();
-		$('#appBtn').hide();
-		$('#jungmoInsertBtn').hide();
+       	Modal3.show();
+//         Modal.show();
+//         $('.moim-edit-inputs').hide();
+//         $('.jungmo-create-inputs').hide();
+//         $('#jungmoEditBtn').hide();
+// 		$('#appBtn').hide();
+// 		$('#jungmoInsertBtn').hide();
         $('.member-list').show();
         
         $('.modal-overlay, .btn-close, .btn-secondary').on('click', function () {
-            $('#applicationModal').modal('hide');
+            $('#modal3').modal('hide');
             $('.modal-overlay').hide();
         });
         
     });
     
-    
-     $('#applicationModal').draggable({
+     $('#modal3').draggable({
          handle: ".modal-header"
      });
 

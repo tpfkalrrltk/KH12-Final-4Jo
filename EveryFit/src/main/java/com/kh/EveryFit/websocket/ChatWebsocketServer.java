@@ -138,6 +138,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			//같은아이디면 차단
 			channelService.sendUserList(message, chatRoomNo);
 			
+			//모임챗방이면~~
 			log.debug("client = {}",client.getMemberEmail());
 			List<ChatDto> list = chatDao.list(chatRoomNo, client.getMemberEmail());
 			log.debug("list={}", list);
@@ -157,7 +158,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 				client.send(mss);
 			}
 			log.debug("방에 입장");
-		
+			//아니면~~
 			
 		}
 		
