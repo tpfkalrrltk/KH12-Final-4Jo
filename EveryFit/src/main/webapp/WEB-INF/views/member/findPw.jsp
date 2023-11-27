@@ -25,7 +25,7 @@
 			<div class="col-md-4 offset-md-4 mt-3">
 				<div class="d-flex flex-row">
 					<div class="col-md-4 offset-md-4">
-						<button type="submit" class="btn btn-Danger btn-resetPw ms-2">인증번호 보내기
+						<button type="submit" class="btn btn-primary btn-resetPw ms-2 w-100">인증번호 보내기
 							</button>
 
 
@@ -39,7 +39,7 @@
 				<div class="ms-3 mt-3 ">
 					<label class="cert-result"></label>
 					<div class="col-md-4 offset-md-4 mt-3">
-						<button class="btn btn-success btn-cert" type="button" style="width:100px">확인</button>
+						<button class="btn btn-primary btn-cert w-100" type="button" style="width:100px">확인</button>
 					</div>
 				</div>
 			</div>
@@ -65,7 +65,7 @@
 			$(".btn-resetPw").find(".fa-spinner").show();
 			$(".btn-resetPw").find("span").text("이메일 발송중");
 			$.ajax({
-				url : "http://localhost:8080/rest/cert/resetPw",
+				url : window.contextPath + "/rest/cert/resetPw",
 				method : "post",
 				data : {
 					certEmail : email
@@ -92,7 +92,7 @@
 						return;
 
 					$.ajax({
-						url : "http://localhost:8080/rest/cert/resetPwCheck",
+						url : window.contextPath + "/rest/cert/resetPwCheck",
 						method : "post",
 						data : {
 							certEmail : email,
@@ -109,7 +109,7 @@
 										"green");
 								
 								 // 인증 성공 시 비밀번호 변경 페이지로 이동
-				                window.location.href = "http://localhost:8080/member/changePw"; // 실제 경로로 변경
+				                window.location.href = window.contextPath + "/member/changePw"; // 실제 경로로 변경
 				                
 							} else {
 								$(".cert-input").removeClass("success fail")

@@ -9,7 +9,7 @@
 
 <%--
 <c:choose>
-	<c:when test="${sessionScope.level =='운영자' }">
+	<c:when test="${sessionScope.level =='관리자' }">
 		<%@ include file="template/adminHeader.jsp"%>
 	</c:when>
 	<c:otherwise>

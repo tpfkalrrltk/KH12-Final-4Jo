@@ -12,7 +12,10 @@ import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.error.AuthorityException;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class MemberBlockInterceptor implements HandlerInterceptor {
 
 	@Autowired
@@ -25,18 +28,26 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 
 		String memberId = (String) session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		String memberBlock = memberDto.getMemberBlock();
 
-		boolean isNotBlock = memberBlock !=null && memberBlock.equals("N");
+		String memberBlock = "";
 
+		if (memberDto != null) {
+			memberBlock = memberDto.getMemberBlock();
+		}
+
+		boolean isNotBlock = memberBlock.equals("N") && memberBlock != null;
 		if (isNotBlock) {
+			log.debug("messageTrue={}", isNotBlock);
+
 			return true;
 		} else {
-			//throw new AuthorityException("차단당한 회원입니다. 관리자에게 문의 하세요");
-			response.sendRedirect(request.getContextPath()+"/error/MemberBlockException");
-			// response.sendRedirect(request.getContextPath()+"/member/login");
-			// return false;
+			// throw new AuthorityException("차단당한 회원입니다. 관리자에게 문의 하세요");
+			log.debug("messageFalse={}", isNotBlock);
+			response.sendRedirect(request.getContextPath() + "/error/MemberBlockException");
+
 		}
-		return true;
+
+		return false;
 	}
 }
+

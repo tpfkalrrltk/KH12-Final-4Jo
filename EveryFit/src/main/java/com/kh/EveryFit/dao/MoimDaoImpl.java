@@ -218,6 +218,7 @@ public class MoimDaoImpl implements MoimDao {
 		return sqlSession.update("moim.updateEndDate", moimNo)>0;
 	}
 
+
 	@Override
 	public Integer findMoimMemberCount(int moimNo) {
 		return sqlSession.selectOne("moim.moimMemberCount", moimNo);
@@ -226,5 +227,10 @@ public class MoimDaoImpl implements MoimDao {
 	@Override
 	public boolean updateMoimState(MoimStateDto moimStateDto) {
 		return sqlSession.update("moim.updateMoimState", moimStateDto)>0;
+  }
+
+  @Override
+	public List<MoimDto> selectMoimListBeforeToday() {
+	return sqlSession.selectList("moim.selectMoimListBeforeToday");
 	}
 }

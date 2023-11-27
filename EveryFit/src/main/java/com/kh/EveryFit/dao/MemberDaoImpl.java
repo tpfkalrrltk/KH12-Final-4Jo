@@ -34,8 +34,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberDto selectOne(String memberEmail) {
 		MemberDto memberDto = sqlSession.selectOne("member.findByMemberEmail", memberEmail);
-//		if (memberDto == null)
-//			throw new NoTargetException();
 		return memberDto;
 	}
 
@@ -62,9 +60,8 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public void delete(String memberEmail) {
-		int result = sqlSession.delete("member.deleteByMemberEmail", memberEmail);
-		if (result == 0)
-			throw new NoTargetException();
+		sqlSession.delete("member.deleteByMemberEmail", memberEmail);
+		
 	}
 
 	@Override
@@ -142,6 +139,12 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("member.changeMemberMoimCount", memberEmail) > 0;
 	}
 
+	//내가 가입한 모임 갯수 
+	@Override
+	public boolean updateMemberMoimProduce(int memberEmail) {
+		return sqlSession.update("member.changeMemberMoimProduce",memberEmail) > 0;
+	}
+	
 
 	@Override
 	public MemberDto selectOneByMemberNick(String memberNick) {

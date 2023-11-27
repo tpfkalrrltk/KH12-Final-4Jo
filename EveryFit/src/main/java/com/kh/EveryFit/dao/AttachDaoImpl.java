@@ -37,4 +37,9 @@ public class AttachDaoImpl implements AttachDao{
 		return sqlSession.selectOne("attach.findLeague", leagueNo);
 	}
 	
+	@Override
+	public AttachDto selectOneLeagueTeam(int leagueTeamNo) {
+		return sqlSession.selectOne("attach.findLeagueTeam", leagueTeamNo);
+	}
+	
 }

@@ -109,7 +109,7 @@
 
 	<select id="selectList" resultType="BoardVO">
 		select * from moim_board
-		where instr(${type},#{keyword}) > 0
+		where instr(${type},#{keyword}) > 0 and moim_no=#{moimNo}
 	</select>
 
 	<select id="countList" resultType="MoimBoardDto">

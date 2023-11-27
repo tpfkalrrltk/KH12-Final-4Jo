@@ -34,32 +34,64 @@
     
     <!-- 리그 메인 조회 -->
     <select id="listLeagueSearch" resultType="LeagueListDto">
-    	select * from league_list_view
-    	<where>
-    		<if test="leagueNo>0">
-			 	and league_no = #{leagueNo}    		
-    		</if>
-    		<if test="leagueManager!=null and !leagueManager.equals('')">
-				and instr(league_manager, #{leagueManager})>0    		
-    		</if>
-    		<if test="leagueTitle!=null and !leagueTitle.equals('')">
-				and instr(league_title, #{leagueTitle})>0	
-    		</if>
-    		<if test="leagueStatus!=null and !leagueStatus.equals('')">
-				and league_status = #{leagueStatus}	
-    		</if>
-    		<if test="eventName!=null and !eventName.equals('')">
-				and instr(event_name, #{eventName})>0
-    		</if>
-    		<if test="locationDepth1!=null and !locationDepth1.equals('')">
-				and location_depth1 = #{locationDepth1}
-    		</if>
-    		<if test="locationDepth2!=null and !locationDepth2.equals('')">
-    			and instr(location_depth2, #{locationDepth2})>0
-    		</if>
-    	</where>
-    	order by league_no desc
+    	select * from(
+    		select rownum rn, TMP.* from(
+		    	select * from league_list_view
+		    	<where>
+		    		<if test="leagueNo>0">
+					 	and league_no = #{leagueNo}    		
+		    		</if>
+		    		<if test="leagueManager!=null and !leagueManager.equals('')">
+						and instr(league_manager, #{leagueManager})>0    		
+		    		</if>
+		    		<if test="leagueTitle!=null and !leagueTitle.equals('')">
+						and instr(league_title, #{leagueTitle})>0	
+		    		</if>
+		    		<if test="leagueStatus!=null and !leagueStatus.equals('')">
+						and league_status = #{leagueStatus}	
+		    		</if>
+		    		<if test="eventName!=null and !eventName.equals('')">
+						and instr(event_name, #{eventName})>0
+		    		</if>
+		    		<if test="locationDepth1!=null and !locationDepth1.equals('')">
+						and location_depth1 = #{locationDepth1}
+		    		</if>
+		    		<if test="locationDepth2!=null and !locationDepth2.equals('')">
+		    			and instr(location_depth2, #{locationDepth2})>0
+		    		</if>
+		    	</where>
+		    	order by league_no desc
+		    )TMP
+		)where rn between #{startRow} and #{finishRow}
     </select>
+    
+    <!-- 리그 개수 -->
+    <select id="countLeague" resultType="int">
+	    select count(*) from league_list_view
+	    <where>
+	        <if test="leagueNo>0">
+	            and league_no = #{leagueNo}    		
+	        </if>
+	        <if test="leagueManager!=null and !leagueManager.equals('')">
+	            and instr(league_manager, #{leagueManager})>0    		
+	        </if>
+	        <if test="leagueTitle!=null and !leagueTitle.equals('')">
+	            and instr(league_title, #{leagueTitle})>0	
+	        </if>
+	        <if test="leagueStatus!=null and !leagueStatus.equals('')">
+	            and league_status = #{leagueStatus}	
+	        </if>
+	        <if test="eventName!=null and !eventName.equals('')">
+	            and instr(event_name, #{eventName})>0
+	        </if>
+	        <if test="locationDepth1!=null and !locationDepth1.equals('')">
+	            and location_depth1 = #{locationDepth1}
+	        </if>
+	        <if test="locationDepth2!=null and !locationDepth2.equals('')">
+	            and instr(location_depth2, #{locationDepth2})>0
+	        </if>
+	    </where>
+	</select>
     
     <!-- 리그 상세 조회 -->
     <select id="findLeague" resultType="LeagueDto">
@@ -202,6 +234,11 @@
     <delete id="deleteLeagueTeam">
         DELETE FROM league_team WHERE league_team_no = #{leagueTeamNo}
     </delete>
+    
+    <!-- 리그접수가능한지 체크 -->
+    <select id="isTeamRegistered" resultType="LeagueTeamDto">
+    	select * from league_team where league_no = #{leagueNo} and moim_no = #{moimNo}
+    </select>
 	
 	<!-- 리그접수 관련 -->
 	<!-- 리그접수 시퀀스 -->
@@ -275,7 +312,19 @@
     
     <!-- 리그경기리스트vo 조회 -->
     <select id="listLeagueMatchListVO" resultType="LeagueMatchListVO">
-		SELECT * FROM league_match_list_view WHERE league_no = #{leagueNo} ORDER BY league_match_no asc
+		SELECT * FROM league_match_list_view
+		<where>
+			league_no = #{leagueNo}
+			<if test="leaugeTeamNo != 0 and leagueTeamNo != null">
+				and	(league_match_home = #{leagueTeamNo} or league_match_away = #{leagueTeamNo})
+			</if>
+		</where>
+		ORDER BY league_match_date asc, league_match_no asc
+    </select>
+    
+    <!-- 리그경기리스트VO 단일조회 -->
+    <select id="findLeagueMatchListVO" resultType="LeagueMatchListVO">
+    	SELECT * FROM league_match_list_view WHERE league_match_no = #{leagueMatchNo}
     </select>
     
     <!-- 리그경기 업데이트 -->
@@ -356,6 +405,10 @@
     
     <insert id="insertLeagueImage">
     	insert into league_image(league_no, attach_no) values(#{leagueNo}, #{attachNo})
+    </insert>
+    
+    <insert id="insertLeagueTeamImage">
+    	insert into league_team_image(league_team_no, attach_no) values(#{leagueTeamNo}, #{attachNo})
     </insert>
     
 </mapper>    

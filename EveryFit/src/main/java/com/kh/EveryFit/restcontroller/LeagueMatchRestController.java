@@ -1,5 +1,7 @@
 package com.kh.EveryFit.restcontroller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,13 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.EveryFit.component.LeagueMatchCalculater;
 import com.kh.EveryFit.dao.LeagueDao;
 import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
+import com.kh.EveryFit.vo.LeagueScoreCalculateVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -61,10 +64,6 @@ public class LeagueMatchRestController {
 		if(isEdit) {
 			int originHomeScore = originMatchDto.getLeagueMatchHomeScore();
 			int originAwayScore = originMatchDto.getLeagueMatchAwayScore();
-			homeDto.setLeagueTeamG(homeDto.getLeagueTeamG() - originHomeScore);
-			homeDto.setLeagueTeamD(homeDto.getLeagueTeamD() - originAwayScore);
-			awayDto.setLeagueTeamG(awayDto.getLeagueTeamG() - originAwayScore);
-			awayDto.setLeagueTeamD(awayDto.getLeagueTeamD() - originHomeScore);
 			if(originHomeScore > originAwayScore) {
 				homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() - 1);
 				awayDto.setLeagueTeamLose(awayDto.getLeagueTeamLose() - 1);
@@ -80,10 +79,6 @@ public class LeagueMatchRestController {
 		}
 		
 		
-		homeDto.setLeagueTeamG(homeDto.getLeagueTeamG() + homeScore);
-		homeDto.setLeagueTeamD(homeDto.getLeagueTeamD() + awayScore);
-		awayDto.setLeagueTeamG(awayDto.getLeagueTeamG() + awayScore);
-		awayDto.setLeagueTeamD(awayDto.getLeagueTeamD() + homeScore);
 		
 		if(homeScore > awayScore) {
 			homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() + 1);
@@ -97,6 +92,19 @@ public class LeagueMatchRestController {
 			homeDto.setLeagueTeamDraw(homeDto.getLeagueTeamDraw() + 1);
 			awayDto.setLeagueTeamDraw(awayDto.getLeagueTeamDraw() + 1);
 		}
+		
+		int leagueNo = leagueMatchDto.getLeagueNo();
+		List<LeagueMatchDto> leagueMatchList = leagueDao.selectLeagueMatchList(leagueNo);
+		LeagueScoreCalculateVO homeTotalVO = LeagueMatchCalculater.calculateTotalScore(leagueMatchDto.getLeagueMatchHome(), leagueMatchList);
+		LeagueScoreCalculateVO awayTotalVO = LeagueMatchCalculater.calculateTotalScore(leagueMatchDto.getLeagueMatchAway(), leagueMatchList);
+		
+		homeDto.setLeagueTeamG(homeTotalVO.getTotalG());
+		homeDto.setLeagueTeamD(homeTotalVO.getTotalD());
+		homeDto.setLeagueTeamGD(homeTotalVO.getTotalGD());
+		
+		awayDto.setLeagueTeamG(awayTotalVO.getTotalG());
+		awayDto.setLeagueTeamD(awayTotalVO.getTotalD());
+		awayDto.setLeagueTeamGD(awayTotalVO.getTotalGD());
 		
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 		leagueDao.updateLeagueTeam(homeDto, homeDto.getLeagueTeamNo());

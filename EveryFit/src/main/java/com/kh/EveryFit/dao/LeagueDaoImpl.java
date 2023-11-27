@@ -248,11 +248,41 @@ public class LeagueDaoImpl implements LeagueDao{
 	
 	@Override
 	public List<LeagueMatchListVO> selectLeagueMatchVOList(int leagueNo) {
-		return sqlSession.selectList("league.listLeagueMatchListVO", leagueNo);
+		Map<String, Object> param = Map.of("leagueNo", leagueNo);
+		return sqlSession.selectList("league.listLeagueMatchListVO", param);
+	}
+	
+	@Override
+	public List<LeagueMatchListVO> selectLeagueMatchVOListByTeamNo(int leagueNo, int leagueTeamNo) {
+		Map<String, Object> param = Map.of("leagueNo", leagueNo, "leagueTeamNo", leagueTeamNo);
+		return sqlSession.selectList("league.listLeagueMatchListVO", param);
 	}
 	
 	@Override
 	public List<LeagueTeamDto> lsitLeagueTeamApprove(int leagueNo) {
 		return sqlSession.selectList("league.listLeagueTeamApprove", leagueNo);
 	}
+	
+	@Override
+	public LeagueMatchListVO selectOneLeagueMatchListVO(int leaugeMatchNo) {
+		return sqlSession.selectOne("league.findLeagueMatchListVO", leaugeMatchNo);
+	}
+	
+	@Override
+	public List<LeagueTeamDto> isTeamRegistered(int leagueNo, int moimNo) {
+		Map<String, Object> param = Map.of("leagueNo", leagueNo, "moimNo", moimNo);
+		return sqlSession.selectList("league.isTeamRegistered", param);
+	}
+	
+	@Override
+	public void insertLeagueTeamImage(int leagueTeamNo, int attachNo) {
+		Map<String, Object>param = Map.of("leagueTeamNo", leagueTeamNo, "attachNo", attachNo);
+		sqlSession.insert("league.insertLeagueTeamImage",param);
+	}
+	
+	@Override
+	public int countLeague(LeagueListVO vo) {
+		return sqlSession.selectOne("league.countLeague", vo);
+	}
+	
 }
