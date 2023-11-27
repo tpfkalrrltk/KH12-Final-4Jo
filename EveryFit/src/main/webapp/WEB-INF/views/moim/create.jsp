@@ -25,10 +25,6 @@
 		</div>
 		</div>
 <div class="row">
-	<c:if test="${profile != null}">
-	<img src="/rest/attach/download?attachNo=${profile}"
-			class="rounded profile-image">		
-	</c:if>
 <!--  라벨을 만들고 파일선택창을 숨김 -->
 <form method="post" enctype="multipart/form-data" autocomplete="off" >
 
@@ -81,7 +77,6 @@
 		</div>
 		
 		<div class="row mt-2">
-<!-- 	 	<div class="col-3 text-end"><label class="form-label">모임설명</label></div> -->
 	 	<div class="col-6 offset-3"><textarea rows="5" class="form-control" name="moimContent">모임소개</textarea></div>
 	 	</div>
 		<div class="row mt-2">
@@ -137,7 +132,7 @@
 	
 	$(".location-depth1").change(function(e){
 			var locationDepth1 = e.target.value;
-			console.log(locationDepth1)
+			
 			$.ajax({
 				url:"http://localhost:8080/rest/location/depth2List",
 				type:"post",
@@ -220,61 +215,5 @@
         });
     });
     
-    $("form").submit(function (event) {
-        if (!validateForm()) {
-            event.preventDefault(); // form 제출 중단
-        }
-    });
 
-    function validateForm() {
-        // 필수 입력 필드들을 배열로 저장
-        var requiredFields = [
-            "moimTitle",
-            "locationNo",
-            "eventNo",
-            "moimContent",
-            "moimMemberCount"
-        ];
-
-        // 필수 입력 필드를 확인하고 누락된 경우 알림창 표시
-        for (var i = 0; i < requiredFields.length; i++) {
-            var fieldName = requiredFields[i];
-            var fieldValue = $("[name=" + fieldName + "]").val().trim();
-
-	            if (fieldValue === "") {
-	                alert("모든 항목을 입력해주세요.");
-	                return false; // form 제출 중단
-	            }
-	        }
-	
-	        return true; // form 제출 허용
-	    }
-    
-    $('textarea[name="moimContent"]').on('input', function () {
-        var maxLength = 1000; // 최대 글자 수
-        var currentLength = $(this).val().length;
-
-        if (currentLength > maxLength) {
-            // 입력 길이가 제한을 초과한 경우, 알림창 표시
-            alert("최대 한글 천글자까지 입력 가능합니다.");
-
-            // 초과된 부분을 자르고 입력값 설정
-            var trimmedValue = $(this).val().substring(0, maxLength);
-            $(this).val(trimmedValue);
-        }
-    });
-    
-    $('input[name="moimTitle"]').on('input', function () {
-        var maxLength = 20; // 최대 글자 수
-        var currentLength = $(this).val().length;
-
-        if (currentLength > maxLength) {
-            // 입력 길이가 제한을 초과한 경우, 알림창 표시
-            alert("최대 한글 20글자까지 입력 가능합니다.");
-
-            // 초과된 부분을 자르고 입력값 설정
-            var trimmedValue = $(this).val().substring(0, maxLength);
-            $(this).val(trimmedValue);
-        }
-    });
  </script> 
