@@ -8,6 +8,48 @@
 span {
 	color: darkorange;
 }
+
+/* 성공/실패에 대한 스타일 구현 */
+.success-feedback {
+	color: #00b894;
+	display: none;
+}
+
+.fail-feedback, .fail2-feedback {
+	color: #d63031;
+	display: none;
+}
+
+.success ~ .success-feedback {
+	display: block;
+}
+
+.fail ~ .fail-feedback {
+	display: block;
+}
+
+.fail2 ~ .fail2-feedback {
+	display: block;
+}
+
+.success {
+	/* important는 우선순위를 최상위로 올린다 */
+	border-color: #00b894 !important;
+	background-image: url("./image/valid.png");
+	background-repeat: no-repeat;
+	background-position-x: right;
+	background-position-y: center;
+	background-size: 1em;
+}
+
+.fail, .fail2 {
+	border-color: #d63031 !important;
+	background-image: url("./image/invalid.png");
+	background-repeat: no-repeat;
+	background-position-x: right;
+	background-position-y: center;
+	background-size: 1em;
+}
 </style>
 
 
@@ -15,7 +57,7 @@ span {
 <!-- ---------------------------------------------------------------------------------------- -->
 
 
-<form class="join-form" action="" method="post" autocomplete="off"
+<form class="join" action="" method="post" autocomplete="off"
 	novalidate>
 	<div class="container-fluid">
 		<div class="row">
@@ -39,7 +81,7 @@ span {
 									</div>
 									<div class="ms-3 mt-4">
 										<button type="button" id="id_Confirm" value="중복확인"
-											class="btn btn-success btn-send">
+											class="btn btn-primary btn-send">
 											인증<i class="fa-solid fa-spinner fa-spin"></i>
 										</button>
 
@@ -57,7 +99,7 @@ span {
 
 									</div>
 									<div class="ms-3 mt-4">
-										<button class="btn btn-success btn-cert" type="button">확인</button>
+										<button class="btn btn-primary btn-cert" type="button">확인</button>
 									</div>
 								</div>
 							</div>
@@ -67,13 +109,13 @@ span {
 							<div class="col-md-4 offset-md-4 text-start">
 								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
 								<label>비밀번호</label> <input type="password" name="memberPw"
-									class="form-control">
+									class="form-control" placeholder="Everyfit1!">
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start">
 								<label> 비밀번호 확인 </label> <input type="password" required
-									class="form-control" name="memberPwConfirm"
-									id="passwordConfirm">
+									class="form-control" 
+									id="password-check">
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start">
@@ -122,7 +164,7 @@ span {
 
 							<div class="mt-4 col-md-4 offset-md-4 text-center"
 								style="margin-bottom: 150px;">
-								<button type="submit" class="btn btn-info" style="width: 350px;">회원가입</button>
+								<button type="submit" class="btn btn-primary" style="width: 350px;">회원가입</button>
 							</div>
 						</div>
 
@@ -226,6 +268,62 @@ span {
 		  });
 		});
 	
+	
+	 /* 피드백  */
+	 $(function(){
+        //$("[name=memberId]").on("blur", function(){});
+        $("[name=memberEmail]").blur(function(){
+            var regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail");
+            $(this).addClass(isValid ? "success" : "fail");
+        });
+        $("[name=memberPw]").blur(function(){
+            var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
+            var isValid = regex.test($(this).val());
+            $(this).removeClass("success fail");
+            $(this).addClass(isValid ? "success" : "fail");
+        });
+        $("#password-check").blur(function(){
+            var originPw = $("[name=memberPw]").val();
+            var checkPw = $(this).val();
+
+            $(this).removeClass("success fail fail2");
+            if(originPw.length == 0) {//비밀번호 미입력
+                $(this).addClass("fail2");
+            }
+            else if(originPw == checkPw) {//비밀번호 일치
+                $(this).addClass("success");
+            }
+            else {//비밀번호 불일치
+                $(this).addClass("fail");
+            }
+        });
+    });
+	 $("[name=memberName]").blur(function(){
+         var regex = /^[가-힣]{2,17}$/;
+         var isValid = regex.test($(this).val());
+         $(this).removeClass("success fail");
+         $(this).addClass(isValid ? "success" : "fail");
+     });
+	 $("[name=memberNick]").blur(function(){
+         var regex = /^[A-Za-z0-9가-힣]{2,10}$/;
+         var isValid = regex.test($(this).val());
+         $(this).removeClass("success fail");
+         $(this).addClass(isValid ? "success" : "fail");
+     });
+     $("[name=memberBirth]").blur(function(){
+         var regex = /(19[0-9]{2}|20[0-9]{2})-(((0[13578]|1[02])-(0[1-9]|1[0-9]|2[0-9]|3[01]))|((0[469]|11)-(0[1-9]|1[0-9]|2[0-9]|30))|((02)-(0[1-9]|1[0-9]|2[0-9])))$/;
+         var isValid = regex.test($(this).val());
+         $(this).removeClass("success fail");
+         $(this).addClass(isValid ? "success" : "fail");
+     });
+     $("[name=memberContact]").blur(function(){
+         var regex = /^01[016789][1-9][0-9]{2,3}[0-9]{4}$/;
+         var isValid = regex.test($(this).val());
+         $(this).removeClass("success fail");
+         $(this).addClass(isValid ? "success" : "fail");
+     });
 </script>
 
 <jsp:include page="../template/Footer.jsp"></jsp:include>

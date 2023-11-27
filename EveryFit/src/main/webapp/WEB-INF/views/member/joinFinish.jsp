@@ -18,7 +18,7 @@ a {
 				<div class="row">
 					<div class="col align-self-start">
 						<h4>환영합니다</h4>
-						<button class="btn btn-info mt-5">
+						<button class="btn btn-primary mt-5">
 							<a href="/member/login">로그인</a>
 						</button>
 					</div>
