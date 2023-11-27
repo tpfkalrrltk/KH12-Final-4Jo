@@ -160,13 +160,13 @@ data-backdrop="static" data-keyboard="false">
 			<div class="row text-end">
 				<i class="fa-solid fa-bars" style="color: #b0b0b0;" id="barToggleMenu" ></i>
 			</div>
-			<div class="bar-popup-menu bar-dropdown-menu" id="approvedMenu">
+			<div class="bar-popup-menu bar-dropdown-menu" id="approvedMenu" style="left:65%;">
 			    <!-- Y일 때 보여질 팝업 메뉴 내용 모임장,매니저 일 때 -->
 			    <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
 			    <button class="dropdown-item edit-mode">모임관리</button>
 			</div>
 			
-			<div class="bar-popup-menu bar-dropdown-menu" id="blockedMenu">
+			<div class="bar-popup-menu bar-dropdown-menu" id="blockedMenu" style="left:65%;">
 			    <!-- N일 때 보여질 팝업 메뉴 내용 -->
 			    <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
 			    <a class="dropdown-item" href="">신고하기</a>
@@ -233,7 +233,7 @@ data-backdrop="static" data-keyboard="false">
 					<span class="badge rounded-pill text-bg-primary">멤버 ${memberCount}</span>
 				</div></div>
 
-				<div class="miom-content mt-2 p-0">${moimDto.moimContent}</div>
+				<div class="miom-content mt-4 mb-4 p-3 ">${moimDto.moimContent}</div>
 			
 			
 			
@@ -327,7 +327,7 @@ data-backdrop="static" data-keyboard="false">
 						/ ${jungmoList.jungmoListVO.jungmoCapacity}</label>
 					</div>
 					<div class="row">
-					<label><a class="link" href="/default/${jungmoList.jungmoListVO.chatRoomNo}" style="text-decoration: none;">채팅방가기</a></label> 		
+					<label><a class="link chat-link" href="/default/${jungmoList.jungmoListVO.chatRoomNo}" style="text-decoration: none;">채팅방가기</a></label> 		
 					</div>
 										
 <%-- 			<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
@@ -411,7 +411,7 @@ data-backdrop="static" data-keyboard="false">
 						<span class="text-primary fs-6 fw-bold">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
                     </li>
                     <li class="nav-item p-3">
-                        <a href="/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
+                        <a href="/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold chat-link">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
                     </li>
                     <li class="nav-item p-3">
 						<a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
@@ -444,7 +444,7 @@ data-backdrop="static" data-keyboard="false">
       	<label class="form-label">모임명</label> 
       	<input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}" class="form-control">
       	<label class="form-label">모임소개</label> 
-      	<textarea rows="5" class="form-control" name="moimContent" data-original-value="${moimDto.moimContent}" >${moimDto.moimContent}</textarea>
+      	<textarea rows="5" class="form-control" id="summernote" name="moimContent" data-original-value="${moimDto.moimContent}" >${moimDto.moimContent}</textarea>
 <%--       	<input type="text" name="moimContent" data-original-value="${moimDto.moimContent}" class="form-control"> --%>
       	<label class="form-label">모임상태</label> 
       	<select name="moimState" data-original-value="${moimDto.moimState}" class="form-select">
@@ -460,7 +460,7 @@ data-backdrop="static" data-keyboard="false">
       </form>
       </div>
       
-      <!-- 정모 등록 내용 -->
+      <!-- 정모 등록/수정 내용 -->
       <div id="jungmoInsert" class="jungmo-create-inputs" style="display: none;">
 		<form id="jungmoInsertForm" autocomplete="off" enctype="multipart/form-data" >
 			<div class="preview-wrapper1"></div>
@@ -474,15 +474,16 @@ data-backdrop="static" data-keyboard="false">
 			<label class="form-label">장소url</label>
 			<input type="text" name="jungmoAddrLink" class="form-control jungmo-create-inputs"> 
 			<label class="form-label">인원</label>
-			<input type="text" name="jungmoCapacity" class="form-control jungmo-create-inputs"> 
-			<label class="form-label">가격</label>
-			<input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs"> 
+			<input type="number" name="jungmoCapacity" class="form-control jungmo-create-inputs" min="0" max="${moimDto.moimMemberCount}"> 
+			<label class="form-label">참가비</label>
+			<input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs" min="0"> 
 			<label class="form-label jungmo-create-inputs">일정</label>
 			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" 
 			id="jungmoScheduleStr" 
 			class="from-control">
 		</form>
       </div>
+      
       
 	<!-- 회원 정보 내용 -->
 	<div class="moim-member-info" style="display: none;">
@@ -529,7 +530,7 @@ data-backdrop="static" data-keyboard="false">
 				</c:if>
 				<label>${moimMemberDto.memberNick}
 				<c:if test="${sessionScope.name eq moimMemberDto.memberEmail}">
-		            <span class="badge bg-info p-1">나</span>
+		            <span class="badge p-1"><i class="fa-solid fa-seedling" style="color: #6582e4;"></i></span>
 		        </c:if>
 				</label>
 				
@@ -578,7 +579,7 @@ data-backdrop="static" data-keyboard="false">
 		        	<label class="badge bg-secondary p-1">모임차단</label>
 		        </c:if>
 		        <c:if test="${moimMemberDto.memberBlock == 'Y'}">			        	
-		        	<span class="badge bg-danger p-1">차단된회원</span>
+		        	<span class="badge bg-danger p-1">차단회원</span>
 		        </c:if>
 				</div>
 			</c:forEach>
@@ -1129,7 +1130,6 @@ data-backdrop="static" data-keyboard="false">
     }
 
     
-    
     $('input[name="moimTitle"]').on('input', function () {
         var maxLength = 10; // 최대 글자 수
         var currentLength = $(this).val().length;
@@ -1144,19 +1144,19 @@ data-backdrop="static" data-keyboard="false">
         }
     });
     
-    $('textarea[name="moimContent"]').on('input', function () {
-        var maxLength = 1300; // 최대 글자 수
-        var currentLength = $(this).val().length;
+//     $('[name="moimContent"]').on('input', function () {
+//         var maxLength = 1300; // 최대 글자 수
+//         var currentLength = $(this).val().length;
 
-        if (currentLength > maxLength) {
-            // 입력 길이가 제한을 초과한 경우, 알림창 표시
-            alert("최대 한글 1300글자까지 입력 가능합니다.");
+//         if (currentLength > maxLength) {
+//             // 입력 길이가 제한을 초과한 경우, 알림창 표시
+//             alert("최대 한글 1300글자까지 입력 가능합니다.");
 
-            // 초과된 부분을 자르고 입력값 설정
-            var trimmedValue = $(this).val().substring(0, maxLength);
-            $(this).val(trimmedValue);
-        }
-    });
+//             // 초과된 부분을 자르고 입력값 설정
+//             var trimmedValue = $(this).val().substring(0, maxLength);
+//             $(this).val(trimmedValue);
+//         }
+//     });
     
     
  // fa-bars를 클릭하면 Ajax 요청을 보냄
@@ -1165,9 +1165,9 @@ data-backdrop="static" data-keyboard="false">
 //         e.stopPropagation(); // 이벤트 전파 방지
         var menu = $(this).next('.bar-popup-menu');
         menu.toggle().css({
-            'position': 'absolute',
             'top': $(this).offset().top + $(this).outerHeight(),
-            'right': $(this).offset().right
+//             'left': $(this).offset().left
+            'left': $(this).offset().left
         });
         
         // Ajax 요청
@@ -1358,6 +1358,82 @@ data-backdrop="static" data-keyboard="false">
         $('.popup-menu').hide();
     });
 	
+    var maxLength = 4000;
+	$("[name=moimContent]").summernote({
+	  	tabsize: 2,
+		height: 240,
+		fontNames: ['NotoSansKR'],
+        fontNamesIgnoreCheck: ['NotoSansKR'],
+	    toolbar: [
+	          ['style', ['style']],
+	          ['font', ['bold', 'underline', 'clear']],
+	          ['color', ['color']],
+	          ['para', ['ul', 'ol', 'paragraph']],
+	          ['table', ['table']],
+	          ['insert', ['link']],
+	          ['view', ['codeview', 'help']]
+	        ],
+	        callbacks: {
+	        	onPaste: function (e) {
+	                // 붙여넣기 이벤트에서 태그 제거
+	                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+	                e.preventDefault();
+	                document.execCommand('insertText', false, bufferText);
+	            },
+                onKeyup: function(e) {
+                    // 썸머노트의 내용을 가져오는 함수
+                    function getSummernoteContent() {
+                        return $('[name=moimContent]').summernote('code');
+                    }
+
+                    // 썸머노트 입력값의 길이를 계산하는 함수
+                    function calculateContentLength() {
+                        var content = getSummernoteContent();
+                        var lengthInBytes = new Blob([content]).size;
+                        return lengthInBytes;
+                    }
+
+                    // 현재 입력값의 길이 계산
+                    var currentLength = calculateContentLength();
+
+                    // 최대 길이를 초과하는지 확인
+                    if (currentLength > maxLength) {
+                        alert("최대 길이를 초과했습니다. 더 이상 입력할 수 없습니다.");
+                        // 혹은 다음과 같이 최대 길이 이하로 자르거나, 입력을 무시하는 등의 처리 가능
+                        $('[name=moimContent]').summernote('undo');
+                        var truncatedContent = getSummernoteContent().substring(0, maxLength);
+                        $('[name=moimContent]').summernote('code', truncatedContent);
+                    }
+                }
+	        }
+	  });
+	
+    $(document).on('click', '.chat-link', function(e) {
+        e.preventDefault(); // 기본 링크 동작 방지
+
+        // href 속성에서 채팅방 번호 추출
+        var chatRoomNo = $(this).attr('href').split('/').pop();
+
+        // Ajax 요청 보내기
+        $.ajax({
+        	url: window.contextPath+"/rest/moim/moimjang/check", 
+            method: 'POST', // 또는 'GET' 등 원하는 HTTP 메서드 설정
+            data: { chatRoomNo: chatRoomNo },
+            success: function(response) {
+                // Ajax 요청이 성공한 경우 처리
+                console.log('Ajax 요청 성공', response);
+                // 여기에서 추가적인 동작 수행 가능
+            },
+            error: function(error) {
+                // Ajax 요청이 실패한 경우 처리
+                console.error('Ajax 요청 실패', error);
+                // 여기에서 실패 시의 동작 수행 가능
+            }
+        });
+    });
+	
+	
+    
 </script>
 
 <%@ include file="/WEB-INF/views/template/Footer.jsp"%>
