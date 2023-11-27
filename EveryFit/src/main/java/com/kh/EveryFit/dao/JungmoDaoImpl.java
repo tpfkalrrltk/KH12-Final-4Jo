@@ -91,4 +91,9 @@ public class JungmoDaoImpl implements JungmoDao{
 	public boolean updateJungmoStatus(JungmoStatusVO vo) {
 		return sqlSession.update("moim.updateJungmoStatus", vo)>0;
 	}
+	
+	@Override
+	public void updateJungmoStatus() {
+		sqlSession.update("moim.jungmoManagement");
+	}
 }
