@@ -367,7 +367,7 @@ body.dark-mode {
 					</c:choose>
 				</ul>
 				<div class="d-flex">
-					<div class="nav-item ms-5 me-3  bg-light rounded-3 "
+					<div class="nav-item ms-5 me-3 mt-3  bg-light rounded-3 "
 						style="margin-left: 5500">
 						<h6 class="text-primary fw-bold ">Now Time</h6>
 						<div id="txt" class="text-primary fw-bold">
@@ -376,9 +376,9 @@ body.dark-mode {
 					</div>
 				</div>
 
-				<form class="d-flex"
+				<form class="d-flex mt-3"
 					action="${pageContext.request.contextPath}/home/moimSerach">
-					<input class="form-control me-sm-2  bg-light text-primary fw-bold"
+					<input class="form-control me-sm-2   bg-light text-primary fw-bold"
 						type="search" placeholder="Search" name="moimTitle"
 						style="height: 52px">
 					<button class="btn btn-light   text-primary   fw-bold"

@@ -260,7 +260,20 @@ data-backdrop="static" data-keyboard="false">
 		</div>
 	</div>
 
+
+		<div class="row"><div class="col">
+				
+		</div></div>
+		
+		<h1 class="text-primary">
+		<a href="board/photoList?moimNo=${moimDto.moimNo}"
+		class="btn btn-primary">게시판가기</a>
+		</h1>	
+		
+		<a href="member/exit?moimNo=${moimDto.moimNo}" class="btn btn-danger">탈퇴</a>	
+
 	<button class="btn btn-primary jungmo-create"  type="button" style="display:none;">정모등록</button>
+
 
 			
 <!-- 			</div> -->

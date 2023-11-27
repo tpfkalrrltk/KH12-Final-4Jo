@@ -71,12 +71,33 @@ public class MoimBoradController {
 
 	    model.addAttribute("boardList", boardList);
 	    return "moimBoard/list";
-	    //return "moimBoard/boardTable"; // 수정된 부분
+
+	}
+	
+	@RequestMapping("/photoList")
+	public String photoList(Model model, @RequestParam(name = "moimNo") int moimNo,
+			@RequestParam(name = "sortByCategory", required = false) String category,
+			@ModelAttribute(name = "boardVO") BoardVO boardVO,
+			HttpSession session) {
+
+		int count = moimBoardDao.countList(boardVO, moimNo);
+		boardVO.setCount(count);
 		
-		//log.debug("moimNo={}", moimNo);
-		//List<MoimBoardDto> boardList = moimBoardDao.listByMoimNo(moimNo);
-		//model.addAttribute("boardList", boardList);
-		//return "moimBoard/list";
+		List<MoimBoardDto> boardList;	      
+
+		if (category != null && !category.isEmpty()) {
+	        // 카테고리에 따라 정렬된 목록을 가져오는 로직 추가	
+	        boardList = moimBoardDao.listByMoimNoSortedByCategory(moimNo, category);
+
+	    } else {
+	        // 정렬 없이 전체 목록을 가져오는 로직
+	        boardList = moimBoardDao.selectListByPage(boardVO,moimNo);
+
+	    }
+
+	    model.addAttribute("boardList", boardList);
+	    return "moimBoard/photoList";
+
 	}
 	
 	@GetMapping("/add")

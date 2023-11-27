@@ -46,20 +46,21 @@
 		<div class="row">
 
 
-
-		<div
-				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5">
-				<a href="/moim/board/photoList?moimNo=${param.moimNo}" class="text-light"
-					style="text-decoration: none"> <h4 ><i class="fa-regular fa-image"></i> Photo List</h4>
+			<div
+				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5  mb-5">
+				<a href="/moim/board/list?moimNo=${param.moimNo}" class="text-light"
+					style="text-decoration: none">
+					<h4 ><i class="fa-solid fa-pencil"></i> Text List</h4>
 				</a>
 			</div>
 
 
-			<div
-				class="col-1  text-center bg-primary rounded-5  text-light">
+			<div class="col-1 mb-5  text-center bg-primary rounded-5  text-light">
 				<a href="/moim/board/add?moimNo=${param.moimNo}" class="text-light"
-					style="text-decoration: none"> <h4 > <i
-						class="fa-solid fa-plus" id="addIcon"></i></h4>
+					style="text-decoration: none">
+					<h4>
+						<i class="fa-solid fa-plus" id="addIcon"></i>
+					</h4>
 				</a>
 			</div>
 
@@ -69,75 +70,35 @@
 
 
 
-		<table class="table table-hover row">
-			<thead>
-				<tr class=" table-primary text-center row mt-4">
-					<th class="col-2  fw-bold pt-3">No</th>
-					<th class="col-2  fw-bold pt-3">닉네임</th>
-					<th class="col-2  fw-bold pt-3">제목</th>
-					<th class="col-4  fw-bold pt-3">작성시간</th>
-					<th class="col-2  fw-bold "><select id="categorySelect"
-						class="form-select text-primary fw-bold">
 
-							<option value="/moim/board/list?moimNo=${param.moimNo}" checked>카테고리</option>
-							<option value="/moim/board/list?moimNo=${param.moimNo}">ALL</option>
-							<option
-								value="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=공지사항">공지사항</option>
+		<c:forEach items="${boardList}" var="boardList" varStatus="loopStatus" >
+			<div class="col d-inline "
+				onClick="location.href='${pageContext.request.contextPath}/moim/board/detail?moimBoardNo=${boardList.moimBoardNo}'"
+				style="cursor: pointer;">
+				<img alt="" src="/images/image.png" width="300px" height="300px"
+					class="mt-2">
+			</div>
 
-
-							<option
-								value="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=가입인사">가입인사</option>
-							<option
-								value="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=모임후기">모임후기</option>
-							<option
-								value="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=자유롭게">자유롭게</option>
-					</select> <script>
-						// 카테고리가 변경될 때마다 선택된 옵션의 링크로 이동
-						document.getElementById('categorySelect')
-								.addEventListener('change', function() {
-									window.location.href = this.value;
-								});
-					</script></th>
-
-				</tr>
-			</thead>
-
-			<tbody id="boardTable">
-				<c:forEach items="${boardList}" var="boardList">
-					<tr class="text-center table- row"
-						onClick="location.href='${pageContext.request.contextPath}/moim/board/detail?moimBoardNo=${boardList.moimBoardNo}'"
-						style="cursor: pointer;">
-
-						<td class="col-2 text-primary fw-bold">${boardList.moimBoardNo}</td>
-						<td class="col-2 text-primary fw-bold">${boardList.memberNick}</td>
-						<td class="col-2 text-primary fw-bold">${boardList.moimBoardTitle}<c:if
-								test="${boardList.moimBoardReplyCount>0}">
-							<small>[${boardList.moimBoardReplyCount}]</small>
-								</c:if>
-						</td>
-
-						<td class="col-4 text-primary fw-bold">${boardList.moimBoardTime}
-						  <fmt:formatDate
-								value="${boardList.moimBoardTime}" pattern="a h:mm" type="date" />
-						</td>
-						<td class="col-2 text-primary fw-bold">${boardList.moimBoardCategory}</td>
-
-					</tr>
+			<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+	</div>
+	<div class="container-fluid ps-5 ms-4 ">
+		<div class="row">
+			<div class="col d-inline ms-4" style="padding-left: 92px">
+				</c:if>
 				</c:forEach>
-			</tbody>
-
-		</table>
-
+			</div>
+		</div>
 	</div>
-	</div>
-	
-	
+
+
+
+
 	<div class="row page-navigator mv-30">
 		<!-- 이전 버튼 -->
 		<div class="col-1 offset-5">
 			<c:if test="${!boardVO.first}">
 				<a
-					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}&${boardVO.prevQueryString}">
+					href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}&${boardVO.prevQueryString}">
 					<i class="fa-solid fa-angle-left text-primary fw-bold"></i>
 				</a>
 			</c:if>
@@ -152,7 +113,7 @@
 					</c:when>
 					<c:otherwise>
 						<a
-							href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}&${boardVO.getQueryString(i)}">${i}</a>
+							href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}&${boardVO.getQueryString(i)}">${i}</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -161,7 +122,7 @@
 		<div class="col-1">
 			<c:if test="${!boardVO.last}">
 				<a
-					href="${pageContext.request.contextPath}/moim/board/list?moimNo=${param.moimNo}&${boardVO.nextQueryString}">
+					href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}&${boardVO.nextQueryString}">
 					<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</c:if>
@@ -207,10 +168,6 @@
 		</div>
 
 	</div>
-	
-	
-	
-	
 </body>
 </html>
 
