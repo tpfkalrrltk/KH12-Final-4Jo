@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.kh.EveryFit.dto.ChatDto;
 import com.kh.EveryFit.dto.ChatEntryDto;
+import com.kh.EveryFit.vo.ChatListVO;
 
 public interface ChatDao {
 
 	//채팅메시지 저장
 	void insert(ChatDto dto);
 	//채팅 목록
-	List<ChatDto> list(int chatRoomNo, String moimMemberJoin);
+	List<ChatDto> list(ChatListVO vo);
 	//방번호시퀀스
 	int sequence();
 	//채팅방만들기

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.EveryFit.dto.ChatDto;
 import com.kh.EveryFit.dto.ChatEntryDto;
+import com.kh.EveryFit.vo.ChatListVO;
 
 @Repository
 public class ChatDaoImpl implements ChatDao{
@@ -23,11 +24,8 @@ public class ChatDaoImpl implements ChatDao{
 	}
 	
 	@Override
-	public List<ChatDto> list(int chatRoomNo, String moimMemberJoin) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("memberEmail", moimMemberJoin);
-		params.put("chatRoomNo", chatRoomNo);
-		return sqlSession.selectList("chat.list", params);
+	public List<ChatDto> list(ChatListVO vo) {
+		return sqlSession.selectList("chat.list", vo);
 	}
 	
 	@Override

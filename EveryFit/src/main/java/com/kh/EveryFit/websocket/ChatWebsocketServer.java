@@ -25,6 +25,7 @@ import com.kh.EveryFit.dto.ChatDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.service.ChannelService;
+import com.kh.EveryFit.vo.ChatListVO;
 import com.kh.EveryFit.vo.ChatRoomVO;
 import com.kh.EveryFit.vo.ClientVO;
 
@@ -133,13 +134,24 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		
 		//세션값으로 
 		Integer moimNo = chatDao.selectOneMoimNo(chatRoomNo);
+			
+		ChatListVO vo = new ChatListVO();
+		MoimMemberDto moimMemberDto = moimDao.findMoimMemberInfo(client.getMemberEmail(), moimNo);			
+        
+		if(moimMemberDto == null) {
+	        vo.setChatRoomNo(chatRoomNo);
+		}
+		else {
+			Date moimMemberJoin = moimMemberDto.getMoimMemberJoin();		
+			
+			SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String moimMemberJoinString = dateFormat1.format(moimMemberJoin);
+			
+			vo.setChatRoomNo(chatRoomNo);
+			vo.setMoimMemberJoin(moimMemberJoinString);			
+		}
 		
-		MoimMemberDto moimMemberDto = moimDao.findMoimMemberInfo(client.getMemberEmail(), moimNo);
-		Date moimMemberJoin = moimMemberDto.getMoimMemberJoin();		
-		
-        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String moimMemberJoinString = dateFormat1.format(moimMemberJoin);
-		
+        
 		boolean isJoin = params.get("type").equals("join");
 		log.debug("isjoin? = {}", isJoin);
 		
@@ -151,7 +163,9 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			
 			//모임챗방이면~~
 //			log.debug("client = {}",client.getMemberEmail());
-			List<ChatDto> list = chatDao.list(chatRoomNo, moimMemberJoinString);
+			List<ChatDto> list = chatDao.list(vo);				
+			
+			
 //			log.debug("list={}", list);
 			for(ChatDto dto : list) {
 				Map<String, Object> map = new HashMap<>();
@@ -171,6 +185,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			//아니면~~
 			
 		}
+		
 		
 		boolean isMessage = params.get("type").equals("message"); //메시지면
 		log.debug("isMessage = {}", isMessage);
