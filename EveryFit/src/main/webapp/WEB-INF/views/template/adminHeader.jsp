@@ -219,7 +219,7 @@ body.dark-mode {
 
 
 
-					<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown bg-primary"><a
 						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">Member</a>
 
@@ -245,13 +245,18 @@ body.dark-mode {
 								class="dropdown-item"
 								href="${pageContext.request.contextPath}/member/join"><i
 								class="fa-solid fa-user-plus mt-2"></i> Join</a>
+				
+							
+							<c:if test="${sessionScope.name!=null}">
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" onclick="reportApply()">Report</a>
+								<a class="dropdown-item" onclick="reportApply()">
+							<i class="fa-solid fa-land-mine-on"></i>Report</a>
+							</c:if>
 						</div></li>
 
 
 
-					<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown bg-primary"><a
 						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">Moim</a>
 						<div class="dropdown-menu" style="margin-top: 13px">
@@ -267,7 +272,7 @@ body.dark-mode {
 						</div></li>
 
 
-					<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown bg-primary"><a
 						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">Board</a>
 						<div class="dropdown-menu" style="margin-top: 13px">
@@ -280,7 +285,7 @@ body.dark-mode {
 						</div></li>
 
 
-					<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown bg-primary"><a
 						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">Pay</a>
 						<div class="dropdown-menu" style="margin-top: 13px">
@@ -296,13 +301,13 @@ body.dark-mode {
 						</div></li>
 
 
-					<li class="nav-item"><a class="nav-link mt-2"
+					<li class="nav-item bg-primary"><a class="nav-link mt-2"
 						href="${pageContext.request.contextPath}/league/leagueList">League</a>
 					</li>
 
 
 					<!-- 다크모드 관련  -->
-					<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown bg-primary"><a
 						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">Setting</a>
 						<div class="dropdown-menu" style="margin-top: 13px">
@@ -315,7 +320,7 @@ body.dark-mode {
 
 
 
-					<li class="nav-item dropdown"><a
+					<li class="nav-item dropdown bg-primary"><a
 						class="nav-link dropdown-toggle mt-2" data-bs-toggle="dropdown"
 						href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
 						<div class="dropdown-menu" style="margin-top: 13px">
@@ -367,9 +372,9 @@ body.dark-mode {
 					</div>
 				</div>
 
-				<form class="d-flex">
+				<form class="d-flex" action="${pageContext.request.contextPath}/home/moimSerach">
 					<input class="form-control me-sm-2  bg-light text-primary fw-bold"
-						type="search" placeholder="Search" style="height: 52px">
+						type="search" placeholder="Search"  name="moimTitle" style="height: 52px">
 					<button class="btn btn-light   text-primary   fw-bold"
 						type="submit" style="height: 52px">Search</button>
 				</form>

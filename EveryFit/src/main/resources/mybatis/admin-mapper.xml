@@ -437,11 +437,27 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 
 
 	<update id="insertBlock">
-		update member set member_block = 'Y' where member_email = #{memberEmail}
+		update member set member_block = 'Y' where
+		member_email = #{memberEmail}
 	</update>
 
 	<update id="deleteBlock">
-		update member set member_block = 'N' where member_email = #{memberEmail}
+		update member set member_block = 'N' where
+		member_email = #{memberEmail}
 	</update>
+
+	<select id="homeMoimSearchList" resultType="AdminMoimMemberCountVO">
+		select m.*
+		,nvl(mml.member_count, 0) member_count from moim m left outer join
+		(
+		select moim_no, count(*) member_count from moim_member_list group by
+		moim_no )
+		mml on m.moim_no = mml.moim_no where moim_state in '모집중' and
+		instr(moim_title,#{moimTitle}) >0 
+		order by
+		m.moim_no
+		desc
+	</select>
+
 
 </mapper>
