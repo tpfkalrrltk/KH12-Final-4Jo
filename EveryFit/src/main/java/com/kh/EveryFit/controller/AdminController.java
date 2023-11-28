@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.EveryFit.configuration.FileUploadProperties;
 import com.kh.EveryFit.dao.AdminDao;
+import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.vo.AdminJungmoSearchVO;
 import com.kh.EveryFit.vo.AdminMemberSearchVO;
@@ -32,6 +33,8 @@ public class AdminController {
 
 	@Autowired
 	AdminDao adminDao;
+	@Autowired
+	MemberDao memberDao;
 
 
 	@Autowired
@@ -55,6 +58,7 @@ public class AdminController {
 	public String memberMypage(String memberEmail, Model model) {
 		MemberDto memberDto = adminDao.adminMemberTarget(memberEmail);
 		model.addAttribute("adminMemberTarget", memberDto);
+		model.addAttribute("profile", memberDao.findProfile(memberEmail));
 		return "admin/mypage";
 	}
 
