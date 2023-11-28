@@ -98,4 +98,7 @@ public interface MoimDao {
 	void updateMoimStateByScheduler();
 	//스케줄러로 모임 삭제
 	void deleteMoim();
+	
+	//가입한 모임 개수
+	int moimCount(String memberEmail);
 }
