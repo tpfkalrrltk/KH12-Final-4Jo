@@ -163,13 +163,13 @@ data-backdrop="static" data-keyboard="false">
          </div>
          <div class="bar-popup-menu bar-dropdown-menu" id="approvedMenu" style="left:65%;">
              <!-- Y일 때 보여질 팝업 메뉴 내용 모임장,매니저 일 때 -->
-             <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
+             <a class="dropdown-item exit-btn" href="${pageContext.request.contextPath}/member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
              <button class="dropdown-item edit-mode">모임관리</button>
          </div>
          
          <div class="bar-popup-menu bar-dropdown-menu" id="blockedMenu" style="left:65%;">
              <!-- N일 때 보여질 팝업 메뉴 내용 -->
-             <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
+             <a class="dropdown-item exit-btn" href="${pageContext.request.contextPath}/member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
          </div>
          
          
@@ -289,7 +289,7 @@ data-backdrop="static" data-keyboard="false">
                <div class="col-2 text-end">
                <label class="jungmo-edit" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"><i class="fa-regular fa-calendar-check" style="color: #4582ec;"></i></label>
                <label class="jungmo-cancel" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"> 
-               <a href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" 
+               <a href="${pageContext.request.contextPath}/jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" 
                style="text-decoration: none;">
                <i class="fa-regular fa-calendar-xmark" style="color: #4582ec;"></i>
                </a>
@@ -415,7 +415,7 @@ data-backdrop="static" data-keyboard="false">
                     </li>
                     <li class="nav-item p-3">
 
-                  <a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
+                  <a href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
                   <i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
 
                     </li>
@@ -545,22 +545,22 @@ data-backdrop="static" data-keyboard="false">
              <div class="popup-menu dropdown-menu moimjang-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
                  <c:if test="${moimMemberDto.moimMemberStatus == '미승인'}">
                  <a class="dropdown-item" 
-                 href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
+                 href="${pageContext.request.contextPath}/memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
                  </c:if>
                  <c:choose>
                  <c:when test="${moimMemberDto.moimMemberStatus == '차단'}">
                  <a class="dropdown-item" 
-                 href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >차단해제</a>
+                 href="${pageContext.request.contextPath}/memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >차단해제</a>
                  </c:when>
                  <c:otherwise>
                  <a class="dropdown-item" 
-                 href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>                 
+                 href="${pageContext.request.contextPath}/memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>                 
                  </c:otherwise>
                  </c:choose>
                  <a class="dropdown-item" 
-                 href="memberTransfer?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">모임장권한넘기기</a>
+                 href="${pageContext.request.contextPath}/memberTransfer?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">모임장권한넘기기</a>
                  <a class="dropdown-item" 
-                 href="memberManager?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">매니저임명하기</a>
+                 href="${pageContext.request.contextPath}/memberManager?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">매니저임명하기</a>
                  <a class="dropdown-item" 
                  data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
              </div>
@@ -570,7 +570,7 @@ data-backdrop="static" data-keyboard="false">
                  href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
                  </c:if>
                  <a class="dropdown-item" 
-                 href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>
+                 href="${pageContext.request.contextPath}/memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>
                  <a class="dropdown-item" 
                  data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
              </div>

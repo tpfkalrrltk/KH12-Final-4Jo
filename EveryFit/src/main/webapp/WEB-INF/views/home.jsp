@@ -40,8 +40,8 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 		document.querySelector("#Premium").animate(keyframes, options);
 		document.querySelector("#NowMoim").animate(keyframes, options);
 		document.querySelector("#GenderCheck").animate(keyframes, options);
-		document.querySelector("#myMoim").animate(keyframes, options);
-		document.querySelector("#myLikeMoim").animate(keyframes, options);
+		//document.querySelector("#myMoim").animate(keyframes, options);
+	//	document.querySelector("#myLikeMoim").animate(keyframes, options);
 
 		var nystories = document.querySelector("p").offsetTop;
 		window.onscroll = function() {
