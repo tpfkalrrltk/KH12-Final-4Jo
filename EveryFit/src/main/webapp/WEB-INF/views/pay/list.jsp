@@ -32,48 +32,56 @@
 <h2 class="ms-3">프리미엄 카드 내역</h2>
 <div class="ms-3" style="border-top: 1px solid gray; width: 700px; margin: 10px 0;"></div>
 <h4 class="ms-3">[${memberDto.memberName}(${memberDto.memberEmail})]</h4>
-<div class="d-flex ">
+
+<c:if test="${memberDto.memberLevel != '프리미엄'}">
+<div class="ms-3"><br>프리미엄 회원권이 존재하지 않습니다</div>
+</c:if>
+
+<c:if test="${memberDto.memberLevel == '프리미엄'}">
+	<div class="d-flex ">
 		<div class="box ">
 			<div>
 				<div class="row">
 					<div class="col">
-					 <c:if test="${memberDto.memberLevel == '프리미엄'}">
       						<h3>♥프리미엄 회원권♥</h3>
      					 <div class="col main-image"><img src="/images/moinCard.png" ></div>
-   					 </c:if>
 					</div>
 				</div>
 			</div>
 		</div>
-</div>
+	</div>
+</c:if>
+   					
 
-
+					 <c:forEach var="PaymentListByMemberVO" items="${PaymentListByMemberVO}">
+		
+      <c:if test="${PaymentListByMemberVO.moimMemberLevel == '모임장'}">
 <div class="d-flex ">
 		<div class="box ">
 			<div>
 				<div class="row">
 					<div class="col">
-					 <c:forEach var="PaymentListByMemberVO" items="${PaymentListByMemberVO}">
-      <c:if test="${PaymentListByMemberVO.moimMemberLevel == '모임장'}">
       <%-- ${PaymentListByMemberVO} --%>
       <div>
         <h3>♥프리미엄 모임권♥ - 모임 : [${PaymentListByMemberVO.moimTitle}]</h3>
         <p>[${PaymentListByMemberVO.moimTitle}] 은 "${PaymentListByMemberVO.moimEndTime}" 까지 프리미엄 유지됩니다.</p>
       </div>
        <div class="col text-start"><img src="/images/moinCard.png" ></div>
-      <div class="text-center">
+      <div class="text-start">
       
 <a href="#" class="ataglink" onclick="confirmCancellation('${PaymentListByMemberVO.periodPaymentNo}', '${PaymentListByMemberVO.moimTitle}', '${PaymentListByMemberVO.moimEndTime}')">
   [${PaymentListByMemberVO.moimTitle}] 프리미엄 카드 구독 취소
 </a>
       </div>
-      </c:if>
-    </c:forEach>
 					</div>
 				</div>
 			</div>
 		</div>
 </div>
+      </c:if>
+    </c:forEach>
+
+
 
 </div>
 </div>
@@ -100,13 +108,13 @@
     </div>
   </div>
 </div>
-<%@ include file="../template/Footer.jsp"%>
+
 
 <script>
   function confirmCancellation(periodPaymentNo, moimTitle, moimEndTime) {
-    var confirmMessage = "정말 [" + moimTitle + "] 모임의 프리미엄 카드 구독을 취소하시겠습니까?\n";<br>
-    confirmMessage += "정기결제 취소를 하시더라도 [" + moimTitle + "] 은 \"" + moimEndTime + "\" 까지 프리미엄 유지됩니다.";
-
+    var confirmMessage = "[" + moimTitle + "] 프리미엄 카드 구독을 \n취소하시겠습니까?\n\n";
+    confirmMessage += "정기결제 취소를 하시더라도 " + "\"" + moimEndTime + "\" 까지 프리미엄 유지됩니다.";
+console.log(confirmMessage);
     var confirmCancel = confirm(confirmMessage);
     if (confirmCancel) {
       // If user clicks OK, navigate to the cancellation URL
@@ -123,3 +131,4 @@
     });
   </c:if>
 </script>
+<%@ include file="../template/Footer.jsp"%>

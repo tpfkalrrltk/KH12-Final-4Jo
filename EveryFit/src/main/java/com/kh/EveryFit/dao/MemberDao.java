@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 
 public interface MemberDao {
 
@@ -70,6 +71,10 @@ public interface MemberDao {
 		void insertProfile(String memberEmail, int attachNo);
 		boolean deleteProfile(String memberEmail);
 		Integer findProfile(String memberEmail);
+
+
+		//가입한 모임에서 나의 level
+		MoimMemberDto selectMoimMemberLevelByEmail(MoimMemberDto moimMemberDto);
 
 
 

@@ -101,4 +101,6 @@ public interface MoimDao {
 	
 	//가입한 모임 개수
 	int moimCount(String memberEmail);
+	
+
 }

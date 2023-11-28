@@ -234,7 +234,7 @@ public class KakaoPayController {
 						
 						
 						
-						return "redirect:successResult";
+						return "redirect:/pay/list";
 			}
 			
 			@RequestMapping("/pay/periodPurchase/successResult")

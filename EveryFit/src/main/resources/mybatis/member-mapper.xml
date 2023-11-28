@@ -188,4 +188,10 @@
 		resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM moim_member_list WHERE member_email = #{memberEmail}
 	</select>
+	
+		<!-- 회원이 가입한 모임에서 나의 레벨-->
+	<select id="getMyLevelInGroup" resultType="MoimMemberDto">
+		SELECT moim_member_level FROM moim_member_list WHERE member_email = #{memberEmail} and moim_no= #{moim_no}
+	</select>
 </mapper>
+

@@ -1455,7 +1455,7 @@ data-backdrop="static" data-keyboard="false">
 		                    window.location.href = '/default/' + chatRoomNo;
 		                } else if (response === 'N') {
 		                    // N인 경우 알림창을 띄우고 동작 차단
-		                    alert("잘못된 접근입니다."");
+		                    alert("잘못된 접근입니다.");
 		                }
 		            },
 		            error: function(error) {
