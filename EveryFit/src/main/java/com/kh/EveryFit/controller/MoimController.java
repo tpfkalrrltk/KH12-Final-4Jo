@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.EveryFit.configuration.FileUploadProperties;
+import com.kh.EveryFit.dao.AdminDao;
 import com.kh.EveryFit.dao.AttachDao;
 import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dao.JungmoDao;
@@ -36,6 +37,7 @@ import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.dto.MoimStateDto;
+import com.kh.EveryFit.vo.AdminMoimSearchVO;
 import com.kh.EveryFit.vo.JungmoMemberListVO;
 import com.kh.EveryFit.vo.JungmoStatusVO;
 import com.kh.EveryFit.vo.JungmoWithMembersVO;
@@ -467,6 +469,15 @@ public class MoimController {
 	@RequestMapping("/delete") 
 	public void delete(@RequestParam int moimNo) {
 		
+	}
+	
+	
+	@Autowired
+	AdminDao adminDao;
+	@RequestMapping("/list")
+	public String list(Model model, @ModelAttribute("adminMoimSearchVO") AdminMoimSearchVO adminMoimSearchVO) {
+		model.addAttribute("adminMoimList", adminDao.adminMoimSearch(adminMoimSearchVO));
+		return "moim/list";
 	}
 
 	

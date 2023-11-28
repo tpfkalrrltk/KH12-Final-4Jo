@@ -267,6 +267,9 @@ body.dark-mode {
 							<a class="dropdown-item"
 								href="${pageContext.request.contextPath}/moim/create"><i
 								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a> 
+										<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/moim/list"><i
+								class="fa-solid fa-people-group  mt-2"></i> Moim List</a>
 						</div></li>
 
 
@@ -373,7 +376,7 @@ body.dark-mode {
 					</div>
 				</div>
 
-				<form class="d-flex mt-3"
+				<form class="d-flex mt-4"
 					action="${pageContext.request.contextPath}/home/moimSerach">
 					<input class="form-control me-sm-2   bg-light text-primary fw-bold"
 						type="search" placeholder="Search" name="moimTitle"

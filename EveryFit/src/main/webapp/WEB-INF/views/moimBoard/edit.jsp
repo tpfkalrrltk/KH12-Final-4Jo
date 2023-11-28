@@ -71,13 +71,13 @@ $(function(){
 			<div class="col">
 				<form action="edit" method="post" enctype="multipart/form-data">
 
-					<input type="text" name="moimBoardNo"
+					<input type="hidden" name="moimBoardNo"
 						value="${moimBoardDto.moimBoardNo}" style="width: 450px;">
-					<input type="text" name="moimNo" value="${moimBoardDto.moimNo}"
+					<input type="hidden" name="moimNo" value="${moimBoardDto.moimNo}"
 						style="width: 450px;">
 					<div class="row">
-						<div class="col-5">
-							카테고리 : <select name="moimBoardCategory">
+						<div class="col-5 text-primary fw-bold">
+							카테고리 : <select name="moimBoardCategory" class="form-select bg-primary text-light fw-bold">
 								<c:forEach items="${moimBoardDto.moimBoardCategory}"
 									var="category">
 									<option value="${category}"
@@ -88,19 +88,19 @@ $(function(){
 					</div>
 
 					<div class="row">
-						<div class="col">제목 :</div>
+						<div class="col text-primary fw-bold">제목 :</div>
 					</div>
 
 					<div class="row">
 						<div class="col-2">
-							<input type="text" name="moimBoardTitle"
+							<input type="text" name="moimBoardTitle" class=" form-control bg-primary text-light fw-bold"
 								value="${moimBoardDto.moimBoardTitle}" style="width: 450px;">
 						</div>
 					</div>
 
 						<div class="row">
-						<div class="col-5 offset-1">
-							<p class="text-primary fw-bold">파일 :</p>
+						<div class="col">
+							<p class="text-primary fw-bold ">파일 :</p>
 
 							<label> <input type="file" name="attach" accept="image/*"
 								multiple id="attach-selector">
@@ -114,18 +114,18 @@ $(function(){
 
 
 					<div class="row">
-						<div class="col">내용 :</div>
+						<div class="col text-primary fw-bold">내용 :</div>
 					</div>
 
 					<div class="row">
 						<div class="col">
-							<textarea rows="30" cols="52" name="moimBoardContent">${moimBoardDto.moimBoardContent}	</textarea>
+							<textarea rows="30" cols="52" name="moimBoardContent" class=" form-control bg-primary text-light fw-bold">${moimBoardDto.moimBoardContent}	</textarea>
 						</div>
 
 					</div>
 
 
-					<button type="submit" class="btn btn-primary">수정</button>
+					<button type="submit" class="btn btn-primary w-100 mt-5">수정</button>
 				</form>
 
 			</div>
