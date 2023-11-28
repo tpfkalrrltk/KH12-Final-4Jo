@@ -95,7 +95,7 @@
 							    	<div class="row"><div class="col-8 offset-2">
 							    		<img
 										src="${pageContext.request.contextPath}/image?moimNo=${moimDto.moimNo}"
-										class="rounded w-100">
+										class="rounded w-100" onerror="this.onerror=null; this.src='/images/no-image.png';">
 							    	</div></div>
 							    	<div class="row mt-4">
 							    		<div class="col-5 offset-1">

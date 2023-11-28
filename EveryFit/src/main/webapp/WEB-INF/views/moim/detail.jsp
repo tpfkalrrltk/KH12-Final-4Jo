@@ -131,7 +131,7 @@ a {
 
 .cursor{
 	cursor:pointer;
-
+}
 </style>
 
 <title>모임 상세페이지</title>
@@ -264,25 +264,12 @@ data-backdrop="static" data-keyboard="false">
 		</div>
 	</div>
 
-
-		<div class="row"><div class="col">
-				
-		</div></div>
-		
-		<h1 class="text-primary">
-		<a href="board/photoList?moimNo=${moimDto.moimNo}"
-		class="btn btn-primary">게시판가기</a>
-		</h1>	
-		
-		<a href="member/exit?moimNo=${moimDto.moimNo}" class="btn btn-danger">탈퇴</a>	
-
 	<button class="btn btn-primary jungmo-create"  type="button" style="display:none;">정모등록</button>
 
-
 			
-<!-- 			</div> -->
+			</div>
 <h3>정기모임</h3>
-<!-- 	<div class="card border-primary mb-3 items-center" style="max-width: 50rem;"> -->
+	<div class="card border-primary mb-3 items-center" style="max-width: 50rem;">
 		<c:forEach var="jungmoList" items="${jungmoTotalList}">
 		<div class="card-body border-primary p-0">
 				<div class="card mb-3">
@@ -384,7 +371,6 @@ data-backdrop="static" data-keyboard="false">
 					</div>
 					
 <div class="col-lg-2 col-md-3">
-
 				<div class="row box" >
 				<c:forEach var="moimMemberDto" items="${memberList}">
 					<c:if test="${sessionScope.name == moimMemberDto.memberEmail}">
@@ -434,12 +420,12 @@ data-backdrop="static" data-keyboard="false">
 						<a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
 						<i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
                     </li>
-                    <c:if test="${leagueList.size()>0}">
-                    	<li class="nav-item p-3 cursor league-list-btn">
+                    <!-- 추가적인 메뉴 항목들을 필요에 따라 추가하세요 -->
+                     <c:if test="${leagueList.size()>0}">
+                    	<li class="nav-item p-3 cursor league-list-btn cursor">
                     		<span class="text-primary fs-6 fw-bold">참여중인 리그 <i class="fa-solid fa-ranking-star"></i></span>
                     	</li>
                     </c:if>
-                    <!-- 추가적인 메뉴 항목들을 필요에 따라 추가하세요 -->
                 </ul>
             </nav>
 
@@ -615,25 +601,27 @@ data-backdrop="static" data-keyboard="false">
 </div>
 
 
- 	<!-- 참여중인 리그 모달 -->
-    <div class="modal fade" id="leagueList" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">참여중인 리그</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
+<!-- 참여중인 리그 모달 -->
+<div class="modal fade" id="leagueList" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">참여중인 리그</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary leagueListClose">닫기</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary leagueListClose">닫기</button>
             </div>
         </div>
     </div>
+</div>
+
+
 
 
 <div class="modal-overlay"></div>
@@ -1393,50 +1381,6 @@ data-backdrop="static" data-keyboard="false">
         });
     });
     
-    $(".league-list-btn").click(function(e){
-    	var moimNo = ${moimDto.moimNo};
-
-    	$.ajax({
-    		method:"post",
-    		data:{moimNo: moimNo},
-    		url:window.contextPath + "/rest/league/listLeagueByMoimNo",
-    		success:function(response){
-    			var leagueList = response;
-    			
-				var modalContent="";    	
-				
-                for (var i = 0; i < leagueList.length; i++) {
-                	modalContent += '<div class="card border-primary m-3">';
-                	modalContent += '<div class="card-header">' + '리그번호 : '+ leagueList[i].leagueNo + '</div>';
-                    modalContent += '<div class="card-body text-center mt-1">';
-                    modalContent += '<h4 class="card-title"><a href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=' 
-                    				+ leagueList[i].leagueNo + '">' + leagueList[i].leagueTitle +'</a></h4>';
-                    
-                    modalContent += '<p class="card-text mt-2">리그상태 : ' + leagueList[i].leagueStatus + '</p>';
-                   	modalContent += '</div></div>';
-                    console.log(modalContent);
-                }
-    			
-                $('#leagueList .modal-body').empty().append(modalContent);
-                
-                $("#leagueList").modal("show");
-    			
-    		
-    		},
-    		error:function(err){
-    			alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.")
-    		},
-    	})
-    	
-    	
-    	
-    });
-    
-    $('.leagueListClose').click(function(){
-        $('#leagueList').modal('hide');
-    });
-    
-    
 
     // 문서 전체에 클릭 이벤트 추가
     $(document).click(function() {
@@ -1519,6 +1463,49 @@ data-backdrop="static" data-keyboard="false">
     });
 	
 	
+    $(".league-list-btn").click(function(e){
+    	var moimNo = ${moimDto.moimNo};
+
+    	$.ajax({
+    		method:"post",
+    		data:{moimNo: moimNo},
+    		url:window.contextPath + "/rest/league/listLeagueByMoimNo",
+    		success:function(response){
+    			var leagueList = response;
+    			
+				var modalContent="";    	
+				
+                for (var i = 0; i < leagueList.length; i++) {
+                	modalContent += '<div class="card border-primary m-3">';
+                	modalContent += '<div class="card-header">' + '리그번호 : '+ leagueList[i].leagueNo + '</div>';
+                    modalContent += '<div class="card-body text-center mt-1">';
+                    modalContent += '<h4 class="card-title"><a href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=' 
+                    				+ leagueList[i].leagueNo + '">' + leagueList[i].leagueTitle +'</a></h4>';
+                    
+                    modalContent += '<p class="card-text mt-2">리그상태 : ' + leagueList[i].leagueStatus + '</p>';
+                   	modalContent += '</div></div>';
+                    console.log(modalContent);
+                }
+    			
+                $('#leagueList .modal-body').empty().append(modalContent);
+                
+                $("#leagueList").modal("show");
+    			
+    		
+    		},
+    		error:function(err){
+    			alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.")
+    		},
+    	})
+    	
+    	
+    	
+    });
+    
+    $('.leagueListClose').click(function(){
+        $('#leagueList').modal('hide');
+    });
+
     
 </script>
 
