@@ -254,7 +254,8 @@ public class MoimRestController {
 	@PostMapping("/member/join")
 	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
 	    String memberEmail = (String) session.getAttribute("name");
-
+	    
+	    log.debug("moimNo={}", moimNo);
 	    if (memberEmail == null) {
 	        // 로그인되어 있지 않은 경우
 	        return "notLoggedIn";
