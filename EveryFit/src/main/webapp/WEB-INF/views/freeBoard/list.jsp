@@ -21,6 +21,34 @@
 	}
 </script>
 
+<script>
+$(function() {
+let mainFrames = [ {
+	opacity : 1,
+	
+	transform : "translate(0, 30px)"
+}, {
+	opacity : 0.2,
+
+	transform : "translate(0, 0px)"
+}, {
+	opacity : 1,
+
+	transform : "translate(0px, 30px)"
+} ];
+let mainOptions = {
+	delay : 0000,
+	duration : 1500,
+	easing : "ease-in",
+	iterations : 1,
+	fill : "forwards"
+};
+
+document.querySelector("#main-text").animate(mainFrames, mainOptions);
+
+});
+</script>
+
 
 
 
@@ -28,8 +56,9 @@
 <body>
 	<div class="container ">
 
-		<div class="row mt-5 p-5">
-				<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" onload="hello()">
+		<div class="row mt-5 p-5" id="main-text">
+			<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light"
+				onload="hello()">
 				<h1 class="display-5 offset-1 fw-bold fst-italic">Free Board</h1>
 			</div>
 		</div>
@@ -37,13 +66,13 @@
 
 
 
-			
+
 
 		<div class="row">
-		
 
-		
-		<div
+
+
+			<div
 				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5">
 				<a href="${pageContext.request.contextPath}/freeBoard/photoList"
 					class="text-light" style="text-decoration: none">
@@ -55,65 +84,67 @@
 
 
 			<div class="col-1  text-center bg-primary rounded-5  text-light">
-			<a href="${pageContext.request.contextPath}/freeBoard/add" class="text-light" style="text-decoration: none">
+				<a href="${pageContext.request.contextPath}/freeBoard/add"
+					class="text-light" style="text-decoration: none">
 					<h4>
 						<i class="fa-solid fa-plus" id="addIcon"></i>
 					</h4>
 				</a>
 			</div>
-		
 
 
 
-		<table class="table table-hover row">
-			<thead>
-				<tr class=" table-primary text-center row mt-4">
-					<th class="col-2  fw-bold">번호</th>
-					<th class="col-2  fw-bold">카테고리</th>
-					<th class="col-4  fw-bold">제목</th>
-					<th class="col-2  fw-bold">닉네임</th>
-					<th class="col-2  fw-bold">작성시간</th>
-				</tr>
-			</thead>
 
-			<tbody>
-
-
-
-				<c:forEach items="${FreeBoardList}" var="FreeBoardList">
-
-					<tr class="text-center table- row"
-						onClick="location.href='${pageContext.request.contextPath}detail?freeBoardNo=${FreeBoardList.freeBoardNo}'"
-						style="cursor: pointer;">
-
-						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardNo}</td>
-						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardCategory}</td>
-						<td class="col-4 text-primary fw-bold text-start">
-							${FreeBoardList.freeBoardTitle} <c:if
-								test="${FreeBoardList.freeBoardReplyCount>0}">
-								<small>[${FreeBoardList.freeBoardReplyCount}]</small>
-							</c:if> </a>
-						</td>
-
-						<c:choose>
-							<c:when test="${FreeBoardList.memberNick==null}">
-								<td class="col-2 text-primary fw-bold">--탈퇴한 회원--</td>
-							</c:when>
-
-							<c:otherwise>
-								<td class="col-2 text-primary fw-bold">${FreeBoardList.memberNick}</td>
-							</c:otherwise>
-						</c:choose>
-						<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardTime}
-					  	<fmt:formatDate
-								value="${FreeBoardList.freeBoardTime}" pattern="a h:mm" type="date" /></td>
+			<table class="table table-hover row">
+				<thead>
+					<tr class=" table-primary text-center row mt-4">
+						<th class="col-2  fw-bold">번호</th>
+						<th class="col-2  fw-bold">카테고리</th>
+						<th class="col-4  fw-bold">제목</th>
+						<th class="col-2  fw-bold">닉네임</th>
+						<th class="col-2  fw-bold">작성시간</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
 
-		</table>
+				<tbody>
 
-	</div>
+
+
+					<c:forEach items="${FreeBoardList}" var="FreeBoardList">
+
+						<tr class="text-center table- row"
+							onClick="location.href='${pageContext.request.contextPath}detail?freeBoardNo=${FreeBoardList.freeBoardNo}'"
+							style="cursor: pointer;">
+
+							<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardNo}</td>
+							<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardCategory}</td>
+							<td class="col-4 text-primary fw-bold text-start">
+								${FreeBoardList.freeBoardTitle} <c:if
+									test="${FreeBoardList.freeBoardReplyCount>0}">
+									<small>[${FreeBoardList.freeBoardReplyCount}]</small>
+								</c:if> </a>
+							</td>
+
+							<c:choose>
+								<c:when test="${FreeBoardList.memberNick==null}">
+									<td class="col-2 text-primary fw-bold">--탈퇴한 회원--</td>
+								</c:when>
+
+								<c:otherwise>
+									<td class="col-2 text-primary fw-bold">${FreeBoardList.memberNick}</td>
+								</c:otherwise>
+							</c:choose>
+							<td class="col-2 text-primary fw-bold">${FreeBoardList.freeBoardTime}
+								<fmt:formatDate value="${FreeBoardList.freeBoardTime}"
+									pattern="a h:mm" type="date" />
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+
+			</table>
+
+		</div>
 	</div>
 	</div>
 

@@ -22,13 +22,40 @@
 	}
 </script>
 
+<script>
+$(function() {
+let mainFrames = [ {
+	opacity : 1,
+	
+	transform : "translate(0, 30px)"
+}, {
+	opacity : 0.2,
+
+	transform : "translate(0, 0px)"
+}, {
+	opacity : 1,
+
+	transform : "translate(0px, 30px)"
+} ];
+let mainOptions = {
+	delay : 0000,
+	duration : 1500,
+	easing : "ease-in",
+	iterations : 1,
+	fill : "forwards"
+};
+
+document.querySelector("#main-text").animate(mainFrames, mainOptions);
+
+});
+</script>
 
 
 <body>
 	<div class="container">
 
 		<div class="row">
-			<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light">
+			<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" id="main-text">
 				<h1 class="display-5 offset-1 fw-bold fst-italic">Moim Board</h1>
 				<div class="row">
 					<%--    <a class="btn btn-warning" href="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=공지사항">공지사항</a>
