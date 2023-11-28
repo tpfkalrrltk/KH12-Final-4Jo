@@ -129,7 +129,7 @@
 	<!-- event 목록 조회 -->
 	<select id="eventList" resultType="EventDto">
 		select * from event order by
-		event_no asc
+		event_name asc
 	</select>
 	<!-- event 상세 조회 -->
 	<select id="eventFind" resultType="EventDto">

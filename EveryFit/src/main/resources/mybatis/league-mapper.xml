@@ -386,6 +386,11 @@
     	select * from league_team_roaster order by league_team_roaster_no desc
     </select>
     
+    <!-- 리그로스터 리스트 이메일로 조회 -->
+    <select id="checkLeagueRoaster" resultType="LeagueTeamRoasterDto">
+    	select * from league_team_roaster where league_no = #{leagueNo} and member_email = #{memberEmail}
+    </select>
+    
     <!-- 리그로스터 업데이트 -->
     <update id="updateLeagueRoaster">
         UPDATE league_team_roaster

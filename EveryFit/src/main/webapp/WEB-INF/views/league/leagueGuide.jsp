@@ -105,6 +105,10 @@ $(document).ready(function(){
 		var applicationEnd = new Date(stringApplicaionEnd);
 		var curr = new Date();
 
+		console.log(applicationStart);
+		console.log(applicationEnd);
+		console.log(curr);
+		
 		if(curr < applicationStart || curr > applicationEnd || applicationStart==null || applicationEnd==null){
 			alert("접수기간이 아닙니다.");
 			return;

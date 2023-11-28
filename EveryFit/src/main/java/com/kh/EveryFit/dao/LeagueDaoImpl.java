@@ -290,4 +290,10 @@ public class LeagueDaoImpl implements LeagueDao{
 		return sqlSession.selectList("league.listLeagueBymoimNo", moimNo);
 	}
 	
+	@Override
+	public List<LeagueTeamRoasterDto> checkLeagueRoaster(String memberEmail, int leagueNo) {
+		Map<String, Object> param = Map.of("memberEmail", memberEmail, "leagueNo", leagueNo);
+		return sqlSession.selectList("league.checkLeagueRoaster", param);
+	}
+	
 }
