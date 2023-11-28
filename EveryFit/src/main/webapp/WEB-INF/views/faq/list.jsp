@@ -23,14 +23,40 @@
 	var number = 0;//특정 갯수만큼 반복하고 멈추게 하기 위해서
 </script>
 
+<script>
+$(function() {
+let mainFrames = [ {
+	opacity : 1,
+	
+	transform : "translate(0, 30px)"
+}, {
+	opacity : 0.2,
+
+	transform : "translate(0, 0px)"
+}, {
+	opacity : 1,
+
+	transform : "translate(0px, 30px)"
+} ];
+let mainOptions = {
+	delay : 0000,
+	duration : 1500,
+	easing : "ease-in",
+	iterations : 1,
+	fill : "forwards"
+};
+
+document.querySelector("#main-text").animate(mainFrames, mainOptions);
+
+});
+</script>
+
 
 <body>
 	<div class="container ">
 
 		<div class="row mt-5 p-5">
-
-				
-							<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" onload="hello()">
+							<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" onload="hello()" id="main-text">
 				<h1 class="display-5 offset-1 fw-bold fst-italic">FAQ</h1>
 			</div>
 		</div>

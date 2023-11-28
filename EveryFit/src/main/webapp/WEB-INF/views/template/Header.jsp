@@ -294,10 +294,7 @@ body.dark-mode {
 						<div class="dropdown-menu" style="margin-top: 13px">
 							<a class="dropdown-item"
 								href="${pageContext.request.contextPath}/moim/create"><i
-								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a> <a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
-								class="fa-solid fa-venus mt-2"></i> Women only Moim</a>
+								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a>
 						</div></li>
 
 

@@ -12,6 +12,8 @@
 </head>
 
 
+
+
 <style>
 img:hover{
 opacity: 0.7
@@ -30,11 +32,39 @@ opacity: 0.7
 </script>
 
 
+<script>
+$(function() {
+let mainFrames = [ {
+	opacity : 1,
+	
+	transform : "translate(0, 30px)"
+}, {
+	opacity : 0.2,
+
+	transform : "translate(0, 0px)"
+}, {
+	opacity : 1,
+
+	transform : "translate(0px, 30px)"
+} ];
+let mainOptions = {
+	delay : 0000,
+	duration : 1500,
+	easing : "ease-in",
+	iterations : 1,
+	fill : "forwards"
+};
+
+document.querySelector("#main-text").animate(mainFrames, mainOptions);
+
+});
+</script>
+
 
 <body>
 	<div class="container">
 
-	<div class="row mt-5 p-5">
+	<div class="row mt-5 p-5" id="main-text">
 				<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" onload="hello()">
 				<h1 class="display-5 offset-1 fw-bold fst-italic">Free Board</h1>
 			</div>

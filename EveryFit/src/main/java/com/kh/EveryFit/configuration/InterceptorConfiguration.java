@@ -66,9 +66,9 @@ WebSocketServerInterceptor webSocketServerInterceptor;
 			"/rest/moimBoardReply/**",
 			"/pay/**",
 			"/report/**",	
-			"/moim/**",
+			"/moim/**"
 			//"/league/**",
-			"/faq/**"
+			
 			)
 	.excludePathPatterns(
 			"/freeBoard/list",
