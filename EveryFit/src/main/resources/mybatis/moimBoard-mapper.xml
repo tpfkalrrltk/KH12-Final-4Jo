@@ -132,7 +132,7 @@
 
 	</select>
 
-	<select id="selectListByPage" resultType="MoimBoardDto"
+	<select id="selectListByPage1" resultType="MoimBoardDto"
 		parameterType="map">
 
 		select * from ( select rownum rn, TMP.* from(
@@ -144,8 +144,25 @@
 		and #{end}
 	</select>
 
+<select id="selectListByPage"  resultType="MoimBoardDto"
+		parameterType="map">
+		select * from ( select rownum rn, TMP.* from(
+			select m.* 
+		 ,nvl(mml.ATTACH_NO , 0) ATTACH_NO  from moim_board m left outer join 
+		 MOIM_BOARD_IMAGE mml  on
+		m.moim_board_no = mml.MOIM_BOARD_NO where moim_no = #{moimNo} ORDER BY m.MOIM_BOARD_NO DESC
+		)TMP
+		) where rn between
+		#{begin}
+		AND #{end}
+	</select>
 
-
+<select id="countImageList" resultType="int">
+		
+				select count(nvl(mml.ATTACH_NO , 0))  ATTACH_NO  from moim_board m left outer join 
+		 MOIM_BOARD_IMAGE mml  on
+		m.moim_board_no = mml.MOIM_BOARD_NO where moim_no = #{moimNo} AND mml.ATTACH_NO >0 
+	</select>
 
 
 	<insert id="connect">

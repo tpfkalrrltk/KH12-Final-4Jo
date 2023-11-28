@@ -47,19 +47,23 @@
 
 
 
-		<div
+			<div
 				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5">
-				<a href="/moim/board/photoList?moimNo=${param.moimNo}" class="text-light"
-					style="text-decoration: none"> <h4 ><i class="fa-regular fa-image"></i> Photo List</h4>
+				<a href="/moim/board/photoList?moimNo=${param.moimNo}"
+					class="text-light" style="text-decoration: none">
+					<h4>
+						<i class="fa-regular fa-image"></i> Photo List
+					</h4>
 				</a>
 			</div>
 
 
-			<div
-				class="col-1  text-center bg-primary rounded-5  text-light">
+			<div class="col-1  text-center bg-primary rounded-5  text-light">
 				<a href="/moim/board/add?moimNo=${param.moimNo}" class="text-light"
-					style="text-decoration: none"> <h4 > <i
-						class="fa-solid fa-plus" id="addIcon"></i></h4>
+					style="text-decoration: none">
+					<h4>
+						<i class="fa-solid fa-plus" id="addIcon"></i>
+					</h4>
 				</a>
 			</div>
 
@@ -109,16 +113,29 @@
 						style="cursor: pointer;">
 
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardNo}</td>
-						<td class="col-2 text-primary fw-bold">${boardList.memberNick}</td>
+
+
+						<c:choose>
+							<c:when test="${boardList.memberNick==null}">
+								<td class="col-2 text-primary fw-bold">--탈퇴한 회원--</td>
+							</c:when>
+
+							<c:otherwise>
+								<td class="col-2 text-primary fw-bold">${boardList.memberNick}</td>
+							</c:otherwise>
+						</c:choose>
+
+
+
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardTitle}<c:if
 								test="${boardList.moimBoardReplyCount>0}">
-							<small>[${boardList.moimBoardReplyCount}]</small>
-								</c:if>
+								<small>[${boardList.moimBoardReplyCount}]</small>
+							</c:if>
 						</td>
 
 						<td class="col-4 text-primary fw-bold">${boardList.moimBoardTime}
-						  <fmt:formatDate
-								value="${boardList.moimBoardTime}" pattern="a h:mm" type="date" />
+							<fmt:formatDate value="${boardList.moimBoardTime}"
+								pattern="a h:mm" type="date" />
 						</td>
 						<td class="col-2 text-primary fw-bold">${boardList.moimBoardCategory}</td>
 
@@ -130,8 +147,8 @@
 
 	</div>
 	</div>
-	
-	
+
+
 	<div class="row page-navigator mv-30">
 		<!-- 이전 버튼 -->
 		<div class="col-1 offset-5">
@@ -207,10 +224,10 @@
 		</div>
 
 	</div>
-	
-	
-	
-	
+
+
+
+
 </body>
 </html>
 

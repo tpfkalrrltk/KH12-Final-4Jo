@@ -35,6 +35,10 @@ public interface MoimBoardDao {
 	
 	public int countList();
 
+	public int countImageList(int moimNo);
+	
+
+	
 	public int countList(String type, String keyword);
 	
 
