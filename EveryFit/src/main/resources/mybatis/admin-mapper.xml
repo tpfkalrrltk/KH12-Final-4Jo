@@ -474,12 +474,22 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 	<select id="myMoimList" resultType="AdminMoimMemberCountVO">
 		select m.*, mml.member_email
 		from moim m left outer join
-		moim_member_list mml on m.moim_no = mml.moim_no where moim_state in '모집중'
+		moim_member_list mml on m.moim_no =
+		mml.moim_no where moim_state in '모집중'
 		and member_email = #{memberEmail}
 		order by
 		m.moim_no
 		desc
 	</select>
 
+	<select id="myLikeMoimList" resultType="AdminMoimMemberCountVO">
+		select m.*, mml.member_email
+		from moim m left outer join
+		member_like mml on m.moim_no = mml.moim_no where member_email =
+		#{memberEmail}
+		order by
+		m.moim_no
+		desc
+	</select>
 
 </mapper>
