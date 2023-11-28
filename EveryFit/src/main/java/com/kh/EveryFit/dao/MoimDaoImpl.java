@@ -254,4 +254,8 @@ public class MoimDaoImpl implements MoimDao {
 		sqlSession.delete("moim.deleteMoim");
 	}
 	
+	@Override
+	public int moimCount(String memberEmail) {
+		return sqlSession.selectOne("moim.moimCount", memberEmail);
+	}
 }

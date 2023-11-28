@@ -131,6 +131,10 @@ public class MemberController {
 		//참여중인 모임
 		List<MoimDto> moimList = moimDao.moimListByEmail(memberEmail);
 		model.addAttribute("moimList", moimList);
+		
+		//가입한 모임 개수
+		int moimCount = moimDao.moimCount(memberEmail);
+		model.addAttribute("moimCount", moimCount);
 
 		return "/member/mypage";
 
