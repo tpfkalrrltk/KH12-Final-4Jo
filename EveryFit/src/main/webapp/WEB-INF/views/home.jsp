@@ -597,7 +597,7 @@ body {
 
 
 							<a class="btn btn-primary btn-md fw-bold Gender-btn btn-join"
-								role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join </a>
+								role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
 
 						</div>
 					</div>
