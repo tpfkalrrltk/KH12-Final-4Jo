@@ -16,7 +16,7 @@ public interface ChannelService {
 	void deleteRoom(Integer chatRoomNo);
 	ChatRoomVO findRoom(Integer chatRoomNo);
 	void enterUser(ClientVO vo, Integer chatRoomNo);
-	void exitUser(WebSocketSession session, Integer chatRoomNo);
+	void exitUser(ClientVO vo);
 	void sendMessage(Integer chatRoomNo, TextMessage message,  Map<String, Object> params) throws IOException;
 	//해당 채팅방의 대화이력을 전송
 	void sendMessageList(ClientVO client, Integer chatRoomNo, TextMessage message) throws JsonProcessingException, IOException;

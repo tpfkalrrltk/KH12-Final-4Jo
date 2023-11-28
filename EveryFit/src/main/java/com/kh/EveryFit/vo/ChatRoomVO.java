@@ -28,12 +28,22 @@ public class ChatRoomVO {
     public void enter(ClientVO client) {
     	members.add(client);
     }
-	public void exit(WebSocketSession session) {
-		members.remove(session);
+	public void exit(ClientVO client) {
+		members.remove(client);
 	}
 	public void send(TextMessage message) throws IOException {
 		for(ClientVO member : members) {
 			member.send(message);
 		}
+	}
+	
+	public boolean hasMember(ClientVO client) {
+	
+		for (ClientVO members : members) {
+	        if (members.getSession().equals(client)) {
+	            return true;
+	        }
+	    }
+	    return false;
 	}
 }

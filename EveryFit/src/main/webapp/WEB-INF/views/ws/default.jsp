@@ -99,7 +99,7 @@
 <script>
 // 	var uri = "ws://localhost:8080/ws/default";
 //  	window.socket = new WebSocket("ws://localhost:8080/ws/default");
- 	window.socket = new SockJS("http://localhost:8080/ws/default");
+ 	window.socket = new SockJS(window.contextPath+"/ws/default");
 	//연결 생성 시점에 연결에서 발생할 수 있는 상황별로 callback 함수를 지정
 	//- onopen : 연결이 성공한 직후에 실행하는 함수를 설정하는 자리
 	//연결성공한직후에메시지띄우고싶음(입장했다는메시지)
@@ -387,6 +387,7 @@
 
 // 	    lastMessageDate = chatTime;
 // 	}
+        
 
 
 </script>
