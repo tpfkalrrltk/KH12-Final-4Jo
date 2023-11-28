@@ -22,6 +22,7 @@ import com.kh.EveryFit.dto.LeagueApplicationDto;
 import com.kh.EveryFit.dto.LeagueDto;
 import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
+import com.kh.EveryFit.dto.LeagueTeamRoasterDto;
 import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.LeagueMatchListVO;
@@ -130,5 +131,12 @@ public class LeagueRestController {
 	@PostMapping("/listLeagueByMoimNo")
 	public List<LeagueDto> listLeagueByMoimNo(@RequestParam int moimNo){
 		return leagueDao.listLeagueBymoimNo(moimNo);
+	}
+	
+	@PostMapping("/checkLeagueRoaster")
+	public boolean checkLeagueRoaster(@RequestParam int leagueNo, String memberEmail) {
+		List<LeagueTeamRoasterDto> list = leagueDao.checkLeagueRoaster(memberEmail, leagueNo);
+		log.debug("list = {}", list);
+		return list.size() == 0 ? true : false; 
 	}
 }
