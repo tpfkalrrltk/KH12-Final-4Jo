@@ -97,11 +97,11 @@ a {
 /* } */
 
 .member-list {
-/*    height: 20vh; */
-/*    min-height: 400px; */
-   overflow-y:scroll;
-   overflow-x: hidden;
-   padding-bottom: 20px;
+	height: 10vh;
+/* 	max-height: 200px; */
+	overflow-y:scroll;
+	overflow-x: hidden;
+	padding-bottom: 20px;
 }
 
 ::-webkit-scrollbar {
@@ -130,8 +130,8 @@ a {
 }
 
 .cursor{
-   cursor:pointer;
-}
+  cursor:pointer;
+ }
 </style>
 
 <title>모임 상세페이지</title>
@@ -268,10 +268,10 @@ data-backdrop="static" data-keyboard="false">
          
          </div>
 <h3>정기모임</h3>
-   <div class="mb-3 items-center" style="max-width: 50rem;">
+   <div class="mb-1 items-center" style="max-width: 50rem;">
       <c:forEach var="jungmoList" items="${jungmoTotalList}">
 <!--       <div class="card-body  p-0"> -->
-            <div class="card mb-3">
+            <div class="card mb-1">
                <div class="card-body">
                <div class="row">
                <div class="col-10">
@@ -279,8 +279,8 @@ data-backdrop="static" data-keyboard="false">
             pattern="M월 d일 (E)"/>
                <span class="text-danger"> 
                   <c:choose>
-                  <c:when test="${jungmoList.jungmoListVO.dday <= 0}">
-                     D - Day
+                  <c:when test="${jungmoList.jungmoListVO.dday == 0}">
+                     D - ${jungmoList.jungmoListVO.dday + 1} 
                   </c:when>
                   <c:otherwise>
                   D - ${jungmoList.jungmoListVO.dday}
@@ -301,7 +301,7 @@ data-backdrop="static" data-keyboard="false">
                </div>
                <h4 class="mt-2">${jungmoList.jungmoListVO.jungmoTitle}</h4>               
                <div class="row">
-               <div class="col-5 p-2">
+               <div class="col-5 p-1">
                <c:choose>
                <c:when test="${jungmoList.jungmoListVO.jungmoImageAttachNo != null}">
                   <img class="jungmo-image rounded object-fit-cover w-100" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
@@ -313,7 +313,7 @@ data-backdrop="static" data-keyboard="false">
                </div>
                <div class="col-7 p-3">      
                <div class="row">            
-                  <label class="form-label">일시 : <fmt:formatDate value="${jungmoList.jungmoListVO.jungmoSchedule}" pattern="yy년 M월 d일 (E) a h:m:s"/>
+                  <label class="form-label">일시 : <fmt:formatDate value="${jungmoList.jungmoListVO.jungmoSchedule}" pattern="yy년 MM월 dd일 (E) a hh:mm"/>
                   </label>      
                <div class="row">
                   <span class="form-label">장소: ${jungmoList.jungmoListVO.jungmoAddr}
@@ -353,7 +353,7 @@ data-backdrop="static" data-keyboard="false">
                                  <img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${jungmoMember.attachNo}" >
                                  </c:when>
                          <c:otherwise>
-                                 <img class="member-profile rounded-circle bg-primary" src="/images/user.png" >
+                                 <img class="member-profile rounded-circle" src="/images/user.png" >
                          </c:otherwise>
                                  </c:choose>
                           </c:forEach>
@@ -524,7 +524,7 @@ data-backdrop="static" data-keyboard="false">
           <span aria-hidden="true"></span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" >
             <!-- 모임멤버 -->
        <div class="row member-list" style="display:none;">
          <c:forEach var="moimMemberDto" items="${memberList}">
@@ -534,7 +534,7 @@ data-backdrop="static" data-keyboard="false">
             <img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
             </c:when>
             <c:otherwise>
-            <img class="member-profile rounded-circle bg-primary" src="/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
+            <img class="member-profile rounded-circle" src="/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
             </c:otherwise>
             </c:choose>
             <c:if test="${moimMemberDto.moimMemberLevel == '모임장'}">
@@ -908,20 +908,12 @@ data-backdrop="static" data-keyboard="false">
        });
     
     
-    
-    //정모 수정 버튼을 누르면 jungmoNo를 먼저 보내서 확인하게한다.....
-    //정보를 조회해서 있으면 그 값을 append 해서 input창에 넣어주고
-    //수정하면 뭐 수정된 입력값을 보내게 되겠지?
-    //수정하기 버튼을 눌렀을 때 그 값을 update!
-    
-    //수정하기버튼을 눌렀을 때는 update --> 이걸 이제 3항연산자로 한번에 해버리기
     $("#jungmoEditBtn").click(function(){
         var inputValue = $('#jungmoScheduleStr').val();
         var currentDate = new Date();
         var maxDate = new Date();
         maxDate.setMonth(maxDate.getMonth() + 1);
 
-        // 입력 값이 날짜 및 시간 형식이 아니거나, 범위를 벗어난 경우 알림 표시
         if (!(new Date(inputValue) > currentDate && new Date(inputValue) <= maxDate)) {
             confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
             return;
@@ -1190,19 +1182,7 @@ data-backdrop="static" data-keyboard="false">
         }
     });
     
-//     $('[name="moimContent"]').on('input', function () {
-//         var maxLength = 1300; // 최대 글자 수
-//         var currentLength = $(this).val().length;
 
-//         if (currentLength > maxLength) {
-//             // 입력 길이가 제한을 초과한 경우, 알림창 표시
-//             alert("최대 한글 1300글자까지 입력 가능합니다.");
-
-//             // 초과된 부분을 자르고 입력값 설정
-//             var trimmedValue = $(this).val().substring(0, maxLength);
-//             $(this).val(trimmedValue);
-//         }
-//     });
     
     
  // fa-bars를 클릭하면 Ajax 요청을 보냄
@@ -1312,44 +1292,7 @@ data-backdrop="static" data-keyboard="false">
         // @ 기호만 인코딩 처리
         return selector.replace(/@/g, "%40");
     }
-   
-//     $('.member-profile').click(function(e) {
-//         // 클릭한 이미지의 data-target 값을 가져옴
-//         var targetId = $(this).data('target');
-//         var escapedId = '#' + CSS.escape(targetId);
-// //       var targetId = $(this).attr('data-target');
-//         // 클릭한 이미지와 연결된 메뉴만 표시
-// //         $('.popup-menu').hide();
-//         $('.moimjang-menu').not(escapedId).hide();
-//         $('.member-menu').not(escapedId).hide();
-//         $(escapedId).toggle();
-        
-//         $.ajax({
-//             url: window.contextPath+"/rest/moim/moimjang/check", 
-//             type: 'POST', 
-//             data: { 
-//                memberEmail: '${sessionScope.name}',
-//                moimNo : moimNo   
-//             },
-//             success: function(response) {
-//                 // 서버 응답에 따라 팝업 메뉴를 보여줌
-//                 if (response === 'Y') { //모임장,매니저이면
-//                     $('.moimjang-menu').toggle();
-//                     $('.member-menu').hide();
-//                 } else if (response === 'N') { //일반회원이면
-//                     $('.member-menu').toggle();
-//                     $('.moimjang-menu').hide();
-//                 }
-//             },
-//             error: function() {
-//                 console.error('에러');
-//             }
-//         });
-
-//         // 이벤트 전파 방지 (부모에 대한 클릭 이벤트 전파를 막음)
-//         e.stopPropagation();
-//     });
-    
+       
     $('.member-profile').click(function(e) {
         // 클릭한 이미지의 data-target 값을 가져옴
         var targetId = $(this).data('target');
