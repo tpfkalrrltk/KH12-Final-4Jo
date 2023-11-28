@@ -148,10 +148,26 @@
 		#{freeBoardNo}
 	</delete>
 
+<select id="selectImageListByPage"  resultType="FreeBoardDto"
+		parameterType="map">
+		select * from ( select rownum rn, TMP.* from(
+			select m.* 
+		 ,nvl(mml.ATTACH_NO , 0) ATTACH_NO  from free_board m left outer join 
+		 free_BOARD_IMAGE mml  on
+		m.free_board_no = mml.free_BOARD_NO ORDER BY m.free_BOARD_NO DESC
+		)TMP
+		) where rn between
+		#{begin}
+		AND #{end}
+	</select>
 
 
-
-
+<select id="countImageList" resultType="int">
+		
+				select count(nvl(mml.ATTACH_NO , 0))  ATTACH_NO  from free_board m left outer join 
+		 free_BOARD_IMAGE mml  on
+		m.free_board_no = mml.free_BOARD_NO where  mml.ATTACH_NO >0 
+	</select>
 
 
 

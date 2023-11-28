@@ -34,18 +34,18 @@ opacity: 0.7
 <body>
 	<div class="container">
 
-
-
-
-
-
+	<div class="row mt-5 p-5">
+				<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" onload="hello()">
+				<h1 class="display-5 offset-1 fw-bold fst-italic">Free Board</h1>
+			</div>
+		</div>
 
 		<div class="row">
 
 
 			<div
 				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5  mb-5">
-				<a href="/moim/board/list?moimNo=${param.moimNo}" class="text-light"
+				<a href="${pageContext.request.contextPath}/freeBoard/list" class="text-light"
 					style="text-decoration: none">
 					<h4 class="">
 						<i class="fa-solid fa-pencil "></i> Text List
@@ -55,7 +55,7 @@ opacity: 0.7
 
 
 			<div class="col-1 mb-5  text-center bg-primary rounded-5  text-light">
-				<a href="/moim/board/add?moimNo=${param.moimNo}" class="text-light "
+				<a href="${pageContext.request.contextPath}/freeBoard/add" class="text-light "
 					style="text-decoration: none">
 					<h4>
 						<i class="fa-solid fa-plus mt-2" id="addIcon"></i>
@@ -71,18 +71,18 @@ opacity: 0.7
 
 	<div class="container-fluid">
 		<div class="col text-center">
-			<c:forEach items="${boardList}" var="boardList"
+			<c:forEach items="${FreeBoardList}" var="FreeBoardList"
 				varStatus="loopStatus">
 
-				<c:if test="${boardList.attachNo>0}">
+				<c:if test="${FreeBoardList.attachNo>0}">
 
 
 
 					<div class=" m-0 p-0 text-start d-inline"
-						onClick="location.href='${pageContext.request.contextPath}/moim/board/detail?moimBoardNo=${boardList.moimBoardNo}'"
+						onClick="location.href='${pageContext.request.contextPath}/freeboard/detail?freeBoardNo=${FreeBoardList.freeBoardNo}'"
 						style="cursor: pointer;">
 
-						<img alt="" src="${pageContext.request.contextPath}/moimBoard/rest/attach/download?attachNo=${boardList.attachNo}" width="300px" height="300px"
+						<img alt="" src="${pageContext.request.contextPath}/rest/freeBoard/attach/download?attachNo=${FreeBoardList.attachNo}" width="300px" height="300px"
 							class="mt-2">
 
 					</div>
@@ -91,7 +91,7 @@ opacity: 0.7
 
 
 
-				<c:if test="${loopStatus.index % 6 == 5 or loopStatus.last}">
+				<c:if test="${loopStatus.index % 5 == 4 or loopStatus.last}">
 		</div>	</div>
 		<div class="row">
 			<div class="col  text-center">
@@ -110,7 +110,7 @@ opacity: 0.7
 				<div class="col-1 offset-5">
 					<c:if test="${!boardVO.first}">
 						<a
-							href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}&${boardVO.prevQueryString}">
+							href="${pageContext.request.contextPath}/freeboard/photoList?${boardVO.prevQueryString}">
 							<i class="fa-solid fa-angle-left text-primary fw-bold"></i>
 						</a>
 					</c:if>
@@ -125,7 +125,7 @@ opacity: 0.7
 							</c:when>
 							<c:otherwise>
 								<a
-									href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}&${boardVO.getQueryString(i)}">${i}</a>
+									href="${pageContext.request.contextPath}/freeboard/photoList?${boardVO.getQueryString(i)}">${i}</a>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -134,7 +134,7 @@ opacity: 0.7
 				<div class="col-1">
 					<c:if test="${!boardVO.last}">
 						<a
-							href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}&${boardVO.nextQueryString}">
+							href="${pageContext.request.contextPath}/freeboard/photoList?${boardVO.nextQueryString}">
 							<i class="fa-solid fa-angle-right"></i>
 						</a>
 					</c:if>

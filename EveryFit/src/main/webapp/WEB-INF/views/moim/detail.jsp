@@ -417,7 +417,7 @@ data-backdrop="static" data-keyboard="false">
                         <a href="/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold chat-link">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
                     </li>
                     <li class="nav-item p-3">
-						<a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
+						<a href="board/photoList?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
 						<i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
                     </li>
                     <!-- 추가적인 메뉴 항목들을 필요에 따라 추가하세요 -->

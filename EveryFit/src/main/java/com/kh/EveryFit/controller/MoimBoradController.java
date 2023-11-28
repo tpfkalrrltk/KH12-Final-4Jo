@@ -26,6 +26,7 @@ import com.kh.EveryFit.dto.MoimBoardDto;
 import com.kh.EveryFit.vo.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Controller
 @RequestMapping("/moim/board")
@@ -33,78 +34,68 @@ public class MoimBoradController {
 
 	@Autowired
 	private MoimBoardDao moimBoardDao;
-	
+
 	@Autowired
 	private AttachDao attachDao;
-	
+
 	@Autowired
 	private FileUploadProperties props;
 
 	private File dir;
+
 	@PostConstruct
 	public void init() {
 		dir = new File(props.getHome(), "moimBoard");
 		dir.mkdirs();
 
 	}
-	
+
 	@RequestMapping("/list")
 	public String list(Model model, @RequestParam(name = "moimNo") int moimNo,
 			@RequestParam(name = "sortByCategory", required = false) String category,
-			@ModelAttribute(name = "boardVO") BoardVO boardVO,
-			HttpSession session) {
+			@ModelAttribute(name = "boardVO") BoardVO boardVO, HttpSession session) {
 
 		int count = moimBoardDao.countList(boardVO, moimNo);
 		boardVO.setCount(count);
-		
-		List<MoimBoardDto> boardList;	      
+
+		List<MoimBoardDto> boardList;
 
 		if (category != null && !category.isEmpty()) {
-	        // 카테고리에 따라 정렬된 목록을 가져오는 로직 추가	
-	        boardList = moimBoardDao.listByMoimNoSortedByCategory(moimNo, category);
+			// 카테고리에 따라 정렬된 목록을 가져오는 로직 추가
+			boardList = moimBoardDao.listByMoimNoSortedByCategory(moimNo, category);
 
-	    } else {
-	        // 정렬 없이 전체 목록을 가져오는 로직
-	        boardList = moimBoardDao.selectListByPage(boardVO,moimNo);
+		} else {
+			// 정렬 없이 전체 목록을 가져오는 로직
+			boardList = moimBoardDao.selectListByPage(boardVO, moimNo);
 
-	    }
+		}
 
-	    model.addAttribute("boardList", boardList);
-	    return "moimBoard/list";
+		model.addAttribute("boardList", boardList);
+		return "moimBoard/list";
 
 	}
-	
+
 	@RequestMapping("/photoList")
 	public String photoList(Model model, @RequestParam(name = "moimNo") int moimNo,
 			@RequestParam(name = "sortByCategory", required = false) String category,
-			@ModelAttribute(name = "boardVO") BoardVO boardVO,
-			HttpSession session) {
+			@ModelAttribute(name = "boardVO") BoardVO boardVO, HttpSession session) {
 
 		int count = moimBoardDao.countImageList(moimNo);
 		boardVO.setCount(count);
-		
-		List<MoimBoardDto> boardList;	      
 
-		if (category != null && !category.isEmpty()) {
-	        // 카테고리에 따라 정렬된 목록을 가져오는 로직 추가	
-	        boardList = moimBoardDao.listByMoimNoSortedByCategory(moimNo, category);
+		List<MoimBoardDto> boardList;
+		boardList = moimBoardDao.selectImageListByPage(boardVO.getPage(), moimNo);
 
-	    } else {
-	        // 정렬 없이 전체 목록을 가져오는 로직
-	        boardList = moimBoardDao.selectListByPage(boardVO,moimNo);
-
-	    }
-
-	    model.addAttribute("boardList", boardList);
-	    return "moimBoard/photoList";
+		model.addAttribute("boardList", boardList);
+		return "moimBoard/photoList";
 
 	}
-	
+
 	@GetMapping("/add")
 	public String add(Model model, @RequestParam int moimNo, HttpSession session) {
 		return "moimBoard/add";
 	}
-	
+
 	@PostMapping("/add")
 	public String add(@ModelAttribute MoimBoardDto moimBoardDto, HttpSession session,
 			@RequestParam(required = false) MultipartFile attach) throws IllegalStateException, IOException {
@@ -115,11 +106,9 @@ public class MoimBoradController {
 		String memberNick = (String) session.getAttribute("nickName");
 		moimBoardDto.setMemberNick(memberNick);
 
-	
 		moimBoardDao.add(moimBoardDto);
 
-		
-		if (attach != null&&!attach.isEmpty()) {
+		if (attach != null && !attach.isEmpty()) {
 			int attachNo = attachDao.sequence();
 
 			String home = "C:/upload/kh12fd";
@@ -138,37 +127,36 @@ public class MoimBoradController {
 			moimBoardDao.connect(moimBoardNo, attachNo);
 
 		}
-		
-		
-		return "redirect:list?moimNo="+moimBoardDto.getMoimNo();
+
+		return "redirect:list?moimNo=" + moimBoardDto.getMoimNo();
 	}
-	
+
 	@RequestMapping("/detail")
 	public String detail(Model model, @RequestParam int moimBoardNo) {
 		MoimBoardDto moimBoardDto = moimBoardDao.selelctOne(moimBoardNo);
 		model.addAttribute("moimBoardDto", moimBoardDto);
 		Integer moimBoardImage = moimBoardDao.findImage(moimBoardNo);
 		model.addAttribute("moimBoardImage", moimBoardImage);
-		
+
 		return "moimBoard/detail";
 	}
-	
+
 	@GetMapping("/edit")
-		public String edit(Model model, @RequestParam int moimBoardNo) {
-			MoimBoardDto moimBoardDto = moimBoardDao.selelctOne(moimBoardNo);
-			model.addAttribute("moimBoardDto",moimBoardDto);
-			return "moimBoard/edit";
-		}
+	public String edit(Model model, @RequestParam int moimBoardNo) {
+		MoimBoardDto moimBoardDto = moimBoardDao.selelctOne(moimBoardNo);
+		model.addAttribute("moimBoardDto", moimBoardDto);
+		return "moimBoard/edit";
+	}
+
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute MoimBoardDto moimBoardDto,
-			@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
+	public String edit(@ModelAttribute MoimBoardDto moimBoardDto, @RequestParam MultipartFile attach)
+			throws IllegalStateException, IOException {
 		boolean result = moimBoardDao.edit(moimBoardDto);
-		
-		
+
 		if (!attach.isEmpty()) { // 파일이 있으면
 			// 파일 삭제
 			Integer findImageNo = moimBoardDao.findImage(moimBoardDto.getMoimBoardNo());
-			
+
 			String home = "C:/upload/kh12fd";
 			File dir = new File(home, "moimBoard");
 			dir.mkdirs();
@@ -195,27 +183,18 @@ public class MoimBoradController {
 
 			moimBoardDao.connect(moimBoardDto.getMoimBoardNo(), attachNo);// 상품 번호 + 파일 연결
 		}
-		
-		
-		if(result) {
-			return "redirect:detail?moimBoardNo="+moimBoardDto.getMoimBoardNo();
-		}
-		else {
+
+		if (result) {
+			return "redirect:detail?moimBoardNo=" + moimBoardDto.getMoimBoardNo();
+		} else {
 			return "redirect:error";
 		}
 	}
-	
-	
+
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int moimBoardNo) {
 		MoimBoardDto moimBoardDto = moimBoardDao.selelctOne(moimBoardNo);
 		moimBoardDao.delete(moimBoardDto.getMoimBoardNo());
-		return "redirect:list?moimNo="+moimBoardDto.getMoimNo();
+		return "redirect:list?moimNo=" + moimBoardDto.getMoimNo();
 	}
 }
-
-
-
-
-
-

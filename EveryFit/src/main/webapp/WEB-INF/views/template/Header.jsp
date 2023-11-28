@@ -297,9 +297,6 @@ body.dark-mode {
 								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a> <a
 								class="dropdown-item"
 								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
-								class="fa-solid fa-users-viewfinder mt-2"></i> Detail Moim</a> <a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
 								class="fa-solid fa-venus mt-2"></i> Women only Moim</a>
 						</div></li>
 

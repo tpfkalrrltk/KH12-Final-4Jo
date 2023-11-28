@@ -69,6 +69,19 @@ public class FreeBoardController {
 		model.addAttribute("FreeBoardList", list);
 		return "/freeBoard/list";
 	}
+	
+	@RequestMapping("/photoList")
+	public String photoList(Model model, @ModelAttribute(name = "boardVO") BoardVO boardVO,
+			HttpSession session) {
+
+		int count = freeBoardDao.countImageList();
+		boardVO.setCount(count);
+		
+		List<FreeBoardDto> list = freeBoardDao.selectImageListByPage(boardVO.getPage());
+		model.addAttribute("FreeBoardList", list);
+		
+		return "/freeBoard/photoList";
+	}
 
 	@GetMapping("/edit")
 	public String edit(@RequestParam int freeBoardNo, Model model) {

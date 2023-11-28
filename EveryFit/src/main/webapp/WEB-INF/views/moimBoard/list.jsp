@@ -28,8 +28,8 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
-				<h1 class="display-5 fw-bold">No.${param.moimNo}모임 게시판</h1>
+			<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light">
+				<h1 class="display-5 offset-1 fw-bold fst-italic">Moim Board</h1>
 				<div class="row">
 					<%--    <a class="btn btn-warning" href="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=공지사항">공지사항</a>
     <button>가입인사</button>

@@ -17,5 +17,5 @@ public class FreeBoardDto {
 	private String memberEmail, memberNick;
 	private int freeBoardReplyCount;
 	private Date freeBoardTime;
-
+	private 	int attachNo;
 }
