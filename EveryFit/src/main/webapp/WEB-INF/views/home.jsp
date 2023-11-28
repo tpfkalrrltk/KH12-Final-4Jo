@@ -154,6 +154,26 @@ body {
 	padding-top: 45%;
 	color: #fff;
 }
+.profile-image {
+	object-fit:cover; 
+}
+.card {
+	height: 450px; 
+/* 	max-height: 600px; */
+}
+.card-body {
+	font-size:15px;
+}
+.card-text-leader {
+	font-size:15px;
+}
+.card-title {
+	font-size:15px;
+}
+.card-text {
+	font-size:15px;
+}
+
 </style>
 
 
@@ -171,7 +191,7 @@ body {
 		style="display: block; margin: 0; text-align: center; font-size: 3rem; bottom: 80px; left: 890px; position: absolute">▼</span>
 
 
-	<div class="container-fluid ">
+	<div class="container-fluid">
 
 		<div class="row mt-5 p-5 ">
 
@@ -193,20 +213,19 @@ body {
 				<div class="col pe-0 ">
 					<div class="card border-primary mb-3 w-100 Premium bg-primary"
 						style="max-width: 400px;">
-						<div class="card-header bg-light text-primary fw-bold w-100 h-100">Moim
-							No.${PremiumMoimList.moimNo}</div>
-						<div class="card-body  w-100 h-100" style="max-height: 400px">
-							<div class="text-center">
+						<div class="card-header bg-light text-primary fw-bold w-100">${PremiumMoimList.moimTitle}</div>
+						<div class="card-body  w-100 h-100">
+							<div class="text-start">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${PremiumMoimList.moimNo}">
 									<img
 									src="${pageContext.request.contextPath}/image?moimNo=${PremiumMoimList.moimNo}"
-									class="rounded profile-image" width="100%" height="200px">
+									class="rounded profile-image " width="100%" height="200px">
 								</a>
 							</div>
 							<c:choose>
-								<c:when test="${PremiumMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${PremiumMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle}</h4>
@@ -215,8 +234,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${PremiumMoimList.moimContent.length() >=14}">
-									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${PremiumMoimList.moimContent.length() >=40}">
+									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent}</p>
@@ -237,7 +256,7 @@ body {
 
 
 							<a
-								class="btn btn-light text-primary btn-lg fw-bold premium-btn btn-join"
+								class="btn btn-light text-primary btn-md fw-bold premium-btn btn-join"
 								role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
 
 						</div>
@@ -245,82 +264,81 @@ body {
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
-		<div class="row contaner-fluid  auto-width m-5 p-5">
-			</c:if>
 			</c:forEach>
+		</div>
+			</c:if>
 
 		</div>
 
-		<c:if test="${sessionScope.name !=null }">
-			<div class="row mt-5 p-5">
-				<div
-					class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-					id="myMoim">
-					<h1 class="display-5 fw-bold">내가 가입한 모임</h1>
-				</div>
+
+		<div class="row contaner-fluid  auto-width m-5 p-5">
+<c:if test="${sessionScope.name !=null }">
+<div class="row mt-5 p-5">
+			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+				id="myMoim">
+				<h1 class="display-5 fw-bold">내가 가입한 모임</h1>
+
 			</div>
 
 
 			<div class="row align-items-center m-5">
 
-				<c:forEach var="myMoimList" items="${myMoimList}"
-					varStatus="loopStatus" end="7">
-					<div class="col pe-0">
-						<div class="card border-primary mb-3 w-100"
-							style="max-width: 400px;">
-							<div class="card-header bg-primary text-light fw-bold  ">Moim
-								No.${myMoimList.moimNo}</div>
-							<div class="card-body ">
+
+			<c:forEach var="myMoimList" items="${myMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0">
+					<div class="card border-primary mb-3 w-100"
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light fw-bold  ">${myMoimList.moimTitle}</div>
+						<div class="card-body ">
 
 
-								<div class="text-center">
-									<a
-										href="${pageContext.request.contextPath}/moim/detail?moimNo=${myMoimList.moimNo}">
-										<img
-										src="${pageContext.request.contextPath}/image?moimNo=${myMoimList.moimNo}"
-										class="rounded profile-image" width="100%" height="200px">
-									</a>
-								</div>
+							<div class="text-start">
+								<a
+									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myMoimList.moimNo}">
+									<img
+									src="${pageContext.request.contextPath}/image?moimNo=${myMoimList.moimNo}"
+									class="rounded profile-image" width="100%" height="200px">
+								</a>
+							</div>
 
 
-								<c:choose>
-									<c:when test="${myMoimList.moimTitle.length() >=12}">
-										<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 12)}..</h4>
-									</c:when>
-									<c:otherwise>
-										<h4 class="card-title text-primary">${myMoimList.moimTitle}</h4>
-									</c:otherwise>
-								</c:choose>
+							<c:choose>
+								<c:when test="${myMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 7)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${myMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
 
-								<c:choose>
-									<c:when test="${myMoimList.moimContent.length() >=14}">
-										<p class="card-text lead">${myMoimList.moimContent.substring(0, 14)}...</p>
-									</c:when>
-									<c:otherwise>
-										<p class="card-text lead">${myMoimList.moimContent}</p>
-									</c:otherwise>
-								</c:choose>
-
-
+							<c:choose>
+								<c:when test="${myMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${myMoimList.moimContent.substring(0, 40)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${myMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
 
 
-								<div class="container">
-									<div class="row">
-										<div class="col-6 offset-6 p-0">
-											<p class="card-text text-end ">
-												<small>현재 인원 ${myMoimList.memberCount} /
-													${myMoimList.moimMemberCount}
+
+
+							<div class="container">
+								<div class="row">
+									<div class="col-6 offset-6 p-0">
+										<p class="card-text text-end ">
+											<small >현재 인원 ${myMoimList.memberCount}	 / ${myMoimList.moimMemberCount}
+										</small>
 											</p>
-											</small>
+>>>>>>> main
 
 										</div>
 									</div>
 								</div>
 
-								<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
-									role="button" data-moim-no="${myMoimList.moimNo}">Join</a>
-							</div>
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
+
 						</div>
 					</div>
 					<!-- Start a new row after every 3rd product -->
@@ -353,12 +371,12 @@ body {
 				<div class="col pe-0">
 					<div class="card border-primary mb-3 w-100"
 						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold  ">Moim
-							No.${myLikeMoimList.moimNo}</div>
+						<div class="card-header bg-primary text-light fw-bold  ">${myLikeMoimList.moimTitle}
+							</div>
 						<div class="card-body ">
 
 
-							<div class="text-center">
+							<div class="text-start">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myLikeMoimList.moimNo}">
 									<img
@@ -369,8 +387,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${myLikeMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${myLikeMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle}</h4>
@@ -378,8 +396,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${myLikeMoimList.moimContent.length() >=14}">
-									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${myLikeMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${myLikeMoimList.moimContent}</p>
@@ -402,18 +420,18 @@ body {
 								</div>
 							</div>
 
-							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
 								role="button" data-moim-no="${myLikeMoimList.moimNo}">Join</a>
 						</div>
 					</div>
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
 		<div class="row contaner-fluid  auto-width m-5">
 	</c:if>
 	</c:forEach>
 
+		</div>
 
 </div>
 
@@ -433,13 +451,15 @@ body {
 
 <div class="row align-items-center m-5">
 
-	<c:forEach var="NewMoimList" items="${NewMoimList}"
-		varStatus="loopStatus" end="7">
-		<div class="col pe-0">
-			<div class="card border-primary mb-3 w-100" style="max-width: 400px;">
-				<div class="card-header bg-primary text-light fw-bold  ">Moim
-					No.${NewMoimList.moimNo}</div>
-				<div class="card-body ">
+
+			<c:forEach var="NewMoimList" items="${NewMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0">
+					<div class="card border-primary mb-3 w-100"
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light fw-bold  ">${NewMoimList.moimTitle}</div>
+						<div class="card-body ">
+
 
 
 					<div class="text-center">
@@ -452,23 +472,25 @@ body {
 					</div>
 
 
-					<c:choose>
-						<c:when test="${NewMoimList.moimTitle.length() >=12}">
-							<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 12)}..</h4>
-						</c:when>
-						<c:otherwise>
-							<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
-						</c:otherwise>
-					</c:choose>
 
-					<c:choose>
-						<c:when test="${NewMoimList.moimContent.length() >=14}">
-							<p class="card-text lead">${NewMoimList.moimContent.substring(0, 14)}...</p>
-						</c:when>
-						<c:otherwise>
-							<p class="card-text lead">${NewMoimList.moimContent}</p>
-						</c:otherwise>
-					</c:choose>
+							<c:choose>
+								<c:when test="${NewMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 7)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
+
+							<c:choose>
+								<c:when test="${NewMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 40)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${NewMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
 
 
 
@@ -483,6 +505,11 @@ body {
 								</small>
 
 							</div>
+
+
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
+								role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
+
 						</div>
 					</div>
 
@@ -513,14 +540,15 @@ body {
 
 <div class="row align-items-center m-5">
 
-	<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
-		varStatus="loopStatus" end="7">
-		<div class="col pe-0  ">
-			<div class="card border-primary mb-3 w-100 "
-				style="max-width: 400px;">
-				<div class="card-header bg-primary text-light  fw-bold ">Moim
-					No.${GenderCheckMoimList.moimNo}</div>
-				<div class="card-body ">
+
+			<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0  ">
+					<div class="card border-primary mb-3 w-100 "
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light  fw-bold ">${GenderCheckMoimList.moimTitle}</div>
+						<div class="card-body ">
+
 
 
 					<div class="text-center">
@@ -532,24 +560,26 @@ body {
 						</a>
 					</div>
 
-					<c:choose>
-						<c:when test="${GenderCheckMoimList.moimTitle.length() >=12}">
-							<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 12)}..</h4>
-						</c:when>
-						<c:otherwise>
-							<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
-						</c:otherwise>
-					</c:choose>
+
+							<c:choose>
+								<c:when test="${GenderCheckMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 7)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
 
 
-					<c:choose>
-						<c:when test="${GenderCheckMoimList.moimContent.length() >=14}">
-							<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 14)}...</p>
-						</c:when>
-						<c:otherwise>
-							<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
-						</c:otherwise>
-					</c:choose>
+							<c:choose>
+								<c:when test="${GenderCheckMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 40)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
 
 
 
@@ -564,6 +594,12 @@ body {
 								</small>
 
 							</div>
+
+
+
+							<a class="btn btn-primary btn-md fw-bold Gender-btn btn-join"
+								role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
+
 						</div>
 					</div>
 
