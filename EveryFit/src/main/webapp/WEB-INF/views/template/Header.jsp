@@ -269,11 +269,13 @@ body.dark-mode {
 							</c:choose>
 							<a class="dropdown-item "
 								href="${pageContext.request.contextPath}/member/mypage"><i
-								class="fa-solid fa-user-gear mt-2"></i> MyPage</a> <a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/member/join"><i
-								class="fa-solid fa-user-plus mt-2"></i> Join</a>
+								class="fa-solid fa-user-gear mt-2"></i> MyPage</a>
 
+							<c:if test="${sessionScope.name==null}">
+								<a class="dropdown-item"
+									href="${pageContext.request.contextPath}/member/join"><i
+									class="fa-solid fa-user-plus mt-2"></i> Join</a>
+							</c:if>
 
 							<c:if test="${sessionScope.name!=null}">
 								<div class="dropdown-divider"></div>
@@ -367,9 +369,11 @@ body.dark-mode {
 					</div>
 				</div>
 
-				<form class="d-flex mt-3" action="${pageContext.request.contextPath}/home/moimSerach">
+				<form class="d-flex mt-3"
+					action="${pageContext.request.contextPath}/home/moimSerach">
 					<input class="form-control me-sm-2  bg-light text-primary fw-bold"
-						type="search" placeholder="Search" name="moimTitle" style="height: 52px">
+						type="search" placeholder="Search" name="moimTitle"
+						style="height: 52px">
 					<button class="btn btn-light   text-primary  fw-bold" type="submit"
 						style="height: 52px">Search</button>
 
