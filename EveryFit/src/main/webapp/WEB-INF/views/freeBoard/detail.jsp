@@ -297,10 +297,10 @@ placeholder="수정 내용을 적어주세요">
 				</a>
 			</div>
 		</div>
-	</div>
+	
 </c:if>
-
-	<div class="row mt-3">
+</div>
+	<div class="row">
 		<div class="col-8 offset-2">
 
 			<table class="table">
@@ -345,7 +345,8 @@ placeholder="수정 내용을 적어주세요">
 										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>
-							${freeBoardDto.freeBoardContent}
+						
+								<textarea cols="150" rows="30" class=" text-primary fw-bold" readonly="readonly" style="resize: none; border: 0"><c:out value="${content}">${freeBoardDto.freeBoardContent}</c:out></textarea>
 						</div>
 
 					</td>

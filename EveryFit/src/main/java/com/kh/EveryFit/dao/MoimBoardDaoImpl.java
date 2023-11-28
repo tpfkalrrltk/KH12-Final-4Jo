@@ -154,8 +154,8 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 
 	@Override
 	public List<MoimBoardDto> selectListByPage(String type, String keyword, int page, int moimNo) {
-		int begin = page * (10 - 9);
-		int end = page * (10+2);
+		int begin = page * 10 - 9;
+		int end = page * 10;
 		Map<String, Object> params = new HashMap<>();
 		params.put("begin", begin);
 		params.put("end", end);
@@ -167,14 +167,28 @@ public class MoimBoardDaoImpl implements MoimBoardDao {
 
 	@Override
 	public List<MoimBoardDto> selectListByPage(int page  ,int moimNo) {
-		int begin = page * (10 - 9);
-		int end = page * (10+2);
+		int begin = page * 10 - 9;
+		int end = page * 10;
 		Map<String, Integer> params = new HashMap<>();
 		params.put("begin", begin);
 		params.put("end", end);
 		params.put("moimNo", moimNo);
 		return sqlSession.selectList("MoimBoard.selectListByPage", params);
 	}
+	
+	
+	
+	@Override
+	public List<MoimBoardDto> selectImageListByPage(int page  ,int moimNo) {
+		int begin = page * 10 - 9;
+		int end = page * 10+2;
+		Map<String, Integer> params = new HashMap<>();
+		params.put("begin", begin);
+		params.put("end", end);
+		params.put("moimNo", moimNo);
+		return sqlSession.selectList("MoimBoard.selectImageListByPage", params);
+	}
+	
 
 	@Override
 	public List<MoimBoardDto> selectListByPage(BoardVO boardVO ,int moimNo) {

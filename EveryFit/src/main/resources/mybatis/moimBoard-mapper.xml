@@ -132,7 +132,7 @@
 
 	</select>
 
-	<select id="selectListByPage1" resultType="MoimBoardDto"
+	<select id="selectListByPage" resultType="MoimBoardDto"
 		parameterType="map">
 
 		select * from ( select rownum rn, TMP.* from(
@@ -144,7 +144,7 @@
 		and #{end}
 	</select>
 
-<select id="selectListByPage"  resultType="MoimBoardDto"
+<select id="selectImageListByPage"  resultType="MoimBoardDto"
 		parameterType="map">
 		select * from ( select rownum rn, TMP.* from(
 			select m.* 

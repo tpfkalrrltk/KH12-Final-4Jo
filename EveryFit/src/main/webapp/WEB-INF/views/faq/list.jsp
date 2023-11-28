@@ -28,9 +28,10 @@
 	<div class="container ">
 
 		<div class="row mt-5 p-5">
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-				onload="hello()">
-				<h1 class="display-5 fw-bold" id="introimg">FAQ</h1>
+
+				
+							<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" onload="hello()">
+				<h1 class="display-5 offset-1 fw-bold fst-italic">FAQ</h1>
 			</div>
 		</div>
 
@@ -54,11 +55,11 @@
 		<table class="table table-hover row">
 			<thead>
 				<tr class=" table-primary text-center row mt-4">
-					<th class="col-2  fw-bold">번호</th>
+					<th class="col-1  fw-bold">번호</th>
 					<th class="col-2  fw-bold">카테고리</th>
-					<th class="col-2  fw-bold">제목</th>
-					<th class="col-2  fw-bold">작성자</th>
-					<th class="col-4  fw-bold">작성시간</th>
+					<th class="col-5  fw-bold">제목</th>
+					<th class="col-1  fw-bold">작성자</th>
+					<th class="col-3  fw-bold">작성시간</th>
 				</tr>
 			</thead>
 
@@ -68,11 +69,11 @@
 						onClick="location.href='${pageContext.request.contextPath}detail?faqNo=${faqList.faqNo}'"
 						style="cursor: pointer;">
 
-						<td class="col-2 text-primary fw-bold">${faqList.faqNo}</td>
+						<td class="col-1 text-primary fw-bold">${faqList.faqNo}</td>
 						<td class="col-2 text-primary fw-bold">${faqList.faqCategory}</td>
-						<td class="col-2 text-primary fw-bold">${faqList.faqTitle}</td>
-						<td class="col-2 text-primary fw-bold">운영자</td>
-						<td class="col-4 text-primary fw-bold">${faqList.faqTime}
+						<td class="col-5 text-primary fw-bold text-start">${faqList.faqTitle}</td>
+						<td class="col-1 text-primary fw-bold">운영자</td>
+						<td class="col-3 text-primary fw-bold">${faqList.faqTime}
 						  <fmt:formatDate
 								value="${faqList.faqTime}" pattern="a h:mm" type="date" />
 						

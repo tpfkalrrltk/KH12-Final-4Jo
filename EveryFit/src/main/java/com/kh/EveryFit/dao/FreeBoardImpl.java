@@ -192,6 +192,23 @@ public class FreeBoardImpl implements FreeBoardDao {
 
 	}
 
+	@Override
+	public List<FreeBoardDto> selectImageListByPage(int page) {
+		int begin = page * 10 - 9;
+		int end = page * 10+2;
+		Map<String, Integer> params = new HashMap<>();
+		params.put("begin", begin);
+		params.put("end", end);
+
+		return sqlSession.selectList("freeBoard.selectImageListByPage", params);
+		}
+
+	@Override
+	public int countImageList() {
+		
+			return sqlSession.selectOne("freeBoard.countImageList");
+		}
+
 
 
 

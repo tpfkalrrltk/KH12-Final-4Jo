@@ -52,7 +52,7 @@ public interface MoimBoardDao {
 
 	public List<MoimBoardDto> selectListByPage(BoardVO boardVO, int moimNo);
 	
-	
+	public List<MoimBoardDto> selectImageListByPage(int page  ,int moimNo);
 	
 	
 	

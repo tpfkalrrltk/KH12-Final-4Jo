@@ -47,8 +47,8 @@
 				</a>
 			</div>
 		</div>
-	</div>
-</c:if>
+	
+</c:if></div>
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
 
@@ -90,7 +90,8 @@
 										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>
-							${faqDto.faqDetail}
+						<textarea cols="150" rows="30" class=" text-primary fw-bold" readonly="readonly" style="resize: none; border: 0"><c:out value="${content}">${faqDto.faqDetail}</c:out></textarea>
+
 						</div>
 					</td>
 

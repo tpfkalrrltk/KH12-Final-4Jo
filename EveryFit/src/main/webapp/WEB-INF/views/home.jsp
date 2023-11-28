@@ -12,7 +12,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 	<c:otherwise>
 		<%@ include file="template/Header.jsp"%>
 	</c:otherwise>
-</c:choose> 
+</c:choose>
 
 
 
@@ -45,7 +45,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 		window.onscroll = function() {
 			if (window.pageYOffset > 0) {
 				var opac = (window.pageYOffset / nystories);
-
+				console.log(opac);
 				document.body.style.background = "linear-gradient(rgba(255, 255, 255, "
 						+ opac
 						+ "), rgba(255, 255, 255, "
@@ -195,7 +195,8 @@ body {
 
 		<div class="row mt-5 p-5 ">
 
-			<div class="col-5 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 p-5 m-4 bg-primary rounded-3  text-light "
+			<div
+				class="col-5 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 p-5 m-4 bg-primary rounded-3  text-light "
 				id="Premium">
 				<h1 class="display-5 fw-bold">Premium</h1>
 
@@ -247,10 +248,8 @@ body {
 									<div class="col-6 offset-6 ">
 										<p class="card-text text-end text-light  ">
 											<small class="memberCount"> 현재 인원
-												${PremiumMoimList.memberCount}
-									 / ${PremiumMoimList.moimMemberCount}
-										</small>
-
+												${PremiumMoimList.memberCount} /
+												${PremiumMoimList.moimMemberCount} </small>
 									</div>
 								</div>
 							</div>
@@ -271,17 +270,19 @@ body {
 
 		</div>
 
+
 		<div class="row contaner-fluid  auto-width m-5 p-5">
 <c:if test="${sessionScope.name !=null }">
 <div class="row mt-5 p-5">
 			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
 				id="myMoim">
 				<h1 class="display-5 fw-bold">내가 가입한 모임</h1>
+
 			</div>
-		</div>
 
 
-		<div class="row align-items-center m-5">
+			<div class="row align-items-center m-5">
+
 
 			<c:forEach var="myMoimList" items="${myMoimList}"
 				varStatus="loopStatus" end="7">
@@ -331,31 +332,34 @@ body {
 										</small>
 											</p>
 
+
+										</div>
 									</div>
 								</div>
-							</div>
 
 							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
+
 								role="button" data-moim-no="${myMoimList.moimNo}">Join</a>
+
 						</div>
 					</div>
-				</div>
-				<!-- Start a new row after every 3rd product -->
-				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
-		<div class="row contaner-fluid  auto-width m-5">
-			</c:if>
-			</c:forEach>
+					<!-- Start a new row after every 3rd product -->
+					<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+			</div>
+			<div class="row contaner-fluid  auto-width m-5">
+		</c:if>
+		</c:forEach>
 
 
-		</div>
+	</div>
 
-</c:if>
+	</c:if>
 
 
-<c:if test="${sessionScope.name !=null }">
-<div class="row mt-5 p-5">
-			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+	<c:if test="${sessionScope.name !=null }">
+		<div class="row mt-5 p-5">
+			<div
+				class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
 				id="myMoim">
 				<h1 class="display-5 fw-bold">내가 찜한 모임</h1>
 			</div>
@@ -409,7 +413,9 @@ body {
 								<div class="row">
 									<div class="col-6 offset-6 p-0">
 										<p class="card-text text-end ">
-											<small >현재 인원 ${myLikeMoimList.memberCount}	 / ${myLikeMoimList.moimMemberCount}</p>
+											<small>현재 인원 ${myLikeMoimList.memberCount} /
+												${myLikeMoimList.moimMemberCount}
+										</p>
 										</small>
 
 									</div>
@@ -424,27 +430,33 @@ body {
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 		<div class="row contaner-fluid  auto-width m-5">
+
 			</c:if>
 			</c:forEach>
 
 		</div>
 
+
 		</div>
+
+</div>
 
 </c:if>
 
 
 
 
-		<div class="row mt-5 p-5">
-			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-				id="NowMoim">
-				<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
-			</div>
-		</div>
+<div class="row mt-5 p-5">
+	<div
+		class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+		id="NowMoim">
+		<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
+	</div>
+</div>
 
 
-		<div class="row align-items-center m-5">
+<div class="row align-items-center m-5">
+
 
 			<c:forEach var="NewMoimList" items="${NewMoimList}"
 				varStatus="loopStatus" end="7">
@@ -455,14 +467,16 @@ body {
 						<div class="card-body ">
 
 
-							<div class="text-center">
-								<a
-									href="${pageContext.request.contextPath}/moim/detail?moimNo=${NewMoimList.moimNo}">
-									<img
-									src="${pageContext.request.contextPath}/image?moimNo=${NewMoimList.moimNo}"
-									class="rounded profile-image" width="100%" height="200px">
-								</a>
-							</div>
+
+					<div class="text-center">
+						<a
+							href="${pageContext.request.contextPath}/moim/detail?moimNo=${NewMoimList.moimNo}">
+							<img
+							src="${pageContext.request.contextPath}/image?moimNo=${NewMoimList.moimNo}"
+							class="rounded profile-image" width="100%" height="200px">
+						</a>
+					</div>
+
 
 
 							<c:choose>
@@ -486,42 +500,52 @@ body {
 
 
 
-							<div class="container">
-								<div class="row">
-									<div class="col-6 offset-6 p-0">
-										<p class="card-text text-end ">
-											<small >현재 인원 ${NewMoimList.memberCount}	 / ${NewMoimList.moimMemberCount}</p>
-										</small>
 
-									</div>
-								</div>
+					<div class="container">
+						<div class="row">
+							<div class="col-6 offset-6 p-0">
+								<p class="card-text text-end ">
+									<small>현재 인원 ${NewMoimList.memberCount} /
+										${NewMoimList.moimMemberCount}
+								</p>
+								</small>
+
 							</div>
+
 
 							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
 								role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
+
 						</div>
 					</div>
+
+					<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+						role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
 				</div>
-				<!-- Start a new row after every 3rd product -->
-				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
-		<div class="row contaner-fluid  auto-width m-5">
-			</c:if>
-			</c:forEach>
-
-
-		</div>
-
-
-		<div class="row mt-5 p-5">
-			<div class="col-4  col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-				id="GenderCheck">
-				<h1 class="display-5 fw-bold">여성전용 모임</h1>
 			</div>
 		</div>
+		<!-- Start a new row after every 3rd product -->
+		<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+</div>
+<div class="row contaner-fluid  auto-width m-5">
+	</c:if>
+	</c:forEach>
 
 
-		<div class="row align-items-center m-5">
+</div>
+
+
+<div class="row mt-5 p-5">
+	<div
+		class="col-4  col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+		id="GenderCheck">
+		<h1 class="display-5 fw-bold">여성전용 모임</h1>
+	</div>
+</div>
+
+
+<div class="row align-items-center m-5">
+
 
 			<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
 				varStatus="loopStatus" end="7">
@@ -532,14 +556,16 @@ body {
 						<div class="card-body ">
 
 
-							<div class="text-center">
-								<a
-									href="${pageContext.request.contextPath}/moim/detail?moimNo=${GenderCheckMoimList.moimNo}">
-									<img
-									src="${pageContext.request.contextPath}/image?moimNo=${GenderCheckMoimList.moimNo}"
-									class="rounded profile-image" width="100%" height="200px">
-								</a>
-							</div>
+
+					<div class="text-center">
+						<a
+							href="${pageContext.request.contextPath}/moim/detail?moimNo=${GenderCheckMoimList.moimNo}">
+							<img
+							src="${pageContext.request.contextPath}/image?moimNo=${GenderCheckMoimList.moimNo}"
+							class="rounded profile-image" width="100%" height="200px">
+						</a>
+					</div>
+
 
 							<c:choose>
 								<c:when test="${GenderCheckMoimList.moimTitle.length() >=7}">
@@ -563,36 +589,45 @@ body {
 
 
 
-							<div class="container">
-								<div class="row">
-									<div class="col-6 offset-6 p-0">
-										<p class="card-text text-end ">
-											<small>현재 인원 ${GenderCheckMoimList.memberCount} /	${GenderCheckMoimList.moimMemberCount}</p>
-										</small>
 
-									</div>
-								</div>
+					<div class="container">
+						<div class="row">
+							<div class="col-6 offset-6 p-0">
+								<p class="card-text text-end ">
+									<small>현재 인원 ${GenderCheckMoimList.memberCount} /
+										${GenderCheckMoimList.moimMemberCount}
+								</p>
+								</small>
+
 							</div>
+
 
 
 							<a class="btn btn-primary btn-md fw-bold Gender-btn btn-join"
 								role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
+
 						</div>
 					</div>
+
+
+					<a class="btn btn-primary btn-lg fw-bold Gender-btn btn-join"
+						role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
 				</div>
-				<!-- Start a new row after every 3rd product -->
-				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+			</div>
 		</div>
-		<div class="row contaner-fluid  auto-width m-5">
-			</c:if>
-			</c:forEach>
+		<!-- Start a new row after every 3rd product -->
+		<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+</div>
+<div class="row contaner-fluid  auto-width m-5">
+	</c:if>
+	</c:forEach>
 
-		</div>
+</div>
 
 
 
 
-	</div>
+</div>
 </div>
 
 

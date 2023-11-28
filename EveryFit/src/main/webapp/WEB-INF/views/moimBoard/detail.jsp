@@ -295,9 +295,9 @@ placeholder="수정 내용을 적어주세요">
 			</div>
 
 		</div>
-	</div>
-</c:if >
 
+</c:if >
+	</div>
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
 
@@ -335,7 +335,8 @@ placeholder="수정 내용을 적어주세요">
 					</c:otherwise>
 				</c:choose>
 
-				${moimBoardDto.moimBoardContent}
+
+					<textarea cols="150" rows="30" class=" text-primary fw-bold" readonly="readonly" style="resize: none; border: 0"><c:out value="${content}">${moimBoardDto.moimBoardContent}</c:out></textarea>
 				<hr>
 			</div>
 
