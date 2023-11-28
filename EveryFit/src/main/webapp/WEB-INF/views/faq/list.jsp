@@ -40,8 +40,8 @@
 			<div
 				class="col-1 offset-10 text-center bg-primary rounded-5  text-light">
 				<a href="${pageContext.request.contextPath}/faq/add" class="text-light" style="text-decoration: none">
-					<h7 class="display-4"> <i class="fa-solid fa-plus"
-						id="addIcon"></i></h7>
+					<h4> <i class="fa-solid fa-plus mt-2"
+						id="addIcon"></i></h4>
 				</a>
 			</div>
 

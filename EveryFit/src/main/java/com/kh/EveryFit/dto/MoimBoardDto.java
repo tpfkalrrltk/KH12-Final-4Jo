@@ -17,5 +17,6 @@ public class MoimBoardDto {
 	
 	private int moimBoardReplyCount;
 	private Date moimBoardTime;
+	private 	int attachNo;
 
 }

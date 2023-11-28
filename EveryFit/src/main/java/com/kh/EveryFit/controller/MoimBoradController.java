@@ -80,7 +80,7 @@ public class MoimBoradController {
 			@ModelAttribute(name = "boardVO") BoardVO boardVO,
 			HttpSession session) {
 
-		int count = moimBoardDao.countList(boardVO, moimNo);
+		int count = moimBoardDao.countImageList(moimNo);
 		boardVO.setCount(count);
 		
 		List<MoimBoardDto> boardList;	      
