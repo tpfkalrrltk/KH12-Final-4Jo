@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
@@ -8,16 +8,16 @@
 
 <style>
 .jungmo-image {
-/* 	width: 250px; */
-	height: 200px;
+/*    width: 250px; */
+   height: 200px;
 }
 .member-profile {
-	width: 50px;
-	height: 50px;
+   width: 50px;
+   height: 50px;
 }
 .profile-image {
-/* 	width: 400px; */
-	height: 400px;
+/*    width: 400px; */
+   height: 400px;
 }
 .popup-menu {
     display: none;
@@ -40,21 +40,21 @@
 }
 
 .fa-bars {
-	position: relative;
-	display: inline-block;
-	cursor: pointer; /* 클릭 가능한 커서로 변경 */
+   position: relative;
+   display: inline-block;
+   cursor: pointer; /* 클릭 가능한 커서로 변경 */
 }
 
 /* 이미지를 감싸는 컨테이너의 스타일 */
 .image-container {
-	position: relative;
-	display: inline-block;
-	cursor: pointer; /* 클릭 가능한 커서로 변경 */
+   position: relative;
+   display: inline-block;
+   cursor: pointer; /* 클릭 가능한 커서로 변경 */
 }
 
 .disabled {
-	pointer-events: none;
-	opacity: 0.5; 
+   pointer-events: none;
+   opacity: 0.5; 
 }
 
 textarea {
@@ -62,7 +62,7 @@ textarea {
 }
 
 a {
-	text-decoration: none;
+   text-decoration: none;
 }
 
 .miom-content {
@@ -72,13 +72,13 @@ a {
 }
 
 .moim-member-profile {
-	width: 200px;
-	height: 200px;
+   width: 200px;
+   height: 200px;
 }
 
 
 #moim-badge {
-	padding:0 !important;
+   padding:0 !important;
 }
 
 .fa-crown {
@@ -90,26 +90,26 @@ a {
 }
 
 /* .image-container { */
-/* 	position: relative; */
-/* 	width: 100%; */
-/* /* 	max-width: 1200px;  */ */
-/* 	margin: 0 auto; */
+/*    position: relative; */
+/*    width: 100%; */
+/* /*    max-width: 1200px;  */ */
+/*    margin: 0 auto; */
 /* } */
 
 .member-list {
-/* 	height: 20vh; */
-/* 	min-height: 400px; */
-	overflow-y:scroll;
-	overflow-x: hidden;
-	padding-bottom: 20px;
+/*    height: 20vh; */
+/*    min-height: 400px; */
+   overflow-y:scroll;
+   overflow-x: hidden;
+   padding-bottom: 20px;
 }
 
 ::-webkit-scrollbar {
- 	width: 1px;
+    width: 1px;
 }
 ::-webkit-scrollbar-thumb {
- 	background: var(--bs-secondary); /* 스크롤바 배경 색상 */
- 	border-radius: 5px; /* 스크롤바 엄지 모서리 둥글게 */
+    background: var(--bs-secondary); /* 스크롤바 배경 색상 */
+    border-radius: 5px; /* 스크롤바 엄지 모서리 둥글게 */
 }
 
 .modal-overlay {
@@ -123,14 +123,14 @@ a {
 }
 
 .box {
-/* 	margin: 20px; */
-	padding: 30px;
-	border: 1px solid lightgray;
-	border-radius: 14px;
+/*    margin: 20px; */
+   padding: 30px;
+   border: 1px solid lightgray;
+   border-radius: 14px;
 }
 
 .cursor{
-	cursor:pointer;
+   cursor:pointer;
 }
 </style>
 
@@ -145,11 +145,11 @@ data-backdrop="static" data-keyboard="false">
       <div class="myModal-body p-4">
         <span class="col">모임 생성 후 30일이 지나 모임이 비활성화 되었습니다. </span><br>
         <span class="col"><a href="/pay?productNo=2">프리미엄 모임권으로 업그레이드하세요!</a></span>
-        <div class="text-end text-danger mt-4	">
+        <div class="text-end text-danger mt-4   ">
         <a class="dropdown-item" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
         </div>
         <div class="text-end text-primary">
-        <label><a class="link" href="/default/${moimDto.chatRoomNo}" style="text-decoration: none;">채팅방</a></label> 		
+        <label><a class="link" href="/default/${moimDto.chatRoomNo}" style="text-decoration: none;">채팅방</a></label>       
         </div>
       </div>
     </div>
@@ -158,282 +158,285 @@ data-backdrop="static" data-keyboard="false">
 
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-lg-6 offset-md-2">
-		
-			<div class="row text-end">
-				<i class="fa-solid fa-bars" style="color: #b0b0b0;" id="barToggleMenu" ></i>
-			</div>
-			<div class="bar-popup-menu bar-dropdown-menu" id="approvedMenu" style="left:65%;">
-			    <!-- Y일 때 보여질 팝업 메뉴 내용 모임장,매니저 일 때 -->
-			    <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
-			    <button class="dropdown-item edit-mode">모임관리</button>
-			</div>
-			
-			<div class="bar-popup-menu bar-dropdown-menu" id="blockedMenu" style="left:65%;">
-			    <!-- N일 때 보여질 팝업 메뉴 내용 -->
-			    <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
-			    <a class="dropdown-item" href="">신고하기</a>
-			</div>
-			
-			
-			<div class="row">
-			<div class="col-10">
-			<label class="fs-1 fw-bold">${moimDto.moimTitle}</label>
-			<span class="badge rounded-pill text-bg-info" style="bottom:2.5em;"> ${moimDto.moimState}</span>
-			</div>
-			<div class="col-2 text-end">
-			<i class="fa-solid fa-heart fa-2xl mr-2 heart" style="color: #ff8080; margin-top:1em;"></i>
-			<span class="heart-span" style="color: #ff8080;"></span>
-			</div>
-<!-- 			<i class="fa-regular fa-heart red"></i>  -->
-<!-- 			<i class="fa-solid fa-heart fa-2xl" style="color: #ff8080;"></i> -->
-<!-- 			<span class="heart-span" style="color: #ff8080;"></span> -->
-			<!-- 세션값의 모임멤버 레벨이 모임장일 때 보여줌 -->
-<!-- 			<div class="row mt-3 ml-0"> -->
-<!-- 			<button type="button" class="btn btn-danger opacity-50 profile-delete">사진삭제</button> -->
-			
-<!-- 			</div> -->
-			</div>
+   <div class="row">
+      <div class="col-md-8 col-lg-6 offset-md-2">
+      
+         <div class="row text-end">
+            <i class="fa-solid fa-bars" style="color: #b0b0b0;" id="barToggleMenu" ></i>
+         </div>
+         <div class="bar-popup-menu bar-dropdown-menu" id="approvedMenu" style="left:65%;">
+             <!-- Y일 때 보여질 팝업 메뉴 내용 모임장,매니저 일 때 -->
+             <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
+             <button class="dropdown-item edit-mode">모임관리</button>
+         </div>
+         
+         <div class="bar-popup-menu bar-dropdown-menu" id="blockedMenu" style="left:65%;">
+             <!-- N일 때 보여질 팝업 메뉴 내용 -->
+             <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
+             <a class="dropdown-item" href="">신고하기</a>
+         </div>
+         
+         
+         <div class="row">
+         <div class="col-10">
+         <label class="fs-1 fw-bold">${moimDto.moimTitle}</label>
+         <span class="badge rounded-pill text-bg-info" style="bottom:2.5em;"> ${moimDto.moimState}</span>
+         </div>
+         <div class="col-2 text-end">
+         <i class="fa-solid fa-heart fa-2xl mr-2 heart" style="color: #ff8080; margin-top:1em;"></i>
+         <span class="heart-span" style="color: #ff8080;"></span>
+         </div>
+<!--          <i class="fa-regular fa-heart red"></i>  -->
+<!--          <i class="fa-solid fa-heart fa-2xl" style="color: #ff8080;"></i> -->
+<!--          <span class="heart-span" style="color: #ff8080;"></span> -->
+         <!-- 세션값의 모임멤버 레벨이 모임장일 때 보여줌 -->
+<!--          <div class="row mt-3 ml-0"> -->
+<!--          <button type="button" class="btn btn-danger opacity-50 profile-delete">사진삭제</button> -->
+         
+<!--          </div> -->
+         </div>
 
-					<div class="row">
+               <div class="row">
 
-						<c:choose>
-							<c:when test="${profile == null}">
-								<img src="/images/add-moim-image.png" class="rounded profile-image w-100 object-fit-cover">
-							</c:when>
-							<c:otherwise>
-								<img src="/rest/attach/download?attachNo=${profile}"
-									class="rounded profile-image w-100 object-fit-cover">
-							</c:otherwise>
-						</c:choose>
-						<div class="col text-end">
-						<label> 
-						<!--  라벨을 만들고 파일선택창을 숨김 -->
-						<input type="file" class="profile-chooser"
-							accept="image/*" style="display:none;">
-<!-- 							<i class="fa-solid fa-user fa-2x"></i> -->
-							<i class="fa-solid fa-image fa-2x" style="color: #4582ec; display:none;"></i>
-						</label> 
-						
-							<i class="fa-solid fa-square-xmark profile-delete fa-2x" style="color: #4582ec; display:none"></i>
-						</div>
-						
-						</div>
-<%-- 				<h1 class="display-4 bg-primary opacity-75 rounded text-light p-5">${moimDto.moimTitle}</h1> --%>
+                  <c:choose>
+                     <c:when test="${profile == null}">
+                        <img src="/images/add-moim-image.png" class="rounded profile-image w-100 object-fit-cover">
+                     </c:when>
+                     <c:otherwise>
+                        <img src="/rest/attach/download?attachNo=${profile}"
+                           class="rounded profile-image w-100 object-fit-cover">
+                     </c:otherwise>
+                  </c:choose>
+                  <div class="col text-end">
+                  <label> 
+                  <!--  라벨을 만들고 파일선택창을 숨김 -->
+                  <input type="file" class="profile-chooser"
+                     accept="image/*" style="display:none;">
+<!--                      <i class="fa-solid fa-user fa-2x"></i> -->
+                     <i class="fa-solid fa-image fa-2x" style="color: #4582ec; display:none;"></i>
+                  </label> 
+                  
+                     <i class="fa-solid fa-square-xmark profile-delete fa-2x" style="color: #4582ec; display:none"></i>
+                  </div>
+                  
+                  </div>
+<%--             <h1 class="display-4 bg-primary opacity-75 rounded text-light p-5">${moimDto.moimTitle}</h1> --%>
 
-					<div class="row p-0 m-0 pt-2"><div class="col" id="moim-badge">
-					<span class="badge rounded-pill text-bg-primary">${locationDto.locationDepth1}</span>
-					<span class="badge rounded-pill text-bg-primary">${locationDto.locationDepth2}</span>
-					<span class="badge rounded-pill text-bg-primary"> ${eventDto.eventName}</span>
-					<c:if test="${moimDto.moimUpgrade == 'Y'}">
-						<span class="badge rounded-pill text-bg-info gender-check">프리미엄</span>
-					</c:if>
-					<c:if test="${moimDto.moimGenderCheck == 'Y'}">
-						<span class="badge rounded-pill text-bg-warning gender-check">여성전용</span>
-						<input type="checkbox" name="moimGenderCheck"
-							style="display: none;">
-					</c:if>
-					<span class="badge rounded-pill text-bg-primary">멤버 ${memberCount}</span>
-				</div></div>
+               <div class="row p-0 m-0 pt-2"><div class="col" id="moim-badge">
+               <span class="badge rounded-pill text-bg-primary">${locationDto.locationDepth1}</span>
+               <span class="badge rounded-pill text-bg-primary">${locationDto.locationDepth2}</span>
+               <span class="badge rounded-pill text-bg-primary"> ${eventDto.eventName}</span>
+               <c:if test="${moimDto.moimUpgrade == 'Y'}">
+                  <span class="badge rounded-pill text-bg-info gender-check">프리미엄</span>
+               </c:if>
+               <c:if test="${moimDto.moimGenderCheck == 'Y'}">
+                  <span class="badge rounded-pill text-bg-warning gender-check">여성전용</span>
+                  <input type="checkbox" name="moimGenderCheck"
+                     style="display: none;">
+               </c:if>
+               <span class="badge rounded-pill text-bg-primary">멤버 ${memberCount}</span>
+            </div></div>
 
-				<div class="miom-content mt-4 mb-4 p-3 ">${moimDto.moimContent}</div>
-			
-			
-			
-			
-	<div class="row">
-	<div class="col">
-	<div class="card-body">
-		
-<%-- 		${profile} --%>
-<%-- 		${moimDto} --%>
-		<div class="row">
-		<div class="col text-end">
-		
-		<button class="moim-edit btn btn-primary" style="display:none;">모임수정</button>
+            <div class="miom-content mt-4 mb-4 p-3 ">${moimDto.moimContent}</div>
+         
+         
+         
+         
+   <div class="row">
+   <div class="col">
+   <div class="card-body">
+      
+<%--       ${profile} --%>
+<%--       ${moimDto} --%>
+      <div class="row">
+      <div class="col text-end">
+      
+      <button class="moim-edit btn btn-primary" style="display:none;">모임수정</button>
 
-		<div class="row"><div class="col">
+      <div class="row"><div class="col">
 
-		</div></div>
-		<div class="row"><div class="col">
-		</div></div>
-		<div class="row"><div class="col">	
-		</div></div>
-		</div>
-		</div>
-	</div>
+      </div></div>
+      <div class="row"><div class="col">
+      </div></div>
+      <div class="row"><div class="col">   
+      </div></div>
+      </div>
+      </div>
+   </div>
 
-	<button class="btn btn-primary jungmo-create"  type="button" style="display:none;">정모등록</button>
+   <button class="btn btn-primary jungmo-create"  type="button" style="display:none;">정모등록</button>
 
-			
-			</div>
+         
+         </div>
 <h3>정기모임</h3>
-	<div class="card border-primary mb-3 items-center" style="max-width: 50rem;">
-		<c:forEach var="jungmoList" items="${jungmoTotalList}">
-		<div class="card-body border-primary p-0">
-				<div class="card mb-3">
-					<div class="card-body">
-					<div class="row">
-					<div class="col-10">
-				<fmt:formatDate value="${jungmoList.jungmoListVO.jungmoSchedule}" 
-				pattern="M월 d일 (E)"/>
-					<span class="text-danger"> 
-						<c:choose>
-						<c:when test="${jungmoList.jungmoListVO.dday <= 0}">
-							D - Day
-						</c:when>
-						<c:otherwise>
-						D - ${jungmoList.jungmoListVO.dday}
-						</c:otherwise>
-						</c:choose>
-						<span class="badge bg-info p-1" >${jungmoList.jungmoListVO.jungmoStatus}</span>
-					</span>
-					</div>
-					<div class="col-2 text-end">
-					<label class="jungmo-edit" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"><i class="fa-regular fa-calendar-check" style="color: #4582ec;"></i></label>
-					<label class="jungmo-cancel" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"> 
-					<a href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" 
-					style="text-decoration: none;">
-					<i class="fa-regular fa-calendar-xmark" style="color: #4582ec;"></i>
-					</a>
-					</label>
-					</div>
-					</div>
-					<h4 class="mt-2">${jungmoList.jungmoListVO.jungmoTitle}</h4>					
-					<div class="row">
-					<div class="col-5 p-2">
-					<c:choose>
-					<c:when test="${jungmoList.jungmoListVO.jungmoImageAttachNo != null}">
-						<img class="jungmo-image rounded object-fit-cover w-100" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
-					</c:when>
-					<c:otherwise>
-						<img class="jungmo-image rounded object-fit-cover w-100" src="/images/user.png">
-					</c:otherwise>
-					</c:choose>			
-					</div>
-					<div class="col-7 p-3">		
-					<div class="row">				
-						<label class="form-label">일시 : <fmt:formatDate value="${jungmoList.jungmoListVO.jungmoSchedule}" pattern="yy년 M월 d일 (E) a h:m:s"/>
-						</label>		
-					<div class="row">
-						<span class="form-label">장소: ${jungmoList.jungmoListVO.jungmoAddr}
-						<a href="${jungmoList.jungmoListVO.jungmoAddrLink}" style="text-decoration: none;">지도보기</a></span>
-					</div>
-						
-					</div>
-					<div class="row">
-						<span class="form-label">참가비 : 
-						<fmt:formatNumber value="${jungmoList.jungmoListVO.jungmoPrice}" pattern="#,##0원"/></span>
-					</div>
-					<div class="row">
-					<label class="form-label">인원 : ${jungmoList.jungmoListVO.memberCount != null ? jungmoList.jungmoListVO.memberCount : 0}
-						/ ${jungmoList.jungmoListVO.jungmoCapacity}</label>
-					</div>
-					<div class="row">
-					<label><a class="link chat-link" href="/default/${jungmoList.jungmoListVO.chatRoomNo}" style="text-decoration: none;">채팅방가기</a></label> 		
-					</div>
-										
-<%-- 			<a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
-					<div class="col text-end">
-					<a class="btn btn-primary" 
-					href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light joinButton">참가</a>
-					<a class="btn btn-warning" 
-					href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
-					</div>
+   <div class="mb-3 items-center" style="max-width: 50rem;">
+      <c:forEach var="jungmoList" items="${jungmoTotalList}">
+<!--       <div class="card-body  p-0"> -->
+            <div class="card mb-3">
+               <div class="card-body">
+               <div class="row">
+               <div class="col-10">
+            <fmt:formatDate value="${jungmoList.jungmoListVO.jungmoSchedule}" 
+            pattern="M월 d일 (E)"/>
+               <span class="text-danger"> 
+                  <c:choose>
+                  <c:when test="${jungmoList.jungmoListVO.dday <= 0}">
+                     D - Day
+                  </c:when>
+                  <c:otherwise>
+                  D - ${jungmoList.jungmoListVO.dday}
+                  </c:otherwise>
+                  </c:choose>
+                  <span class="badge bg-info p-1" >${jungmoList.jungmoListVO.jungmoStatus}</span>
+               </span>
+               </div>
+               <div class="col-2 text-end">
+               <label class="jungmo-edit" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"><i class="fa-regular fa-calendar-check" style="color: #4582ec;"></i></label>
+               <label class="jungmo-cancel" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"> 
+               <a href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" 
+               style="text-decoration: none;">
+               <i class="fa-regular fa-calendar-xmark" style="color: #4582ec;"></i>
+               </a>
+               </label>
+               </div>
+               </div>
+               <h4 class="mt-2">${jungmoList.jungmoListVO.jungmoTitle}</h4>               
+               <div class="row">
+               <div class="col-5 p-2">
+               <c:choose>
+               <c:when test="${jungmoList.jungmoListVO.jungmoImageAttachNo != null}">
+                  <img class="jungmo-image rounded object-fit-cover w-100" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
+               </c:when>
+               <c:otherwise>
+                  <img class="jungmo-image rounded object-fit-cover w-100" src="/images/user.png">
+               </c:otherwise>
+               </c:choose>         
+               </div>
+               <div class="col-7 p-3">      
+               <div class="row">            
+                  <label class="form-label">일시 : <fmt:formatDate value="${jungmoList.jungmoListVO.jungmoSchedule}" pattern="yy년 M월 d일 (E) a h:m:s"/>
+                  </label>      
+               <div class="row">
+                  <span class="form-label">장소: ${jungmoList.jungmoListVO.jungmoAddr}
+                  <c:if test="${jungmoList.jungmoListVO.jungmoAddrLink != null}">
+                  <a href="${jungmoList.jungmoListVO.jungmoAddrLink}" style="text-decoration: none;">지도보기</a>
+                  </c:if>                  
+                  </span>
+               </div>
+                  
+               </div>
+               <div class="row">
+                  <span class="form-label">참가비 : 
+                  <fmt:formatNumber value="${jungmoList.jungmoListVO.jungmoPrice}" pattern="#,##0원"/></span>
+               </div>
+               <div class="row">
+               <label class="form-label">인원 : ${jungmoList.jungmoListVO.memberCount != null ? jungmoList.jungmoListVO.memberCount : 0}
+                  / ${jungmoList.jungmoListVO.jungmoCapacity}</label>
+               </div>
+               <div class="row">
+               <label><a class="link chat-link" href="/default/${jungmoList.jungmoListVO.chatRoomNo}" style="text-decoration: none;">채팅방가기</a></label>       
+               </div>
+                              
+<%--          <a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
+               <div class="col text-end">
+               <a class="btn btn-primary" 
+               href="jungmo/join?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light joinButton">참가</a>
+               <a class="btn btn-warning" 
+               href="jungmo/exit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}&memberEmail=${sessionScope.name}" class="text-light">취소</a>
+               </div>
                      </div>
                      </div>
                      <div class="row">
                      <div class="col p-2">
-                        	<c:forEach var="jungmoMember" items="${jungmoList.jungmoMemberList}">
-                       	 		<c:choose>
-                       	 		<c:when test="${jungmoMember.attachNo != null}">
-                       	 		<img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${jungmoMember.attachNo}" >
-                       	 		</c:when>
- 								<c:otherwise>
-                       	 		<img class="member-profile rounded-circle bg-primary" src="/images/user.png" >
- 								</c:otherwise>
-                       	 		</c:choose>
-                    		</c:forEach>
+                           <c:forEach var="jungmoMember" items="${jungmoList.jungmoMemberList}">
+                                 <c:choose>
+                                 <c:when test="${jungmoMember.attachNo != null}">
+                                 <img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${jungmoMember.attachNo}" >
+                                 </c:when>
+                         <c:otherwise>
+                                 <img class="member-profile rounded-circle bg-primary" src="/images/user.png" >
+                         </c:otherwise>
+                                 </c:choose>
+                          </c:forEach>
                      </div>
                      </div>
 
 
-					</div>
-				</div>
-				</div>
-			</c:forEach>
-		</div>
-		    
-			    
-					    </div>
+               </div>
+            </div>
+<!--             </div> -->
+         </c:forEach>
+      </div>
+          
+             
+                   </div>
 
-					</div>
-					
+               </div>
+               
 <div class="col-lg-2 col-md-3">
-				<div class="row box" >
-				<c:forEach var="moimMemberDto" items="${memberList}">
-					<c:if test="${sessionScope.name == moimMemberDto.memberEmail}">
-					<div class="row"><div class="col-4 d-flex align-items-center justify-content-center p-0">
-						<img src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" 
-						class="rounded-circle object-fit-cover" width="60px;" height="60px;" >
-					</div>
-					<div class="col-8">
-						<label class="form-label mb-0">${moimMemberDto.memberNick}</label>
-						<label class="form-label" style="font-size:14px;">${moimMemberDto.moimMemberJoin} 가입</label>
-						
-					</div>
-					</div>
-					<div class="row mt-4"><div class="col">
-					<label class="form-label">${moimMemberDto.moimMemberLevel}</label>
-					</div></div>
-					<div class="row"><div class="col">
-					<label class="form-label">취소 카운트 : </label>					
-					<label class="form-label">${moimMemberDto.moimMemberCancelCount}</label>
-					</div></div>
-					<div class="row"><div class="col">
-					<label class="form-label">내 상태 : </label>					
-					<label class="form-label">${moimMemberDto.moimMemberStatus}</label>
-					</div></div>
-					<div class="row"><div class="col">
-					</div></div>
-					<div class="row"><div class="col">
-					</div></div>
-					<div class="row"><div class="col">
-<!-- 					<label class="form-label">참여 정모 내역 : </label>					 -->
-<!-- 					<label class="form-label">그건이제생각을해보자</label> -->
-					</div></div>
-					</c:if>
-				</c:forEach>
-				</div>
+            <div class="row box" >
+            <c:forEach var="moimMemberDto" items="${memberList}">
+               <c:if test="${sessionScope.name == moimMemberDto.memberEmail}">
+               <div class="row"><div class="col-4 d-flex align-items-center justify-content-center p-0">
+                  <img src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" 
+                  class="rounded-circle object-fit-cover" width="60px;" height="60px;" >
+               </div>
+               <div class="col-8">
+                  <label class="form-label mb-0">${moimMemberDto.memberNick}</label>
+                  <label class="form-label" style="font-size:14px;">${moimMemberDto.moimMemberJoin} 가입</label>
+                  
+               </div>
+               </div>
+               <div class="row mt-4"><div class="col">
+               <label class="form-label">${moimMemberDto.moimMemberLevel}</label>
+               </div></div>
+               <div class="row"><div class="col">
+               <label class="form-label">취소 카운트 : </label>               
+               <label class="form-label">${moimMemberDto.moimMemberCancelCount}</label>
+               </div></div>
+               <div class="row"><div class="col">
+               <label class="form-label">내 상태 : </label>               
+               <label class="form-label">${moimMemberDto.moimMemberStatus}</label>
+               </div></div>
+               <div class="row"><div class="col">
+               </div></div>
+               <div class="row"><div class="col">
+               </div></div>
+               <div class="row"><div class="col">
+<!--                <label class="form-label">참여 정모 내역 : </label>                -->
+<!--                <label class="form-label">그건이제생각을해보자</label> -->
+               </div></div>
+               </c:if>
+            </c:forEach>
+            </div>
    
             <nav id="sidebar" class="row">
                 <!-- Sidebar Content -->
                 <ul class="nav flex-column text-center box">
                     <li class="nav-item p-3 moim-member-list cursor">
-						<span class="text-primary fs-6 fw-bold">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
+                  <span class="text-primary fs-6 fw-bold">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
                     </li>
                     <li class="nav-item p-3">
                         <a href="/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold chat-link">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
                     </li>
                     <li class="nav-item p-3">
-						<a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
-						<i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
+                  <a href="board/list?moimNo=${moimDto.moimNo}"><span class="fs-6 fw-bold">모임 게시판</span>
+                  <i class="fa-solid fa-table-list" style="color: #6582e4;"></i></a>
                     </li>
                     <!-- 추가적인 메뉴 항목들을 필요에 따라 추가하세요 -->
                      <c:if test="${leagueList.size()>0}">
-                    	<li class="nav-item p-3 cursor league-list-btn cursor">
-                    		<span class="text-primary fs-6 fw-bold">참여중인 리그 <i class="fa-solid fa-ranking-star"></i></span>
-                    	</li>
+                       <li class="nav-item p-3 cursor league-list-btn cursor">
+                          <span class="text-primary fs-6 fw-bold">참여중인 리그 <i class="fa-solid fa-ranking-star"></i></span>
+                       </li>
                     </c:if>
                 </ul>
             </nav>
 
-				</div>
-				</div>
-			</div>
-			
-			
+            </div>
+            </div>
+         </div>
+         
+         
 <!-- 모달창 -->
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
@@ -446,55 +449,55 @@ data-backdrop="static" data-keyboard="false">
       <!-- 모임 수정내용 -->
       <div class="moim-edit-inputs" style="display: none;">
       <form id="appInsert" method="post" autocomplete="off">
-      	<input type="hidden" name="moimNo" value="${moimDto.moimNo}"  class="form-control">
-      	<input type="hidden" name="LocationNo" value="${moimDto.locationNo}"  class="form-control">
-      	<input type="hidden" name="eventNo" value="${moimDto.eventNo}"  class="form-control">
-      	<label class="form-label">모임명</label> 
-      	<input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}" class="form-control">
-      	<label class="form-label">모임소개</label> 
-      	<textarea rows="5" class="form-control" id="summernote" name="moimContent" data-original-value="${moimDto.moimContent}" >${moimDto.moimContent}</textarea>
-<%--       	<input type="text" name="moimContent" data-original-value="${moimDto.moimContent}" class="form-control"> --%>
-      	<label class="form-label">모임상태</label> 
-      	<select name="moimState" data-original-value="${moimDto.moimState}" class="form-select">
-      		<option>모집중</option>
-      		<option>마감</option>
-      	</select>
-      	<c:if test="${moimDto.moimGenderCheck == 'Y'}">
-      	<label class="form-check-label">여성전용모임해제</label>
-      	<input type="checkbox"  id="moimGenderCheck" 
-      	name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
-      	data-original-value="${moimDto.moimGenderCheck}" class="form-check-input`">
-      	</c:if>
+         <input type="hidden" name="moimNo" value="${moimDto.moimNo}"  class="form-control">
+         <input type="hidden" name="LocationNo" value="${moimDto.locationNo}"  class="form-control">
+         <input type="hidden" name="eventNo" value="${moimDto.eventNo}"  class="form-control">
+         <label class="form-label">모임명</label> 
+         <input type="text" name="moimTitle" data-original-value="${moimDto.moimTitle}" class="form-control">
+         <label class="form-label">모임소개</label> 
+         <textarea rows="5" class="form-control" id="summernote" name="moimContent" data-original-value="${moimDto.moimContent}" >${moimDto.moimContent}</textarea>
+<%--          <input type="text" name="moimContent" data-original-value="${moimDto.moimContent}" class="form-control"> --%>
+         <label class="form-label">모임상태</label> 
+         <select name="moimState" data-original-value="${moimDto.moimState}" class="form-select">
+            <option>모집중</option>
+            <option>마감</option>
+         </select>
+         <c:if test="${moimDto.moimGenderCheck == 'Y'}">
+         <label class="form-check-label">여성전용모임해제</label>
+         <input type="checkbox"  id="moimGenderCheck" 
+         name="moimGenderCheck" ${moimDto.moimGenderCheck == 'N' ? 'checked' : ''}
+         data-original-value="${moimDto.moimGenderCheck}" class="form-check-input`">
+         </c:if>
       </form>
       </div>
       
       <!-- 정모 등록/수정 내용 -->
       <div id="jungmoInsert" class="jungmo-create-inputs" style="display: none;">
-		<form id="jungmoInsertForm" autocomplete="off" enctype="multipart/form-data" >
-			<div class="preview-wrapper1"></div>
-			<input type="file" name="attach" accept="image/*" multiple id="attach-selector" class="form-control jungmo-create-inputs">
-			<input type="hidden" name="moimNo" value="${moimDto.moimNo}">
-			<input type="hidden" name="jungmoNo" value="">
-			<label class="form-label">정모명</label>
-			<input type="text" name="jungmoTitle" class="form-control jungmo-create-inputs"> 
-			<label class="form-label">장소</label>
-			<input type="text" name="jungmoAddr" class="form-control jungmo-create-inputs"> 
-			<label class="form-label">장소url</label>
-			<input type="text" name="jungmoAddrLink" class="form-control jungmo-create-inputs"> 
-			<label class="form-label">인원</label>
-			<input type="number" name="jungmoCapacity" class="form-control jungmo-create-inputs" min="0" max="${moimDto.moimMemberCount}"> 
-			<label class="form-label">참가비</label>
-			<input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs" min="0"> 
-			<label class="form-label jungmo-create-inputs">일정</label>
-			<input type="datetime-local" name="jungmoDto.jungmoScheduleStr" 
-			id="jungmoScheduleStr" 
-			class="from-control">
-		</form>
+      <form id="jungmoInsertForm" autocomplete="off" enctype="multipart/form-data" >
+         <div class="preview-wrapper1"></div>
+         <input type="file" name="attach" accept="image/*" multiple id="attach-selector" class="form-control jungmo-create-inputs">
+         <input type="hidden" name="moimNo" value="${moimDto.moimNo}">
+         <input type="hidden" name="jungmoNo" value="">
+         <label class="form-label">정모명</label>
+         <input type="text" name="jungmoTitle" class="form-control jungmo-create-inputs"> 
+         <label class="form-label">장소</label>
+         <input type="text" name="jungmoAddr" class="form-control jungmo-create-inputs"> 
+         <label class="form-label">장소url</label>
+         <input type="text" name="jungmoAddrLink" class="form-control jungmo-create-inputs"> 
+         <label class="form-label">인원</label>
+         <input type="number" name="jungmoCapacity" class="form-control jungmo-create-inputs" min="0"> 
+         <label class="form-label">참가비</label>
+         <input type="number" name="jungmoPrice" class="form-control jungmo-create-inputs" min="0"> 
+         <label class="form-label jungmo-create-inputs">일정</label>
+         <input type="datetime-local" name="jungmoDto.jungmoScheduleStr" 
+         id="jungmoScheduleStr" 
+         class="from-control">
+      </form>
       </div>
       
       
-	<!-- 회원 정보 내용 -->
-	<div class="moim-member-info" style="display: none;">
+   <!-- 회원 정보 내용 -->
+   <div class="moim-member-info" style="display: none;">
     </div>
  
     </div>
@@ -522,76 +525,76 @@ data-backdrop="static" data-keyboard="false">
       </div>
       <div class="modal-body">
             <!-- 모임멤버 -->
-    	<div class="row member-list" style="display:none;">
-			<c:forEach var="moimMemberDto" items="${memberList}">
-	        	<div class="image-container">
-		        <c:choose>
-				<c:when test="${moimMemberDto.attachNo != null}">
-				<img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
-				</c:when>
-				<c:otherwise>
-				<img class="member-profile rounded-circle bg-primary" src="/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
-				</c:otherwise>
-				</c:choose>
-				<c:if test="${moimMemberDto.moimMemberLevel == '모임장'}">
-				<i class="fa-solid fa-crown text-warning" ></i>
-				</c:if>
-				<label>${moimMemberDto.memberNick}
-				<c:if test="${sessionScope.name eq moimMemberDto.memberEmail}">
-		            <span class="badge p-1"><i class="fa-solid fa-seedling" style="color: #6582e4;"></i></span>
-		        </c:if>
-				</label>
-				
-				<c:if test="${sessionScope.name != moimMemberDto.memberEmail}" >
-			    <div class="popup-menu dropdown-menu moimjang-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
-			        <c:if test="${moimMemberDto.moimMemberStatus == '미승인'}">
-			        <a class="dropdown-item" 
-			        href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
-			        </c:if>
-			        <c:choose>
-			        <c:when test="${moimMemberDto.moimMemberStatus == '차단'}">
-			        <a class="dropdown-item" 
-			        href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >차단해제</a>
-			        </c:when>
-			        <c:otherwise>
-			        <a class="dropdown-item" 
-			        href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>			        
-			        </c:otherwise>
-			        </c:choose>
-			        <a class="dropdown-item" 
-			        href="memberTransfer?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">모임장권한넘기기</a>
-			        <a class="dropdown-item" 
-			        href="memberManager?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">매니저임명하기</a>
-			        <a class="dropdown-item" 
-			        data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
-			    </div>
-			    <div class="popup-menu dropdown-menu manager-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
-			        <c:if test="${moimMemberDto.moimMemberStatus == '미승인'}">
-			        <a class="dropdown-item" 
-			        href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
-			        </c:if>
-			        <a class="dropdown-item" 
-			        href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>
-			        <a class="dropdown-item" 
-			        data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
-			    </div>
-			    <div class="popup-menu dropdown-menu member-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
-			        <a class="dropdown-item" 
-			        data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
-			    </div>
-			    </c:if>
-			    </div>
+       <div class="row member-list" style="display:none;">
+         <c:forEach var="moimMemberDto" items="${memberList}">
+              <div class="image-container">
+              <c:choose>
+            <c:when test="${moimMemberDto.attachNo != null}">
+            <img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
+            </c:when>
+            <c:otherwise>
+            <img class="member-profile rounded-circle bg-primary" src="/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
+            </c:otherwise>
+            </c:choose>
+            <c:if test="${moimMemberDto.moimMemberLevel == '모임장'}">
+            <i class="fa-solid fa-crown text-warning" ></i>
+            </c:if>
+            <label>${moimMemberDto.memberNick}
+            <c:if test="${sessionScope.name eq moimMemberDto.memberEmail}">
+                  <span class="badge p-1"><i class="fa-solid fa-seedling" style="color: #6582e4;"></i></span>
+              </c:if>
+            </label>
+            
+            <c:if test="${sessionScope.name != moimMemberDto.memberEmail}" >
+             <div class="popup-menu dropdown-menu moimjang-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
+                 <c:if test="${moimMemberDto.moimMemberStatus == '미승인'}">
+                 <a class="dropdown-item" 
+                 href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
+                 </c:if>
+                 <c:choose>
+                 <c:when test="${moimMemberDto.moimMemberStatus == '차단'}">
+                 <a class="dropdown-item" 
+                 href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >차단해제</a>
+                 </c:when>
+                 <c:otherwise>
+                 <a class="dropdown-item" 
+                 href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>                 
+                 </c:otherwise>
+                 </c:choose>
+                 <a class="dropdown-item" 
+                 href="memberTransfer?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">모임장권한넘기기</a>
+                 <a class="dropdown-item" 
+                 href="memberManager?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">매니저임명하기</a>
+                 <a class="dropdown-item" 
+                 data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
+             </div>
+             <div class="popup-menu dropdown-menu manager-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
+                 <c:if test="${moimMemberDto.moimMemberStatus == '미승인'}">
+                 <a class="dropdown-item" 
+                 href="memberApproval?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}" >승인</a>
+                 </c:if>
+                 <a class="dropdown-item" 
+                 href="memberBlock?memberEmail=${moimMemberDto.memberEmail}&moimNo=${moimMemberDto.moimNo}">차단</a>
+                 <a class="dropdown-item" 
+                 data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
+             </div>
+             <div class="popup-menu dropdown-menu member-menu" id="menu-${moimMemberDto.memberEmail}" style="display:none;">
+                 <a class="dropdown-item" 
+                 data-target="menu-${moimMemberDto.memberEmail}" onclick="getMemberInfo('${moimMemberDto.memberEmail}')">회원상세페이지</a>
+             </div>
+             </c:if>
+             </div>
 
-		        <div class="member-block">
-		        <c:if test="${moimMemberDto.moimMemberStatus == '차단'}">
-		        	<label class="badge bg-secondary p-1">모임차단</label>
-		        </c:if>
-		        <c:if test="${moimMemberDto.memberBlock == 'Y'}">			        	
-		        	<span class="badge bg-danger p-1">차단회원</span>
-		        </c:if>
-				</div>
-			</c:forEach>
-		</div>
+              <div class="member-block">
+              <c:if test="${moimMemberDto.moimMemberStatus == '차단'}">
+                 <label class="badge bg-secondary p-1">모임차단</label>
+              </c:if>
+              <c:if test="${moimMemberDto.memberBlock == 'Y'}">                    
+                 <span class="badge bg-danger p-1">차단회원</span>
+              </c:if>
+            </div>
+         </c:forEach>
+      </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -629,169 +632,181 @@ data-backdrop="static" data-keyboard="false">
     <c:if test="${sessionScope.name != null}">
     <script>
     
-		var moimNo = "${moimDto.moimNo}";
-    	//좋아요 처리
-    	//[1] 페이지가 로드되면 비동기 통신으로 좋아요 상태를 체크하여 하트 생성
-    	//[2] 하트에 클릭 이벤트를 설정하여 좋아요 처리가 가능하도록 구현
-    	$(function(){
-//     		var params = new URLSearchParams(location.search);
-//     		var moimNo = params.get("moimNo");
-//     		console.log(moimNo)
+      var moimNo = "${moimDto.moimNo}";
+       
+       //좋아요 처리
+       //[1] 페이지가 로드되면 비동기 통신으로 좋아요 상태를 체크하여 하트 생성
+       //[2] 하트에 클릭 이벤트를 설정하여 좋아요 처리가 가능하도록 구현
+       $(function(){
+//           var params = new URLSearchParams(location.search);
+//           var moimNo = params.get("moimNo");
+//           console.log(moimNo)
 
-    		$.ajax({
-    			url:window.contextPath+"/rest/moim/likeCheck",
-    			method:"post",
-    			data:{moimNo : moimNo},
-    			success:function(response) {
-    				//response는 {"check":true, "count":0} 형태의 JSON이다
-    				if(response.check){
-    					$(".fa-heart").removeClass("fa-solid fa-regular")
-    										.addClass("fa-solid");		
-    				}
-    				else {
-    					$(".fa-heart").removeClass("fa-solid fa-regular").
-    										addClass("fa-regular");		
-    				}
-    				//전달받은 좋아요 개수를 하트 뒤의 span에 출력
-    				$(".fa-heart").next("span").text(response.count);
-    			}
-    		});
+          $.ajax({
+             url:window.contextPath+"/rest/moim/likeCheck",
+             method:"post",
+             data:{moimNo : moimNo},
+             success:function(response) {
+                //response는 {"check":true, "count":0} 형태의 JSON이다
+                if(response.check){
+                   $(".fa-heart").removeClass("fa-solid fa-regular")
+                                  .addClass("fa-solid");      
+                }
+                else {
+                   $(".fa-heart").removeClass("fa-solid fa-regular").
+                                  addClass("fa-regular");      
+                }
+                //전달받은 좋아요 개수를 하트 뒤의 span에 출력
+                $(".fa-heart").next("span").text(response.count);
+             }
+          });
 
-    		//[2]
-    		$(".fa-heart").click(function() {
-    			$.ajax({
-    				url:window.contextPath+"/rest/moim/likeAction",
-    				method:"post",
-    				data:{moimNo : moimNo},
-    				success:function(response) {
-    					if(response.check){
-    						$(".fa-heart").removeClass("fa-solid fa-regular")
-    											.addClass("fa-solid");		
-    					}
-    					else {
-    						$(".fa-heart").removeClass("fa-solid fa-regular").
-    											addClass("fa-regular");		
-    					}
-    					//전달받은 좋아요 개수를 하트 뒤의 span에 출력
-    					$(".fa-heart").next("span").text(response.count);
-    				}
-    			});
-    			
-    		});
-    	});
+          //[2]
+          $(".fa-heart").click(function() {
+             $.ajax({
+                url:window.contextPath+"/rest/moim/likeAction",
+                method:"post",
+                data:{moimNo : moimNo},
+                success:function(response) {
+                   if(response.check){
+                      $(".fa-heart").removeClass("fa-solid fa-regular")
+                                     .addClass("fa-solid");      
+                   }
+                   else {
+                      $(".fa-heart").removeClass("fa-solid fa-regular").
+                                     addClass("fa-regular");      
+                   }
+                   //전달받은 좋아요 개수를 하트 뒤의 span에 출력
+                   $(".fa-heart").next("span").text(response.count);
+                }
+             });
+             
+          });
+       });
     </script>
 
-    </c:if>	
-			
+    </c:if>   
+         
 <body>
-	<c:if test="${param.errorFlag != null}">
-	    <script>
-	    alert("인원이 꽉 찼습니다.");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
-	<c:if test="${param.errorFlag2 != null}">
-	    <script>
-	    alert("이미 참가한 정모입니다.");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
-	<c:if test="${param.block != null}">
-	    <script>
-	    alert("차단했습니다.");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
-	<c:if test="${param.approval != null}">
-	    <script>
-	    alert("수정 완료");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
-	<c:if test="${param.transfer != null}">
-	    <script>
-	    alert("모임장 권한 넘기기 완료");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
-	<c:if test="${param.exitError != null}">
-	    <script>
-	    alert("모임장 권한을 넘긴 후 탈퇴 가능합니다.");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
-	<c:if test="${param.manager != null}">
-	    <script>
-	    alert("매니저 임명 완료.");
-	    window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-	    </script>
-	</c:if>
+   <c:if test="${param.errorFlag != null}">
+       <script>
+       alert("인원이 꽉 찼습니다.");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
+   <c:if test="${param.errorFlag2 != null}">
+       <script>
+       alert("이미 참가한 정모입니다.");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
+   <c:if test="${param.block != null}">
+       <script>
+       alert("차단했습니다.");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
+   <c:if test="${param.approval != null}">
+       <script>
+       alert("수정 완료");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
+   <c:if test="${param.transfer != null}">
+       <script>
+       alert("모임장 권한 넘기기 완료");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
+   <c:if test="${param.exitError != null}">
+       <script>
+       alert("모임장 권한을 넘긴 후 탈퇴 가능합니다.");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
+   <c:if test="${param.manager != null}">
+       <script>
+       alert("매니저 임명 완료.");
+       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       </script>
+   </c:if>
 </body>
 
 <script>
 
-// 	$(document).ready(function () {
-// 	    loadJungmoList();
-// 	});
-	    // 클라이언트 측에서 errorFlag를 확인하여 alert를 띄웁니다.
-	    
-	var moimNo = "${moimDto.moimNo}";
-	$(".profile-chooser").change(function(){
+//    $(document).ready(function () {
+//        loadJungmoList();
+//    });
+       // 클라이언트 측에서 errorFlag를 확인하여 alert를 띄웁니다.
+       
+   var moimNo = "${moimDto.moimNo}";
+   var moimMemberCount = ${moimDto.moimMemberCount};
+   
+   $("[name=jungmoCapacity]").change(function(){
+	   var input = $(this).val();
+	   var maxVal = moimMemberCount;
+	   
+	   if(input > maxVal) {
+		   $(this).val(maxVal);
+	   }
+   });
+   
+   $(".profile-chooser").change(function(){
 
-		var input = this;
-		if(input.files.length == 0) return;
-		
-		//ajax로 multipart 업로드
-		var form = new FormData();
-		form.append("attach", input.files[0]);
-		form.append("moimNo", moimNo);
-		//만일 정모이미지를 변경한다면?
-// 		form.append("jungmoNo", jungmoNo);
-		
-		$.ajax({
-			url:window.contextPath+"/rest/attach/upload",
-			method:"post",
-			processData:false,
-			contentType:false,
-			data:form,
-			success:function(response){
-				//응답 형태 - { "attachNo" : 7 }
-				//프로필 이미지 교체
-				$(".profile-image").attr("src", 
-					"/rest/attach/download?attachNo="+response.attachNo);
-			},
-			error:function(){
-				window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
-			},
-		});
-		
-	});
-	//삭제아이콘을 누르면 프로필이 제거되도록 구현
-	$(".profile-delete").click(function() {
-		//확인창
-		var choice = window.confirm("정말 프로필을 지우시겠습니까?");
-		if(choice == false) return;
-		
-		//삭제요청
-		$.ajax({
-			url:window.contextPath+"/rest/attach/delete",
-			method:"post",
-			data:{moimNo: moimNo},
-			success:function(response){
-				$(".profile-image").attr("src", "/images/add-moim-image.png");
-			},
-		});
-	});
-	
-	$("#moimGenderCheck").on("change", function() {
-	    // 체크박스가 체크되어 있다면 'N', 체크되어 있지 않다면 'Y' 값을 설정
-		if (this.checked) {
-			this.value = 'N';
-			alert("여성모임을 해제하면 다시 변경이 어렵습니다.");
+      var input = this;
+      if(input.files.length == 0) return;
+      
+      //ajax로 multipart 업로드
+      var form = new FormData();
+      form.append("attach", input.files[0]);
+      form.append("moimNo", moimNo);
+      //만일 정모이미지를 변경한다면?
+//       form.append("jungmoNo", jungmoNo);
+      
+      $.ajax({
+         url:window.contextPath+"/rest/attach/upload",
+         method:"post",
+         processData:false,
+         contentType:false,
+         data:form,
+         success:function(response){
+            //응답 형태 - { "attachNo" : 7 }
+            //프로필 이미지 교체
+            $(".profile-image").attr("src", 
+               "/rest/attach/download?attachNo="+response.attachNo);
+         },
+         error:function(){
+            window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
+         },
+      });
+      
+   });
+   //삭제아이콘을 누르면 프로필이 제거되도록 구현
+   $(".profile-delete").click(function() {
+      //확인창
+      var choice = window.confirm("정말 프로필을 지우시겠습니까?");
+      if(choice == false) return;
+      
+      //삭제요청
+      $.ajax({
+         url:window.contextPath+"/rest/attach/delete",
+         method:"post",
+         data:{moimNo: moimNo},
+         success:function(response){
+            $(".profile-image").attr("src", "/images/add-moim-image.png");
+         },
+      });
+   });
+   
+   $("#moimGenderCheck").on("change", function() {
+       // 체크박스가 체크되어 있다면 'N', 체크되어 있지 않다면 'Y' 값을 설정
+      if (this.checked) {
+         this.value = 'N';
+         alert("여성모임을 해제하면 다시 변경이 어렵습니다.");
         } else {
             this.checked = true; // 체크를 해제하지 못하게 함
         }
-	});
+   });
 
 //     $(".gender-check").click(function(){
 //         // 여성전용을 나타내는 span이 클릭되면
@@ -804,10 +819,10 @@ data-backdrop="static" data-keyboard="false">
 
 //         // AJAX를 사용하여 서버로 데이터 전송
 //         //모임번호랑, 체크여부를 보내면 될 듯 Y면 여성전용 해제..인걸로!
-// 		var vo = {
-// 			moimGenderCheck: valueToSend,
-// 			moimNo: moimNoValue
-// 		};
+//       var vo = {
+//          moimGenderCheck: valueToSend,
+//          moimNo: moimNoValue
+//       };
         
 //         $.ajax({
 //             url: "http://localhost:8080/rest/moim/genderCheck",
@@ -815,27 +830,27 @@ data-backdrop="static" data-keyboard="false">
 //             data: vo,
 //             success: function (response) {
 //                 if(response == success) {
-//                 	$("[name=moimGenderCheck]").hide();                	
+//                    $("[name=moimGenderCheck]").hide();                   
 //                 }
 //             },
 //         });
 //     });
     var Modal = new bootstrap.Modal(document.getElementById('applicationModal'));
     var Modal3 = new bootstrap.Modal(document.getElementById('modal3'));
-	 
+    
     $("#appBtn").click(function(){
 
-		 var formData = $("#appInsert").serialize();
+       var formData = $("#appInsert").serialize();
 
-		 $.ajax({
+       $.ajax({
                url: window.contextPath+"/rest/moim/infoChange",
                type: "POST",
                data: formData,
                success: function (data) {
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
-             	    alert("변경완료");
-                	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                    alert("변경완료");
+                   window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
                },
                error: function (error) {
                    // 오류 발생 시 동작 수행
@@ -859,18 +874,18 @@ data-backdrop="static" data-keyboard="false">
             return;
         }
         
-    	
-    	var formData = new FormData(document.getElementById("jungmoInsertForm"));
-//     	var isCreate = !$("input[name='attach']").val();
-// 	    var isCreate = $("input[name='attach']").val();
-	
-// 	    // 조건에 따라 필요한 처리를 수행합니다.
-// 	    if (isCreate) {
-//     		// create 작업일 경우
-		    formData.delete("jungmoNo");  // jungmoNo를 제거합니다.
-// 		}
+       
+       var formData = new FormData(document.getElementById("jungmoInsertForm"));
+//        var isCreate = !$("input[name='attach']").val();
+//        var isCreate = $("input[name='attach']").val();
+   
+//        // 조건에 따라 필요한 처리를 수행합니다.
+//        if (isCreate) {
+//           // create 작업일 경우
+          formData.delete("jungmoNo");  // jungmoNo를 제거합니다.
+//       }
 
-		 $.ajax({
+       $.ajax({
                url:window.contextPath+"/rest/moim/jungmo/create",
                type: "POST",
                data: formData,
@@ -879,8 +894,8 @@ data-backdrop="static" data-keyboard="false">
                success: function (data) {
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
-             	    alert("등록완료");
-                	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                    alert("등록완료");
+                   window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
                },
                error: function (error) {
                    // 오류 발생 시 동작 수행
@@ -910,11 +925,11 @@ data-backdrop="static" data-keyboard="false">
             confirm('최소 오늘부터 최대 한 달 후까지만 입력 가능합니다.');
             return;
         }
-    	
-    	
-    	var formData = new FormData(document.getElementById("jungmoInsertForm"));
-    	
-		 $.ajax({
+       
+       
+       var formData = new FormData(document.getElementById("jungmoInsertForm"));
+       
+       $.ajax({
                url: window.contextPath+"/rest/moim/jungmo/edit",
                type: "POST",
                data: formData,
@@ -923,10 +938,10 @@ data-backdrop="static" data-keyboard="false">
                success: function (data) {
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
-             	    alert("수정완료");
-                	window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
-                	
-                	
+                    alert("수정완료");
+                   window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                   
+                   
                },
                error: function (error) {
                    // 오류 발생 시 동작 수행
@@ -984,8 +999,8 @@ data-backdrop="static" data-keyboard="false">
      });
     
     $("[name=jungmoAddrLink]").blur(function(){
-    	var inputText = $(this).val();
-    	var Regex = /^(.*?)(map.kakao|map.naver|kko|naver)(.*?)$/;
+       var inputText = $(this).val();
+       var Regex = /^(.*?)(map.kakao|map.naver|kko|naver)(.*?)$/;
         if (!Regex.test(inputText)) {
             alert("올바른 형식이 아닙니다.");
             // 또는 다른 원하는 처리를 수행할 수 있습니다.
@@ -993,7 +1008,7 @@ data-backdrop="static" data-keyboard="false">
     });
     
 
-	//모달창으로 모임 수정
+   //모달창으로 모임 수정
     $(".moim-edit").click(function(){
         // 모든 input, select, checkbox 필드에 대해 초기화
         $("#appInsert input:not([type='hidden']), #appInsert select").each(function () {
@@ -1011,59 +1026,59 @@ data-backdrop="static" data-keyboard="false">
             $(this).val(originalValue);
           }
         });
-    	
+       
 //         $("#applicationModal").modal("show");
-		Modal.show();
+      Modal.show();
     });
 
     // 등록 버튼 클릭 시 모달 닫기
     $("#appBtn").click(function(){
 //         $("#applicationModal").modal("hide");
-		Modal.hide;
-		
+      Modal.hide;
+      
     });
     
     //모임수정버튼 눌렀을 때 모달창 띄우고 나머지 숨김
     $('.moim-edit').click(function () {
-    	$("#applicationModal").modal("show");
+       $("#applicationModal").modal("show");
         $('.moim-edit-inputs').show();
         $('.jungmo-create-inputs').hide();
-		$('#appBtn').show();
-		$('#jungmoEditBtn').hide();
-		$('#jungmoInsertBtn').hide();
+      $('#appBtn').show();
+      $('#jungmoEditBtn').hide();
+      $('#jungmoInsertBtn').hide();
         $('.modal-title').text('모임수정'); // 버튼 텍스트를 '수정'으로 변경
       });
     //정모등록버튼 눌렀을 때 
     $('.jungmo-create').click(function () {
-    	$('.jungmo-create-inputs input[type!="hidden"]').val('');
-    	$('.jungmo-create-inputs input[type ="file"]').val('');
-    	$("#applicationModal").modal("show");
+       $('.jungmo-create-inputs input[type!="hidden"]').val('');
+       $('.jungmo-create-inputs input[type ="file"]').val('');
+       $("#applicationModal").modal("show");
         $('.moim-edit-inputs').hide();
         $('.jungmo-create-inputs').show();
-		$('#jungmoInsertBtn').show();
-		$('#appBtn').hide();
-		$('#jungmoEditBtn').hide();
+      $('#jungmoInsertBtn').show();
+      $('#appBtn').hide();
+      $('#jungmoEditBtn').hide();
         $('.modal-title').text('정모등록'); // 버튼 텍스트를 '수정'으로 변경
       });
     
     //정모수정버튼 눌렀을 때
     $('.jungmo-edit').click(function () {
-    	$(".preview-wrapper1").empty();
-    	$("#applicationModal").modal("show");
+       $(".preview-wrapper1").empty();
+       $("#applicationModal").modal("show");
         $('.moim-edit-inputs').hide();
         $('.jungmo-create-inputs').show();
         $('#jungmoEditBtn').show();
-		$('#appBtn').hide();
-		$('#jungmoInsertBtn').hide();
+      $('#appBtn').hide();
+      $('#jungmoInsertBtn').hide();
         $('.modal-title').text('정모수정'); // 버튼 텍스트를 '수정'으로 변경
       });
 
     //사진 미리보기
     $(function(){
         $("#attach-selector").change(function(){
-        	 $(".preview-wrapper1").empty();
-        	
-        	 if(this.files.length == 0) {
+            $(".preview-wrapper1").empty();
+           
+            if(this.files.length == 0) {
                 //초기화
                 return;
             }
@@ -1086,26 +1101,26 @@ data-backdrop="static" data-keyboard="false">
     
     //모임이 비활성화 일 때 화면 막기
     if (${moimDto.moimState == '비활성화'}) {
-    	Modal2.show();
+       Modal2.show();
     $(document).on('click', '.modal', function(e){
-    	if(e.target !== this) return; //모달 내부를 클릭한 경우에는 닫히지 않도록 함
-    	Modal2.show();
+       if(e.target !== this) return; //모달 내부를 클릭한 경우에는 닫히지 않도록 함
+       Modal2.show();
     });
     }    
     
     $(document).on('keydown', function(e) {
         if (e.which === 27) { // 27은 ESC 키 코드
             if (${moimDto.moimState == '비활성화'}) {
-            	Modal2.show();
+               Modal2.show();
             }    
         }
       });
     
     
     function getMemberInfo(memberEmail) {
-    	
-    	$('#applicationModal .moim-member-info').empty();
-    	
+       
+       $('#applicationModal .moim-member-info').empty();
+       
         $.ajax({
             url: window.contextPath+"/rest/moim/member/info", 
             type: 'GET',
@@ -1122,7 +1137,7 @@ data-backdrop="static" data-keyboard="false">
                 var rowDiv = $('<div>').addClass('row');
                 var col1Div = $('<div>').addClass('col-6');
                 var col2Div = $('<div>').addClass('col-6  outline rounded mt-4');
-				
+            
                 // 프로필 이미지 추가
                 if (response.attachNo !== null) {
                     var profileImage = $('<img>')
@@ -1191,7 +1206,7 @@ data-backdrop="static" data-keyboard="false">
     
  // fa-bars를 클릭하면 Ajax 요청을 보냄
     $('#barToggleMenu').click(function(e) {
-    	
+       
 //         e.stopPropagation(); // 이벤트 전파 방지
         var menu = $(this).next('.bar-popup-menu');
         menu.toggle().css({
@@ -1205,8 +1220,8 @@ data-backdrop="static" data-keyboard="false">
             url: window.contextPath+"/rest/moim/moimjang/check", 
             type: 'POST', 
             data: { 
-            	memberEmail: '${sessionScope.name}',
-            	moimNo : moimNo	
+               memberEmail: '${sessionScope.name}',
+               moimNo : moimNo   
             },
             success: function(response) {
                 // 서버 응답에 따라 팝업 메뉴를 보여줌
@@ -1227,7 +1242,7 @@ data-backdrop="static" data-keyboard="false">
  
     
     $('.edit-mode').click(function(e) {
-    	e.stopPropagation();
+       e.stopPropagation();
         $('.jungmo-create, .moim-edit, .jungmo-edit, .fa-image, .profile-delete, .jungmo-cancel').show();
     });
 
@@ -1243,19 +1258,19 @@ data-backdrop="static" data-keyboard="false">
         // 여기에 moim-member-list를 보여주는 코드를 추가하세요
         $('.list-modal-title').text('모임멤버');
 
-	    // 모달 폭 조절
-	    $('#modal3 .modal-dialog').removeClass('modal-lg').addClass('modal-sm');
-	
-	    // 모달 위치 이동 (옵션)
-	    $('#modal3').css('left', '30em'); // 원하는 위치로 수정
+       // 모달 폭 조절
+       $('#modal3 .modal-dialog').removeClass('modal-lg').addClass('modal-sm');
+   
+       // 모달 위치 이동 (옵션)
+       $('#modal3').css('left', '30em'); // 원하는 위치로 수정
         
-       	Modal3.show();
+          Modal3.show();
 //         Modal.show();
 //         $('.moim-edit-inputs').hide();
 //         $('.jungmo-create-inputs').hide();
 //         $('#jungmoEditBtn').hide();
-// 		$('#appBtn').hide();
-// 		$('#jungmoInsertBtn').hide();
+//       $('#appBtn').hide();
+//       $('#jungmoInsertBtn').hide();
         $('.member-list').show();
         
         $('.modal-overlay, .btn-close, .btn-secondary').on('click', function () {
@@ -1265,26 +1280,26 @@ data-backdrop="static" data-keyboard="false">
         
     });
     
-	$('#modal3').draggable({
-	    handle: ".modal-header"
-	});
-	     
-	$('.exit-btn').click(function(e) {
-	    // 기본 동작 중단 (링크 이동 방지)
-	    e.preventDefault();
-	
-	    // 확인창 띄우기
-	    var confirmation = confirm("진짜로 탈퇴하시겠습니까?");
-	
-	    if (confirmation) {
-	        // 확인을 누르면 링크 이동
-	        window.location.href = this.href;
-	    } else {
-	        // 취소를 누르면 아무런 동작 없음
-	    }
-	});
-	
-	////////////////////////////////
+   $('#modal3').draggable({
+       handle: ".modal-header"
+   });
+        
+   $('.exit-btn').click(function(e) {
+       // 기본 동작 중단 (링크 이동 방지)
+       e.preventDefault();
+   
+       // 확인창 띄우기
+       var confirmation = confirm("진짜로 탈퇴하시겠습니까?");
+   
+       if (confirmation) {
+           // 확인을 누르면 링크 이동
+           window.location.href = this.href;
+       } else {
+           // 취소를 누르면 아무런 동작 없음
+       }
+   });
+   
+   ////////////////////////////////
 
     
     $('.image-container').click(function() {
@@ -1296,12 +1311,12 @@ data-backdrop="static" data-keyboard="false">
         // @ 기호만 인코딩 처리
         return selector.replace(/@/g, "%40");
     }
-	
+   
 //     $('.member-profile').click(function(e) {
 //         // 클릭한 이미지의 data-target 값을 가져옴
 //         var targetId = $(this).data('target');
 //         var escapedId = '#' + CSS.escape(targetId);
-// // 		var targetId = $(this).attr('data-target');
+// //       var targetId = $(this).attr('data-target');
 //         // 클릭한 이미지와 연결된 메뉴만 표시
 // //         $('.popup-menu').hide();
 //         $('.moimjang-menu').not(escapedId).hide();
@@ -1312,8 +1327,8 @@ data-backdrop="static" data-keyboard="false">
 //             url: window.contextPath+"/rest/moim/moimjang/check", 
 //             type: 'POST', 
 //             data: { 
-//             	memberEmail: '${sessionScope.name}',
-//             	moimNo : moimNo	
+//                memberEmail: '${sessionScope.name}',
+//                moimNo : moimNo   
 //             },
 //             success: function(response) {
 //                 // 서버 응답에 따라 팝업 메뉴를 보여줌
@@ -1355,7 +1370,7 @@ data-backdrop="static" data-keyboard="false">
             type: 'POST', 
             data: { 
                 memberEmail: '${sessionScope.name}',
-                moimNo : moimNo	
+                moimNo : moimNo   
             },
             success: function(response) {
                 // 서버 응답에 따라 팝업 메뉴를 보여줌
@@ -1372,7 +1387,7 @@ data-backdrop="static" data-keyboard="false">
                     $('.moimjang-menu').hide();
                     $('.member-menu').hide();
                     $('.manager-menu', memberMenu).toggle();
-                	
+                   
                 }
             },
             error: function() {
@@ -1387,29 +1402,29 @@ data-backdrop="static" data-keyboard="false">
         // 모든 메뉴 숨김
         $('.popup-menu').hide();
     });
-	
+   
     var maxLength = 4000;
-	$("[name=moimContent]").summernote({
-	  	tabsize: 2,
-		height: 240,
-		fontNames: ['NotoSansKR'],
+   $("[name=moimContent]").summernote({
+        tabsize: 2,
+      height: 240,
+      fontNames: ['NotoSansKR'],
         fontNamesIgnoreCheck: ['NotoSansKR'],
-	    toolbar: [
-	          ['style', ['style']],
-	          ['font', ['bold', 'underline', 'clear']],
-	          ['color', ['color']],
-	          ['para', ['ul', 'ol', 'paragraph']],
-	          ['table', ['table']],
-	          ['insert', ['link']],
-	          ['view', ['codeview', 'help']]
-	        ],
-	        callbacks: {
-	        	onPaste: function (e) {
-	                // 붙여넣기 이벤트에서 태그 제거
-	                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-	                e.preventDefault();
-	                document.execCommand('insertText', false, bufferText);
-	            },
+       toolbar: [
+             ['style', ['style']],
+             ['font', ['bold', 'underline', 'clear']],
+             ['color', ['color']],
+             ['para', ['ul', 'ol', 'paragraph']],
+             ['table', ['table']],
+             ['insert', ['link']],
+             ['view', ['codeview', 'help']]
+           ],
+           callbacks: {
+              onPaste: function (e) {
+                   // 붙여넣기 이벤트에서 태그 제거
+                   var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                   e.preventDefault();
+                   document.execCommand('insertText', false, bufferText);
+               },
                 onKeyup: function(e) {
                     // 썸머노트의 내용을 가져오는 함수
                     function getSummernoteContent() {
@@ -1435,75 +1450,47 @@ data-backdrop="static" data-keyboard="false">
                         $('[name=moimContent]').summernote('code', truncatedContent);
                     }
                 }
-	        }
-	  });
-	
-    $(document).on('click', '.chat-link', function(e) {
-        e.preventDefault(); // 기본 링크 동작 방지
-		console.log("실행");
-        // href 속성에서 채팅방 번호 추출
-        var chatRoomNo = $(this).attr('href').split('/').pop();
-
-        // Ajax 요청 보내기
-		$.ajax({
-		        	url: window.contextPath+"/rest/moim/moimjang/check", 
-		            method: 'POST', // 또는 'GET' 등 원하는 HTTP 메서드 설정
-		            data: { chatRoomNo: chatRoomNo },
-		            success: function(response) {
-		                if (response === 'Y') {
-		                    // Y인 경우 해당 링크로 리다이렉트
-		                    window.location.href = '/default/' + chatRoomNo;
-		                } else if (response === 'N') {
-		                    // N인 경우 알림창을 띄우고 동작 차단
-		                    alert("잘못된 접근입니다."");
-		                }
-		            },
-		            error: function(error) {
-		                // Ajax 요청이 실패한 경우 처리
-		                console.error(error);
-		                alert("통신 오류 발생 잠시 후 다시 시도해주세요.");
-		            }
-		        });
-		    });
-	
-	
+           }
+     });
+   
+   
     $(".league-list-btn").click(function(e){
-    	var moimNo = ${moimDto.moimNo};
+       var moimNo = ${moimDto.moimNo};
 
-    	$.ajax({
-    		method:"post",
-    		data:{moimNo: moimNo},
-    		url:window.contextPath + "/rest/league/listLeagueByMoimNo",
-    		success:function(response){
-    			var leagueList = response;
-    			
-				var modalContent="";    	
-				
+       $.ajax({
+          method:"post",
+          data:{moimNo: moimNo},
+          url:window.contextPath + "/rest/league/listLeagueByMoimNo",
+          success:function(response){
+             var leagueList = response;
+             
+            var modalContent="";       
+            
                 for (var i = 0; i < leagueList.length; i++) {
-                	modalContent += '<div class="card border-primary m-3">';
-                	modalContent += '<div class="card-header">' + '리그번호 : '+ leagueList[i].leagueNo + '</div>';
+                   modalContent += '<div class="card border-primary m-3">';
+                   modalContent += '<div class="card-header">' + '리그번호 : '+ leagueList[i].leagueNo + '</div>';
                     modalContent += '<div class="card-body text-center mt-1">';
                     modalContent += '<h4 class="card-title"><a href="${pageContext.request.contextPath}/league/leagueDetail?leagueNo=' 
-                    				+ leagueList[i].leagueNo + '">' + leagueList[i].leagueTitle +'</a></h4>';
+                                + leagueList[i].leagueNo + '">' + leagueList[i].leagueTitle +'</a></h4>';
                     
                     modalContent += '<p class="card-text mt-2">리그상태 : ' + leagueList[i].leagueStatus + '</p>';
-                   	modalContent += '</div></div>';
+                      modalContent += '</div></div>';
                     console.log(modalContent);
                 }
-    			
+             
                 $('#leagueList .modal-body').empty().append(modalContent);
                 
                 $("#leagueList").modal("show");
-    			
-    		
-    		},
-    		error:function(err){
-    			alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.")
-    		},
-    	})
-    	
-    	
-    	
+             
+          
+          },
+          error:function(err){
+             alert("오류가 발생했습니다. 잠시후 다시 시도해주세요.")
+          },
+       })
+       
+       
+       
     });
     
     $('.leagueListClose').click(function(){
