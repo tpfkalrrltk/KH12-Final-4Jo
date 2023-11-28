@@ -35,6 +35,7 @@
 		</div>
 
 
+<c:if test="${sessionScope.level =='관리자'}">
 		<div class="row">
 
 			<div
@@ -47,7 +48,7 @@
 
 
 		</div>
-
+</c:if>	
 
 
 		<table class="table table-hover row">

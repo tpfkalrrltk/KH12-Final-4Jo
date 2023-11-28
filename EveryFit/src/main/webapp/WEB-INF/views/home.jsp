@@ -5,9 +5,6 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 
 
-<%@ include file="template/adminHeader.jsp"%>
-
-<%--
 <c:choose>
 	<c:when test="${sessionScope.level =='관리자' }">
 		<%@ include file="template/adminHeader.jsp"%>
@@ -16,7 +13,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 		<%@ include file="template/Header.jsp"%>
 	</c:otherwise>
 </c:choose> 
---%>
+
 
 
 

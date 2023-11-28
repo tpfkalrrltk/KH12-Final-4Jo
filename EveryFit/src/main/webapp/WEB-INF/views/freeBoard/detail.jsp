@@ -275,6 +275,8 @@ placeholder="수정 내용을 적어주세요">
 		</div>
 
 
+<c:if test="${sessionScope.name ==freeBoardDto.memberEmail}">
+
 		<div class="row">
 
 			<div class="col-1 offset-9">
@@ -296,6 +298,7 @@ placeholder="수정 내용을 적어주세요">
 			</div>
 		</div>
 	</div>
+</c:if>
 
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
@@ -353,10 +356,10 @@ placeholder="수정 내용을 적어주세요">
 			</table>
 
 			<div class="row  ps-2 ms-2">
-				<div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light"
+				<div class="col-4 offset-4 p-3 m-4 bg-primary rounded-3  text-light"
 					style="height: 100px">
 
-					<h1 class="display-5 fw-bold ms-4">Comment</h1>
+					<h1 class=" fw-bold ms-4 col-6">Comment</h1>
 				</div>
 			</div>
 
