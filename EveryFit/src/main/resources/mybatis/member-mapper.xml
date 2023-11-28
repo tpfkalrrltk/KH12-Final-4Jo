@@ -109,8 +109,7 @@
 
 	<!-- location 전체조회 -->
 	<select id="locationList" resultType="LocationDto">
-		select * from location
-		order by location_no asc
+		SELECT DISTINCT location_depth1 from location order by location_depth1 asc
 	</select>
 
 	<!-- location 시/도 목록 조회 -->
