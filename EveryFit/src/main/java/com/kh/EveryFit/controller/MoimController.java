@@ -392,6 +392,7 @@ public class MoimController {
 	        return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 		}
 		
+		chatDao.addChatMember(jungmoDto.getChatRoomNo(), memberEmail);
 		return "redirect:/moim/detail?moimNo=" + jungmoDto.getMoimNo();
 	}
 	
