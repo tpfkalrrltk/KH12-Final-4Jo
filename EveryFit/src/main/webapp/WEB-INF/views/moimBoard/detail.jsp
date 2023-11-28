@@ -274,8 +274,9 @@ placeholder="수정 내용을 적어주세요">
 				class="text-end btn-light fw-bold  p-4 "> 목록으로 돌아가기 </a>
 		</div>
 
-		<div class="row">
+<c:if test="${sessionScope.name ==moimBoardDto.memberEmail}">
 
+		<div class="row">
 			<div class="col-1 offset-9">
 				<a href="edit?moimBoardNo=${moimBoardDto.moimBoardNo}"
 					class="text-light" style="text-decoration: none">
@@ -295,6 +296,7 @@ placeholder="수정 내용을 적어주세요">
 
 		</div>
 	</div>
+</c:if >
 
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
@@ -340,10 +342,10 @@ placeholder="수정 내용을 적어주세요">
 
 
 			<div class="row  ps-2 ms-2">
-				<div class="col-3 offset-4 p-3 m-4 bg-primary rounded-3  text-light"
+				<div class="col-5 offset-4 p-3 m-4 bg-primary rounded-3  text-light"
 					style="height: 100px">
 
-					<h1 class="display-5 fw-bold ms-4">Comment</h1>
+					<h1 class=" fw-bold ms-4 col-3 col-lg-5  col-sm-3">Comment</h1>
 				</div>
 			</div>
 
