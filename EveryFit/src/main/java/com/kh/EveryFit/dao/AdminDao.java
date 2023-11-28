@@ -79,4 +79,6 @@ public interface AdminDao {
 	Integer findReportImage(Integer reportNo);
 
 	void deleteReportImage(int reportNo);
+
+	List<MoimDto> myMoimList(String memberEmail);
 }
