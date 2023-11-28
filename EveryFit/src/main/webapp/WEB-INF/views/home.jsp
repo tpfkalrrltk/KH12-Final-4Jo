@@ -7,10 +7,10 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 <c:choose>
 	<c:when test="${sessionScope.level =='관리자' }">
-		<%@ include file="template/adminHeader.jsp"%>
+		<%@ include file="/WEB-INF/views/template/adminHeader.jsp"%>
 	</c:when>
 	<c:otherwise>
-		<%@ include file="template/Header.jsp"%>
+		<%@ include file="/WEB-INF/views/template/Header.jsp"%>
 	</c:otherwise>
 </c:choose>
 
@@ -654,4 +654,4 @@ body {
 
 
 
-<%@ include file="template/Footer.jsp"%>
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

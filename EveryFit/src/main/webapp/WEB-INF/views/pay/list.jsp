@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../template/Header.jsp"%>
+<%@ include file="/WEB-INF/views/template/Header.jsp"%>
 <style>
   .ataglink {
     display: inline-block;
@@ -131,4 +131,4 @@ console.log(confirmMessage);
     });
   </c:if>
 </script>
-<%@ include file="../template/Footer.jsp"%>
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

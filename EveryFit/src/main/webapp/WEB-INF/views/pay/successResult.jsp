@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="../template/Header.jsp"%>
+<%@ include file="/WEB-INF/views/template/Header.jsp"%>
 <div class="row">
 <div class="col">
 <h1 class="text-center">결제가 완료되었습니다 <br>
@@ -11,4 +11,4 @@
 
 </div>
 </div>
-<%@ include file="../template/Footer.jsp"%>
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>
