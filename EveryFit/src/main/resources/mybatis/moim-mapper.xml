@@ -191,15 +191,36 @@
 	</insert>
 	
 	<!-- 모임 가입할 때 멤버 등록 -->
+<!-- 	<insert id="insertMoimMember"> -->
+<!-- 	        insert into moim_member( -->
+<!-- 	        	moim_no,  -->
+<!-- 	        	member_email,  -->
+<!-- 	        	moim_member_level, -->
+<!-- 	        	moim_member_status -->
+<!-- 	        	) -->
+<!-- 	        values(#{moimNo}, #{memberEmail}, '일반', #{moimMemberStatus}) -->
+<!-- 	</insert> -->
+	
 	<insert id="insertMoimMember">
-	        insert into moim_member(
-	        	moim_no, 
-	        	member_email, 
-	        	moim_member_level,
-	        	moim_member_status
-	        	)
-	        values(#{moimNo}, #{memberEmail}, '일반', #{moimMemberStatus})
-	</insert>
+    insert into moim_member(
+        moim_no, 
+        member_email, 
+        moim_member_level,
+        moim_member_status
+    )
+    values(
+        #{moimNo}, 
+        #{memberEmail}, 
+        '일반',
+        <if test="moimMemberStatus != null">
+            #{moimMemberStatus}
+        </if>
+        <if test="moimMemberStatus == null">
+            '승인'
+        </if>
+    )
+</insert>
+	
 	<!-- 회원이 모임 등록할 때 이미 등록되어있는지 조회하기 -->
 	<!-- 
 		회원이 모임 등록할 때 회원등급을 조회해서 

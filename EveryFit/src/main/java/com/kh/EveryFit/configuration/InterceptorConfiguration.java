@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //import com.kh.EveryFit.interceptor.AdminOwnerInterceptor;
 import com.kh.EveryFit.interceptor.MemberBlockInterceptor;
 import com.kh.EveryFit.interceptor.MemberInterceptor;
+import com.kh.EveryFit.interceptor.WebSocketServerInterceptor;
 
 
 @Configuration
@@ -17,6 +18,9 @@ MemberInterceptor memberInterceptor;
 
 @Autowired
 MemberBlockInterceptor memberBlockInterceptor;
+
+@Autowired
+WebSocketServerInterceptor webSocketServerInterceptor;
 
 //@Autowired
 //AdminOwnerInterceptor adminOwnerInterceptor;
@@ -85,6 +89,8 @@ MemberBlockInterceptor memberBlockInterceptor;
 //	"/league/leagueInsert",
 //	"/league/leagueEdit"
 	//리그는 이거 관리자 이거 두개만 막으면 돼요
+	
+	registry.addInterceptor(webSocketServerInterceptor).order(1).addPathPatterns("/default/**");
 }
 }
 
