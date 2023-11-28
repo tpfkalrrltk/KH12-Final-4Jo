@@ -350,11 +350,13 @@ body {
 
 									<a class="btn btn-primary btn-md fw-bold New-btn btn-join">Join</a>
 
+
 								</div>
 							</div>
 							
 							<!-- Start a new row after every 3rd product -->
 							<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+
 						</div>
 						<div class="row contaner-fluid  auto-width m-5">
 		</c:if>
@@ -439,9 +441,14 @@ body {
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-					<div class="row contaner-fluid  auto-width m-5">
-				</c:if>
+
+		<div class="row contaner-fluid  auto-width m-5">
+
+			</c:if>
 			</c:forEach>
+
+		</div>
+
 
 		</div>
 </div>

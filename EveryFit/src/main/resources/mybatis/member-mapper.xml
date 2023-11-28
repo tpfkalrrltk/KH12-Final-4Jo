@@ -109,8 +109,7 @@
 
 	<!-- location 전체조회 -->
 	<select id="locationList" resultType="LocationDto">
-		select * from location
-		order by location_no asc
+		SELECT DISTINCT location_depth1 from location order by location_depth1 asc
 	</select>
 
 	<!-- location 시/도 목록 조회 -->
@@ -130,7 +129,7 @@
 	<!-- event 목록 조회 -->
 	<select id="eventList" resultType="EventDto">
 		select * from event order by
-		event_no asc
+		event_name asc
 	</select>
 	<!-- event 상세 조회 -->
 	<select id="eventFind" resultType="EventDto">
@@ -188,4 +187,10 @@
 		resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM moim_member_list WHERE member_email = #{memberEmail}
 	</select>
+	
+		<!-- 회원이 가입한 모임에서 나의 레벨-->
+	<select id="getMyLevelInGroup" resultType="MoimMemberDto">
+		SELECT moim_member_level FROM moim_member_list WHERE member_email = #{memberEmail} and moim_no= #{moim_no}
+	</select>
 </mapper>
+

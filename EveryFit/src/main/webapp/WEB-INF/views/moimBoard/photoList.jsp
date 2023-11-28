@@ -83,7 +83,7 @@ opacity: 0.7
 						style="cursor: pointer;">
 
 						<img alt="" src="${pageContext.request.contextPath}/moimBoard/rest/attach/download?attachNo=${boardList.attachNo}" width="300px" height="300px"
-							class="mt-2">
+							class="mt-2 object-fit-cover">
 
 					</div>
 
