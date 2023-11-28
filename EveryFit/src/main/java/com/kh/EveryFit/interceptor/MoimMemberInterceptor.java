@@ -27,6 +27,12 @@ public class MoimMemberInterceptor implements HandlerInterceptor {
 		
 		HttpSession session = request.getSession();
 		String memberEmail = (String) session.getAttribute("name");
+		String memberLevel = (String) session.getAttribute("level");
+		
+		if(memberLevel.equals("관리자")) {
+			return true;
+		}
+		
 		
 		String requestURI = request.getRequestURI();
 		String moimNoParam = request.getParameter("moimNo");
