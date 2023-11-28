@@ -18,7 +18,7 @@
 				<h1 class="display-5 fw-bold">${reportDto.reportReason}</h1>
 			</div>
 		</div>
-		<a href="/admin/report" style="text-decoration: none"
+		<a href="${pageContext.request.contextPath}/admin/report" style="text-decoration: none"
 			class="text-light ">
 			<div
 				class="text-center me-5 mb-2  bg-primary col-2  offset-9 text-light rounded-3 fw-bold"
@@ -66,7 +66,7 @@
 									</c:when>
 									<c:otherwise>
 										<img
-											src="/rest/report/attach/download?attachNo=${reportImage}"
+											src="${pageContext.request.contextPath}/rest/report/attach/download?attachNo=${reportImage}"
 											class="rounded profile-image" style="max-width: 1060px">
 									</c:otherwise>
 								</c:choose>

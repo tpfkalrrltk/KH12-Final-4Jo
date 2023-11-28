@@ -76,7 +76,7 @@ document.querySelector("#main-text").animate(mainFrames, mainOptions);
 
 			<div
 				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5">
-				<a href="/moim/board/photoList?moimNo=${param.moimNo}"
+				<a href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}"
 					class="text-light" style="text-decoration: none">
 					<h4>
 						<i class="fa-regular fa-image"></i> Photo List
@@ -86,7 +86,7 @@ document.querySelector("#main-text").animate(mainFrames, mainOptions);
 
 
 			<div class="col-1  text-center bg-primary rounded-5  text-light">
-				<a href="/moim/board/add?moimNo=${param.moimNo}" class="text-light"
+				<a href="${pageContext.request.contextPath}/moim/board/add?moimNo=${param.moimNo}" class="text-light"
 					style="text-decoration: none">
 					<h4>
 						<i class="fa-solid fa-plus" id="addIcon"></i>

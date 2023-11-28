@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.kh.EveryFit.interceptor.AdminOwnerInterceptor;
 //import com.kh.EveryFit.interceptor.AdminOwnerInterceptor;
 import com.kh.EveryFit.interceptor.MemberBlockInterceptor;
 import com.kh.EveryFit.interceptor.MemberInterceptor;
@@ -20,6 +21,9 @@ MemberInterceptor memberInterceptor;
 MemberBlockInterceptor memberBlockInterceptor;
 
 @Autowired
+AdminOwnerInterceptor adminOwnerInterceptor;
+
+@Autowired
 WebSocketServerInterceptor webSocketServerInterceptor;
 
 //@Autowired
@@ -29,7 +33,7 @@ WebSocketServerInterceptor webSocketServerInterceptor;
 @Override
 	public void addInterceptors(InterceptorRegistry registry) {
 	registry.addInterceptor(memberInterceptor)
-	.order(1)
+	.order(2)
 	.addPathPatterns(	
 			"/member/**",
 			"/freeBoard/**",
@@ -66,8 +70,8 @@ WebSocketServerInterceptor webSocketServerInterceptor;
 			"/rest/moimBoardReply/**",
 			"/pay/**",
 			"/report/**",	
-			"/moim/**"
-			//"/league/**",
+			"/moim/**",
+			"/league/**"
 			
 			)
 	.excludePathPatterns(
@@ -83,12 +87,11 @@ WebSocketServerInterceptor webSocketServerInterceptor;
 			"/member/memberChangePw"
 );
 	
-//	registry.addInterceptor(adminOwnerInterceptor)
-//	.order(5).addPathPatterns("/admin/**");
-	
-//	"/league/leagueInsert",
-//	"/league/leagueEdit"
-	//리그는 이거 관리자 이거 두개만 막으면 돼요
+	registry.addInterceptor(adminOwnerInterceptor)
+	.order(5).addPathPatterns("/admin/**",
+		"/league/leagueInsert",
+	"/league/leagueEdit");
+
 	
 	registry.addInterceptor(webSocketServerInterceptor).order(1).addPathPatterns("/default/**");
 }

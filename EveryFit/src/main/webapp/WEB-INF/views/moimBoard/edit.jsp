@@ -60,7 +60,7 @@ $(function(){
 		</div>
 
 		<div class="row">
-			<a href="/moim/board/list?moimNo=${moimBoardDto.moimNo}">목록으로
+			<a href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimBoardDto.moimNo}">목록으로
 				돌아가기 </a>
 		</div>
 

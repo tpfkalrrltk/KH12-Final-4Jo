@@ -58,14 +58,7 @@ a {
 
 
 
-<!-- 황민하 지금 보안관련 기능 추가중 -->
-<div class="duplicate-login-alert">
-	<c:if test="${DUPLICATE_LOGIN eq 'true'}">
-		<script>
-			alert("다른 기기에서 로그인되어 현재 로그인이 종료되었습니다.")
-		</script>
-	</c:if>
-</div>
+
 
 
 

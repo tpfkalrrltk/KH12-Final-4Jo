@@ -38,7 +38,7 @@
 		<div class="row">
 
 
-			<a href="/moim/board/add?moimNo=${param.moimNo}" class="text-dark" style="text-decoration: none">
+			<a href="${pageContext.request.contextPath}/moim/board/add?moimNo=${param.moimNo}" class="text-dark" style="text-decoration: none">
 <!-- 				<div class="col-1 offset-10 text-center bg-primary rounded-5 text-light">
 					
 					<i class="fa-solid fa-plus display-3"></i>
