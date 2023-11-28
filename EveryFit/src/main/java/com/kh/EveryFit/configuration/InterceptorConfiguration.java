@@ -27,7 +27,7 @@ MemberBlockInterceptor memberBlockInterceptor;
 	registry.addInterceptor(memberInterceptor)
 	.order(1)
 	.addPathPatterns(	
-			
+			"/member/**",
 			"/freeBoard/**",
 			"/rest/freeBoardReply/**",
 			"/rest/moimBoardReply/**",
@@ -43,6 +43,7 @@ MemberBlockInterceptor memberBlockInterceptor;
 			"/freeBoard/detail**",
 			"/member/join*",
 			"/member/login",
+
 			"/member/exitFinish",
 			"/member/find**",
 			"/rest/freeBoardReply/list",

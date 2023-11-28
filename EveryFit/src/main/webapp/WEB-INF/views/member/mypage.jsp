@@ -27,16 +27,20 @@
 		<div class="row mt-5 p-3 border border-primary rounded shadow-sm"><div class="col">
 			<div class="row m-1">
 				<div class="col-4">
+					<div class="row"><div class="col">
 					<c:choose>
 						<c:when test="${profile == null }">
 							<img src="/images/profile.png"
-								class="rounded-circle border shadow-sm bg-dark profile-image w-100">
+								class="rounded-circle border shadow-sm profile-image w-100">
 						</c:when>
 						<c:otherwise>
 							<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
+
 								class="rounded-circle border shadow-sm bg-dark profile-image w-100">
+
 						</c:otherwise>
 					</c:choose>
+					</div></div>
 					<div class="row mt-2 text-center"><div class="col">
 						<label> 
 							<input type="file" class="profile-chooser "
@@ -59,15 +63,8 @@
 						</c:choose>
 					</div></div>
 					<div class="row ms-2"><div class="col">
-						<i class="fa-solid fa-user-group"></i> 가입한 모임 : ${memberDto.memberMoimCount}
-						<c:choose>
-							<c:when test="${memberDto.memberLevel=='프리미엄'}">
-								/ 10 개
-							</c:when>
-							<c:otherwise>
-								/ 3 개
-							</c:otherwise>
-						</c:choose>
+						<i class="fa-solid fa-user-group"></i> 
+						가입한 모임 : ${moimCount} / ${memberDto.memberMoimCount} 개
 					</div></div> 
 					<div class="row mt-5 ms-2"><div class="col">
 						<c:choose>
@@ -97,12 +94,17 @@
 							<div class="card-header">모임번호 : ${moimDto.moimNo}</div>
 							  <div class="card-body">
 							    <h4 class="card-title text-center">${moimDto.moimTitle}</h4>
+							    	<div class="row"><div class="col-8 offset-2">
+							    		<img
+										src="${pageContext.request.contextPath}/image?moimNo=${moimDto.moimNo}"
+										class="rounded w-100" onerror="this.onerror=null; this.src='/images/no-image.png';">
+							    	</div></div>
 							    	<div class="row mt-4">
-							    		<div class="col">
+							    		<div class="col-5 offset-1">
 									    	<a href="${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}" 
 									    		class="btn btn-primary w-100">모임 상세</a>
 							    		</div>
-										<div class="col">
+										<div class="col-5">
 							    			<a href="${pageContext.request.contextPath}/default/${moimDto.chatRoomNo}" 
 								    			class="btn btn-primary w-100">채팅방 입장</a>
 								    	</div>
@@ -151,7 +153,7 @@
 							//프로필 이미지 교체
 							$(".profile-image").attr(
 									"src",
-									"/rest/member/download?attachNo="
+									"${pageContext.request.contextPath}/rest/member/download?attachNo="
 											+ response.attachNo);
 						},
 						error : function() {

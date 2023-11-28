@@ -540,6 +540,10 @@
 	    ]]>
 	</update>
 	
+	<select id="moimCount" resultType="int">
+		select count(*) from moim_member where member_email = #{memberEmail}
+	</select>
+	
 </mapper>
 
 

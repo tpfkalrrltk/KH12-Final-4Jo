@@ -178,4 +178,14 @@ public class AdminDaoImpl implements AdminDao {
 		List<MoimDto> list = sqlSession.selectList("admin.homeMoimSearchList", moimTitle);
 		return list;
 	}
+
+	@Override
+	public List<MoimDto> myMoimList(String memberEmail) {
+	return sqlSession.selectList("admin.myMoimList",memberEmail);
+	}
+
+	@Override
+	public List<MoimDto> myLikeMoimList(String memberEmail) {
+		return sqlSession.selectList("admin.myLikeMoimList",memberEmail);
+	}
 }

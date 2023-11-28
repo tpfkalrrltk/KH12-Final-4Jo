@@ -1,13 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+x<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 
-<%@ include file="template/adminHeader.jsp"%>
-
-<%--
 <c:choose>
 	<c:when test="${sessionScope.level =='관리자' }">
 		<%@ include file="template/adminHeader.jsp"%>
@@ -16,7 +13,7 @@
 		<%@ include file="template/Header.jsp"%>
 	</c:otherwise>
 </c:choose> 
---%>
+
 
 
 
@@ -187,16 +184,17 @@ body {
 
 
 
-		<div class="row align-items-center">
+		<div class="row align-items-center m-5 p-5">
+
 
 			<c:forEach var="PremiumMoimList" items="${PremiumMoimList}"
 				varStatus="loopStatus" end="7">
-				<div class="col pe-0  h-100 w-100 ">
-					<div class="card border-primary mb-3 w-100 Premium bg-primary  w-100 h-100"
+				<div class="col pe-0 ">
+					<div class="card border-primary mb-3 w-100 Premium bg-primary"
 						style="max-width: 400px;">
 						<div class="card-header bg-light text-primary fw-bold w-100 h-100">Moim
 							No.${PremiumMoimList.moimNo}</div>
-						<div class="card-body  w-100 h-100">
+						<div class="card-body  w-100 h-100" style="max-height: 400px">
 							<div class="text-center">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${PremiumMoimList.moimNo}">
@@ -206,8 +204,8 @@ body {
 								</a>
 							</div>
 							<c:choose>
-								<c:when test="${PremiumMoimList.moimTitle.length() >=14}">
-									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 14)}..</h4>
+								<c:when test="${PremiumMoimList.moimTitle.length() >=12}">
+									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 12)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle}</h4>
@@ -249,11 +247,173 @@ body {
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 		</div>
-		<div class="row contaner-fluid  auto-width m-5">
+		<div class="row contaner-fluid  auto-width m-5 p-5">
 			</c:if>
 			</c:forEach>
 
 		</div>
+
+<c:if test="${sessionScope.name !=null }">
+<div class="row mt-5 p-5">
+			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+				id="myMoim">
+				<h1 class="display-5 fw-bold">내가 가입한 모임</h1>
+			</div>
+		</div>
+
+
+		<div class="row align-items-center m-5">
+
+			<c:forEach var="myMoimList" items="${myMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0">
+					<div class="card border-primary mb-3 w-100"
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light fw-bold  ">Moim
+							No.${myMoimList.moimNo}</div>
+						<div class="card-body ">
+
+
+							<div class="text-center">
+								<a
+									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myMoimList.moimNo}">
+									<img
+									src="${pageContext.request.contextPath}/image?moimNo=${myMoimList.moimNo}"
+									class="rounded profile-image" width="100%" height="200px">
+								</a>
+							</div>
+
+
+							<c:choose>
+								<c:when test="${myMoimList.moimTitle.length() >=12}">
+									<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 12)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${myMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
+
+							<c:choose>
+								<c:when test="${myMoimList.moimContent.length() >=14}">
+									<p class="card-text lead">${myMoimList.moimContent.substring(0, 14)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${myMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
+
+
+
+							<div class="container">
+								<div class="row">
+									<div class="col-6 offset-6 p-0">
+										<p class="card-text text-end ">
+											<small >현재 인원 ${myMoimList.memberCount}	 / ${myMoimList.moimMemberCount}</p>
+										</small>
+
+									</div>
+								</div>
+							</div>
+
+							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+								role="button" data-moim-no="${myMoimList.moimNo}">Join</a>
+						</div>
+					</div>
+				</div>
+				<!-- Start a new row after every 3rd product -->
+				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+		</div>
+		<div class="row contaner-fluid  auto-width m-5">
+			</c:if>
+			</c:forEach>
+
+
+		</div>
+
+</c:if>
+
+
+<c:if test="${sessionScope.name !=null }">
+<div class="row mt-5 p-5">
+			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+				id="myMoim">
+				<h1 class="display-5 fw-bold">내가 찜한 모임</h1>
+			</div>
+		</div>
+
+
+		<div class="row align-items-center m-5">
+
+			<c:forEach var="myLikeMoimList" items="${myLikeMoimList}"
+				varStatus="loopStatus" end="7">
+				<div class="col pe-0">
+					<div class="card border-primary mb-3 w-100"
+						style="max-width: 400px;">
+						<div class="card-header bg-primary text-light fw-bold  ">Moim
+							No.${myLikeMoimList.moimNo}</div>
+						<div class="card-body ">
+
+
+							<div class="text-center">
+								<a
+									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myLikeMoimList.moimNo}">
+									<img
+									src="${pageContext.request.contextPath}/image?moimNo=${myLikeMoimList.moimNo}"
+									class="rounded profile-image" width="100%" height="200px">
+								</a>
+							</div>
+
+
+							<c:choose>
+								<c:when test="${myLikeMoimList.moimTitle.length() >=12}">
+									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle.substring(0, 12)}..</h4>
+								</c:when>
+								<c:otherwise>
+									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle}</h4>
+								</c:otherwise>
+							</c:choose>
+
+							<c:choose>
+								<c:when test="${myLikeMoimList.moimContent.length() >=14}">
+									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 14)}...</p>
+								</c:when>
+								<c:otherwise>
+									<p class="card-text lead">${myLikeMoimList.moimContent}</p>
+								</c:otherwise>
+							</c:choose>
+
+
+
+
+							<div class="container">
+								<div class="row">
+									<div class="col-6 offset-6 p-0">
+										<p class="card-text text-end ">
+											<small >현재 인원 ${myLikeMoimList.memberCount}	 / ${myLikeMoimList.moimMemberCount}</p>
+										</small>
+
+									</div>
+								</div>
+							</div>
+
+							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+								role="button" data-moim-no="${myLikeMoimList.moimNo}">Join</a>
+						</div>
+					</div>
+				</div>
+				<!-- Start a new row after every 3rd product -->
+				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+		</div>
+		<div class="row contaner-fluid  auto-width m-5">
+			</c:if>
+			</c:forEach>
+
+
+		</div>
+
+</c:if>
+
 
 
 
@@ -288,8 +448,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${NewMoimList.moimTitle.length() >=14}">
-									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 14)}..</h4>
+								<c:when test="${NewMoimList.moimTitle.length() >=12}">
+									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 12)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
@@ -365,8 +525,8 @@ body {
 							</div>
 
 							<c:choose>
-								<c:when test="${GenderCheckMoimList.moimTitle.length() >=14}">
-									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 14)}..</h4>
+								<c:when test="${GenderCheckMoimList.moimTitle.length() >=12}">
+									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 12)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>

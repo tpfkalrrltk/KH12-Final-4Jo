@@ -26,6 +26,7 @@
 		</div>
 
 
+<c:if test="${sessionScope.level =='관리자'}">
 		<div class="row">
 
 			<div class="col-1 offset-9">
@@ -47,7 +48,7 @@
 			</div>
 		</div>
 	</div>
-
+</c:if>
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
 
