@@ -28,7 +28,7 @@
                 <div class="col">
                     <h2>
                     ${productDto.productName} (${productDto.productPrice} 원)
-                     <a href="update?productNo=${productDto.productNo}"> 수정</a>
+                     <a href="${pageContext.request.contextPath}/product/update?productNo=${productDto.productNo}"> 수정</a>
                     </h2>
                 </div>
             </div>
