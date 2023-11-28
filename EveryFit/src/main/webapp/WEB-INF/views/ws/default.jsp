@@ -386,6 +386,18 @@
 
 // 	    lastMessageDate = chatTime;
 // 	}
+
+    $(".message-input").on('input', function () {
+        var maxLength = 300; // 최대 글자 수
+        var currentLength = $(this).val().length;
+        if (currentLength > maxLength) {
+            // 입력 길이가 제한을 초과한 경우, 알림창 표시
+            alert("최대 한글 300글자까지 입력 가능합니다.");
+            // 초과된 부분을 자르고 입력값 설정
+            var trimmedValue = $(this).val().substring(0, maxLength);
+            $(this).val(trimmedValue);
+        }
+    });
         
 
 
