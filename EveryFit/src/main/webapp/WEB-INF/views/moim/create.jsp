@@ -34,7 +34,7 @@
 		<input type="file" name="attach" accept="image/*" multiple id="attach-selector" style="display:none;">
 		
 		<div class="preview-wrapper1" width="300px;" height="200px;">
-		<img src="/images/add-moim-image.png" class="w-100 image">
+		<img src="${pageContext.request.contextPath}/images/add-moim-image.png" class="w-100 image">
 		</div>
 		</label>
 		</div>
@@ -131,7 +131,7 @@
 			var locationDepth1 = e.target.value;
 			
 			$.ajax({
-				url:"http://localhost:8080/rest/location/depth2List",
+				url:window.contextPath+"/rest/location/depth2List",
 				type:"post",
 				data:{locationDepth1:locationDepth1},
 				success:function (data){
@@ -159,7 +159,7 @@
 	        // 여성회원 전용 체크박스가 체크되었을 때만 Ajax 요청을 보냄
 	        $.ajax({
 	            type: "POST",
-	            url: "http://localhost:8080/rest/moim/checkGender", // 서버 엔드포인트 URL을 적절히 수정
+	            url: window.contextPath+"/rest/moim/checkGender", // 서버 엔드포인트 URL을 적절히 수정
 	            data: { memberEmail : memberEmail }, // 필요한 데이터를 전송 (세션 등)
 	            success: function(response) {
 	                // 서버에서의 응답을 확인하여 처리

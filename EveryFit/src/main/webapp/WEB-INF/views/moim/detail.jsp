@@ -89,16 +89,10 @@ a {
   max-width: 1200px; /* 필요에 따라 조절 */
 }
 
-/* .image-container { */
-/*    position: relative; */
-/*    width: 100%; */
-/* /*    max-width: 1200px;  */ */
-/*    margin: 0 auto; */
-/* } */
 
 .member-list {
-	height: 10vh;
-/* 	max-height: 200px; */
+/* 	height: 400px; */
+/* 	min-height: 200px; */
 	overflow-y:scroll;
 	overflow-x: hidden;
 	padding-bottom: 20px;
@@ -143,13 +137,16 @@ data-backdrop="static" data-keyboard="false">
     <div class="modal-content">
       <!-- 모달 내용 -->
       <div class="myModal-body p-4">
-        <span class="col">모임 생성 후 30일이 지나 모임이 비활성화 되었습니다. </span><br>
-        <span class="col"><a href="/pay?productNo=2">프리미엄 모임권으로 업그레이드하세요!</a></span>
+        <span class="col">모임이 비활성화 되었습니다. </span><br>
+        <span class="col"><a href="${pageContext.request.contextPath}/pay?productNo=2">프리미엄 모임권으로 업그레이드하세요!</a></span>
         <div class="text-end text-danger mt-4   ">
         <a class="dropdown-item" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
         </div>
         <div class="text-end text-primary">
-        <label><a class="link" href="/default/${moimDto.chatRoomNo}" style="text-decoration: none;">채팅방</a></label>       
+        <label><a class="link" href="${pageContext.request.contextPath}/default/${moimDto.chatRoomNo}" style="text-decoration: none;">채팅방</a></label>       
+        </div>
+        <div class="text-end text-primary">
+        <label><a class="link" href="${pageContext.request.contextPath}/faq/list" style="text-decoration: none;">문의하기</a></label>       
         </div>
       </div>
     </div>
@@ -199,10 +196,10 @@ data-backdrop="static" data-keyboard="false">
 
                   <c:choose>
                      <c:when test="${profile == null}">
-                        <img src="/images/add-moim-image.png" class="rounded profile-image w-100 object-fit-cover">
+                        <img src="${pageContext.request.contextPath}/images/add-moim-image.png" class="rounded profile-image w-100 object-fit-cover">
                      </c:when>
                      <c:otherwise>
-                        <img src="/rest/attach/download?attachNo=${profile}"
+                        <img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
                            class="rounded profile-image w-100 object-fit-cover">
                      </c:otherwise>
                   </c:choose>
@@ -304,10 +301,10 @@ data-backdrop="static" data-keyboard="false">
                <div class="col-5 p-1">
                <c:choose>
                <c:when test="${jungmoList.jungmoListVO.jungmoImageAttachNo != null}">
-                  <img class="jungmo-image rounded object-fit-cover w-100" src="/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
+                  <img class="jungmo-image rounded object-fit-cover w-100" src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${jungmoList.jungmoListVO.jungmoImageAttachNo}">
                </c:when>
                <c:otherwise>
-                  <img class="jungmo-image rounded object-fit-cover w-100" src="/images/user.png">
+                  <img class="jungmo-image rounded object-fit-cover w-100" src="${pageContext.request.contextPath}/images/user.png">
                </c:otherwise>
                </c:choose>         
                </div>
@@ -333,7 +330,7 @@ data-backdrop="static" data-keyboard="false">
                   / ${jungmoList.jungmoListVO.jungmoCapacity}</label>
                </div>
                <div class="row">
-               <label><a class="link chat-link" href="/default/${jungmoList.jungmoListVO.chatRoomNo}" style="text-decoration: none;">채팅방가기</a></label>       
+               <label><a class="link chat-link" href="${pageContext.request.contextPath}/default/${jungmoList.jungmoListVO.chatRoomNo}" style="text-decoration: none;">채팅방가기</a></label>       
                </div>
                               
 <%--          <a class="btn btn-primary" href="jungmo/edit?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" class="text-light">정모수정</a> --%>
@@ -350,10 +347,10 @@ data-backdrop="static" data-keyboard="false">
                            <c:forEach var="jungmoMember" items="${jungmoList.jungmoMemberList}">
                                  <c:choose>
                                  <c:when test="${jungmoMember.attachNo != null}">
-                                 <img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${jungmoMember.attachNo}" >
+                                 <img class="member-profile rounded-circle object-fit-cover" src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${jungmoMember.attachNo}" >
                                  </c:when>
                          <c:otherwise>
-                                 <img class="member-profile rounded-circle" src="/images/user.png" >
+                                 <img class="member-profile rounded-circle" src="${pageContext.request.contextPath}/images/user.png" >
                          </c:otherwise>
                                  </c:choose>
                           </c:forEach>
@@ -377,7 +374,7 @@ data-backdrop="static" data-keyboard="false">
             <c:forEach var="moimMemberDto" items="${memberList}">
                <c:if test="${sessionScope.name == moimMemberDto.memberEmail}">
                <div class="row"><div class="col-4 d-flex align-items-center justify-content-center p-0">
-                  <img src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" 
+                  <img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${moimMemberDto.attachNo}" 
                   class="rounded-circle object-fit-cover" width="60px;" height="60px;" >
                </div>
                <div class="col-8">
@@ -402,8 +399,6 @@ data-backdrop="static" data-keyboard="false">
                <div class="row"><div class="col">
                </div></div>
                <div class="row"><div class="col">
-<!--                <label class="form-label">참여 정모 내역 : </label>                -->
-<!--                <label class="form-label">그건이제생각을해보자</label> -->
                </div></div>
                </c:if>
             </c:forEach>
@@ -416,7 +411,7 @@ data-backdrop="static" data-keyboard="false">
                   <span class="text-primary fs-6 fw-bold">회원목록 <i class="fa-solid fa-users" style="color: #6582e4;"></i></span>
                     </li>
                     <li class="nav-item p-3">
-                        <a href="/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold chat-link">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
+                        <a href="${pageContext.request.contextPath}/default/${moimDto.chatRoomNo}"><span class="fs-6 fw-bold chat-link">채팅방 <i class="fa-solid fa-comment" style="color: #6380e0;"></i></span></a>
                     </li>
                     <li class="nav-item p-3">
 
@@ -531,10 +526,10 @@ data-backdrop="static" data-keyboard="false">
               <div class="image-container">
               <c:choose>
             <c:when test="${moimMemberDto.attachNo != null}">
-            <img class="member-profile rounded-circle object-fit-cover" src="/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
+            <img class="member-profile rounded-circle object-fit-cover" src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${moimMemberDto.attachNo}" data-target="menu-${moimMemberDto.memberEmail}">
             </c:when>
             <c:otherwise>
-            <img class="member-profile rounded-circle" src="/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
+            <img class="member-profile rounded-circle" src="${pageContext.request.contextPath}/images/user.png" data-target="menu-${moimMemberDto.memberEmail}">
             </c:otherwise>
             </c:choose>
             <c:if test="${moimMemberDto.moimMemberLevel == '모임장'}">
@@ -692,43 +687,43 @@ data-backdrop="static" data-keyboard="false">
    <c:if test="${param.errorFlag != null}">
        <script>
        alert("인원이 꽉 찼습니다.");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
    <c:if test="${param.errorFlag2 != null}">
        <script>
        alert("이미 참가한 정모입니다.");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
    <c:if test="${param.block != null}">
        <script>
        alert("차단했습니다.");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
    <c:if test="${param.approval != null}">
        <script>
        alert("수정 완료");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
    <c:if test="${param.transfer != null}">
        <script>
        alert("모임장 권한 넘기기 완료");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
    <c:if test="${param.exitError != null}">
        <script>
        alert("모임장 권한을 넘긴 후 탈퇴 가능합니다.");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
    <c:if test="${param.manager != null}">
        <script>
        alert("매니저 임명 완료.");
-       window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+       window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
        </script>
    </c:if>
 </body>
@@ -774,7 +769,7 @@ data-backdrop="static" data-keyboard="false">
             //응답 형태 - { "attachNo" : 7 }
             //프로필 이미지 교체
             $(".profile-image").attr("src", 
-               "/rest/attach/download?attachNo="+response.attachNo);
+               "${pageContext.request.contextPath}/rest/attach/download?attachNo="+response.attachNo);
          },
          error:function(){
             window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
@@ -794,7 +789,7 @@ data-backdrop="static" data-keyboard="false">
          method:"post",
          data:{moimNo: moimNo},
          success:function(response){
-            $(".profile-image").attr("src", "/images/add-moim-image.png");
+            $(".profile-image").attr("src", "${pageContext.request.contextPath}/images/add-moim-image.png");
          },
       });
    });
@@ -851,12 +846,10 @@ data-backdrop="static" data-keyboard="false">
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
                     alert("변경완료");
-                   window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                   window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
                },
                error: function (error) {
-                   // 오류 발생 시 동작 수행
-                   console.error(error);
-                   console.error("에러");
+            	   window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
                }
            });
  
@@ -896,12 +889,10 @@ data-backdrop="static" data-keyboard="false">
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
                     alert("등록완료");
-                   window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                   window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
                },
                error: function (error) {
-                   // 오류 발생 시 동작 수행
-                   console.error(error);
-                   console.error("에러");
+            	   window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
                }
            });
  
@@ -932,14 +923,12 @@ data-backdrop="static" data-keyboard="false">
                    // 서버 응답에 따른 동작 수행
                   console.log(data); 
                     alert("수정완료");
-                   window.location.href = "/moim/detail?moimNo=${moimDto.moimNo}";
+                   window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
                    
                    
                },
                error: function (error) {
-                   // 오류 발생 시 동작 수행
-                   console.error(error);
-                   console.error("에러");
+            	   window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
                }
            });
  
@@ -970,7 +959,7 @@ data-backdrop="static" data-keyboard="false">
                 
                 if (data.attachNo) {
                     // 이미지 다운로드 URL을 생성
-                    var imageUrl = "/rest/attach/download?attachNo=" + data.attachNo;
+                    var imageUrl = "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.attachNo;
 
                     // 미리보기 엘리먼트에 이미지 추가
                     $("<img>").attr("src", imageUrl)
@@ -981,8 +970,7 @@ data-backdrop="static" data-keyboard="false">
             },
             error: function (error) {
                 // 오류 발생 시 동작 수행
-                console.error(error);
-                console.error("에러");
+            	window.alert("통신 오류 발생 잠시 후 다시 시도해주세요");
             }
         });
     });
@@ -1135,13 +1123,13 @@ data-backdrop="static" data-keyboard="false">
                 if (response.attachNo !== null) {
                     var profileImage = $('<img>')
                         .addClass('moim-member-profile rounded-circle mt-1 object-fit-cover')
-                        .attr('src', '/rest/attach/download?attachNo=' + response.attachNo);
+                        .attr('src', '${pageContext.request.contextPath}/rest/attach/download?attachNo=' + response.attachNo);
                     col1Div.append(profileImage);
                 } else {
                     // attachNo가 null인 경우 기본 이미지 사용
                     var defaultImage = $('<img>')
                         .addClass('moim-member-profile rounded-circle object-fit-cover')
-                        .attr('src', '/images/user.png');
+                        .attr('src', '${pageContext.request.contextPath}/images/user.png');
                     col1Div.append(defaultImage);
                 }
 
@@ -1246,12 +1234,7 @@ data-backdrop="static" data-keyboard="false">
        $('#modal3').css('left', '30em'); // 원하는 위치로 수정
         
           Modal3.show();
-//         Modal.show();
-//         $('.moim-edit-inputs').hide();
-//         $('.jungmo-create-inputs').hide();
-//         $('#jungmoEditBtn').hide();
-//       $('#appBtn').hide();
-//       $('#jungmoInsertBtn').hide();
+
         $('.member-list').show();
         
         $('.modal-overlay, .btn-close, .btn-secondary').on('click', function () {

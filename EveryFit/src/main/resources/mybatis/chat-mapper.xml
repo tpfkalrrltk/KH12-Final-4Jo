@@ -37,7 +37,7 @@
 	    c.chat_room_no = #{chatRoomNo} 
 	    <if test="moimMemberJoin != null">
 	<![CDATA[
-	    and c.chat_time >= to_date(#{moimMemberJoin}, 'yyyy-mm-dd') 
+	    and c.chat_time >= #{moimMemberJoin}
 	]]>
 	    </if>
 	order by 
