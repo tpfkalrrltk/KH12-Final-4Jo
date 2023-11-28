@@ -63,9 +63,9 @@
        <div class="col text-start"><img src="/images/moinCard.png" ></div>
       <div class="text-center">
       
-        <a href="#" class="ataglink" onclick="confirmCancellation(${PaymentListByMemberVO.periodPaymentNo})">
-          [${PaymentListByMemberVO.moimTitle}] 프리미엄 카드 구독 취소
-        </a>
+<a href="#" class="ataglink" onclick="confirmCancellation('${PaymentListByMemberVO.periodPaymentNo}', '${PaymentListByMemberVO.moimTitle}', '${PaymentListByMemberVO.moimEndTime}')">
+  [${PaymentListByMemberVO.moimTitle}] 프리미엄 카드 구독 취소
+</a>
       </div>
       </c:if>
     </c:forEach>
@@ -103,23 +103,18 @@
 <%@ include file="../template/Footer.jsp"%>
 
 <script>
-  function confirmCancellation(periodPaymentNo) {
-    
-	  var confirmCancel = confirm("정말 프리미엄 카드 구독을 취소하시겠습니까?");
+  function confirmCancellation(periodPaymentNo, moimTitle, moimEndTime) {
+    var confirmMessage = "정말 [" + moimTitle + "] 모임의 프리미엄 카드 구독을 취소하시겠습니까?\n";<br>
+    confirmMessage += "정기결제 취소를 하시더라도 [" + moimTitle + "] 은 \"" + moimEndTime + "\" 까지 프리미엄 유지됩니다.";
+
+    var confirmCancel = confirm(confirmMessage);
     if (confirmCancel) {
       // If user clicks OK, navigate to the cancellation URL
       window.location.href = window.contextPath + "/pay/periodCancel?periodPaymentNo=" + periodPaymentNo;
     }
     // If user clicks Cancel, do nothing
   }
-  // 취소 상태 속성을 확인하고 존재하면 모달 표시
-/*   <c:if test="${not empty cancellationStatus}">
-    $(document).ready(function() {
-      // 여기에 모달 표시 코드를 추가하세요
-      alert("프리미엄 카드 구독이 취소되었습니다.");
-    });
-  </c:if> */
-  
+
   // 취소 상태 속성을 확인하고 존재하면 모달 표시
   <c:if test="${not empty cancellationStatus}">
     $(document).ready(function() {
