@@ -4,4 +4,4 @@
 
 <h1>채팅리스트!</h1>
 
-<a href="/default/${chatRoomNo}">아~!~!~!</a>
+<a href="'${pageContext.request.contextPath}/default/${chatRoomNo}">아~!~!~!</a>

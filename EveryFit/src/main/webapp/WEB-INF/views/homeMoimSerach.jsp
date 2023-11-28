@@ -5,7 +5,7 @@
 
 
 
-<%@ include file="template/adminHeader.jsp"%>
+<%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
 <%--
 <c:choose>
@@ -245,4 +245,4 @@
 
 
 
-<%@ include file="template/Footer.jsp"%>
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

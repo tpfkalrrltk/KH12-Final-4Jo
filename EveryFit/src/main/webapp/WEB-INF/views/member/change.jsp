@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 
 
 
@@ -102,4 +102,4 @@ a {
 <script>
 
 	</script>
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>
