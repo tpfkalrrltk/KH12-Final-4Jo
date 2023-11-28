@@ -55,6 +55,7 @@ public interface LeagueDao {
 	//리그팀로스터 관련
 	int leagueTeamRoasterSequence();
 	List<LeagueTeamRoasterDto> selectLeagueTeamRoasterList();
+	List<LeagueTeamRoasterDto> checkLeagueRoaster(String memberEmail, int leagueNo);
 	void insertLeagueTeamRoaster(LeagueTeamRoasterDto LeagueTeamRoasterDto);
 	LeagueTeamRoasterDto selectOneLeagueTeamRoaster(int leagueTeamRoasterNo);
 	void updateLeagueTeamRoaster(int leagueTeamRoasterNo, LeagueTeamRoasterDto leagueTeamRoasterDto);

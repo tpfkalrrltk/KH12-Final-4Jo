@@ -24,6 +24,7 @@ import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MoimDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 import com.kh.EveryFit.service.EmailService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -132,10 +133,19 @@ public class MemberController {
 		List<MoimDto> moimList = moimDao.moimListByEmail(memberEmail);
 		model.addAttribute("moimList", moimList);
 		
+		//참여중인 모임에서 나의 level
+//		MoimMemberDto moimMemberLevel = 
+//				memberDao.selectMoimMemberLevelByEmail(MoimMemberDto
+//						.builder()
+//						.memberEmail(memberEmail)
+//						.moimNo(moimList.get(0))
+//						.build());
+//		model.addAttribute("moimMemberLevel", moimMemberLevel);
+		
 		//가입한 모임 개수
 		int moimCount = moimDao.moimCount(memberEmail);
 		model.addAttribute("moimCount", moimCount);
-
+		
 		return "/member/mypage";
 
 	}

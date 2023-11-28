@@ -84,7 +84,7 @@
         else{
         	$("[name=leagueTeamName]").removeClass("is-valid");
         }
-		
+        
         if (count === roasterCount && checkLeagueTeam && attachCheck) {
             // 버튼 활성화
             $('#button-add').prop('disabled', false);
@@ -141,6 +141,28 @@
            	// 파일 읽기 시작
            	reader.readAsDataURL(this.files[0]);
        	}
+	});
+	
+	$("[name='memberEmail']").change(function(e){
+		var memberEmail = $(this).val();
+		var leagueNo = $("[name='leagueNo']").val();
+		var checkbox = $(this);
+		
+		$.ajax({
+			url:window.contextPath + "/rest/league/checkLeagueRoaster",
+			method:"post",
+			data:{leagueNo:leagueNo, memberEmail:memberEmail},
+			success:function(response){
+				if(response==false){
+					alert("이미 리그에 등록된 회원입니다.");
+					checkbox.prop('checked', false);
+					return;
+				}
+			},
+			error:function(err){
+				console.log(err);
+			},
+		});
 	});
     	
    

@@ -46,7 +46,7 @@ public class DownGradeMoimScheduler {
 		    moimDao.upgradeToNotPrimium(MoimDto.builder()
 					.moimNo(moimDto.getMoimNo())
 					.build());
-			log.debug("비활성화 완료");
+			log.debug("상태 Y->N로 변경 완료");
 		}
 			
 	}

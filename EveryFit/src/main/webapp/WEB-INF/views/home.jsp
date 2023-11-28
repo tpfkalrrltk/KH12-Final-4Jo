@@ -331,13 +331,15 @@ body {
 											<small >현재 인원 ${myMoimList.memberCount}	 / ${myMoimList.moimMemberCount}
 										</small>
 											</p>
->>>>>>> main
+
 
 										</div>
 									</div>
 								</div>
 
 							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
+
+								role="button" data-moim-no="${myMoimList.moimNo}">Join</a>
 
 						</div>
 					</div>
@@ -428,8 +430,12 @@ body {
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 		<div class="row contaner-fluid  auto-width m-5">
-	</c:if>
-	</c:forEach>
+
+			</c:if>
+			</c:forEach>
+
+		</div>
+
 
 		</div>
 
