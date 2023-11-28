@@ -40,6 +40,8 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 		document.querySelector("#Premium").animate(keyframes, options);
 		document.querySelector("#NowMoim").animate(keyframes, options);
 		document.querySelector("#GenderCheck").animate(keyframes, options);
+		document.querySelector("#myMoim").animate(keyframes, options);
+		document.querySelector("#myLikeMoim").animate(keyframes, options);
 
 		var nystories = document.querySelector("p").offsetTop;
 		window.onscroll = function() {
@@ -154,26 +156,31 @@ body {
 	padding-top: 45%;
 	color: #fff;
 }
+
 .profile-image {
-	object-fit:cover; 
-}
-.card {
-	height: 450px; 
-/* 	max-height: 600px; */
-}
-.card-body {
-	font-size:15px;
-}
-.card-text-leader {
-	font-size:15px;
-}
-.card-title {
-	font-size:15px;
-}
-.card-text {
-	font-size:15px;
+	object-fit: cover;
 }
 
+.card {
+	height: 450px;
+	/* 	max-height: 600px; */
+}
+
+.card-body {
+	font-size: 15px;
+}
+
+.card-text-leader {
+	font-size: 15px;
+}
+
+.card-title {
+	font-size: 15px;
+}
+
+.card-text {
+	font-size: 15px;
+}
 </style>
 
 
@@ -264,88 +271,92 @@ body {
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+		</div>
+		<div class="row contaner-fluid  auto-width m-5">
 			</c:if>
 			</c:forEach>
 		</div>
-		
-
-		</div>
 
 
-		<div class="row contaner-fluid  auto-width m-5 p-5">
-<c:if test="${sessionScope.name !=null }">
-<div class="row mt-5 p-5">
-			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-				id="myMoim">
-				<h1 class="display-5 fw-bold">내가 가입한 모임</h1>
-
-			</div>
+	</div>
 
 
-			<div class="row align-items-center m-5">
+	<div class="row contaner-fluid  auto-width m-5 p-5">
+		<c:if test="${sessionScope.name !=null }">
+			<div class="row mt-5 p-5">
+				<div
+					class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+					id="myMoim">
+					<h1 class="fw-bold">내가 가입한 모임</h1>
+
+				</div>
 
 
-			<c:forEach var="myMoimList" items="${myMoimList}"
-				varStatus="loopStatus" end="7">
-				<div class="col pe-0">
-					<div class="card border-primary mb-3 w-100"
-						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold  ">${myMoimList.moimTitle}</div>
-						<div class="card-body ">
+				<div class="row align-items-center m-5">
 
 
-							<div class="text-start">
-								<a
-									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myMoimList.moimNo}">
-									<img
-									src="${pageContext.request.contextPath}/image?moimNo=${myMoimList.moimNo}"
-									class="rounded profile-image" width="100%" height="200px">
-								</a>
-							</div>
+					<c:forEach var="myMoimList" items="${myMoimList}"
+						varStatus="loopStatus" end="7">
+						<div class="col pe-0">
+							<div class="card border-primary mb-3 w-100"
+								style="max-width: 400px;">
+								<div class="card-header bg-primary text-light fw-bold  ">${myMoimList.moimTitle}</div>
+								<div class="card-body ">
 
 
-							<c:choose>
-								<c:when test="${myMoimList.moimTitle.length() >=7}">
-									<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 7)}..</h4>
-								</c:when>
-								<c:otherwise>
-									<h4 class="card-title text-primary">${myMoimList.moimTitle}</h4>
-								</c:otherwise>
-							</c:choose>
-
-							<c:choose>
-								<c:when test="${myMoimList.moimContent.length() >=40}">
-									<p class="card-text lead">${myMoimList.moimContent.substring(0, 40)}...</p>
-								</c:when>
-								<c:otherwise>
-									<p class="card-text lead">${myMoimList.moimContent}</p>
-								</c:otherwise>
-							</c:choose>
+									<div class="text-start">
+										<a
+											href="${pageContext.request.contextPath}/moim/detail?moimNo=${myMoimList.moimNo}">
+											<img
+											src="${pageContext.request.contextPath}/image?moimNo=${myMoimList.moimNo}"
+											class="rounded profile-image" width="100%" height="200px">
+										</a>
+									</div>
 
 
+									<c:choose>
+										<c:when test="${myMoimList.moimTitle.length() >=7}">
+											<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 7)}..</h4>
+										</c:when>
+										<c:otherwise>
+											<h4 class="card-title text-primary">${myMoimList.moimTitle}</h4>
+										</c:otherwise>
+									</c:choose>
+
+									<c:choose>
+										<c:when test="${myMoimList.moimContent.length() >=40}">
+											<p class="card-text lead">${myMoimList.moimContent.substring(0, 40)}...</p>
+										</c:when>
+										<c:otherwise>
+											<p class="card-text lead">${myMoimList.moimContent}</p>
+										</c:otherwise>
+									</c:choose>
 
 
-							<div class="container">
-								<div class="row">
-									<div class="col-6 offset-6 p-0">
-										<p class="card-text text-end ">
-											<small >현재 인원 ${myMoimList.memberCount}	 / ${myMoimList.moimMemberCount}
-										</small>
-											</p>
 
 
+									<div class="container">
+										<div class="row">
+											<div class="col-6 offset-6 p-0">
+												<p class="card-text text-end ">
+													<small>현재 인원 ${myMoimList.memberCount} /
+														${myMoimList.moimMemberCount} </small>
+												</p>
+
+
+											</div>
 										</div>
 									</div>
+
+									<a class="btn btn-primary btn-md fw-bold New-btn btn-join">Join</a>
+
 								</div>
-
-							<a class="btn btn-primary btn-md fw-bold New-btn btn-join">Join</a>
-
+							</div>
+							
+							<!-- Start a new row after every 3rd product -->
+							<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
 						</div>
-					</div>
-					<!-- Start a new row after every 3rd product -->
-					<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-			</div>
-			<div class="row contaner-fluid  auto-width m-5">
+						<div class="row contaner-fluid  auto-width m-5">
 		</c:if>
 		</c:forEach>
 
@@ -359,7 +370,7 @@ body {
 		<div class="row mt-5 p-5">
 			<div
 				class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
-				id="myMoim">
+				id="myLikeMoim">
 				<h1 class="display-5 fw-bold">내가 찜한 모임</h1>
 			</div>
 		</div>
@@ -373,7 +384,7 @@ body {
 					<div class="card border-primary mb-3 w-100"
 						style="max-width: 400px;">
 						<div class="card-header bg-primary text-light fw-bold  ">${myLikeMoimList.moimTitle}
-							</div>
+						</div>
 						<div class="card-body ">
 
 
@@ -413,7 +424,7 @@ body {
 									<div class="col-6 offset-6 p-0">
 										<p class="card-text text-end ">
 											<small>현재 인원 ${myLikeMoimList.memberCount} /
-												${myLikeMoimList.moimMemberCount}
+												${myLikeMoimList.moimMemberCount} 
 										</p>
 										</small>
 
@@ -428,12 +439,11 @@ body {
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		<div class="row contaner-fluid  auto-width m-5">
-	</c:if>
-	</c:forEach>
+					<div class="row contaner-fluid  auto-width m-5">
+				</c:if>
+			</c:forEach>
 
 		</div>
-
 </div>
 
 </c:if>
@@ -443,9 +453,9 @@ body {
 
 <div class="row mt-5 p-5">
 	<div
-		class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
+		class="col-5 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
 		id="NowMoim">
-		<h1 class="display-5 fw-bold">최근 생성된 모임</h1>
+		<h1 class=" fw-bold">최근 생성된 모임</h1>
 	</div>
 </div>
 
@@ -453,13 +463,12 @@ body {
 <div class="row align-items-center m-5">
 
 
-			<c:forEach var="NewMoimList" items="${NewMoimList}"
-				varStatus="loopStatus" end="7">
-				<div class="col pe-0">
-					<div class="card border-primary mb-3 w-100"
-						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold  ">${NewMoimList.moimTitle}</div>
-						<div class="card-body ">
+	<c:forEach var="NewMoimList" items="${NewMoimList}"
+		varStatus="loopStatus" end="7">
+		<div class="col pe-0">
+			<div class="card border-primary mb-3 w-100" style="max-width: 400px;">
+				<div class="card-header bg-primary text-light fw-bold  ">${NewMoimList.moimTitle}</div>
+				<div class="card-body ">
 
 
 
@@ -474,23 +483,23 @@ body {
 
 
 
-							<c:choose>
-								<c:when test="${NewMoimList.moimTitle.length() >=7}">
-									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 7)}..</h4>
-								</c:when>
-								<c:otherwise>
-									<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
-								</c:otherwise>
-							</c:choose>
+					<c:choose>
+						<c:when test="${NewMoimList.moimTitle.length() >=7}">
+							<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 7)}..</h4>
+						</c:when>
+						<c:otherwise>
+							<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
+						</c:otherwise>
+					</c:choose>
 
-							<c:choose>
-								<c:when test="${NewMoimList.moimContent.length() >=40}">
-									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 40)}...</p>
-								</c:when>
-								<c:otherwise>
-									<p class="card-text lead">${NewMoimList.moimContent}</p>
-								</c:otherwise>
-							</c:choose>
+					<c:choose>
+						<c:when test="${NewMoimList.moimContent.length() >=40}">
+							<p class="card-text lead">${NewMoimList.moimContent.substring(0, 40)}...</p>
+						</c:when>
+						<c:otherwise>
+							<p class="card-text lead">${NewMoimList.moimContent}</p>
+						</c:otherwise>
+					</c:choose>
 
 
 
@@ -501,7 +510,7 @@ body {
 							<div class="col-6 offset-6 p-0">
 								<p class="card-text text-end ">
 									<small>현재 인원 ${NewMoimList.memberCount} /
-										${NewMoimList.moimMemberCount}
+										${NewMoimList.moimMemberCount} 
 								</p>
 								</small>
 
@@ -540,13 +549,13 @@ body {
 <div class="row align-items-center m-5">
 
 
-			<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
-				varStatus="loopStatus" end="7">
-				<div class="col pe-0  ">
-					<div class="card border-primary mb-3 w-100 "
-						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light  fw-bold ">${GenderCheckMoimList.moimTitle}</div>
-						<div class="card-body ">
+	<c:forEach var="GenderCheckMoimList" items="${GenderCheckMoimList}"
+		varStatus="loopStatus" end="7">
+		<div class="col pe-0  ">
+			<div class="card border-primary mb-3 w-100 "
+				style="max-width: 400px;">
+				<div class="card-header bg-primary text-light  fw-bold ">${GenderCheckMoimList.moimTitle}</div>
+				<div class="card-body ">
 
 
 
@@ -560,24 +569,24 @@ body {
 					</div>
 
 
-							<c:choose>
-								<c:when test="${GenderCheckMoimList.moimTitle.length() >=7}">
-									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 7)}..</h4>
-								</c:when>
-								<c:otherwise>
-									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
-								</c:otherwise>
-							</c:choose>
+					<c:choose>
+						<c:when test="${GenderCheckMoimList.moimTitle.length() >=7}">
+							<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 7)}..</h4>
+						</c:when>
+						<c:otherwise>
+							<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
+						</c:otherwise>
+					</c:choose>
 
 
-							<c:choose>
-								<c:when test="${GenderCheckMoimList.moimContent.length() >=40}">
-									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 40)}...</p>
-								</c:when>
-								<c:otherwise>
-									<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
-								</c:otherwise>
-							</c:choose>
+					<c:choose>
+						<c:when test="${GenderCheckMoimList.moimContent.length() >=40}">
+							<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 40)}...</p>
+						</c:when>
+						<c:otherwise>
+							<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
+						</c:otherwise>
+					</c:choose>
 
 
 
@@ -588,7 +597,7 @@ body {
 							<div class="col-6 offset-6 p-0">
 								<p class="card-text text-end ">
 									<small>현재 인원 ${GenderCheckMoimList.memberCount} /
-										${GenderCheckMoimList.moimMemberCount}
+										${GenderCheckMoimList.moimMemberCount} 
 								</p>
 								</small>
 
