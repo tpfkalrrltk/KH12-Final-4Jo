@@ -241,10 +241,13 @@ body.dark-mode {
 							</c:choose>
 							<a class="dropdown-item"
 								href="${pageContext.request.contextPath}/member/mypage"><i
-								class="fa-solid fa-user-gear mt-2"></i> MyPage</a> <a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/member/join"><i
-								class="fa-solid fa-user-plus mt-2"></i> Join</a>
+								class="fa-solid fa-user-gear mt-2"></i> MyPage</a> 
+								
+							<c:if test="${sessionScope.name==null}">
+								<a class="dropdown-item"
+									href="${pageContext.request.contextPath}/member/join"><i
+									class="fa-solid fa-user-plus mt-2"></i> Join</a>
+							</c:if>
 
 
 							<c:if test="${sessionScope.name!=null}">
