@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +47,16 @@ public class HomeController {
 	private File dir;
 
 	@GetMapping("/")
-	public String home(Model model, @ModelAttribute AdminMoimMemberCountVO adminMoimMemberCountVO) {
+	public String home(Model model, @ModelAttribute AdminMoimMemberCountVO adminMoimMemberCountVO
+			,HttpSession session
+			) {
+		String memberEmail = (String) session.getAttribute("name");
 		model.addAttribute("NewMoimList", adminDao.NewMoimList());
 		model.addAttribute("moimProfileList", adminDao.moimProfileList());
 		model.addAttribute("PremiumMoimList", adminDao.PremiumMoimList());
 		model.addAttribute("GenderCheckMoimList", adminDao.GenderCheckMoimList());
 		model.addAttribute("memberCount", adminDao.memberCount());
+		model.addAttribute("myMoimList", adminDao.myMoimList(memberEmail));
 
 		return "/home";
 	}

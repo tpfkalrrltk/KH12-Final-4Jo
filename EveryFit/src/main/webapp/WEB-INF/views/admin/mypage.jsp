@@ -84,10 +84,25 @@ a {
 			<div class="container text-center mt-5 box bg-primary">
 				<div class="row ">
 					<div class="col align-self-start">
-						<div class="mt-5">
-							<img src="/images/profile.jpg"
-								style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden;">
-						</div>
+						
+			
+							<c:choose>
+								<c:when test="${profile == null }">
+									<div class="p-2">
+										<img src="${pageContext.request.contextPath}/images/profile.png"
+											class="image image-circle image-border profile-image"
+											style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
+									</div>
+								</c:when>
+								<c:otherwise>
+									<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
+										class="image image-circle image-border profile-image"
+										style="width: 150px; height: 150px; border-radius: 70%; overflow: hidden; color: #5598b4;">
+
+								</c:otherwise>
+						</c:choose>
+						
+						
 						<div class="mt-2">
 							<i class="fa-brands fa-mailchimp" style="color: #3f82ec;"></i>
 
@@ -149,7 +164,7 @@ a {
 						<div>
 							<button class="btn btn-danger w-100 fw-bold">
 								<a
-									href="/admin/member/block?memberEmail=${adminMemberTarget.memberEmail}">회원
+									href="${pageContext.request.contextPath}/admin/member/block?memberEmail=${adminMemberTarget.memberEmail}">회원
 									차단</a>
 							</button>
 						</div>
@@ -160,7 +175,7 @@ a {
 						<div>
 							<button class="btn btn-warning w-100 fw-bold">
 								<a
-									href="/admin/member/cancel?memberEmail=${adminMemberTarget.memberEmail}">차단
+									href="${pageContext.request.contextPath}/admin/member/cancel?memberEmail=${adminMemberTarget.memberEmail}">차단
 									해제</a>
 							</button>
 						</div>
@@ -175,13 +190,13 @@ a {
 					<div class="col align-self-end">
 						<div>
 							<button class="btn btn-success w-100 fw-bold">
-								<a href="#">프리미엄 회원권</a>
+								<a href="${pageContext.request.contextPath}/pay?productNo=1">프리미엄 회원권</a>
 							</button>
 						</div>
 
 						<div>
 							<button class="btn btn-info mt-2 w-100  fw-bold">
-								<a href="/member/change">회원 정보 수정</a>
+								<a href="${pageContext.request.contextPath}/member/change">회원 정보 수정</a>
 							</button>
 						</div>
 
