@@ -201,7 +201,7 @@
 										</c:if>
 										<c:if test="${memberDto.memberLevel == '프리미엄'}">
 											<span style="color: red; text-bold">
-											[${memberDto.memberEmail}] 님은 "프리미엄" 회원입니다.
+											[${memberDto.memberName}(${memberDto.memberEmail})] 님은 "프리미엄" 회원입니다.
 											이용해 주셔서 감사합니다.<br>
 											최대 10개의 모임에 가입할 수 있습니다!
 											</span>	
@@ -214,7 +214,7 @@
 								<div class="mb-2">▶ 모임 정원 30 -> 100 명으로 증가</div>
 								<div class="mb-3">▶ 모임 비활성화 해제 (일반 모임은 1달 후 비활성화 -> 프리미엄 모임권 결제 시, 비활성화 해제)</div>
 								<br>
-							<h4 class="h5">♥[${memberDto.memberEmail}] 님이 모임장으로 이용하고 있는 모임 내역♥</h4><br>
+							<h4 class="h5">♥[${memberDto.memberName}(${memberDto.memberEmail})] 님이 모임장으로 이용하고 있는 모임 내역♥</h4><br>
 							
 							<c:choose>
     <c:when test="${empty MoimDtoList}">
