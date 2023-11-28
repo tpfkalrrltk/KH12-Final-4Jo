@@ -264,9 +264,10 @@ body {
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+			</c:if>
 			</c:forEach>
 		</div>
-			</c:if>
+		
 
 		</div>
 
@@ -337,7 +338,7 @@ body {
 									</div>
 								</div>
 
-							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join">Join</a>
 
 								role="button" data-moim-no="${myMoimList.moimNo}">Join</a>
 
@@ -519,8 +520,6 @@ body {
 						</div>
 					</div>
 
-					<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
-						role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
 				</div>
 			</div>
 		</div>
@@ -610,8 +609,6 @@ body {
 					</div>
 
 
-					<a class="btn btn-primary btn-lg fw-bold Gender-btn btn-join"
-						role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
 				</div>
 			</div>
 		</div>
