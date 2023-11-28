@@ -1,5 +1,7 @@
 package com.kh.EveryFit.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class ChatListVO {
 	
 	private int chatRoomNo;
-	private String moimMemberJoin;
+	private Date moimMemberJoin;
 		
 }
+	

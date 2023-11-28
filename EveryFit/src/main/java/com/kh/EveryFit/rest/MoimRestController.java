@@ -27,6 +27,7 @@ import com.kh.EveryFit.dao.JungmoDao;
 import com.kh.EveryFit.dao.MemberDao;
 import com.kh.EveryFit.dao.MoimDao;
 import com.kh.EveryFit.dto.AttachDto;
+import com.kh.EveryFit.dto.ChatEntryDto;
 import com.kh.EveryFit.dto.JungmoDto;
 import com.kh.EveryFit.dto.MemberDto;
 import com.kh.EveryFit.dto.MemberLikeDto;
@@ -401,27 +402,42 @@ public class MoimRestController {
 //		moimDao.updateMoimMember(memberEmail);
 //		return "Y";
 //	}
-@PostMapping("/list")
-public List<moimListForMyPageVO> moimList(HttpSession session) {
-	String memberEmail = (String) session.getAttribute("name");
-	List<moimListForMyPageVO> list = moimDao.moimListForMyPage(memberEmail);
-	
-	return list;
-}
-
-@PostMapping("/moimjang/check")
-public String moimjangCheck(@RequestParam String memberEmail, int moimNo) {
-	MoimMemberDto moimMemberDto = moimDao.findMoimMemberInfo(memberEmail, moimNo);
-	if(moimMemberDto.getMoimMemberLevel().equals("일반")) {
-		return "N";
-	}
-	else if(moimMemberDto.getMoimMemberLevel().equals("매니저")) {
-		return "M";
-	}
-	else {
-		return "Y";		
+	@PostMapping("/list")
+	public List<moimListForMyPageVO> moimList(HttpSession session) {
+		String memberEmail = (String) session.getAttribute("name");
+		List<moimListForMyPageVO> list = moimDao.moimListForMyPage(memberEmail);
+		
+		return list;
 	}
 	
-}
+	@PostMapping("/moimjang/check")
+	public String moimjangCheck(@RequestParam String memberEmail, int moimNo) {
+		MoimMemberDto moimMemberDto = moimDao.findMoimMemberInfo(memberEmail, moimNo);
+		if(moimMemberDto.getMoimMemberLevel().equals("일반")) {
+			return "N";
+		}
+		else if(moimMemberDto.getMoimMemberLevel().equals("매니저")) {
+			return "M";
+		}
+		else {
+			return "Y";		
+		}
+		
+	}
+	
+	@PostMapping("/chat/check")
+	public String chatCheck(@RequestParam int chatRoomNo, HttpSession session) {
+		String memberEmail =(String) session.getAttribute("name");
+		
+		ChatEntryDto chatEntryDto = chatDao.checkChatEntry(chatRoomNo, memberEmail);
+		
+		if(chatEntryDto != null) { //조회결과가없으면
+			return "N";
+		}
+		else { //있으면
+			return "Y";
+		}
+		
+	}
 
 }

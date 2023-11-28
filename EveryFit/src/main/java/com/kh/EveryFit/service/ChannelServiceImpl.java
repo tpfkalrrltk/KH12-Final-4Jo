@@ -74,18 +74,25 @@ public class ChannelServiceImpl implements ChannelService{
 		if(room == null) {//없으면
 			room = createRoom(chatRoomNo); //만들고
 		}
-		room.enter(client);
+		
+	    if (!room.hasMember(client)) {
+	        room.enter(client);
+	    }
 		log.debug("사용자 입장");
-		for(ChatRoomVO r : roomList) {
-			log.debug("r = {}", r);
-		}
+//		for(ChatRoomVO r : roomList) {
+//			log.debug("r = {}", r);
+//		}
 	}
 	@Override
-	public void exitUser(WebSocketSession session, Integer chatRoomNo) {
-		ChatRoomVO room = findRoom(chatRoomNo);
-		if(room == null) return;
+	public void exitUser(ClientVO client) {
+	    for (ChatRoomVO room : roomList) {
+	    	log.debug("room = {}", room);
+//	        if (room.hasMember(client)) {
+	            room.exit(client);
+	            log.debug("사용자 나감 = {}", room);
+//	        }
+	    }
 		
-		room.exit(session);
 	}
 	
 	@Override

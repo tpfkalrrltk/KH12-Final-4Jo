@@ -63,11 +63,14 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		waitingRoom.exit(session);
+		
 		ClientVO client = new ClientVO(session);
+		waitingRoom.exit(client);
 		members.remove(client);
+		channelService.exitUser(client);
 		log.debug("나감!");
 //		sendClientList();
+		
 	}
 	
 	//접속자명단을 모든 접속자에게 전송하는 메소드
@@ -148,25 +151,20 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			String moimMemberJoinString = dateFormat1.format(moimMemberJoin);
 			
 			vo.setChatRoomNo(chatRoomNo);
-			vo.setMoimMemberJoin(moimMemberJoinString);			
+			vo.setMoimMemberJoin(moimMemberJoin);			
 		}
 		
         
 		boolean isJoin = params.get("type").equals("join");
 		log.debug("isjoin? = {}", isJoin);
-		
 //		channelService.findRoom(chatRoomNo);
 		channelService.enterUser(client, chatRoomNo);
 		
-		if(isJoin) { //입장이면!
+		if(isJoin) {
 			channelService.sendUserList(message, chatRoomNo);
 			
-			//모임챗방이면~~
-//			log.debug("client = {}",client.getMemberEmail());
 			List<ChatDto> list = chatDao.list(vo);				
 			
-			
-//			log.debug("list={}", list);
 			for(ChatDto dto : list) {
 				Map<String, Object> map = new HashMap<>();
 				Date chatTime = dto.getChatTime();
@@ -182,7 +180,6 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 				client.send(mss);
 			}
 			log.debug("방에 입장");
-			//아니면~~
 			
 		}
 		
@@ -236,6 +233,8 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		}
 		...
 		 */
+		
+		
 		
 	}
 	private String getCurrentTime() {
