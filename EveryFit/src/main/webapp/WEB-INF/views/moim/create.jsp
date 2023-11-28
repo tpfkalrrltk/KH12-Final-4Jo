@@ -41,15 +41,14 @@
 		</div>
 	
 		<div class="row mt-2">
-<!-- 		<div class="col-3 text-end"><label class="form-label ">모임명</label></div> -->
-		<div class="col-6 offset-3"><input type="text" name="moimTitle" class="form-control" placeholder="모임명"></div>
+		<div class="col-6 offset-3">
+		<input type="text" name="moimTitle" class="form-control" placeholder="모임명" id="moimTitle">
+		</div>
 		</div>
 		
 		<div class="row mt-2">
-<!-- 		<div class="col-3 text-end"> -->
-<!-- 		<label class="form-label">시/도</label></div> -->
 		<div class="col-6 offset-3">
-		<select class="form-select location-depth1">
+		<select class="form-select location-depth1" id="location-depth1">
 			<option value="">시/도</option>
 			<c:forEach var="locationDto" items="${locationList}">
 				<option value="${locationDto.locationDepth1}">${locationDto.locationDepth1}</option>				
@@ -57,15 +56,12 @@
 		</select></div>
 		</div>
 		<div class="row mt-2">
-<!-- 		<div class="col-3 text-end"> -->
-<!-- 		<label class="form-label">구/시 선택</label></div> -->
-		<div class="col-6 offset-3"><select class="form-select" name="locationNo">
+		<div class="col-6 offset-3"><select class="form-select" name="locationNo" id="location-depth2">
 			<option value="">시/군/구</option>
 		</select>
   		</div></div>
 
 		<div class="row mt-2">
-<!-- 		<div class="col-3 text-end"><label class="form-label">종목</label></div> -->
 		<div class="col-6 offset-3">
 		<select name="eventNo"  class="form-select" id="eventSelect">
              <option value="">종목</option>
@@ -77,7 +73,8 @@
 		</div>
 		
 		<div class="row mt-2">
-	 	<div class="col-6 offset-3"><textarea rows="5" class="form-control" name="moimContent">모임소개</textarea></div>
+	 	<div class="col-6 offset-3"><textarea rows="5" class="form-control" 
+	 	name="moimContent" id="moimContent">모임소개</textarea></div>
 	 	</div>
 		<div class="row mt-2">
 	 	<div class="col-3 offset-3 text-end p-2"><label class="form-label">정원(~30명)</label></div>
@@ -214,6 +211,133 @@
             }
         });
     });
+    
+//     $('textarea[name="moimContent"]').on('input', function () {
+//         var maxLength = 1000; // 최대 글자 수
+//         var currentLength = $(this).val().length;
+//         if (currentLength > maxLength) {
+//             // 입력 길이가 제한을 초과한 경우, 알림창 표시
+//             alert("최대 한글 천글자까지 입력 가능합니다.");
+//             // 초과된 부분을 자르고 입력값 설정
+//             var trimmedValue = $(this).val().substring(0, maxLength);
+//             $(this).val(trimmedValue);
+//         }
+//     });
+    
+//     $('input[name="moimTitle"]').on('input', function () {
+//         var maxLength = 20; // 최대 글자 수
+//         var currentLength = $(this).val().length;
+//         if (currentLength > maxLength) {
+//             // 입력 길이가 제한을 초과한 경우, 알림창 표시
+//             alert("최대 한글 20글자까지 입력 가능합니다.");
+//             // 초과된 부분을 자르고 입력값 설정
+//             var trimmedValue = $(this).val().substring(0, maxLength);
+//             $(this).val(trimmedValue);
+//         }
+//     });
+
+    
+    
+    var maxLength = 4000;
+    $("[name=moimContent]").summernote({
+		height: 240,
+		fontNames: ['NotoSansKR'],
+        fontNamesIgnoreCheck: ['NotoSansKR'],
+        defaultFontName: 'NotoSansKR',
+        fontSizeUnits: ['px'], 
+	    toolbar: [
+	          ['style', ['style']],
+	          ['font', ['bold', 'underline', 'clear']],
+	          ['color', ['color']],
+	          ['para', ['ul', 'ol', 'paragraph']],
+	          ['insert', ['link']],
+	          ['view', ['codeview', 'help']]
+	        ],
+	        callbacks: {
+	        	onPaste: function (e) {
+	                // 붙여넣기 이벤트에서 태그 제거
+	                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+	                e.preventDefault();
+	                document.execCommand('insertText', false, bufferText);
+	            },
+                onKeyup: function(e) {
+                    // 썸머노트의 내용을 가져오는 함수
+                    function getSummernoteContent() {
+                        return $('[name=moimContent]').summernote('code');
+                    }
+
+                    // 썸머노트 입력값의 길이를 계산하는 함수
+                    function calculateContentLength() {
+                        var content = getSummernoteContent();
+                        var lengthInBytes = new Blob([content]).size;
+                        return lengthInBytes;
+                    }
+
+                    // 현재 입력값의 길이 계산
+                    var currentLength = calculateContentLength();
+
+                    // 최대 길이를 초과하는지 확인
+                    if (currentLength > maxLength) {
+                        alert("최대 길이를 초과했습니다. 더 이상 입력할 수 없습니다.");
+                        // 혹은 다음과 같이 최대 길이 이하로 자르거나, 입력을 무시하는 등의 처리 가능
+                        $('[name=moimContent]').summernote('undo');
+                        var truncatedContent = getSummernoteContent().substring(0, maxLength);
+                        $('[name=moimContent]').summernote('code', truncatedContent);
+                    }
+                }
+	        }
+	  });
+    
+ 
+        // 폼 제출 이벤트 리스너 등록
+        $("form").submit(function (event) {
+            // 각 입력창에 대한 유효성 검사
+            if (!validateForm()) {
+                // 하나라도 유효하지 않으면 폼 제출을 막음
+                event.preventDefault();
+            }
+        });
+
+        // 각 입력창에 대한 유효성 검사 함수
+        function validateForm() {
+            // 각 입력창의 값을 가져옴
+            var moimTitle = $("#moimTitle").val();
+            var locationNo = $("#locationNo").val();
+            var eventNo = $("#eventNo").val();
+            var moimContent = $("#moimContent").summernote('code');
+            var moimMemberCount = $("#moimMemberCount").val();
+
+
+            // 각 입력창의 길이를 체크
+            if (moimTitle === "") {
+                alert("모임명을 입력하세요.");
+                return false;
+            }
+
+            if (locationNo === "") {
+                alert("시/군/구를 선택하세요.");
+                return false;
+            }
+
+            if (eventNo === "") {
+                alert("종목을 선택하세요.");
+                return false;
+            }
+
+            if (moimContent === "") {
+                alert("모임 소개를 입력하세요.");
+                return false;
+            }
+
+            if (moimMemberCount === "") {
+                alert("정원을 입력하세요.");
+                return false;
+            }
+
+            // 모든 유효성 검사가 통과하면 true 반환
+            return true;
+        }
+
     
 
  </script> 
