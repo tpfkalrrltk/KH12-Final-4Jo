@@ -29,4 +29,7 @@ public interface JungmoDao {
 	String selectMemberEmail(String memberEmail, int jungmoNo);
 	
 	boolean updateJungmoStatus(JungmoStatusVO vo);
+	
+	//스케줄러로 정모 마감 처리
+	void updateJungmoStatus();
 }

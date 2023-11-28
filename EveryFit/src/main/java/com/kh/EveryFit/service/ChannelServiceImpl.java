@@ -15,6 +15,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.EveryFit.dao.ChatDao;
 import com.kh.EveryFit.dto.ChatDto;
+import com.kh.EveryFit.vo.ChatListVO;
 import com.kh.EveryFit.vo.ChatRoomVO;
 import com.kh.EveryFit.vo.ClientVO;
 
@@ -135,8 +136,9 @@ public class ChannelServiceImpl implements ChannelService{
 		ChatRoomVO room = findRoom(chatRoomNo);
 		if(room == null) return;
 		
+		ChatListVO vo = new ChatListVO();
 		
-	    List<ChatDto> list = chatDao.list(chatRoomNo, client.getMemberEmail());
+	    List<ChatDto> list = chatDao.list(vo);
 	    List<Map<String, Object>> chatHistory = new ArrayList<>();
 
 	    for (ChatDto dto : list) {

@@ -519,6 +519,27 @@
 		where mm.moim_member_level = '모임장' and m.moim_no = #{moimNo}
 	</select>
 	
+	<!-- moim_end_time이 오늘자인데 업그레이드 여부가 N 이면 비활성화  -->
+	<update id="moimManagement">
+		update moim 
+		set moim_state = '비활성화' 
+		where trunc(moim_end_time) = trunc(sysdate) 
+		and moim_upgrade = 'N'
+	</update>
+	
+	<!-- moim_end_time 이후로 30일이 지났으면 삭제 -->
+	<delete id="deleteMoim">
+		delete from moim where trunc(moim_end_time) = trunc(sysdate) + 30
+	</delete>
+	
+	<!-- 정모 날짜가 오늘이거나 오늘 이전이면 마감으로 상태 변경 -->
+	<update id="jungmoManagement">
+	    <![CDATA[
+	        update jungmo set jungmo_status = '마감' where JUNGMO_SCHEDULE <= sysdate 
+	        and jungmo_status != '취소'
+	    ]]>
+	</update>
+	
 </mapper>
 
 

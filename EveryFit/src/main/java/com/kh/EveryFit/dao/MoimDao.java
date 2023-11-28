@@ -94,4 +94,8 @@ public interface MoimDao {
 	//모임번호로 모임장 찾기
 	MoimMemberDto findMoimJang(int moimNo);
 	
+	//스케줄러로 모임 비활성화
+	void updateMoimStateByScheduler();
+	//스케줄러로 모임 삭제
+	void deleteMoim();
 }

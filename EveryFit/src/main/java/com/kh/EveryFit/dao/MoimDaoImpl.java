@@ -243,4 +243,15 @@ public class MoimDaoImpl implements MoimDao {
 	public Integer findMoimJangCount(int moimNo) {
 		return sqlSession.selectOne("moim.moimJangCheck", moimNo);
 	}
+	  
+	@Override
+	public void updateMoimStateByScheduler() {
+		sqlSession.update("moim.moimManagement");
+	}  
+	
+	@Override
+	public void deleteMoim() {
+		sqlSession.delete("moim.deleteMoim");
+	}
+	
 }
