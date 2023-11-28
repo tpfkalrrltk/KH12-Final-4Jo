@@ -43,6 +43,7 @@
 	
 	.profile-image {
 		width: 50px;
+		height: 50px;
 	}
 	
 	.timestamp {
@@ -57,7 +58,7 @@
 
     <div class="container-fluid">
         <div class="row mt-4">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-6 offset-md-3">
 				
 <!-- 				<div class="row"> -->
 <!-- 						<h2 class="bg-primary text-light p-3 text-start rounded"> -->
@@ -74,23 +75,21 @@
 							<div class="col message-list rounded border mt-4"></div>
 						</div>
 						
-						<div class="row">
-							<div class="col-9 mt-0 p-0">
-							<input type="text" class="form-control message-input w-100" placeholder="메세지 내용 작성">
-							</div>
-							<div class="col-3 mt-1 p-0">
-							<button type="button" class="btn btn-primary rounded-0 send-btn w-100">
+						<div class="row mt-2"><div class="col p-0">
+						<div class="input-group">
+							<input type="text" class="form-control message-input" placeholder="메세지 내용 작성">
+							<button type="button" class="btn btn-primary send-btn">
 								보내기
 							</button>
 							</div>
-						</div>
+						</div></div>
 						
 					</div>
 				</div>
 				
             </div>
         </div>        
-    </div>
+        </div>
 
 <!-- 웹소켓 서버가 SockJS일 경우 페이지에서도 SockJS를 사용해야 한다 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -143,7 +142,7 @@
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
 		        var memberImage = $("<img>")
-				        .addClass("profile-image rounded bg-primary")
+				        .addClass("profile-image rounded-circle bg-primary")
 				        .attr("src", data.clients[i].attachNo != null ?
 				                "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.clients[i].attachNo :
 				                "/images/user.png");
@@ -205,7 +204,7 @@
 
 		var memberImage = $("<img>")
 	    .attr("src", imgSrc)
-	    .addClass("rounded profile-image");
+	    .addClass("rounded-circle profile-image");
 		
 		var memberNick = $("<strong>").text(data.memberNick)
 											.addClass("ms-2")

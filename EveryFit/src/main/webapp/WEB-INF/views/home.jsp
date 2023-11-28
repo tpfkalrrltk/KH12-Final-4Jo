@@ -154,6 +154,13 @@ body {
 	padding-top: 45%;
 	color: #fff;
 }
+.profile-image {
+	object-fit:cover; 
+}
+.card {
+	height: 550px; 
+/* 	max-height: 600px; */
+}
 </style>
 
 
@@ -192,15 +199,14 @@ body {
 				<div class="col pe-0 ">
 					<div class="card border-primary mb-3 w-100 Premium bg-primary"
 						style="max-width: 400px;">
-						<div class="card-header bg-light text-primary fw-bold w-100 h-100">Moim
-							No.${PremiumMoimList.moimNo}</div>
-						<div class="card-body  w-100 h-100" style="max-height: 400px">
-							<div class="text-center">
+						<div class="card-header bg-light text-primary fw-bold w-100">${PremiumMoimList.moimTitle}</div>
+						<div class="card-body  w-100 h-100">
+							<div class="text-start">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${PremiumMoimList.moimNo}">
 									<img
 									src="${pageContext.request.contextPath}/image?moimNo=${PremiumMoimList.moimNo}"
-									class="rounded profile-image" width="100%" height="200px">
+									class="rounded profile-image " width="100%" height="200px">
 								</a>
 							</div>
 							<c:choose>
@@ -214,8 +220,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${PremiumMoimList.moimContent.length() >=14}">
-									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${PremiumMoimList.moimContent.length() >=50}">
+									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 50)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent}</p>
@@ -269,12 +275,11 @@ body {
 				<div class="col pe-0">
 					<div class="card border-primary mb-3 w-100"
 						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold  ">Moim
-							No.${myMoimList.moimNo}</div>
+						<div class="card-header bg-primary text-light fw-bold  ">${myMoimList.moimTitle}</div>
 						<div class="card-body ">
 
 
-							<div class="text-center">
+							<div class="text-start">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myMoimList.moimNo}">
 									<img
@@ -294,8 +299,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${myMoimList.moimContent.length() >=14}">
-									<p class="card-text lead">${myMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${myMoimList.moimContent.length() >=50}">
+									<p class="card-text lead">${myMoimList.moimContent.substring(0, 50)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${myMoimList.moimContent}</p>
@@ -309,8 +314,9 @@ body {
 								<div class="row">
 									<div class="col-6 offset-6 p-0">
 										<p class="card-text text-end ">
-											<small >현재 인원 ${myMoimList.memberCount}	 / ${myMoimList.moimMemberCount}</p>
+											<small >현재 인원 ${myMoimList.memberCount}	 / ${myMoimList.moimMemberCount}
 										</small>
+											</p>
 
 									</div>
 								</div>
@@ -350,12 +356,12 @@ body {
 				<div class="col pe-0">
 					<div class="card border-primary mb-3 w-100"
 						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold  ">Moim
-							No.${myLikeMoimList.moimNo}</div>
+						<div class="card-header bg-primary text-light fw-bold  ">${myLikeMoimList.moimTitle}
+							</div>
 						<div class="card-body ">
 
 
-							<div class="text-center">
+							<div class="text-start">
 								<a
 									href="${pageContext.request.contextPath}/moim/detail?moimNo=${myLikeMoimList.moimNo}">
 									<img
@@ -375,8 +381,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${myLikeMoimList.moimContent.length() >=14}">
-									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${myLikeMoimList.moimContent.length() >=50}">
+									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 50)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${myLikeMoimList.moimContent}</p>
@@ -432,8 +438,7 @@ body {
 				<div class="col pe-0">
 					<div class="card border-primary mb-3 w-100"
 						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light fw-bold  ">Moim
-							No.${NewMoimList.moimNo}</div>
+						<div class="card-header bg-primary text-light fw-bold  ">${NewMoimList.moimTitle}</div>
 						<div class="card-body ">
 
 
@@ -457,8 +462,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${NewMoimList.moimContent.length() >=14}">
-									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${NewMoimList.moimContent.length() >=50}">
+									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 50)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${NewMoimList.moimContent}</p>
@@ -510,8 +515,7 @@ body {
 				<div class="col pe-0  ">
 					<div class="card border-primary mb-3 w-100 "
 						style="max-width: 400px;">
-						<div class="card-header bg-primary text-light  fw-bold ">Moim
-							No.${GenderCheckMoimList.moimNo}</div>
+						<div class="card-header bg-primary text-light  fw-bold ">${GenderCheckMoimList.moimTitle}</div>
 						<div class="card-body ">
 
 
@@ -535,8 +539,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${GenderCheckMoimList.moimContent.length() >=14}">
-									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 14)}...</p>
+								<c:when test="${GenderCheckMoimList.moimContent.length() >=50}">
+									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 50)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
