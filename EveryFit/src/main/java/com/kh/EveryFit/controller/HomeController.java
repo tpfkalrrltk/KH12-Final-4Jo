@@ -57,6 +57,7 @@ public class HomeController {
 		model.addAttribute("GenderCheckMoimList", adminDao.GenderCheckMoimList());
 		model.addAttribute("memberCount", adminDao.memberCount());
 		model.addAttribute("myMoimList", adminDao.myMoimList(memberEmail));
+		model.addAttribute("myLikeMoimList", adminDao.myLikeMoimList(memberEmail));
 
 		return "/home";
 	}

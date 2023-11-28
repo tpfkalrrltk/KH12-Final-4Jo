@@ -81,4 +81,6 @@ public interface AdminDao {
 	void deleteReportImage(int reportNo);
 
 	List<MoimDto> myMoimList(String memberEmail);
+
+	List<MoimDto> myLikeMoimList(String memberEmail);
 }
