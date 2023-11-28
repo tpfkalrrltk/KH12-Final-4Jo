@@ -86,6 +86,11 @@
 		</set>
 		where member_email = #{memberEmail}
 	</update>
+	
+	<update id="change2">
+		update member set member_nick=#{memberNick},
+		 member_contact=#{memberContact} where member_email=#{memberEmail}
+	</update>
 
 	<update id="updateMemberLogin">
 		update member set
@@ -134,13 +139,13 @@
 	</select>
 
 	<!-- 수정 -->
-	<!-- <update id="changeMemberInfo">
+	<update id="changeMemberInfo">
 		update member
 		set
 		member_nick = #{memberNick},
 		member_contact = #{memberContact}
 		where member_email = #{memberEmail}
-	</update> -->
+	</update>
 
 	<update id="changePw">
 		update member
@@ -157,11 +162,11 @@
 </update> -->
 
 <!-- 로그인 안된 상태서 비밀번호변경  -->
-<!-- <update id="updatePassword"  >
+<update id="updatePassword"  >
         UPDATE member
         SET member_pw = #{memberPw}
         WHERE member_email = #{memberEmail}
-    </update> -->
+    </update>
 
  <update id="memberChangePw">
         UPDATE member

@@ -149,7 +149,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	// 개인정보 변경
+	// 개인정보 변경(전화번호 ,닉네임)
 	@GetMapping("/change")
 	public String change(HttpSession session, Model model) {
 		String memberEmail = (String) session.getAttribute("name");// 아이디를 꺼내오는
@@ -192,36 +192,35 @@ public class MemberController {
 	}
 
 	@PostMapping("/changePw")
-	public String changePw(HttpSession session, String changePw, Model model) {
-		// 1. 세션에서 이메일 가져오기
-		String resetPwMemberEmail = (String) session.getAttribute("name");
+	public String changePw(HttpSession session, String changePw) {
+	    // 1. 세션에서 이메일 가져오기
+	    String resetPwMemberEmail = (String) session.getAttribute("name");
 
-		// 2. 이메일로 회원 정보 가져오기
-		MemberDto findDto = memberDao.selectOne(resetPwMemberEmail);
-		 // Log the value of changePw
+	    // 2. 이메일로 회원 정보 가져오기
+	    MemberDto findDto = memberDao.selectOne(resetPwMemberEmail);
 
-		// 3. 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
-		if (findDto != null && encoder.matches(changePw, findDto.getMemberPw())) {
-			// 새로운 비밀번호를 암호화
-			String encryptedNewPassword = encoder.encode(changePw);
-			
+	    // 3. 암호화된 입력 비밀번호와 DB에 저장된 암호화된 비밀번호 비교
+//	    if (findDto != null && encoder.matches(changePw, findDto.getMemberPw())) {
+	    if (changePw != null && findDto != null && encoder.matches(changePw, findDto.getMemberPw())) {
+	        // 새로운 비밀번호를 암호화
+	        String encryptedNewPassword = encoder.encode(changePw);
 
-			// 암호화된 비밀번호를 DTO에 설정
-			findDto.setMemberPw(encryptedNewPassword);
-//			findDto.setMemberEmail(resetPwMemberEmail);
+	        // 암호화된 비밀번호를 DTO에 설정
+	        findDto.setMemberPw(encryptedNewPassword);
 
-			// 4. memberDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
-			memberDao.edit(resetPwMemberEmail, encryptedNewPassword);
+	        // 4. memberDao.edit 메소드가 새로운 비밀번호를 업데이트할 수 있도록 수정 필요
+	        memberDao.edit(resetPwMemberEmail, encryptedNewPassword);
 
-			// 5. 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
-//	        session.invalidate();
+	        // 5. 비밀번호 변경 완료 후 세션 무효화 및 로그아웃
+	        // session.invalidate();
 
-			return "redirect:/member/login";
-		} else {
-			model.addAttribute("error", "비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.");
-			return "redirect:changePw?error";
-		}
+	        return "redirect:/member/login";
+	    } else {
+	        // 실패한 경우 직접 URL에 실패 이유를 파라미터로 추가
+	        return "redirect:/changePw?error=비밀번호 변경에 실패했습니다. 입력한 비밀번호를 확인하세요.";
+	    }
 	}
+
 
 	@GetMapping("/memberChangePw")
 	public String memberChangePw(HttpSession session, Model model) {

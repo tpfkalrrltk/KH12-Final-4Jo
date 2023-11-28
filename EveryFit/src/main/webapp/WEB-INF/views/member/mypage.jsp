@@ -35,7 +35,9 @@
 						</c:when>
 						<c:otherwise>
 							<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
-								class="rounded-circle border shadow-sm profile-image w-100">
+
+								class="rounded-circle border shadow-sm bg-dark profile-image w-100">
+
 						</c:otherwise>
 					</c:choose>
 					</div></div>
