@@ -17,6 +17,15 @@ public class LeagueMatchCalculater {
 		int totalD = 0;
 		
 		for(LeagueMatchDto match : list) {
+			if(match.getLeagueMatchHomeScore()==null) {
+				match.setLeagueMatchHomeScore(0);
+			}
+			if(match.getLeagueMatchAwayScore()==null) {
+				match.setLeagueMatchAwayScore(0);
+			}
+		}
+		
+		for(LeagueMatchDto match : list) {
 			if(match.getLeagueMatchHome() == leagueTeamNo) {
 				totalG += match.getLeagueMatchHomeScore();
 				totalD += match.getLeagueMatchAwayScore();

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,7 @@ import com.kh.EveryFit.dto.MoimDto;
 import com.kh.EveryFit.vo.CheckMoimListVO;
 import com.kh.EveryFit.vo.LeagueMatchListVO;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -138,5 +140,12 @@ public class LeagueRestController {
 		List<LeagueTeamRoasterDto> list = leagueDao.checkLeagueRoaster(memberEmail, leagueNo);
 		log.debug("list = {}", list);
 		return list.size() == 0 ? true : false; 
+	}
+	
+	@PostMapping("/updateLeagueMatch")
+	public void update(@RequestBody LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
+		log.debug("리그정보 = {}", leagueMatchDto);
+		log.debug("리그번호 = {}", leagueMatchNo);
+		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 	}
 }

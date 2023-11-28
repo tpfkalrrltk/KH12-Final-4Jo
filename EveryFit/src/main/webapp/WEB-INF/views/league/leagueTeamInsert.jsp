@@ -41,10 +41,10 @@
 					<c:forEach var="memberDto" items="${memberList}">
 						<div class="input-group">
 							<div class="input-group-text">
-								<input class="form-check-input" id="flexCheckChecked" type="checkbox" name="memberEmail" 
+								<input class="form-check-input" id="${memberDto.memberEmail}" type="checkbox" name="memberEmail" 
 									value="${memberDto.memberEmail}" onchange="checkForm()">
 							</div>
-						<label class="form-control" for="flexCheckChecked">
+						<label class="form-control" for="${memberDto.memberEmail}">
 				        	${memberDto.memberNick} - [ ${memberDto.memberEmail} ]
 				        </label> 
 						</div>		
