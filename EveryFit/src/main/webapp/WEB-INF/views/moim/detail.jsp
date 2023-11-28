@@ -1496,27 +1496,31 @@ data-backdrop="static" data-keyboard="false">
 	
     $(document).on('click', '.chat-link', function(e) {
         e.preventDefault(); // 기본 링크 동작 방지
-
+		console.log("실행");
         // href 속성에서 채팅방 번호 추출
         var chatRoomNo = $(this).attr('href').split('/').pop();
 
         // Ajax 요청 보내기
-        $.ajax({
-        	url: window.contextPath+"/rest/moim/moimjang/check", 
-            method: 'POST', // 또는 'GET' 등 원하는 HTTP 메서드 설정
-            data: { chatRoomNo: chatRoomNo },
-            success: function(response) {
-                // Ajax 요청이 성공한 경우 처리
-                console.log('Ajax 요청 성공', response);
-                // 여기에서 추가적인 동작 수행 가능
-            },
-            error: function(error) {
-                // Ajax 요청이 실패한 경우 처리
-                console.error('Ajax 요청 실패', error);
-                // 여기에서 실패 시의 동작 수행 가능
-            }
-        });
-    });
+		$.ajax({
+		        	url: window.contextPath+"/rest/moim/moimjang/check", 
+		            method: 'POST', // 또는 'GET' 등 원하는 HTTP 메서드 설정
+		            data: { chatRoomNo: chatRoomNo },
+		            success: function(response) {
+		                if (response === 'Y') {
+		                    // Y인 경우 해당 링크로 리다이렉트
+		                    window.location.href = '/default/' + chatRoomNo;
+		                } else if (response === 'N') {
+		                    // N인 경우 알림창을 띄우고 동작 차단
+		                    alert("잘못된 접근입니다."");
+		                }
+		            },
+		            error: function(error) {
+		                // Ajax 요청이 실패한 경우 처리
+		                console.error(error);
+		                alert("통신 오류 발생 잠시 후 다시 시도해주세요.");
+		            }
+		        });
+		    });
 	
 	
     
