@@ -532,7 +532,7 @@
 	        <![CDATA[
 	        SELECT *
 	        FROM moim
-	        WHERE moim_end_time < SYSDATE
+	        WHERE moim_end_time < SYSDATE and moim_upgrade='Y'
 	        ]]>
 	</select>
 	

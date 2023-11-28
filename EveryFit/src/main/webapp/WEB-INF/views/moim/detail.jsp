@@ -1449,10 +1449,13 @@ data-backdrop="static" data-keyboard="false">
                         $('[name=moimContent]').summernote('code', truncatedContent);
                     }
                 }
+
            }
      });
    
    
+
+
     $(".league-list-btn").click(function(e){
        var moimNo = ${moimDto.moimNo};
 
