@@ -34,7 +34,7 @@
 						</c:when>
 						<c:otherwise>
 							<img src="${pageContext.request.contextPath}/rest/attach/download?attachNo=${profile}"
-								class="rounded-circle border shadow-sm bg-dark profile-image w-25">
+								class="rounded-circle border shadow-sm bg-dark profile-image w-100">
 						</c:otherwise>
 					</c:choose>
 					<div class="row mt-2 text-center"><div class="col">
@@ -75,7 +75,7 @@
 								<a href="${pageContext.request.contextPath}/pay/list" class="btn btn-primary w-100">보유중인 프리미엄</a>
 							</c:when>
 							<c:otherwise>
-								<a href="${pageContext.request.contextPath}/pay?productNo=1" class="btn btn-primary">프리미엄 회원권 구매</a>
+								<a href="${pageContext.request.contextPath}/pay?productNo=1" class="btn btn-primary w-100">프리미엄 회원권 구매</a>
 							</c:otherwise>
 						</c:choose>
 					</div></div>

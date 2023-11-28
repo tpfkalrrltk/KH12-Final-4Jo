@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
-import com.kh.EveryFit.error.NoTargetException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +53,8 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public void edit(String memberEmail, String memberPw) {
 		Map<String, Object> param = Map.of("memberEmail", memberEmail, "memberPw", memberPw);
-		int result = sqlSession.update("member.changePw", param);
+		String encrypt = encoder.encode(memberPw);
+		sqlSession.update("member.changePw", param);
 //		log.debug("param={}",param);
 	}
 
@@ -135,7 +135,7 @@ public class MemberDaoImpl implements MemberDao {
 //		String origin = memberDto.getMemberPw();
 //		String encrypt = encoder.encode(origin);
 //		memberDto.setMemberPw(encrypt);
-		sqlSession.update("member.changePw", memberDto);
+		sqlSession.update("member.change2", memberDto);
 	}
 
 	// 회원권 구매 후 member_moim_count (3->10) 수정
@@ -201,6 +201,14 @@ public class MemberDaoImpl implements MemberDao {
 //	    public void changeMemberPassword(MemberDto memberDto) {
 //	        sqlSession.update("com.example.mapper.MemberMapper.memberChangePw", memberDto);
 //	    }
+	
+	
+//로그인된상태에서비밀번호변경
+//	@Override
+//	public void changePw(String resetPwMemberEmail, String encryptedNewPassword) {
+//		sqlSession.update("member.changePw", encryptedNewPassword);
+//		
+//	}
 	}
 
 //	로그인 시간 갱신 

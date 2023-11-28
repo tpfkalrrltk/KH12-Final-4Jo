@@ -73,6 +73,10 @@ public interface MemberDao {
 
 
 
+//		void changePw(String resetPwMemberEmail, String encryptedNewPassword);
+
+
+
 	
 
 
