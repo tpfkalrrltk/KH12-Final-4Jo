@@ -158,9 +158,22 @@ body {
 	object-fit:cover; 
 }
 .card {
-	height: 550px; 
+	height: 450px; 
 /* 	max-height: 600px; */
 }
+.card-body {
+	font-size:15px;
+}
+.card-text-leader {
+	font-size:15px;
+}
+.card-title {
+	font-size:15px;
+}
+.card-text {
+	font-size:15px;
+}
+
 </style>
 
 
@@ -178,7 +191,7 @@ body {
 		style="display: block; margin: 0; text-align: center; font-size: 3rem; bottom: 80px; left: 890px; position: absolute">▼</span>
 
 
-	<div class="container-fluid ">
+	<div class="container-fluid">
 
 		<div class="row mt-5 p-5 ">
 
@@ -210,8 +223,8 @@ body {
 								</a>
 							</div>
 							<c:choose>
-								<c:when test="${PremiumMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${PremiumMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-light bg-primary">${PremiumMoimList.moimTitle}</h4>
@@ -220,8 +233,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${PremiumMoimList.moimContent.length() >=50}">
-									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 50)}...</p>
+								<c:when test="${PremiumMoimList.moimContent.length() >=40}">
+									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead text-light bg-primary">${PremiumMoimList.moimContent}</p>
@@ -244,7 +257,7 @@ body {
 
 
 							<a
-								class="btn btn-light text-primary btn-lg fw-bold premium-btn btn-join"
+								class="btn btn-light text-primary btn-md fw-bold premium-btn btn-join"
 								role="button" data-moim-no="${PremiumMoimList.moimNo}">Join</a>
 
 						</div>
@@ -252,13 +265,13 @@ body {
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
-		<div class="row contaner-fluid  auto-width m-5 p-5">
-			</c:if>
 			</c:forEach>
+		</div>
+			</c:if>
 
 		</div>
 
+		<div class="row contaner-fluid  auto-width m-5 p-5">
 <c:if test="${sessionScope.name !=null }">
 <div class="row mt-5 p-5">
 			<div class="col-4 col-sm-7 col-md-4 col-lg-4 offset-4 offset-sm-1 offset-md-3 offset-4 p-5 m-4 bg-primary rounded-3  text-light"
@@ -290,8 +303,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${myMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${myMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${myMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${myMoimList.moimTitle}</h4>
@@ -299,8 +312,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${myMoimList.moimContent.length() >=50}">
-									<p class="card-text lead">${myMoimList.moimContent.substring(0, 50)}...</p>
+								<c:when test="${myMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${myMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${myMoimList.moimContent}</p>
@@ -322,7 +335,7 @@ body {
 								</div>
 							</div>
 
-							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
 								role="button" data-moim-no="${myMoimList.moimNo}">Join</a>
 						</div>
 					</div>
@@ -372,8 +385,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${myLikeMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${myLikeMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${myLikeMoimList.moimTitle}</h4>
@@ -381,8 +394,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${myLikeMoimList.moimContent.length() >=50}">
-									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 50)}...</p>
+								<c:when test="${myLikeMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${myLikeMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${myLikeMoimList.moimContent}</p>
@@ -403,18 +416,18 @@ body {
 								</div>
 							</div>
 
-							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
 								role="button" data-moim-no="${myLikeMoimList.moimNo}">Join</a>
 						</div>
 					</div>
 				</div>
 				<!-- Start a new row after every 3rd product -->
 				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
 		<div class="row contaner-fluid  auto-width m-5">
 			</c:if>
 			</c:forEach>
 
+		</div>
 
 		</div>
 
@@ -453,8 +466,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${NewMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${NewMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${NewMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${NewMoimList.moimTitle}</h4>
@@ -462,8 +475,8 @@ body {
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${NewMoimList.moimContent.length() >=50}">
-									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 50)}...</p>
+								<c:when test="${NewMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${NewMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${NewMoimList.moimContent}</p>
@@ -484,7 +497,7 @@ body {
 								</div>
 							</div>
 
-							<a class="btn btn-primary btn-lg fw-bold New-btn btn-join"
+							<a class="btn btn-primary btn-md fw-bold New-btn btn-join"
 								role="button" data-moim-no="${NewMoimList.moimNo}">Join</a>
 						</div>
 					</div>
@@ -529,8 +542,8 @@ body {
 							</div>
 
 							<c:choose>
-								<c:when test="${GenderCheckMoimList.moimTitle.length() >=12}">
-									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 12)}..</h4>
+								<c:when test="${GenderCheckMoimList.moimTitle.length() >=7}">
+									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle.substring(0, 7)}..</h4>
 								</c:when>
 								<c:otherwise>
 									<h4 class="card-title text-primary">${GenderCheckMoimList.moimTitle}</h4>
@@ -539,8 +552,8 @@ body {
 
 
 							<c:choose>
-								<c:when test="${GenderCheckMoimList.moimContent.length() >=50}">
-									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 50)}...</p>
+								<c:when test="${GenderCheckMoimList.moimContent.length() >=40}">
+									<p class="card-text lead">${GenderCheckMoimList.moimContent.substring(0, 40)}...</p>
 								</c:when>
 								<c:otherwise>
 									<p class="card-text lead">${GenderCheckMoimList.moimContent}</p>
@@ -562,7 +575,7 @@ body {
 							</div>
 
 
-							<a class="btn btn-primary btn-lg fw-bold Gender-btn btn-join"
+							<a class="btn btn-primary btn-md fw-bold Gender-btn btn-join"
 								role="button" data-moim-no="${GenderCheckMoimList.moimNo}">Join</a>
 						</div>
 					</div>

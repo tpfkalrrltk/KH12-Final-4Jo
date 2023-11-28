@@ -173,7 +173,6 @@ data-backdrop="static" data-keyboard="false">
          <div class="bar-popup-menu bar-dropdown-menu" id="blockedMenu" style="left:65%;">
              <!-- N일 때 보여질 팝업 메뉴 내용 -->
              <a class="dropdown-item exit-btn" href="member/exit?moimNo=${moimDto.moimNo}">탈퇴하기</a>
-             <a class="dropdown-item" href="">신고하기</a>
          </div>
          
          
