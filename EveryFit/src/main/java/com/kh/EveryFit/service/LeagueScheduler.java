@@ -23,7 +23,7 @@ public class LeagueScheduler {
 	
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
-	//@Scheduled(cron = "0/30 * * * * ?")
+	//@Scheduled(cron = "* */30 * * * ?")
 	private void leagueStatusUpdate() {
 		List<LeagueDto> leagueList = leagueDao.selectLeagueDtoList();
 		LocalDateTime currentDate = LocalDateTime.now();

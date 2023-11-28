@@ -19,6 +19,7 @@ import com.kh.EveryFit.dto.LeagueMatchDto;
 import com.kh.EveryFit.dto.LeagueTeamDto;
 import com.kh.EveryFit.vo.LeagueScoreCalculateVO;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,7 +32,6 @@ public class LeagueMatchRestController {
 	
 	@PostMapping("/")
 	public void insert(@ModelAttribute LeagueMatchDto leagueMatchDto) {
-		log.debug("leagueMatchDto = {}", leagueMatchDto);
 		leagueMatchDto.setLeagueMatchNo(leagueDao.leagueMatchSequence());
 		leagueDao.insertLeagueMatch(leagueMatchDto);
 	}
@@ -43,7 +43,7 @@ public class LeagueMatchRestController {
 	}
 	
 	@PutMapping("/{leagueMatchNo}")
-	public void update(@ModelAttribute LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
+	public void update(@RequestBody LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 	}
 	
@@ -62,8 +62,8 @@ public class LeagueMatchRestController {
 		int awayScore = leagueMatchDto.getLeagueMatchAwayScore();
 
 		if(isEdit) {
-			int originHomeScore = originMatchDto.getLeagueMatchHomeScore();
-			int originAwayScore = originMatchDto.getLeagueMatchAwayScore();
+			Integer originHomeScore = originMatchDto.getLeagueMatchHomeScore();
+			Integer originAwayScore = originMatchDto.getLeagueMatchAwayScore();
 			if(originHomeScore > originAwayScore) {
 				homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() - 1);
 				awayDto.setLeagueTeamLose(awayDto.getLeagueTeamLose() - 1);
@@ -78,20 +78,21 @@ public class LeagueMatchRestController {
 			}
 		}
 		
-		
-		
-		if(homeScore > awayScore) {
-			homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() + 1);
-			awayDto.setLeagueTeamLose(awayDto.getLeagueTeamLose() + 1);
-		}
-		else if(homeScore < awayScore) {
-			homeDto.setLeagueTeamLose(homeDto.getLeagueTeamLose() + 1);
-			awayDto.setLeagueTeamWin(awayDto.getLeagueTeamWin() + 1);
-		}
 		else {
-			homeDto.setLeagueTeamDraw(homeDto.getLeagueTeamDraw() + 1);
-			awayDto.setLeagueTeamDraw(awayDto.getLeagueTeamDraw() + 1);
+			if(homeScore > awayScore) {
+				homeDto.setLeagueTeamWin(homeDto.getLeagueTeamWin() + 1);
+				awayDto.setLeagueTeamLose(awayDto.getLeagueTeamLose() + 1);
+			}
+			else if(homeScore < awayScore) {
+				homeDto.setLeagueTeamLose(homeDto.getLeagueTeamLose() + 1);
+				awayDto.setLeagueTeamWin(awayDto.getLeagueTeamWin() + 1);
+			}
+			else {
+				homeDto.setLeagueTeamDraw(homeDto.getLeagueTeamDraw() + 1);
+				awayDto.setLeagueTeamDraw(awayDto.getLeagueTeamDraw() + 1);
+			}
 		}
+		
 		
 		int leagueNo = leagueMatchDto.getLeagueNo();
 		List<LeagueMatchDto> leagueMatchList = leagueDao.selectLeagueMatchList(leagueNo);
@@ -105,7 +106,6 @@ public class LeagueMatchRestController {
 		awayDto.setLeagueTeamG(awayTotalVO.getTotalG());
 		awayDto.setLeagueTeamD(awayTotalVO.getTotalD());
 		awayDto.setLeagueTeamGD(awayTotalVO.getTotalGD());
-		
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 		leagueDao.updateLeagueTeam(homeDto, homeDto.getLeagueTeamNo());
 		leagueDao.updateLeagueTeam(awayDto, awayDto.getLeagueTeamNo());

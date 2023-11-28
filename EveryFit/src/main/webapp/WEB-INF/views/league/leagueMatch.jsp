@@ -372,7 +372,6 @@ $(".result-btn").click(function(){
 		url:window.contextPath + "/rest/league/findLeagueMatchVO",
 		data:{leagueMatchNo:leagueMatchNo},
 		success:function(response){
-			console.log(response);
 			$("#matchResultModal input").each(function() {
                 var inputName = $(this).attr('name');
                 $(this).val(response[inputName]);
@@ -406,6 +405,7 @@ $(".match-edit-btn").click(function(){
 //경기 결과 등록하기(통신)
 $(".match-result-btn").click(function(){
 	var formData = $(".leagueMatchResultForm").serialize();
+	console.log(formData);
 	var leagueMatchNo = $(".leagueMatchResultForm input[name='leagueMatchNo']").val();
 	$.ajax({
 		type:"put",
