@@ -88,10 +88,22 @@
 				<div class="row mt-2 text-center"><div class="col">
 					<h3>참여중인 모임</h3>
 				</div></div>
+				<c:choose>
+				<c:when test="${empty moimList}">
+				참여중인 모임이 없습니다
+				</c:when>
+				</c:choose>
 				<c:forEach var="moimDto" items="${moimList}">
 					<div class="row mt-2"><div class="col">
 						<div class="card border-dark mb-3">
-							<div class="card-header">모임번호 : ${moimDto.moimNo}</div>
+							<div class="card-header">
+							<c:if test="${moimDto.moimUpgrade == 'N'}">
+							<span class="ms-2 badge bg-secondary">일반</span>
+							</c:if>
+							<c:if test="${moimDto.moimUpgrade == 'Y'}">
+							<span class="ms-2 badge bg-info">프리미엄</span>
+							</c:if>
+							</div>
 							  <div class="card-body">
 							    <h4 class="card-title text-center">${moimDto.moimTitle}</h4>
 							    	<div class="row"><div class="col-8 offset-2">
