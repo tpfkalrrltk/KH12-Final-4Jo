@@ -293,7 +293,7 @@
 						method : "post",
 						dataType : "json", // JSON 형식으로 응답을 기대하는 경우 반드시 명시
 						success : function(response) {
-							console.log(response); // 확인용 출력
+				
 
 							// 기존 내용 삭제
 							$(".moimListAppend").empty();
@@ -319,7 +319,7 @@
 							// 예시: response.moimName은 실제 데이터 구조에 맞게 변경
 						},
 						error : function(xhr, status, error) {
-							console.error("Ajax 요청 에러:", status, error);
+					
 						},
 					});
 				});
@@ -339,7 +339,7 @@
 
 				// 클릭된 링크의 태그 이름을 가져와서 출력
 				var tag = link.getAttribute('data-tag');
-				console.log('선택된 태그: ' + tag);
+			
 
 				// '소개' 링크를 클릭하면 해당 내용을 summernote에 추가
 				if (tag === '소개') {
