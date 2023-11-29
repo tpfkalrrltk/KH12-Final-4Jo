@@ -27,7 +27,7 @@ import com.kh.EveryFit.vo.KakaoPayReadyResponseVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Repository
 public class KakaoPayServiceImpl implements KakaoPayService{
 
@@ -91,7 +91,7 @@ public class KakaoPayServiceImpl implements KakaoPayService{
 		HttpEntity entity = new HttpEntity(body, headers);
 		
 		KakaoPayApproveResponseVO response = template.postForObject(uri, entity, KakaoPayApproveResponseVO.class);
-		log.debug("결제 승인 완료 = {}", response.getTid());
+
 		return response;
 	}
 
@@ -140,7 +140,7 @@ public class KakaoPayServiceImpl implements KakaoPayService{
 		HttpEntity entity = new HttpEntity(body, headers);
 		
 		KakaoPayApproveResponseVO response = template.postForObject(uri, entity, KakaoPayApproveResponseVO.class);
-		log.debug("정기 결제 승인 완료 = {}", response.getTid());
+	
 		return response;
 	}
 

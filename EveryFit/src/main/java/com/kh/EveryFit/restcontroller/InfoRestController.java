@@ -16,7 +16,6 @@ import com.kh.EveryFit.dto.LocationDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Tag(name="메인 테이블외에 컨트롤러", description = "리액트에서 써야하는 부가 컨트롤러들")
 @CrossOrigin
 @RestController

@@ -20,7 +20,6 @@ import com.kh.EveryFit.vo.PaymentListAllVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class DownGradeMoimScheduler {
 
@@ -41,12 +40,12 @@ public class DownGradeMoimScheduler {
 				
 			//log.debug("NO: {}", paymentListAllVO.getPeriodPaymentNo() , paymentListAllVO.getPeriodPaymentEnd(), paymentListAllVO.getPeriodPaymentStatus());
 		    //log.debug("END: {}", paymentListAllVO.getPeriodPaymentEnd());
-		    log.debug("moimDto: {}", moimDto);
+	
 
 		    moimDao.upgradeToNotPrimium(MoimDto.builder()
 					.moimNo(moimDto.getMoimNo())
 					.build());
-			log.debug("상태 Y->N로 변경 완료");
+	
 		}
 			
 	}

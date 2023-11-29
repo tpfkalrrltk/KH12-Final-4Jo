@@ -107,7 +107,7 @@
 			method:"post",
 			data:{leagueNo:leagueNo, moimNo:moimNo},
 			success:function(response){
-				console.log(response);
+			
 				if(response!='legal'){
 					alert("이미 참가한 모임입니다.");
 			    	return;
@@ -118,7 +118,7 @@
 				}
 			},
 			error:function(error){
-				console.log(error);
+				
 				alert("오류가 발생되었습니다. 잠시후 다시 시도해주세요.");
 				return;
 			}
@@ -160,7 +160,7 @@
 				}
 			},
 			error:function(err){
-				console.log(err);
+		
 			},
 		});
 	});

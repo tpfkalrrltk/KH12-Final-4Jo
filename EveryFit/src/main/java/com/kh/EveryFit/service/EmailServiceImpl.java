@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class EmailServiceImpl implements EmailService{
 

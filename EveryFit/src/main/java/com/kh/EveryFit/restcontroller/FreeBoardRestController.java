@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @CrossOrigin
 @RequestMapping("/freeBoard")
-@Slf4j
 public class FreeBoardRestController {
 
 	@Autowired

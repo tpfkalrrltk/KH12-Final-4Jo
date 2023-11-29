@@ -47,7 +47,7 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 		window.onscroll = function() {
 			if (window.pageYOffset > 0) {
 				var opac = (window.pageYOffset / nystories);
-				console.log(opac);
+				
 				document.body.style.background = "linear-gradient(rgba(255, 255, 255, "
 						+ opac
 						+ "), rgba(255, 255, 255, "
@@ -88,16 +88,16 @@ x<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 			// 모임 번호 가져오기
 			var moimNo = $(this).data("moim-no");
-			console.log(moimNo);
+
 			$.ajax({
-				url : "http://localhost:8080/rest/moim/member/join",
+				url : window.contextPath+"/rest/moim/member/join",
 				method : "post",
 				data : {
 					moimNo : moimNo
 				},
 				success : function(response) {
 					// 서버에서 받은 응답(response)에 따라 화면 처리
-					console.log(response);
+		
 					// 예시: 성공 시 alert 창 띄우기
 					if (response === "notLoggedIn") {
 						$(".modal-body").text("로그인하세요.");
@@ -273,15 +273,16 @@ body {
 					</div>
 				</div>
 				<!-- Start a new row after every 3rd product -->
-				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
-		<div class="row contaner-fluid  auto-width m-5">
-			</c:if>
-			</c:forEach>
-		</div>
+		<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+</div>
+<div class="row contaner-fluid  auto-width m-5">
+	</c:if>
+	</c:forEach>
 
 
-	</div>
+</div>
+
+
 
 
 	<div class="row contaner-fluid  auto-width m-5 p-5">
@@ -295,12 +296,12 @@ body {
 				</div>
 
 
-				<div class="row align-items-center m-5">
+				<div class="row align-items-center m-5 d-inline">
 
 
 					<c:forEach var="myMoimList" items="${myMoimList}"
 						varStatus="loopStatus" end="7">
-						<div class="col pe-0">
+						<div class="col pe-0 ">
 							<div class="card border-primary mb-3 w-100"
 								style="max-width: 400px;">
 								<div class="card-header bg-primary text-light fw-bold  ">${myMoimList.moimTitle}</div>
@@ -358,15 +359,14 @@ body {
 							</div>
 							
 							<!-- Start a new row after every 3rd product -->
-							<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+			<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
+</div>
+<div class="row contaner-fluid  auto-width m-5">
+	</c:if>
+	</c:forEach>
 
-						</div>
-						<div class="row contaner-fluid  auto-width m-5">
-		</c:if>
-		</c:forEach>
 
-
-	</div>
+</div>
 
 	</c:if>
 
@@ -475,7 +475,7 @@ body {
 
 	<c:forEach var="NewMoimList" items="${NewMoimList}"
 		varStatus="loopStatus" end="7">
-		<div class="col pe-0">
+		<div class="col pe-0 ">
 			<div class="card border-primary mb-3 w-100" style="max-width: 400px;">
 				<div class="card-header bg-primary text-light fw-bold  ">${NewMoimList.moimTitle}</div>
 				<div class="card-body ">

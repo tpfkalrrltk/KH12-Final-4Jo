@@ -40,7 +40,6 @@ import com.kh.EveryFit.vo.moimListForMyPageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/moim")
@@ -104,10 +103,10 @@ public class MoimRestController {
 		memberLikeDto.setMemberEmail(memberEmail);
 
 		boolean isCheck = moimDao.memberLikeCheck(memberLikeDto);
-		log.debug("isCheck = {}", isCheck);
+
 		if (!isCheck) { // 체크되어있지 않다면
 		    moimDao.memberLikeInsert(memberLikeDto); // 체크설정
-		    log.debug("memberLikeDto = {}", memberLikeDto);
+
 		} else { // 이미 체크되어 있다면
 		    moimDao.memberLikeDelete(memberLikeDto); // 체크해제
 		}
@@ -149,7 +148,7 @@ public class MoimRestController {
 		
 		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
 		int chatRoomNo = chatDao.sequence();
-		log.debug("chatRoomNo");
+	
 		
 //		String memberEmail = (String)session.getAttribute("name");
 		chatDao.insertChatRoom(chatRoomNo);
@@ -255,7 +254,7 @@ public class MoimRestController {
 	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
 	    String memberEmail = (String) session.getAttribute("name");
 	    
-	    log.debug("moimNo={}", moimNo);
+
 	    if (memberEmail == null) {
 	        // 로그인되어 있지 않은 경우
 	        return "notLoggedIn";

@@ -30,7 +30,7 @@ import com.kh.EveryFit.dto.AttachDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @CrossOrigin
 @RestController
 @RequestMapping("faq/rest/attach")
@@ -76,7 +76,6 @@ public class FAQAttachRestController {
 		faqDao.deleteFreeBoardImage(freeBoardNo);
 		faqDao.insertFreeBoardImage(freeBoardNo, attachDto.getAttachNo());
 		
-		log.debug("freeBoadNo = {}", freeBoardNo);
 		
 		return Map.of("attachNo", attachNo);
 	}

@@ -176,7 +176,7 @@
 						dataType : "json",
 						success : function(response) {
 							//응답 형태 - { "attachNo" : 7 }
-							console.log(response);
+		
 
 							//프로필 이미지 교체
 							$(".profile-image").attr(
@@ -221,7 +221,7 @@
 
 				// 클릭된 링크의 태그 이름을 가져와서 출력 (여기서는 콘솔에 출력)
 				var tag = link.getAttribute('data-tag');
-				console.log('선택된 태그: ' + tag);
+			
 
 				// 이제 여기에 실제 정보를 불러오는 로직을 추가하세요.
 				// 예를 들면, Ajax를 사용하여 서버에서 데이터를 가져오거나, 미리 정의된 데이터를 사용할 수 있습니다.
@@ -250,7 +250,7 @@
 						method : "post",
 						dataType : "json", // JSON 형식으로 응답을 기대하는 경우 반드시 명시
 						success : function(response) {
-							console.log(response); // 확인용 출력
+				
 
 							// 기존 내용 삭제
 							$(".moimListAppend").empty();
@@ -276,14 +276,14 @@
 							// 예시: response.moimName은 실제 데이터 구조에 맞게 변경
 						},
 						error : function(xhr, status, error) {
-							console.error("Ajax 요청 에러:", status, error);
+			
 						},
 					});
 				});
 	});
 </script>
 
-<script>
+<script> 
 	$(function() {
 		$(".moimList").click(
 				function() {

@@ -45,7 +45,7 @@
 					alert("비밀번호가 성공적으로 변경되었습니다.");
 				},
 				error : function(xhr, status, error) {
-					console.error("비밀번호 변경 실패: " + error);
+
 				}
 			});
 		}

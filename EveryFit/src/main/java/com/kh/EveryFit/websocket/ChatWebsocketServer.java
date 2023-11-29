@@ -31,7 +31,7 @@ import com.kh.EveryFit.vo.ClientVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Service
 public class ChatWebsocketServer extends TextWebSocketHandler {
 	
@@ -68,7 +68,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		waitingRoom.exit(client);
 		members.remove(client);
 		channelService.exitUser(client);
-		log.debug("나감!");
+	
 //		sendClientList();
 		
 	}
@@ -117,8 +117,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		
 		String chatRoomNoString = (String) params.get("chatRoomNo");
 		Integer chatRoomNo = Integer.parseInt(chatRoomNoString);
-		
-		log.debug("chatRoomNo={}", chatRoomNo);
+
 		
 		ClientVO client = new ClientVO(session);
 		
@@ -156,7 +155,7 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 		
         
 		boolean isJoin = params.get("type").equals("join");
-		log.debug("isjoin? = {}", isJoin);
+
 //		channelService.findRoom(chatRoomNo);
 		channelService.enterUser(client, chatRoomNo);
 		

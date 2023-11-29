@@ -32,7 +32,6 @@ import com.kh.EveryFit.dto.MemberDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/member")
@@ -147,7 +146,7 @@ public class MemberRestController {
 //			dir = new File(props.getHome());
 			dir = new File(props.getHome());
 			dir.mkdirs();
-			log.debug("생성 - " +dir.getAbsolutePath());
+	
 		}
 		
 //		//비동기통신에서는 화면에서 다음 작업이 가능하도록 파일번호 등을 전달
@@ -156,7 +155,7 @@ public class MemberRestController {
 				@RequestParam MultipartFile attach) throws IllegalStateException, IOException {
 //			//절대규칙 - 파일은 하드디스크에, 정보는 DB에!
 //			
-			log.debug("업로드 시작");
+		
 //			//[1] 시퀀스 번호를 생성한다
 			int attachNo = attachDao.sequence();
 			
@@ -178,7 +177,7 @@ public class MemberRestController {
 			String memberEmail = (String)session.getAttribute("name");
 			memberDao.deleteProfile(memberEmail);//기존이미지를 제거
 			memberDao.insertProfile(memberEmail, attachNo);//신규이미지를 추가
-			log.debug("{}, {}", memberEmail, attachNo);
+	
 			
 			//화면에서 사용할 수 있도록 파일번호 또는 다운주소를 반환
 //			return 객체 or Map;

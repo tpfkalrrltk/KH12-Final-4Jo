@@ -15,7 +15,7 @@ import com.kh.EveryFit.dto.LeagueDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Service
 public class LeagueScheduler {
 

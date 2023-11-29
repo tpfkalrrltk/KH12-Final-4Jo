@@ -289,7 +289,7 @@ data-backdrop="static" data-keyboard="false">
                <div class="col-2 text-end">
                <label class="jungmo-edit" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"><i class="fa-regular fa-calendar-check" style="color: #4582ec;"></i></label>
                <label class="jungmo-cancel" style="display:none;" data-jungmo-no="${jungmoList.jungmoListVO.jungmoNo}"> 
-               <a href="${pageContext.request.contextPath}/jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" 
+               <a href="jungmo/cancel?jungmoNo=${jungmoList.jungmoListVO.jungmoNo}" 
                style="text-decoration: none;">
                <i class="fa-regular fa-calendar-xmark" style="color: #4582ec;"></i>
                </a>
@@ -844,7 +844,7 @@ data-backdrop="static" data-keyboard="false">
                data: formData,
                success: function (data) {
                    // 서버 응답에 따른 동작 수행
-                  console.log(data); 
+           
                     alert("변경완료");
                    window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
                },
@@ -887,7 +887,7 @@ data-backdrop="static" data-keyboard="false">
                processData: false,
                success: function (data) {
                    // 서버 응답에 따른 동작 수행
-                  console.log(data); 
+
                     alert("등록완료");
                    window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
                },
@@ -921,7 +921,7 @@ data-backdrop="static" data-keyboard="false">
                processData: false,
                success: function (data) {
                    // 서버 응답에 따른 동작 수행
-                  console.log(data); 
+
                     alert("수정완료");
                    window.location.href = "${pageContext.request.contextPath}/moim/detail?moimNo=${moimDto.moimNo}";
                    
@@ -945,7 +945,7 @@ data-backdrop="static" data-keyboard="false">
             data: { jungmoNo: jungmoNo },
             success: function (data) {
                 // 서버 응답에 따른 동작 수행
-                console.log(data);
+    
                 $('input[name="jungmoNo"]').val(data.jungmoDto.jungmoNo);
                 $('input[name="jungmoTitle"]').val(data.jungmoDto.jungmoTitle);
                 $('input[name="jungmoAddr"]').val(data.jungmoDto.jungmoAddr);
@@ -1108,7 +1108,7 @@ data-backdrop="static" data-keyboard="false">
             data: { memberEmail: memberEmail, moimNo: moimNo },
             success: function(response) {
                 // 회원 정보를 표시할 HTML 요소를 선택
-                console.log(response);
+              
                 var memberInfoContainer = $('.moim-member-info');
 
                 // 받아온 회원 정보를 HTML에 추가
@@ -1150,7 +1150,7 @@ data-backdrop="static" data-keyboard="false">
                 Modal.show();
             },
             error: function(error) {
-                console.error(error);
+                
             }
         });
     }
@@ -1204,7 +1204,7 @@ data-backdrop="static" data-keyboard="false">
                 }
             },
             error: function() {
-                console.error('에러');
+
             }
         });
     });
@@ -1318,7 +1318,7 @@ data-backdrop="static" data-keyboard="false">
                 }
             },
             error: function() {
-                console.error('에러');
+
             }
         });
     });
@@ -1405,7 +1405,7 @@ data-backdrop="static" data-keyboard="false">
                     
                     modalContent += '<p class="card-text mt-2">리그상태 : ' + leagueList[i].leagueStatus + '</p>';
                       modalContent += '</div></div>';
-                    console.log(modalContent);
+                  
                 }
              
                 $('#leagueList .modal-body').empty().append(modalContent);

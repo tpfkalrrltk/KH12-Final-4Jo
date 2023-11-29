@@ -28,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/admin")
-@Slf4j
 public class AdminController {
 
 	@Autowired
@@ -99,9 +98,9 @@ public class AdminController {
 	@RequestMapping("/report/detail")
 	public String reportDetail(Model model, @RequestParam int reportNo) {
 		model.addAttribute("reportDto", adminDao.reportDetail(reportNo));
-		log.debug("번호={}", reportNo);
+
 		Integer reportImage = adminDao.findReportImage(reportNo);
-		log.debug("이미지 확인={}", reportImage);
+
 		model.addAttribute("reportImage", reportImage);
 
 		return "report/detail";

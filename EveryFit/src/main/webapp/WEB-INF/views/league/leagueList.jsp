@@ -274,7 +274,7 @@ $(function(){
 			type:"post",
 			data:{leagueNo:leagueNo},
 			success:function(data){
-				console.log(data);
+
 				if(data==false){
 					$("#actionType").val("add");
 				}
@@ -287,7 +287,7 @@ $(function(){
 				Modal.show();
 			},
 			error: function(response) {
-			    console.log(response);
+	
 			}
 		})
 		$("#appInsert input[name='leagueNo']").val(leagueNo);
@@ -339,7 +339,7 @@ $(function(){
 		minDate:0, 
 		useCurrent:false, 
 		onClose: function(e) {
-			console.log(e);
+
 			 $("#applicationEnd").datetimepicker('setOptions', {minDate:e});
 		},
 	});

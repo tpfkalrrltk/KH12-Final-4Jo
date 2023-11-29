@@ -19,7 +19,7 @@ import com.kh.EveryFit.vo.PaymentListAllVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Service
 public class PaymentScheduler {
 
@@ -40,9 +40,7 @@ public class PaymentScheduler {
 	private void periodPayment() throws URISyntaxException {
 		List<PaymentListAllVO> list = paymentDao.selectListAll();
 		for (PaymentListAllVO paymentListAllVO : list) {
-			log.debug("NO: {}", paymentListAllVO.getPeriodPaymentNo() , paymentListAllVO.getPeriodPaymentEnd(), paymentListAllVO.getPeriodPaymentStatus());
-		    log.debug("END: {}", paymentListAllVO.getPeriodPaymentEnd());
-		    log.debug("STATUE: {}", paymentListAllVO.getPeriodPaymentStatus());
+		
 		    
 			KakaoPayApproveRequestInPeriodVO request =
 			KakaoPayApproveRequestInPeriodVO.builder()
@@ -57,10 +55,7 @@ public class PaymentScheduler {
 			
 			//결제 승인 요청
 			KakaoPayApproveResponseVO response = kakoPayService.period2Approve(request);
-			log.debug("정기결제승인요청하였고SID는={}", response.getSid());
-			log.debug("정기결제승인요청하였고PRICE는={}", response.getAmount().getTotal());
-			log.debug("정기결제승인요청하였고결제요청시각은={}", response.getCreatedAt());
-			
+		
 			
 			//결제 승인이 완료되었다면 DB에 결제 정보(period_payment_end)를 업데이트
 //			int paymentNo = paymentDao.sequence();

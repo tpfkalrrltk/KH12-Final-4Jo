@@ -15,7 +15,7 @@ import com.kh.EveryFit.error.AuthorityException;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
+
 public class MemberBlockInterceptor implements HandlerInterceptor {
 
 	@Autowired
@@ -37,12 +37,12 @@ public class MemberBlockInterceptor implements HandlerInterceptor {
 
 		boolean isNotBlock = memberBlock.equals("N") && memberBlock != null;
 		if (isNotBlock) {
-			log.debug("messageTrue={}", isNotBlock);
+
 
 			return true;
 		} else {
 			// throw new AuthorityException("차단당한 회원입니다. 관리자에게 문의 하세요");
-			log.debug("messageFalse={}", isNotBlock);
+
 			response.sendRedirect(request.getContextPath() + "/error/MemberBlockException");
 
 		}

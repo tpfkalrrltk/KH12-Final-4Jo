@@ -20,7 +20,6 @@ import com.kh.EveryFit.vo.LeagueTeamRankListVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Repository
 public class LeagueDaoImpl implements LeagueDao{
 
@@ -39,7 +38,6 @@ public class LeagueDaoImpl implements LeagueDao{
 	
 	@Override
 	public List<LeagueListDto> selectLeagueListSearch(LeagueListVO vo) {
-		log.debug("vo={}", vo);
 		return sqlSession.selectList("league.listLeagueSearch", vo);
 	}
 	

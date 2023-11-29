@@ -27,7 +27,7 @@ import com.kh.EveryFit.vo.BoardVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Controller
 @RequestMapping("/moim/board")
 public class MoimBoradController {

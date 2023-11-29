@@ -28,7 +28,7 @@ import com.kh.EveryFit.dto.AttachDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/attach")
@@ -74,7 +74,7 @@ public class AttachRestController {
 		moimDao.deleteMoimProfile(moimNo);
 		moimDao.insertMoimProfile(moimNo, attachDto.getAttachNo());
 		
-		log.debug("moimNo = {}", moimNo);
+
 		
 		return Map.of("attachNo", attachNo);
 	}

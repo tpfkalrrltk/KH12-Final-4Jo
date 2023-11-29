@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/faq")
-@Slf4j
 public class FaqController {
 
 	@Autowired

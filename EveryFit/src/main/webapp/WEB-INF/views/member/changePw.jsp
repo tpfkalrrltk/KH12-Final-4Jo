@@ -61,6 +61,7 @@
 </form>
 
 <script>
+
 	/* 비밀번호 보기  */
 	 /* $(document).ready(function() {
 		console.log("Script is running!");
@@ -89,5 +90,6 @@
 			}
 		});
 	});  */
+
 </script>
 <jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

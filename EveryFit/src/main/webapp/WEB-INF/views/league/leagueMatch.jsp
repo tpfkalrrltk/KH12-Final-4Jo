@@ -287,7 +287,7 @@
 $(".auto-match-btn").click(function(){
 	var leagueNo = $(this).data("league-no");
 	var isDouble = $("[name='isDouble']").val();
-	console.log(isDouble);
+	
 	if(isDouble=="") {
 		alert("리그방식을 선택해주세요");
 		return;
@@ -405,7 +405,7 @@ $(".match-edit-btn").click(function(){
 //경기 결과 등록하기(통신)
 $(".match-result-btn").click(function(){
 	var formData = $(".leagueMatchResultForm").serialize();
-	console.log(formData);
+
 	var leagueMatchNo = $(".leagueMatchResultForm input[name='leagueMatchNo']").val();
 	$.ajax({
 		type:"put",

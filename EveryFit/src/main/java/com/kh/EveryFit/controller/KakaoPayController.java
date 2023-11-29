@@ -40,7 +40,6 @@ import com.kh.EveryFit.vo.PaymentListByMemberVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 public class KakaoPayController {
 
 	@Autowired
@@ -72,8 +71,7 @@ public class KakaoPayController {
 		//List<PaymentListAllVO> PaymentListAllVO = paymentDao.paymentListByMember(memberId);
 		//가입된 모임 번호를 확인하여 periodPayment의 moim_no에 저장
 		//가입된 모임 번호를 확인하여 VO에 저장
-		log.debug("moimMemberDto={}", moimMemberDto);
-		log.debug("moimTitleForPaymentVO={}", moimTitleForPaymentVO);
+
 		//model.addAttribute("list", moimMemberDto);
 		//model.addAttribute("list",PaymentListAllVO);
 		model.addAttribute("moimTitleForPaymentVO", moimTitleForPaymentVO);
@@ -102,7 +100,7 @@ public class KakaoPayController {
 				
 				KakaoPayReadyResponseVO response = kakaoPayService.ready(request);
 				
-				log.debug("response = {}",response.getNextRedirectPcUrl());
+	
 				//session에 flash value를 저장(잠시 쓰고 지우는 데이터)
 				//- 사용자를 거치지 않는 범위 내에서 사용해야 안전하게 쓸 수 있다
 				session.setAttribute("approve", KakaoPayApproveRequestVO.builder()
@@ -131,7 +129,8 @@ public class KakaoPayController {
 					
 					//결제 승인 요청
 					KakaoPayApproveResponseVO response = kakaoPayService.approve(request);
-					log.debug("response={}", response.getSid());
+
+					
 					//결제 승인이 완료되었다면 DB에 결제 정보를 저장
 					int paymentNo = paymentDao.sequence();
 					paymentDao.insert(PaymentDto.builder()
@@ -178,7 +177,7 @@ public class KakaoPayController {
 					
 					KakaoPayReadyResponseVO response = kakaoPayService.periodReady(request);
 					
-					log.debug("response = {}",response.getNextRedirectPcUrl());
+		
 					//session에 flash value를 저장(잠시 쓰고 지우는 데이터)
 					//- 사용자를 거치지 않는 범위 내에서 사용해야 안전하게 쓸 수 있다
 					session.setAttribute("approve", KakaoPayApproveRequestVO.builder()
@@ -208,7 +207,7 @@ public class KakaoPayController {
 						
 						//결제 승인 요청
 						KakaoPayApproveResponseVO response = kakaoPayService.periodApprove(request);
-						log.debug("response(SID)={}", response.getSid());
+
 						//결제 승인이 완료되었다면 DB에 결제 정보를 저장
 						int paymentNo = paymentDao.sequence();
 						paymentDao.insert(PaymentDto.builder()
@@ -263,8 +262,7 @@ public class KakaoPayController {
 				model.addAttribute(memberDto);
 				model.addAttribute("list", paymentDao.paymentListByMember(memberId));
 				
-				log.debug("memberId={}",memberId);
-				log.debug("paymentDao={}",paymentDao.paymentListByMember(memberId));
+
 				return "pay/list";
 			}
 			
@@ -293,8 +291,7 @@ public class KakaoPayController {
 				KakaoPayCancelRequestInPeriodVO request = KakaoPayCancelRequestInPeriodVO.builder()
 						.sid(periodPaymentDto.getPeriodPaymentSid())
 						.build();
-				log.debug("sid={}",periodPaymentDto.getPeriodPaymentSid());
-				log.debug("vo sid={}", request);
+
 				KakaoPayCancelResponseInPeriodVO response = kakaoPayService.periodCancel(request);
 				
 				paymentDao.cancel(PaymentDto.builder()

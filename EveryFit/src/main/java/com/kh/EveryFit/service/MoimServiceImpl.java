@@ -8,7 +8,6 @@ import com.kh.EveryFit.dao.MoimDao;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class MoimServiceImpl implements MoimService {
 
