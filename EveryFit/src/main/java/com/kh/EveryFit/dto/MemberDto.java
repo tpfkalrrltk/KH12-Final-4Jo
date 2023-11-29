@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberDto {
 	
-	private String memberEmail;
-	private int locationNo;
-	private String memberPw;
-	private String memberName;
+	private String memberEmail;  
+	private int locationNo; 
+	private String memberPw;  
+	private String memberName; 
 	private String memberNick;
 	private String memberGender;
 	private String memberContact;

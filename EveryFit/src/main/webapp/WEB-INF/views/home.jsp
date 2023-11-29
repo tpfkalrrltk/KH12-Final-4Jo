@@ -157,6 +157,8 @@ body {
 	color: #fff;
 }
 
+  
+
 .profile-image {
 	object-fit: cover;
 }
@@ -181,6 +183,7 @@ body {
 .card-text {
 	font-size: 15px;
 }
+
 </style>
 
 

@@ -17,22 +17,22 @@
           <h4>비밀번호 변경</h4>
         </div>
 		
-		<div class="col-md-4 offset-md-4 text-start">
+		<!-- <div class="col-md-4 offset-md-4 text-start">
 		    <label>현재 비밀번호</label>
 		    <input type="password" id="originPw" name="originPw" class="form-control" />
-		</div>
+		</div> -->
         <div class="col-md-4 offset-md-4 text-start mt-3">
           <label>변경할 비밀번호</label>
         </div>
         <div class="col-md-4 offset-md-4 text-start">
-          <input type="password" class="form-control" name="changePw" />
+          <input type="password" class="form-control" name="memberChangePw" />
         </div>
 
         <div class="col-md-4 offset-md-4 mt-3 text-start">
           <label>변경할 비밀번호 확인</label>
         </div>
         <div class="col-md-4 offset-md-4 text-start">
-          <input type="password" class="form-control" name="changePwCheck" />
+          <input type="password" class="form-control"  />
         </div>
 
         <div class="col-md-4 offset-md-4 text-start mt-5">

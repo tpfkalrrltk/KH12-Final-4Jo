@@ -21,7 +21,7 @@
 							</div>
 							<br> <br>
 							<div class="col-md-4 offset-md-4 mt-5 text-start">
-								<button class="btn btn-primary w-100" type="submit">회원탈퇴</button>
+								<button class="btn btn-primary w-100" type="submit">회원 탈퇴</button>
 							</div>
 						</div>
 					</div>
