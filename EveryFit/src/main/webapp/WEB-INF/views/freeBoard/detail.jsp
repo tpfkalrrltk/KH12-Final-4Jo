@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 
@@ -297,10 +297,10 @@ placeholder="수정 내용을 적어주세요">
 				</a>
 			</div>
 		</div>
-	</div>
+	
 </c:if>
-
-	<div class="row mt-3">
+</div>
+	<div class="row">
 		<div class="col-8 offset-2">
 
 			<table class="table">
@@ -345,7 +345,8 @@ placeholder="수정 내용을 적어주세요">
 										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>
-							${freeBoardDto.freeBoardContent}
+						
+								<textarea cols="150" rows="30" class=" text-primary fw-bold" readonly="readonly" style="resize: none; border: 0"><c:out value="${content}">${freeBoardDto.freeBoardContent}</c:out></textarea>
 						</div>
 
 					</td>
@@ -396,4 +397,4 @@ placeholder="수정 내용을 적어주세요">
 </body>
 
 </html>
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../template/adminHeader.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/adminHeader.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 				<h1 class="display-5 fw-bold">${reportDto.reportReason}</h1>
 			</div>
 		</div>
-		<a href="/admin/report" style="text-decoration: none"
+		<a href="${pageContext.request.contextPath}/admin/report" style="text-decoration: none"
 			class="text-light ">
 			<div
 				class="text-center me-5 mb-2  bg-primary col-2  offset-9 text-light rounded-3 fw-bold"
@@ -66,7 +66,7 @@
 									</c:when>
 									<c:otherwise>
 										<img
-											src="/rest/report/attach/download?attachNo=${reportImage}"
+											src="${pageContext.request.contextPath}/rest/report/attach/download?attachNo=${reportImage}"
 											class="rounded profile-image" style="max-width: 1060px">
 									</c:otherwise>
 								</c:choose>
@@ -86,4 +86,4 @@
 	</div>
 </body>
 </html>
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

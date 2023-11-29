@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -62,14 +62,7 @@ a {
 
 
 
-<!-- 황민하 지금 보안관련 기능 추가중 -->
-<div class="duplicate-login-alert">
-	<c:if test="${DUPLICATE_LOGIN eq 'true'}">
-		<script>
-			alert("다른 기기에서 로그인되어 현재 로그인이 종료되었습니다.")
-		</script>
-	</c:if>
-</div>
+
 
 
 
@@ -241,4 +234,4 @@ a {
 </script>
 
 
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

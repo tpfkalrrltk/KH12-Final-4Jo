@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -269,7 +269,7 @@ placeholder="수정 내용을 적어주세요">
 		</div>
 
 		<div class="row me-5 pe-4">
-			<a href="/moim/board/list?moimNo=${moimBoardDto.moimNo}"
+			<a href="${pageContext.request.contextPath}/moim/board/list?moimNo=${moimBoardDto.moimNo}"
 				style="text-decoration: none"
 				class="text-end btn-light fw-bold  p-4 "> 목록으로 돌아가기 </a>
 		</div>
@@ -278,7 +278,7 @@ placeholder="수정 내용을 적어주세요">
 
 		<div class="row">
 			<div class="col-1 offset-9">
-				<a href="edit?moimBoardNo=${moimBoardDto.moimBoardNo}"
+				<a href="${pageContext.request.contextPath}/moim/board/edit?moimBoardNo=${moimBoardDto.moimBoardNo}"
 					class="text-light" style="text-decoration: none">
 					<div class="text-center bg-info rounded-3  text-light">
 						<h7 class="display-5"> <i class="fa-solid fa-gear"></i></h7>
@@ -286,7 +286,7 @@ placeholder="수정 내용을 적어주세요">
 				</a>
 			</div>
 			<div class="col-1">
-				<a href="delete?moimBoardNo=${moimBoardDto.moimBoardNo}"
+				<a href="${pageContext.request.contextPath}/moim/board/delete?moimBoardNo=${moimBoardDto.moimBoardNo}"
 					class="text-light" style="text-decoration: none">
 					<div class="text-center bg-danger rounded-3  text-light">
 						<h7 class="display-5"> <i class="fa-solid fa-trash-can"></i></h7>
@@ -295,9 +295,9 @@ placeholder="수정 내용을 적어주세요">
 			</div>
 
 		</div>
-	</div>
-</c:if >
 
+</c:if >
+	</div>
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
 
@@ -335,7 +335,8 @@ placeholder="수정 내용을 적어주세요">
 					</c:otherwise>
 				</c:choose>
 
-				${moimBoardDto.moimBoardContent}
+
+					<textarea cols="150" rows="30" class=" text-primary fw-bold" readonly="readonly" style="resize: none; border: 0"><c:out value="${content}">${moimBoardDto.moimBoardContent}</c:out></textarea>
 				<hr>
 			</div>
 
@@ -381,4 +382,4 @@ placeholder="수정 내용을 적어주세요">
 	</div>
 </body>
 </html>
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

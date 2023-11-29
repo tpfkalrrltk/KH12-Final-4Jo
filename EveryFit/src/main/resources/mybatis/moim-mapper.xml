@@ -11,26 +11,29 @@
 	</select>
 
 	<insert id="createMoim">
-		insert into moim(
-		moim_no,
-		location_no,
-		event_no,
-		moim_title,
-		moim_content,
-		moim_member_count,
-		moim_gender_check,
-		chat_room_no
-		)
-		values(
-		#{moimNo},
-		#{locationNo},
-		#{eventNo},
-		#{moimTitle},
-		#{moimContent},
-		#{moimMemberCount},
-		#{moimGenderCheck},
-		#{chatRoomNo}
-		)
+	    INSERT INTO moim (
+	        moim_no,
+	        location_no,
+	        event_no,
+	        moim_title,
+	        moim_content,
+	        moim_member_count,
+	        moim_gender_check,
+	        chat_room_no
+	    )
+	    VALUES (
+	        #{moimNo},
+	        #{locationNo},
+	        #{eventNo},
+	        #{moimTitle},
+	        #{moimContent},
+	        #{moimMemberCount},
+	        <choose>
+	            <when test="moimGenderCheck != null">#{moimGenderCheck}</when>
+	            <otherwise>'N'</otherwise>
+	        </choose>,
+	        #{chatRoomNo}
+	    )
 	</insert>
 
 	<!-- 모임 수정 -->
@@ -188,15 +191,36 @@
 	</insert>
 	
 	<!-- 모임 가입할 때 멤버 등록 -->
+<!-- 	<insert id="insertMoimMember"> -->
+<!-- 	        insert into moim_member( -->
+<!-- 	        	moim_no,  -->
+<!-- 	        	member_email,  -->
+<!-- 	        	moim_member_level, -->
+<!-- 	        	moim_member_status -->
+<!-- 	        	) -->
+<!-- 	        values(#{moimNo}, #{memberEmail}, '일반', #{moimMemberStatus}) -->
+<!-- 	</insert> -->
+	
 	<insert id="insertMoimMember">
-	        insert into moim_member(
-	        	moim_no, 
-	        	member_email, 
-	        	moim_member_level,
-	        	moim_member_status
-	        	)
-	        values(#{moimNo}, #{memberEmail}, '일반', #{moimMemberStatus})
-	</insert>
+    insert into moim_member(
+        moim_no, 
+        member_email, 
+        moim_member_level,
+        moim_member_status
+    )
+    values(
+        #{moimNo}, 
+        #{memberEmail}, 
+        '일반',
+        <if test="moimMemberStatus != null">
+            #{moimMemberStatus}
+        </if>
+        <if test="moimMemberStatus == null">
+            '승인'
+        </if>
+    )
+</insert>
+	
 	<!-- 회원이 모임 등록할 때 이미 등록되어있는지 조회하기 -->
 	<!-- 
 		회원이 모임 등록할 때 회원등급을 조회해서 
@@ -508,7 +532,7 @@
 	        <![CDATA[
 	        SELECT *
 	        FROM moim
-	        WHERE moim_end_time < SYSDATE
+	        WHERE moim_end_time < SYSDATE and moim_upgrade='Y'
 	        ]]>
 	</select>
 	
@@ -519,17 +543,20 @@
 		where mm.moim_member_level = '모임장' and m.moim_no = #{moimNo}
 	</select>
 	
-	<!-- moim_end_time이 오늘자인데 업그레이드 여부가 N 이면 비활성화  -->
+	<!-- moim_end_time이 오늘보다 이전날짜면 업그레이드 여부가 N 이면 비활성화  -->
 	<update id="moimManagement">
+		<![CDATA[
 		update moim 
-		set moim_state = '비활성화' 
-		where trunc(moim_end_time) = trunc(sysdate) 
+		set moim_state = '비활성화',
+		moim_member_count = 30
+		where trunc(moim_end_time) < trunc(sysdate) 
 		and moim_upgrade = 'N'
+		 ]]>
 	</update>
 	
-	<!-- moim_end_time 이후로 30일이 지났으면 삭제 -->
+	<!-- moim_end_time 이후로 365일이 지났으면 삭제 -->
 	<delete id="deleteMoim">
-		delete from moim where trunc(moim_end_time) = trunc(sysdate) + 30
+		delete from moim where trunc(moim_end_time) = trunc(sysdate) + 365
 	</delete>
 	
 	<!-- 정모 날짜가 오늘이거나 오늘 이전이면 마감으로 상태 변경 -->

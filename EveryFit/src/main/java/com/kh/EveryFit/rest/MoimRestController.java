@@ -249,54 +249,13 @@ public class MoimRestController {
 		}
 	}
 	
-//	@PostMapping("/member/join")
-//	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
-//        String memberEmail = (String) session.getAttribute("name");
-//
-//        MemberDto memberDto = memberDao.selectOne(memberEmail);
-//        MoimDto moimDto = moimDao.selectOne(moimNo);
-//        MoimMemberDto moimMemberDto = new MoimMemberDto();
-//		
-//        // 해당 회원의 moimCount보다 가입되어있는 모임의 개수가 많으면 return
-//        Integer myMoim = moimDao.findMyMoim(memberEmail);
-//        Integer myMoimCount = memberDto.getMemberMoimCount();
-//        
-//        if (myMoim >= myMoimCount) {
-//            return "over";
-//        }
-//        
-//        if (myMoim > 0) {
-//            MyMoimListVO vo = moimDao.findMoimNoByMemberEmail(memberEmail);
-//            
-//            if (vo != null && vo.getMoimNoList().contains(moimNo)) {
-//            	
-//            	if (Objects.equals(moimDto.getMoimGenderCheck(), "Y")) { // 여성전용모임
-//                    if (Objects.equals(memberDto.getMemberGender(), "F")) { // 여성회원인지 검사
-//                        moimMemberDto.setMemberEmail(memberEmail);
-//                        moimMemberDto.setMoimNo(moimNo);
-//                        moimMemberDto.setMoimMemberStatus("미승인");
-//                        moimDao.addMoimMember(moimMemberDto);
-//                        return "join";
-//                    } else {
-//                        // 여성회원만 가입 가능하다는 응답
-//                        return "genderCheck";
-//                    }
-//                } else {
-//                    moimMemberDto.setMemberEmail(memberEmail);
-//                    moimMemberDto.setMoimNo(moimNo);
-//                    moimDao.addMoimMember(moimMemberDto);
-//                }
-//            	
-//                return "join";
-//            }
-//        }
-//	}
 	
 	//멤버의 모임 가입
 	@PostMapping("/member/join")
 	public String memberJoin(HttpSession session, @RequestParam int moimNo) {
 	    String memberEmail = (String) session.getAttribute("name");
-
+	    
+	    log.debug("moimNo={}", moimNo);
 	    if (memberEmail == null) {
 	        // 로그인되어 있지 않은 경우
 	        return "notLoggedIn";
@@ -360,14 +319,6 @@ public class MoimRestController {
             // 여성회원만 가입 가능하다는 응답
             return "genderCheck";                    
         } 
-//                moimMemberDto.setMemberEmail(memberEmail);
-//                moimMemberDto.setMoimNo(moimNo);
-//                moimMemberDto.setMoimMemberStatus("승인");
-//                moimDao.addMoimMember(moimMemberDto);
-//                //채팅방에 강제 참여
-//                chatDao.addChatMember(moimDto.getChatRoomNo(), memberEmail);
-//                return "join";
-
 	    
 	    //myMoim이 null일경우
 	    moimMemberDto.setMemberEmail(memberEmail);
@@ -396,12 +347,7 @@ public class MoimRestController {
 		return moimMemberDto;
 	}
 	
-	//모임회원차단
-//	@PostMapping("/memberBlock")
-//	public String memberBlock(@RequestParam String memberEmail) {
-//		moimDao.updateMoimMember(memberEmail);
-//		return "Y";
-//	}
+
 	@PostMapping("/list")
 	public List<moimListForMyPageVO> moimList(HttpSession session) {
 		String memberEmail = (String) session.getAttribute("name");

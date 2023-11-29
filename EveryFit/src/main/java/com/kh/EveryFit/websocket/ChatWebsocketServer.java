@@ -179,13 +179,11 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 				TextMessage mss = new TextMessage(messageJson);
 				client.send(mss);
 			}
-			log.debug("방에 입장");
 			
 		}
 		
 		
 		boolean isMessage = params.get("type").equals("message"); //메시지면
-		log.debug("isMessage = {}", isMessage);
 		
 		//메시지면!
 		if(isMessage) {
@@ -196,7 +194,6 @@ public class ChatWebsocketServer extends TextWebSocketHandler {
 			    map.put("attachNo", client.getAttachNo());
 			    map.put("content", params.get("content"));
 			    map.put("chatTime", getCurrentTime());  // 현재 시간 추가
-			    log.debug("map={}", map);
 			    String messageJson = mapper.writeValueAsString(map);
 			    TextMessage tm = new TextMessage(messageJson);
 //			    for (ClientVO members : ) {

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../template/Header.jsp"%>
+<%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
 
 
@@ -11,7 +11,7 @@
 			<h1 class="display-5 fw-bold">차단 당한 회원입니다.</h1>
 		</div>
 		<h6 class="bg-info col-3 p-5 m-4  text-light text-center rounded-3">관리자에게 문의 해주세요
-						<a href="/appeal/add" style="text-decoration: none"
+						<a href="${pageContext.request.contextPath}/appeal/add" style="text-decoration: none"
 				class="fw-bold text-center text-light  bg-primary mt-4"><h3 class="mt-4 text-center">메세지 보내기</h3></a></h6>
 	</div>
 
@@ -23,4 +23,4 @@
 
 
 
-<%@ include file="../template/Footer.jsp"%>
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

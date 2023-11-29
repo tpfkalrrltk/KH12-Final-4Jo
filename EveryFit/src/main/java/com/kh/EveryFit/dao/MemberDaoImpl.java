@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -204,6 +205,10 @@ public class MemberDaoImpl implements MemberDao {
 		  return sqlSession.delete("attach.deleteProfile", memberEmail) > 0;
 //		return sqlSession.delete("memberEmail.deleteMemberimage",memberEmail) > 0;
 	}
+@Override
+public MoimMemberDto selectMoimMemberLevelByEmail(MoimMemberDto moimMemberDto) {
+	return sqlSession.selectOne("member.getMyLevelInGroup",moimMemberDto);
+}
 //	 @Override
 //	    public void changeMemberPassword(MemberDto memberDto) {
 //	        sqlSession.update("com.example.mapper.MemberMapper.memberChangePw", memberDto);

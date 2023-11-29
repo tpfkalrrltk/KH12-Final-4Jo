@@ -43,6 +43,7 @@
 	
 	.profile-image {
 		width: 50px;
+		height: 50px;
 	}
 	
 	.timestamp {
@@ -57,7 +58,7 @@
 
     <div class="container-fluid">
         <div class="row mt-4">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-6 offset-md-3">
 				
 <!-- 				<div class="row"> -->
 <!-- 						<h2 class="bg-primary text-light p-3 text-start rounded"> -->
@@ -74,23 +75,21 @@
 							<div class="col message-list rounded border mt-4"></div>
 						</div>
 						
-						<div class="row">
-							<div class="col-9 mt-0 p-0">
-							<input type="text" class="form-control message-input w-100" placeholder="메세지 내용 작성">
-							</div>
-							<div class="col-3 mt-1 p-0">
-							<button type="button" class="btn btn-primary rounded-0 send-btn w-100">
+						<div class="row mt-2"><div class="col p-0">
+						<div class="input-group">
+							<input type="text" class="form-control message-input" placeholder="메세지 내용 작성">
+							<button type="button" class="btn btn-primary send-btn">
 								보내기
 							</button>
 							</div>
-						</div>
+						</div></div>
 						
 					</div>
 				</div>
 				
             </div>
         </div>        
-    </div>
+        </div>
 
 <!-- 웹소켓 서버가 SockJS일 경우 페이지에서도 SockJS를 사용해야 한다 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -100,21 +99,14 @@
 // 	var uri = "ws://localhost:8080/ws/default";
 //  	window.socket = new WebSocket("ws://localhost:8080/ws/default");
  	window.socket = new SockJS(window.contextPath+"/ws/default");
-	//연결 생성 시점에 연결에서 발생할 수 있는 상황별로 callback 함수를 지정
-	//- onopen : 연결이 성공한 직후에 실행하는 함수를 설정하는 자리
-	//연결성공한직후에메시지띄우고싶음(입장했다는메시지)
-	//- onclose : 연결이 종료된 직후에 실행하는 함수를 설정하는 자리
-	//- onerror : 연결에서 오류가 발생한 경우 실행하는 함수를 설정하는 자리
-	//- onmessage : 서버에서 메세지가 전송되는 경우 실행하는 함수를 설정하는 자리
+
 
 	var currentURL = window.location.href;
 	var lastMessageDate = null;
 	// URL을 '/'로 나누고, 마지막 부분을 가져오기
 	var urlParts = currentURL.split('/');
 	var chatRoomNo = urlParts[urlParts.length - 1];
-	
 	// 마지막 부분을 출력
-	console.log(chatRoomNo);
 	
 	socket.onopen = function(event) {
         console.log('WebSocket 연결이 열렸습니다.');
@@ -143,10 +135,10 @@
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
 		        var memberImage = $("<img>")
-				        .addClass("profile-image rounded bg-primary")
+				        .addClass("profile-image rounded-circle bg-primary")
 				        .attr("src", data.clients[i].attachNo != null ?
 				                "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.clients[i].attachNo :
-				                "/images/user.png");
+				                "${pageContext.request.contextPath}/images/user.png");
 		        
 				if(myId == data.clients[i].memberEmail){
 					$("<li>")
@@ -200,12 +192,12 @@
 		if (data.attachNo != null) {
 		    var imgSrc = "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.attachNo;
 		} else {
-		    var imgSrc = "/images/user.png";
+		    var imgSrc = "${pageContext.request.contextPath}/images/user.png";
 		}
 
 		var memberImage = $("<img>")
 	    .attr("src", imgSrc)
-	    .addClass("rounded profile-image");
+	    .addClass("rounded-circle profile-image");
 		
 		var memberNick = $("<strong>").text(data.memberNick)
 											.addClass("ms-2")
@@ -221,7 +213,7 @@
              .append(memberNick)
 //              .append(memberEmail)
              .append(content)
-             .append("<span class='timestamp'>" + formatTimeOnly(chatTime) + "</span>")
+             .append("<span class='timestamp'>" + formatTime(chatTime) + "</span>")
              .appendTo(".message-list");
 		 }
 		 else {
@@ -230,7 +222,7 @@
 // 			.append(memberEmail)
 			.append(memberNick)
 			.append(content)
-			.append("<span class='timestamp'>" + formatTimeOnly(chatTime) + "</span>")
+			.append("<span class='timestamp'>" + formatTime(chatTime) + "</span>")
 			.appendTo(".message-list");				 			 
 		 }
 
@@ -356,7 +348,23 @@
         hour: 'numeric', minute: 'numeric', second: 'numeric',
         hour12: false // 24시간 형식
     };
-    return date.toLocaleDateString('ko-KR', options);
+    var formattedTime = date.toLocaleDateString('ko-KR', options);
+
+    var timeArray = formattedTime.split(/[년월일시분초,.\s:]+/);
+
+ 	// 시간 부분 추출
+	 var year = timeArray[0];
+	 var month = timeArray[1].padStart(2, '0'); // 월이 한 자리 수일 경우 앞에 0을 추가
+	 var day = timeArray[2].padStart(2, '0');   // 일이 한 자리 수일 경우 앞에 0을 추가
+	 var hours = timeArray[3].padStart(2, '0');
+	 var minutes = timeArray[4].padStart(2, '0');
+	 var seconds = timeArray[5].padStart(2, '0');
+
+ // yy-mm-dd hh:mm:ss 형식으로 조합
+ var timeString = year.slice(-2) + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    
+    return timeString;
+//     return date.toLocaleDateString('ko-KR', options);
 	}
 
 	// 시간, 분, 초만을 포맷하는 함수
@@ -387,6 +395,18 @@
 
 // 	    lastMessageDate = chatTime;
 // 	}
+
+    $(".message-input").on('input', function () {
+        var maxLength = 300; // 최대 글자 수
+        var currentLength = $(this).val().length;
+        if (currentLength > maxLength) {
+            // 입력 길이가 제한을 초과한 경우, 알림창 표시
+            alert("최대 한글 300글자까지 입력 가능합니다.");
+            // 초과된 부분을 자르고 입력값 설정
+            var trimmedValue = $(this).val().substring(0, maxLength);
+            $(this).val(trimmedValue);
+        }
+    });
         
 
 

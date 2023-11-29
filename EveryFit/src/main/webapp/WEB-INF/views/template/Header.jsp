@@ -294,13 +294,10 @@ body.dark-mode {
 						<div class="dropdown-menu" style="margin-top: 13px">
 							<a class="dropdown-item"
 								href="${pageContext.request.contextPath}/moim/create"><i
-								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a> <a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
-								class="fa-solid fa-users-viewfinder mt-2"></i> Detail Moim</a> <a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/moim/detail?moimNo=5"><i
-								class="fa-solid fa-venus mt-2"></i> Women only Moim</a>
+								class="fa-solid fa-people-group  mt-2"></i> Create Moim</a>
+									<a class="dropdown-item"
+								href="${pageContext.request.contextPath}/moim/list"><i
+								class="fa-solid fa-people-group  mt-2"></i> Moim List</a>
 						</div></li>
 
 
@@ -360,7 +357,7 @@ body.dark-mode {
 
 				</ul>
 				<div class="d-flex">
-					<div class="nav-item ms-5 me-3 mt-3  bg-light rounded-3 "
+					<div class="nav-item ms-5 me-3 mt-3  bg-light rounded-3  "
 						style="margin-left: 5500">
 						<h6 class="text-primary fw-bold ">Now Time</h6>
 						<div id="txt" class="text-primary fw-bold">
@@ -369,12 +366,12 @@ body.dark-mode {
 					</div>
 				</div>
 
-				<form class="d-flex mt-3"
+				<form class="d-flex  mt-4"
 					action="${pageContext.request.contextPath}/home/moimSerach">
-					<input class="form-control me-sm-2  bg-light text-primary fw-bold"
+					<input class="form-control me-sm-2  bg-light text-primary fw-bold my-auto"
 						type="search" placeholder="Search" name="moimTitle"
 						style="height: 52px">
-					<button class="btn btn-light   text-primary  fw-bold" type="submit"
+					<button class="btn btn-light   text-primary  fw-bold my-auto" type="submit"
 						style="height: 52px">Search</button>
 
 

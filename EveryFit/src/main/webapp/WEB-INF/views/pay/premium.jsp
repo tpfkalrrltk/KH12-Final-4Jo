@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="../template/Header.jsp"%>
+<%@ include file="/WEB-INF/views/template/Header.jsp"%>
 
 <!-- 아이콘 사용을 위한 font awesomedmf 불러오기 위한  -->
 <link rel="stylesheet" type="text/css"
@@ -125,7 +125,7 @@
 						<h2>${productDto.productName}</h2>
 						<c:choose>
 							<c:when test="${productDto.productType == '단건'}">
-								<h4>EeveryFIt 프리미엄 멤버가 되어 보세요!</h4>
+								<h4 class="mt-5">EeveryFIt 프리미엄 멤버가 되어 보세요!</h4>
 <!-- 								<label>(EeveryFit 프리미엄 회원권은 한번
 							결제하면 평생 이용이 가능합니다)</label> -->
 							</c:when>
@@ -157,8 +157,8 @@
 	  <c:choose>
 							<c:when test="${productDto.productType == '단건'}">
 							<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
-		<img src="/images/mypagememberExampleBefore.png" class="main-image text-center fixed-size-image mt-1">
-		</div> <label style="margin-top: 90px">▶</label>
+		<img src="/images/mypagememberExample.png" class="main-image text-center fixed-size-image mt-1">
+		</div> 
 	  <div class="box p-2 w-100 text-center">
 		<span class="text-center mb-2">★프리미엄 회원 badge 예시(After)★</span>
 		<img src="/images/mypagememberExampleAfter.png" class="main-image text-center fixed-size-image mt-3">
@@ -166,7 +166,7 @@
 							<c:otherwise>
 									<span class="text-center mb-2">★프리미엄 회원 badge 예시(Before)★</span>
 		<img src="/images/mymoimExampleBefore.png" class="main-image text-center fixed-size-image mt-1">
-		</div> <label style="margin-top: 90px">▶</label>
+		</div> 
 	  <div class="box p-2 w-100 text-center">
 		<span class="text-center mb-2">★프리미엄 회원 badge 예시(After)★</span>
 		<img src="/images/mymoimExampleAfter.png" class="main-image text-center fixed-size-image mt-3">					
@@ -239,7 +239,7 @@
 							<a href="#"
 							class="ataglink mb-1 w-50 text-center" onclick="setPurchaseLinkAndOpenModal('${MoimDtoList.moimNo}' , '${MoimDtoList.moimTitle}')"
    							data-toggle="modal" data-target="#purchaseModal">
-							[${MoimDtoList.moimTitle}] 모임에 대한 프리미엄 모임 이용권<br> 매월 ${productDto.productPrice}원 (부가세 포함)<br>
+							[${MoimDtoList.moimTitle}] <br> 매월 ${productDto.productPrice}원 (부가세 포함)<br>
 							
 							</a>
 <%-- 								(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
@@ -248,9 +248,11 @@
 							</c:if>
 							
 							<c:if test="${MoimDtoList.moimUpgrade eq 'Y'}" >
+							
 							<a href="${pageContext.request.contextPath}/pay/periodPurchase?productNo=2&moimNo=${MoimDtoList.moimNo}"
 							class="ataglink mb-1 disabled-link w-50 text-center">
-							[${MoimDtoList.moimTitle}] 모임은 프리미엄 등급입니다. <br>이용해 주셔서 감사합니다.
+							
+							[${MoimDtoList.moimTitle}] 모임은 ${MoimDtoList.moimEndTime} 까지 <br> 프리미엄 등급입니다. <br>이용해 주셔서 감사합니다.
 							</a>
 <%-- 							(<a href="/moim/detail?moimNo=${MoimDtoList.moimNo}">모임상세보기</a>) --%>
 							<br>
@@ -280,7 +282,7 @@
 
 <!-- -------------------------------------------------------------------------------------------- -->
 
-<hr>
+<%-- <hr>
 <나중에삭제하겠음>
 				<div class="row">
 					<div class="col">
@@ -298,7 +300,7 @@ ${moimTitleForPaymentVO}
 </c:forEach>
 
 					</div>
-				</div>
+				</div> --%>
 
 
 			</div>
@@ -355,4 +357,4 @@ function setPurchaseLinkAndOpenModalForMembership(productNo, productPrice) {
 
 
 
-<%@ include file="../template/Footer.jsp"%>
+<%@ include file="/WEB-INF/views/template/Footer.jsp"%>

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,8 +47,8 @@
 				</a>
 			</div>
 		</div>
-	</div>
-</c:if>
+	
+</c:if></div>
 	<div class="row mt-3">
 		<div class="col-8 offset-2">
 
@@ -90,7 +90,8 @@
 										class="rounded profile-image" style="max-width: 1100px">
 								</c:otherwise>
 							</c:choose>
-							${faqDto.faqDetail}
+						<textarea cols="150" rows="30" class=" text-primary fw-bold" readonly="readonly" style="resize: none; border: 0"><c:out value="${content}">${faqDto.faqDetail}</c:out></textarea>
+
 						</div>
 					</td>
 
@@ -106,4 +107,4 @@
 	</div>
 </body>
 </html>
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

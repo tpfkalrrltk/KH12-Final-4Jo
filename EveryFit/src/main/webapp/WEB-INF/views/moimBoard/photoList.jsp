@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 
@@ -34,17 +34,7 @@ opacity: 0.7
 <body>
 	<div class="container">
 
-		<div class="row">
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
-				<h1 class="display-5 fw-bold">No.${param.moimNo}모임 게시판</h1>
-				<div class="row">
-					<%--    <a class="btn btn-warning" href="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=공지사항">공지사항</a>
-    <button>가입인사</button>
-    <button>모임후기</button>
-    <button>자유롭게</button> --%>
-				</div>
-			</div>
-		</div>
+
 
 
 
@@ -88,12 +78,12 @@ opacity: 0.7
 
 
 
-					<div class=" m-0 p-0 text-center d-inline"
+					<div class=" m-0 p-0 text-start d-inline"
 						onClick="location.href='${pageContext.request.contextPath}/moim/board/detail?moimBoardNo=${boardList.moimBoardNo}'"
 						style="cursor: pointer;">
 
 						<img alt="" src="${pageContext.request.contextPath}/moimBoard/rest/attach/download?attachNo=${boardList.attachNo}" width="300px" height="300px"
-							class="mt-2">
+							class="mt-2 object-fit-cover">
 
 					</div>
 
@@ -101,8 +91,8 @@ opacity: 0.7
 
 
 
-				<c:if test="${loopStatus.index % 4 == 3 or loopStatus.last}">
-		</div>
+				<c:if test="${loopStatus.index % 6 == 5 or loopStatus.last}">
+		</div>	</div>
 		<div class="row">
 			<div class="col  text-center">
 				</c:if>
@@ -112,7 +102,7 @@ opacity: 0.7
 		</div>
 
 
-		<div class="container">
+		<div class="container mt-5">
 
 
 			<div class="row page-navigator mv-30">
@@ -151,42 +141,8 @@ opacity: 0.7
 				</div>
 			</div>
 
-			<!-- 검색기능 -->
-
-
-			<div align="center" class="row mt-5 ">
-				<div class="col-2 offset-2 p-0">
-					<form action="list" method="get">
-						<input type="hidden" value="${param.moimNo}" name="moimNo">
-						<c:choose>
-							<c:when test="${param.type == 'member_nick'}">
-								<select name="type" required="required"
-									class="form-select text-primary fw-bold">
-									<option value="moim_board_title">제목</option>
-									<option value="member_nick" selected="selected">닉네임</option>
-									<option value="moim_board_content">내용</option>
-								</select>
-							</c:when>
-							<c:otherwise>
-								<select name="type" required="required"
-									class="form-select text-primary fw-bold">
-									<option value="moim_board_title" selected="selected">제목</option>
-									<option value="member_nick">닉네임</option>
-									<option value="moim_board_content">내용</option>
-								</select>
-							</c:otherwise>
-						</c:choose>
-				</div>
-				<div class="col-4 p-0">
-					<input class="form-control text-primary  fw-bold" type="search"
-						name="keyword" required="required" placeholder="검색어를 입력해주세요">
-				</div>
-				<div class="col-1 ">
-					<button class="btn btn-primary w-100 " type="submit"
-						style="height: 44px">
-						<i class="fa-solid fa-magnifying-glass fa-flip fa-xl"></i>
-					</button>
-					</form>
+			
+					
 				</div>
 
 			</div>
@@ -195,4 +151,4 @@ opacity: 0.7
 </body>
 </html>
 
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

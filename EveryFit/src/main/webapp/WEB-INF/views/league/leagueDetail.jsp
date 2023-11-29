@@ -67,7 +67,7 @@ a{
 	                <td>
 	                	<a href="${pageContext.request.contextPath}/league/leagueTeamDetail?leagueTeamNo=${vo.leagueTeamNo}">
 		                	<span class="text-dark alert-link">${vo.leagueTeamName}</span>
-		               		<img style="height: 35px; width: 35px;" class="rounded" src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}"
+		               		<img style="height: 35px; width: 35px;" class="rounded object-fit-cover" src="${pageContext.request.contextPath}/league/leagueTeamImage?leagueTeamNo=${vo.leagueTeamNo}"
 		               			onerror="this.style.display='none';"></a>
 	                </td>
 	                <td>${vo.leagueTeamMatchCount}</td>

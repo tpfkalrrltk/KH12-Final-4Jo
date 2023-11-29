@@ -61,6 +61,10 @@ public interface FreeBoardDao {
 
 	Integer findImage(Integer freeBoardNo);
 
+	List<FreeBoardDto> selectImageListByPage(int page);
+
+	int countImageList();
+
 	
 	
 	

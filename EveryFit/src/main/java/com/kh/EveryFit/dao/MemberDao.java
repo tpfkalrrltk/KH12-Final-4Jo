@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.EveryFit.dto.EventDto;
 import com.kh.EveryFit.dto.LocationDto;
 import com.kh.EveryFit.dto.MemberDto;
+import com.kh.EveryFit.dto.MoimMemberDto;
 
 public interface MemberDao {
 
@@ -74,6 +75,8 @@ public interface MemberDao {
 
 		//로그인x비밀번호찾기 
 		void findePw(MemberDto memberDto);
+		//가입한 모임에서 나의 level
+		MoimMemberDto selectMoimMemberLevelByEmail(MoimMemberDto moimMemberDto);
 
 
 

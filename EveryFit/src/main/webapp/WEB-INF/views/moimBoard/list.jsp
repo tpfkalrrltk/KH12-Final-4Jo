@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="../template/Header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html>
 
@@ -22,14 +22,41 @@
 	}
 </script>
 
+<script>
+$(function() {
+let mainFrames = [ {
+	opacity : 1,
+	
+	transform : "translate(0, 30px)"
+}, {
+	opacity : 0.2,
+
+	transform : "translate(0, 0px)"
+}, {
+	opacity : 1,
+
+	transform : "translate(0px, 30px)"
+} ];
+let mainOptions = {
+	delay : 0000,
+	duration : 1500,
+	easing : "ease-in",
+	iterations : 1,
+	fill : "forwards"
+};
+
+document.querySelector("#main-text").animate(mainFrames, mainOptions);
+
+});
+</script>
 
 
 <body>
 	<div class="container">
 
 		<div class="row">
-			<div class="col-4 offset-4 p-5 m-4 bg-primary rounded-3  text-light">
-				<h1 class="display-5 fw-bold">No.${param.moimNo}모임 게시판</h1>
+			<div class="col-4 offset-4 p-2 m-4 bg-primary rounded-3  text-light" id="main-text">
+				<h1 class="display-5 offset-1 fw-bold fst-italic">Moim Board</h1>
 				<div class="row">
 					<%--    <a class="btn btn-warning" href="/moim/board/list?moimNo=${param.moimNo}&sortByCategory=공지사항">공지사항</a>
     <button>가입인사</button>
@@ -49,7 +76,7 @@
 
 			<div
 				class="col-2 offset-8 text-center bg-primary rounded-5  text-light me-5">
-				<a href="/moim/board/photoList?moimNo=${param.moimNo}"
+				<a href="${pageContext.request.contextPath}/moim/board/photoList?moimNo=${param.moimNo}"
 					class="text-light" style="text-decoration: none">
 					<h4>
 						<i class="fa-regular fa-image"></i> Photo List
@@ -59,7 +86,7 @@
 
 
 			<div class="col-1  text-center bg-primary rounded-5  text-light">
-				<a href="/moim/board/add?moimNo=${param.moimNo}" class="text-light"
+				<a href="${pageContext.request.contextPath}/moim/board/add?moimNo=${param.moimNo}" class="text-light"
 					style="text-decoration: none">
 					<h4>
 						<i class="fa-solid fa-plus" id="addIcon"></i>
@@ -231,4 +258,4 @@
 </body>
 </html>
 
-<jsp:include page="../template/Footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>

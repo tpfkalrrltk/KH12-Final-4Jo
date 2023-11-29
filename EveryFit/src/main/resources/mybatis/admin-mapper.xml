@@ -472,23 +472,47 @@ to_date(#{memberBirthEnd} || ' ' || '23:59:59', 'YYYY-MM-DD HH24:MI:SS')
 
 
 	<select id="myMoimList" resultType="AdminMoimMemberCountVO">
-		select m.*, mml.member_email
-		from moim m left outer join
-		moim_member_list mml on m.moim_no =
-		mml.moim_no where moim_state in '모집중'
-		and member_email = #{memberEmail}
-		order by
-		m.moim_no
-		desc
+		SELECT m.*,
+		NVL(mml.member_count, 0) AS member_count,
+		mml_email.member_email
+		FROM
+		moim m
+		LEFT OUTER JOIN (
+		SELECT moim_no, COUNT(*) AS member_count
+		FROM
+		moim_member_list
+		GROUP BY moim_no
+		) mml ON m.moim_no = mml.moim_no
+		LEFT
+		OUTER JOIN (
+		SELECT moim_no, member_email
+		FROM moim_member_list
+		)
+		mml_email ON m.moim_no = mml_email.moim_no
+		WHERE m.moim_state = '모집중'
+		and
+		mml_email.member_email=#{memberEmail}
+		ORDER BY m.moim_no desc
 	</select>
 
 	<select id="myLikeMoimList" resultType="AdminMoimMemberCountVO">
-		select m.*, mml.member_email
-		from moim m left outer join
-		member_like mml on m.moim_no = mml.moim_no where member_email =
-		#{memberEmail}
-		order by
-		m.moim_no
+		SELECT m.*,
+		NVL(mml.member_count, 0) AS member_count,
+		mml_email.member_email
+		FROM moim m
+		LEFT OUTER JOIN (
+		SELECT moim_no, COUNT(*) AS member_count
+		FROM moim_member_list
+		GROUP BY moim_no
+		) mml ON m.moim_no = mml.moim_no
+		LEFT OUTER JOIN (
+		SELECT moim_no, member_email
+		FROM member_like
+		WHERE member_email = #{memberEmail}
+		) mml_email ON m.moim_no = mml_email.moim_no
+		WHERE m.moim_gender_check = 'Y'
+		AND m.moim_state = '모집중'
+		ORDER BY m.moim_no
 		desc
 	</select>
 
