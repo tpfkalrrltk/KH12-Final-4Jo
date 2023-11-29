@@ -15,10 +15,9 @@ a {
 	<div class="row">
 		<div class="col-md-10 offset-md-1">
 
-			<div class="col-md-10 offset-md-4">
+			<!-- <div class="col-md-10 offset-md-4">
 				<h3>이메일이 전송되었습니다</h3>
-
-			</div>
+			</div> -->
 			<div class="col-md-5 offset-md-4 mt-3">
 
 				<button class=" btn btn-primary" style="width: 250px;">

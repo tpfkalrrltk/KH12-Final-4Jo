@@ -73,6 +73,8 @@ public interface MemberDao {
 		Integer findProfile(String memberEmail);
 
 
+		//로그인x비밀번호찾기 
+		void findePw(MemberDto memberDto);
 		//가입한 모임에서 나의 level
 		MoimMemberDto selectMoimMemberLevelByEmail(MoimMemberDto moimMemberDto);
 

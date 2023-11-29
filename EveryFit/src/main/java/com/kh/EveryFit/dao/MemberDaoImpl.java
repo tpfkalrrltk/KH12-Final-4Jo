@@ -54,7 +54,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public void edit(String memberEmail, String memberPw) {
 		Map<String, Object> param = Map.of("memberEmail", memberEmail, "memberPw", memberPw);
-		String encrypt = encoder.encode(memberPw);
 		sqlSession.update("member.changePw", param);
 //		log.debug("param={}",param);
 	}
@@ -120,6 +119,14 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public void changePw(MemberDto memberDto) {
+		String origin = memberDto.getMemberPw();
+		String encrypt = encoder.encode(origin);
+		memberDto.setMemberPw(encrypt);
+		sqlSession.update("member.changePw", memberDto);
+	}
+	//로그인x비밀번호찾기 
+	@Override
+	public void findePw(MemberDto memberDto) {
 		String origin = memberDto.getMemberPw();
 		String encrypt = encoder.encode(origin);
 		memberDto.setMemberPw(encrypt);

@@ -57,8 +57,7 @@ span {
 <!-- ---------------------------------------------------------------------------------------- -->
 
 
-<form class="join" action="" method="post" autocomplete="off"
-	novalidate>
+<form class="join" action="" method="post" autocomplete="off" novalidate>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-10 offset-md-1">
@@ -109,14 +108,12 @@ span {
 							<div class="col-md-4 offset-md-4 text-start">
 								<!-- 가입하기 버튼 눌렀을 때 비밀번호가 정규표현식에 맞지 않으면 제대로 입력하라고 알림창 띄우기 -->
 								<label>비밀번호</label> <input type="password" name="memberPw"
-									class="form-control" placeholder="Everyfit1!" id="passwordInput">
-									<input class="form-check-input" type="checkbox" id="showPassword" > 비밀번호 표시
+									class="form-control" placeholder="Everyfit1!">
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start mt-3">
 								<label> 비밀번호 확인 </label> <input type="password" required
-									class="form-control" 
-									id="password-check" >
+									class="form-control" id="password-check">
 							</div>
 
 							<div class="col-md-4 offset-md-4 text-start mt-3">
@@ -130,12 +127,12 @@ span {
 							<div class="col-md-4 offset-md-4 text-start mt-3">
 								성별<select class="form-select country" name="memberGender">
 									<option>성별</option>
-									<option >M</option>
-									<option >F</option>
+									<option>M</option>
+									<option>F</option>
 								</select>
 							</div>
 
-							<div class="col-md-4 offset-md-4 text-start mt-3">
+							<!-- <div class="col-md-4 offset-md-4 text-start mt-3">
 								관심종목<select class="form-select">
 									<option>종목선택</option>
 									<option>육상</option>
@@ -144,7 +141,7 @@ span {
 									<option>야구</option>
 									<option>농구</option>
 								</select>
-							</div>
+							</div> -->
 
 							<div class="col-md-4 offset-md-4 text-start mt-3">
 								전화번호<input type="text" name="memberContact" class="form-control"
@@ -155,21 +152,16 @@ span {
 								생년월일<input type="date" name="memberBirth" class="form-control">
 							</div>
 
-						<div class="col-md-4 offset-md-4 text-start mt-3">
-						    <input class="form-check-input text-center" type="checkbox" value="" id="flexCheckDefault">
-						    <label class="form-check-label" for="flexCheckDefault">
-						        전체동의
-						    </label>
-						</div>
 
 
 							<div class="mt-4 col-md-4 offset-md-4 text-center"
 								style="margin-bottom: 150px;">
-								<button type="submit" class="btn btn-primary" style="width: 350px;">회원가입</button>
+								<button type="submit" class="btn btn-primary"
+									style="width: 350px;" id="joinButton">회원가입</button>
 							</div>
 						</div>
 
-						
+
 
 
 					</div>
@@ -182,166 +174,188 @@ span {
 </form>
 
 <script>
-	/* 인증번호  */
-	$(function() {
-		//처음 로딩아이콘 숨김
-		$(".btn-send").find(".fa-spinner").hide();
-		$(".cert-wrapper").hide();
+/* 인증번호  */
+$(function() {
+	//처음 로딩아이콘 숨김
+	$(".btn-send").find(".fa-spinner").hide();
+	$(".cert-wrapper").hide();
 
-		// 인증번호 보내기 버튼을 누르면 
-		// 서버로 비동기 통신을 보내 인증 메일 발송 요청
-		$(".btn-send").click(function() {
-			var email = $("[name=memberEmail]").val();
-			if (email.length == 0)
-				return;
+	// 인증번호 보내기 버튼을 누르면 
+	// 서버로 비동기 통신을 보내 인증 메일 발송 요청
+	$(".btn-send").click(function() {
+		var email = $("[name=memberEmail]").val();
+		if (email.length == 0)
+			return;
 
-			$(".btn-send").prop("disabled", true);
-			$(".btn-send").find(".fa-spinner").show();
-			$(".btn-send").find("span").text("이메일 발송중");
-			$.ajax({
-				url : window.contextPath + "/rest/cert/send",
-				method : "post",
-				data : {
-					certEmail : email
-				},
-				success : function() {
-					$(".btn-send").prop("disabled", false);
-					$(".btn-send").find(".fa-spinner").hide();
-					$(".btn-send").find("span").text("보내기");
-					window.alert("이메일 확인하세요");
+		$(".btn-send").prop("disabled", true);
+		$(".btn-send").find(".fa-spinner").show();
+		$(".btn-send").find("span").text("이메일 발송중");
+		$.ajax({
+			url : window.contextPath + "/rest/cert/send",
+			method : "post",
+			data : {
+				certEmail : email
+			},
+			success : function() {
+				$(".btn-send").prop("disabled", false);
+				$(".btn-send").find(".fa-spinner").hide();
+				$(".btn-send").find("span").text("보내기");
+				window.alert("이메일 확인하세요");
 
-					$(".cert-wrapper").show();
-					window.email = email;
-				},
-			});
+				$(".cert-wrapper").show();
+				window.email = email;
+			},
 		});
-		// 확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사 
-		$(".btn-cert").click(
-				function() {
-					//    var email = $("[name=memberEmail]").val();
-					var email = window.email;
-					var number = $(".cert-input").val();
-
-					if (email.length == 0 || number.length == 0)
-						return;
-
-					$.ajax({
-						url : window.contextPath + "/rest/cert/check",
-						method : "post",
-						data : {
-							certEmail : email,
-							certNumber : number
-						},
-						success : function(response) {
-							// console.log(response);
-							if (response == 'Y') {//인증성공 
-								$(".cert-input").removeClass("success fail")
-										.addClass("success");
-								$(".btn-cert").prop("disabled", true);
-								//상태객체에 상태 저장하는 코드
-								$(".cert-result").text("인증되었습니다.").css("color",
-										"green");
-							} else {
-								$(".cert-input").removeClass("success fail")
-										.addClass("fail");
-								//상태객체에 상태 저장하는 코드
-								$(".cert-result").text("인증에 실패했습니다.").css(
-										"color", "red");
-							}
-						},
-					});
-				});
 	});
-	
-	
+	// 확인 버튼을 누르면 이메일과 인증번호를 서버로 전달하여 검사 
+	$(".btn-cert").click(
+			function() {
+				//    var email = $("[name=memberEmail]").val();
+				var email = window.email;
+				var number = $(".cert-input").val();
+
+				if (email.length == 0 || number.length == 0)
+					return;
+
+				$.ajax({
+					url : window.contextPath + "/rest/cert/check",
+					method : "post",
+					data : {
+						certEmail : email,
+						certNumber : number
+					},
+					success : function(response) {
+						// console.log(response);
+						if (response == 'Y') {//인증성공 
+							$(".cert-input").removeClass("success fail")
+									.addClass("success");
+							$(".btn-cert").prop("disabled", true);
+							//상태객체에 상태 저장하는 코드
+							$(".cert-result").text("인증되었습니다.").css("color",
+									"green");
+						} else {
+							$(".cert-input").removeClass("success fail")
+									.addClass("fail");
+							//상태객체에 상태 저장하는 코드
+							$(".cert-result").text("인증에 실패했습니다.").css(
+									"color", "red");
+						}
+					},
+				});
+			});
+});
+
+
 	/* 옵션값가져오기  */
-	$(document).ready(function(){
-		  $("#country").change(function(){
-		    // Value값 가져오기
-		    var val = $("#country :selected").val();
-		    // Text값 가져오기
-		    var text = $("#country :selected").text();
-		    // Index가져오기
-		    var index = $("#country :selected").index();
-		    
-		    $("#value").val(val);
-		    $("#text").val(text);
-		  });
+	$(document).ready(function() {
+		$("#country").change(function() {
+			// Value값 가져오기
+			var val = $("#country :selected").val();
+			// Text값 가져오기
+			var text = $("#country :selected").text();
+			// Index가져오기
+			var index = $("#country :selected").index();
+
+			$("#value").val(val);
+			$("#text").val(text);
 		});
-	
-	
-	 /* 피드백  */
-	 $(function(){
-        //$("[name=memberId]").on("blur", function(){});
-        $("[name=memberEmail]").blur(function(){
-            var regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-            var isValid = regex.test($(this).val());
-            $(this).removeClass("success fail");
-            $(this).addClass(isValid ? "success" : "fail");
-        });
-        $("[name=memberPw]").blur(function(){
-            var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
-            var isValid = regex.test($(this).val());
-            $(this).removeClass("success fail");
-            $(this).addClass(isValid ? "success" : "fail");
-        });
-        $("#password-check").blur(function(){
-            var originPw = $("[name=memberPw]").val();
-            var checkPw = $(this).val();
+	});
 
-            $(this).removeClass("success fail fail2");
-            if(originPw.length == 0) {//비밀번호 미입력
-                $(this).addClass("fail2");
-            }
-            else if(originPw == checkPw) {//비밀번호 일치
-                $(this).addClass("success");
-            }
-            else {//비밀번호 불일치
-                $(this).addClass("fail");
-            }
-        });
-    });
-	 $("[name=memberName]").blur(function(){
-         var regex = /^[가-힣]{2,17}$/;
-         var isValid = regex.test($(this).val());
-         $(this).removeClass("success fail");
-         $(this).addClass(isValid ? "success" : "fail");
-     });
-	 $("[name=memberNick]").blur(function(){
-         var regex = /^[A-Za-z0-9가-힣]{2,10}$/;
-         var isValid = regex.test($(this).val());
-         $(this).removeClass("success fail");
-         $(this).addClass(isValid ? "success" : "fail");
-     });
-     $("[name=memberBirth]").blur(function(){
-         var regex = /(19[0-9]{2}|20[0-9]{2})-(((0[13578]|1[02])-(0[1-9]|1[0-9]|2[0-9]|3[01]))|((0[469]|11)-(0[1-9]|1[0-9]|2[0-9]|30))|((02)-(0[1-9]|1[0-9]|2[0-9])))$/;
-         var isValid = regex.test($(this).val());
-         $(this).removeClass("success fail");
-         $(this).addClass(isValid ? "success" : "fail");
-     });
-     $("[name=memberContact]").blur(function(){
-         var regex = /^01[016789][1-9][0-9]{2,3}[0-9]{4}$/;
-         var isValid = regex.test($(this).val());
-         $(this).removeClass("success fail");
-         $(this).addClass(isValid ? "success" : "fail");
-     });
-     
-     /* 비밀번호 보기  */
- 	$(document).ready(function() {
- 		console.log("Script is running!");
+	/* 피드백  */
+	$(function() {
+		//$("[name=memberId]").on("blur", function(){});
+		$("[name=memberEmail]").blur(function() {
+			var regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+			var isValid = regex.test($(this).val());
+			$(this).removeClass("success fail");
+			$(this).addClass(isValid ? "success" : "fail");
+		});
+		$("[name=memberPw]")
+				.blur(
+						function() {
+							var regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{8,16}$/;
+							var isValid = regex.test($(this).val());
+							$(this).removeClass("success fail");
+							$(this).addClass(isValid ? "success" : "fail");
+						});
+		$("#password-check").blur(function() {
+			var originPw = $("[name=memberPw]").val();
+			var checkPw = $(this).val();
 
- 		$("#showPassword").change(function() {
- 			console.log("Checkbox changed!"); // 추가
- 			var passwordInput = $("#passwordInput");
- 			if (this.checked) {
- 				console.log("Checkbox is checked!"); // 추가
- 				passwordInput.attr("type", "text");
- 			} else {
- 				console.log("Checkbox is unchecked!"); // 추가
- 				passwordInput.attr("type", "password");
- 			}
- 		});
- 	});
+			$(this).removeClass("success fail fail2");
+			if (originPw.length == 0) {//비밀번호 미입력
+				$(this).addClass("fail2");
+			} else if (originPw == checkPw) {//비밀번호 일치
+				$(this).addClass("success");
+			} else {//비밀번호 불일치
+				$(this).addClass("fail");
+			}
+		});
+	});
+	$("[name=memberName]").blur(function() {
+		var regex = /^[가-힣]{2,17}$/;
+		var isValid = regex.test($(this).val());
+		$(this).removeClass("success fail");
+		$(this).addClass(isValid ? "success" : "fail");
+	});
+	$("[name=memberNick]").blur(function() {
+		var regex = /^[A-Za-z0-9가-힣]{2,10}$/;
+		var isValid = regex.test($(this).val());
+		$(this).removeClass("success fail");
+		$(this).addClass(isValid ? "success" : "fail");
+	});
+	$("[name=memberBirth]")
+			.blur(
+					function() {
+						var regex = /(19[0-9]{2}|20[0-9]{2})-(((0[13578]|1[02])-(0[1-9]|1[0-9]|2[0-9]|3[01]))|((0[469]|11)-(0[1-9]|1[0-9]|2[0-9]|30))|((02)-(0[1-9]|1[0-9]|2[0-9])))$/;
+						var isValid = regex.test($(this).val());
+						$(this).removeClass("success fail");
+						$(this).addClass(isValid ? "success" : "fail");
+					});
+	$("[name=memberContact]").blur(function() {
+		var regex = /^01[016789][1-9][0-9]{2,3}[0-9]{4}$/;
+		var isValid = regex.test($(this).val());
+		$(this).removeClass("success fail");
+		$(this).addClass(isValid ? "success" : "fail");
+	});
+
+	/* 인증번호 미입력시 회원가입x */
+	$(document).ready(function() {
+		// 회원가입 폼 제출 시 실행
+		$("form.join").submit(function(event) {
+			// 인증번호 확인 상태를 가져옴
+			var certResult = $(".cert-result").text();
+
+			// 인증번호 확인이 안 된 경우
+			if (certResult !== "인증되었습니다.") {
+				event.preventDefault(); // 폼 제출을 중단
+				alert("이메일 인증을 먼저 완료해주세요.");
+			}
+		});
+	});
+
+	/* // 인증번호 확인 성공/실패에 따라 스타일 적용
+	$(document).ready(function() {
+		// 인증번호 입력란에 포커스를 잃었을 때 실행
+		$(".cert-input").blur(function() {
+			// 인증번호 확인 상태를 가져옴
+			var certResult = $(".cert-result").text();
+
+			// 인증번호 확인이 성공인 경우
+			if (certResult === "인증되었습니다.") {
+				$(this).removeClass("success fail");
+				$(this).addClass("success");
+			} else {
+				// 인증번호 확인이 실패인 경우
+				$(this).removeClass("success fail");
+				$(this).addClass("fail");
+			}
+		});
+	}); */
+
+	
+
+	           
 </script>
 
 <jsp:include page="/WEB-INF/views/template/Footer.jsp"></jsp:include>
