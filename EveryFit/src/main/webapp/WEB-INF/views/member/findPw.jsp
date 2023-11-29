@@ -33,18 +33,44 @@
 				</div>
 			</div>
 
-			<div class="col-md-4 offset-md-4 mt-3">
+			<div class="col-md-4 offset-md-4">
 				<label>인증번호</label> <input type="text"
 					class="form-control cert-input">
-				<div class="ms-3 mt-3 ">
+				<div class="ms-3  ">
 					<label class="cert-result"></label>
-					<div class="col-md-4 offset-md-4 mt-3">
+					<div class="col-md-4 offset-md-4 ">
 						<button class="btn btn-primary btn-cert w-100" type="button" style="width:100px">확인</button>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+		
+	
+	<div class="col-md-4 offset-md-4 mt-5">
+          <label>이메일</label>
+        </div>
+        <div class="col-md-4 offset-md-4 text-start">
+          <input type="text" class="form-control w-100"  />
+        </div>
+	
+	<div class="col-md-4 offset-md-4 mt-3">
+          <label>변경할 비밀번호</label>
+        </div>
+        <div class="col-md-4 offset-md-4 text-start">
+          <input type="password" class="form-control w-100" name="findPw"/>
+        </div>
+
+        <div class="col-md-4 offset-md-4 mt-3 ">
+          <label>변경할 비밀번호 확인</label>
+        </div>
+        <div class="col-md-4 offset-md-4 text-start">
+          <input type="password" class="form-control w-100" />
+        </div>
+
+        <div class="col-md-4 offset-md-4 text-start mt-5">
+    <button type="submit" class="btn btn-primary w-100" >변경하기</button>
+</div>
+</div>
+</div>
 </form>
 
 <script>

@@ -53,6 +53,10 @@ a {
 	background-position-y: center;
 	background-size: 1em;
 }
+
+.alert-danger {
+	display: none;
+}
 </style>
 
 
@@ -72,7 +76,8 @@ a {
 
 <form action="login" method="post" autocomplete="off">
 
-
+	<div class="alert alert-danger" role="alert">A simple primary
+		alert—check it out!</div>
 
 	<div class="container-fluid mt-2">
 		<div class="row">
@@ -116,7 +121,8 @@ a {
 										</c:otherwise>
 									</c:choose>
 								</div>
-<input class="form-check-input" type="checkbox" id="showPassword"> 비밀번호 표시								
+								<input class="form-check-input" type="checkbox"
+									id="showPassword"> 비밀번호 표시
 							</div>
 						</div>
 
@@ -147,13 +153,11 @@ a {
 								style="width: 350px;">login</button>
 						</div>
 
+						
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
-
 </form>
 
 
@@ -216,7 +220,7 @@ a {
 	        }
 	    });
 	}); */
-	
+
 	/* 비밀번호 보기  */
 	$(document).ready(function() {
 		console.log("Script is running!");
@@ -233,6 +237,7 @@ a {
 			}
 		});
 	});
+
 </script>
 
 

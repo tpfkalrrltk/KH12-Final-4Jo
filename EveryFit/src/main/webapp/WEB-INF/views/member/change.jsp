@@ -50,7 +50,7 @@ a {
 
 									</div>
 									<button type="button" class="btn btn-primary ms-2 ">
-										<a href="/member/changePw">비밀번호 변경</a>
+										<a href="${pageContext.request.contextPath}/member/changePw">비밀번호 변경</a>
 									</button>
 
 								</div>
@@ -77,7 +77,7 @@ a {
 
 				<div class="col-md-4 offset-md-4 text-center mt-4">
 					<!-- <button class="btn btn-danger"> -->
-						<a href="/member/exit" class="btn btn-danger">회원탈퇴</a>
+						<a href="${pageContext.request.contextPath}/member/exit" class="btn btn-danger">회원탈퇴</a>
 					<!-- </button> -->
 
 					<button type="submit" class="btn btn-primary"

@@ -72,6 +72,10 @@ public interface MemberDao {
 		Integer findProfile(String memberEmail);
 
 
+		//로그인x비밀번호찾기 
+		void findePw(MemberDto memberDto);
+
+
 
 //		void changePw(String resetPwMemberEmail, String encryptedNewPassword);
 
