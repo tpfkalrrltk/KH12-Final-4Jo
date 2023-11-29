@@ -29,7 +29,7 @@ import com.kh.EveryFit.dto.AttachDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @CrossOrigin
 @RestController
 @RequestMapping("moimBoard/rest/attach")
@@ -75,8 +75,7 @@ public class MoimBoardAttachRestController {
 		moimBoardDao.deleteMoimBoardImage(moimBoardNo);
 		moimBoardDao.insertMoimBoardImage(moimBoardNo, attachDto.getAttachNo());
 		
-		log.debug("moimBoadNo = {}", moimBoardNo);
-		
+
 		return Map.of("attachNo", attachNo);
 	}
 	

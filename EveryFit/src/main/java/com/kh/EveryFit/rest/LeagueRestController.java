@@ -31,7 +31,6 @@ import com.kh.EveryFit.vo.LeagueMatchListVO;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequestMapping("/rest/league")
 public class LeagueRestController {
@@ -138,14 +137,13 @@ public class LeagueRestController {
 	@PostMapping("/checkLeagueRoaster")
 	public boolean checkLeagueRoaster(@RequestParam int leagueNo, String memberEmail) {
 		List<LeagueTeamRoasterDto> list = leagueDao.checkLeagueRoaster(memberEmail, leagueNo);
-		log.debug("list = {}", list);
+
 		return list.size() == 0 ? true : false; 
 	}
 	
 	@PostMapping("/updateLeagueMatch")
 	public void update(@RequestBody LeagueMatchDto leagueMatchDto, @PathVariable int leagueMatchNo) {
-		log.debug("리그정보 = {}", leagueMatchDto);
-		log.debug("리그번호 = {}", leagueMatchNo);
+
 		leagueDao.updateLeagueMatch(leagueMatchNo, leagueMatchDto);
 	}
 }

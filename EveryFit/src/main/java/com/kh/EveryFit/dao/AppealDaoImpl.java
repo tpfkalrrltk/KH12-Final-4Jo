@@ -25,7 +25,6 @@ import com.kh.EveryFit.vo.AdminReportSearchVO;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
-@Slf4j
 public class AppealDaoImpl implements AppealDao {
 
 	@Autowired

@@ -21,7 +21,6 @@ import com.kh.EveryFit.vo.ClientVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Repository
 public class ChannelServiceImpl implements ChannelService{
 	private List<ChatRoomVO> roomList = new CopyOnWriteArrayList<>();
@@ -78,7 +77,7 @@ public class ChannelServiceImpl implements ChannelService{
 	    if (!room.hasMember(client)) {
 	        room.enter(client);
 	    }
-		log.debug("사용자 입장");
+		
 //		for(ChatRoomVO r : roomList) {
 //			log.debug("r = {}", r);
 //		}
@@ -86,10 +85,10 @@ public class ChannelServiceImpl implements ChannelService{
 	@Override
 	public void exitUser(ClientVO client) {
 	    for (ChatRoomVO room : roomList) {
-	    	log.debug("room = {}", room);
+
 //	        if (room.hasMember(client)) {
 	            room.exit(client);
-	            log.debug("사용자 나감 = {}", room);
+
 //	        }
 	    }
 		

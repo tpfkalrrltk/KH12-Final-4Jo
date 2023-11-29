@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/member")
-@Slf4j
+
 public class MemberController {
 
 	@Autowired
@@ -175,8 +175,7 @@ public class MemberController {
 
 		// 비밀번호 검사 후 변경 처리 요청
 		MemberDto findDto = memberDao.selectOne(memberemail);
-		log.debug("find={}", findDto);
-		log.debug("input={}", inputDto);
+
 		// if(inputDto.getMemberPw().equals(findDto.getMemberPw())) {//비밀번호 일치
 		inputDto.setMemberEmail(memberemail);// 아이디를 설정하고
 		memberDao.changeMemberInfo(inputDto);// 정보 변경 처리

@@ -77,7 +77,7 @@
 
 			// 모임 번호 가져오기
 			var moimNo = $(this).data("moim-no");
-			console.log(moimNo);
+
 			$.ajax({
 				url : "http://localhost:8080/rest/moim/member/join",
 				method : "post",
@@ -86,7 +86,7 @@
 				},
 				success : function(response) {
 					// 서버에서 받은 응답(response)에 따라 화면 처리
-					console.log(response);
+		
 					// 예시: 성공 시 alert 창 띄우기
 					if (response === "notLoggedIn") {
 						$(".modal-body").text("로그인하세요.");

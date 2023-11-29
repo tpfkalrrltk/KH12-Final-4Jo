@@ -30,7 +30,7 @@ textarea {
 				method : "post",
 				data : $(e.target).serialize(),
 				success : function(response) {
-					console.log(response);
+		
 					$("[name=freeBoardReplyContent]").val("");
 					reloadList();
 				}

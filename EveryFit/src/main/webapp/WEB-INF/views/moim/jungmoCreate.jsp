@@ -69,6 +69,6 @@ $(function(){
 
     $('input[name="moimNo"]').val(moimNo);
 
-console.log(moimNo);
+
 
 </script>

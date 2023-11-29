@@ -21,7 +21,7 @@
 					method : "post",
 					data : $(e.target).serialize(),
 					success : function(response) {
-						console.log(response);
+	
 						$("[name=moimBoardReplyContent]").val("");
 						reloadList();
 					}
@@ -43,7 +43,7 @@
 								moimBoardNo : moimBoardNo
 							},
 							success : function(response) {
-								console.log(response);
+					
 
 								$(".reply-list").empty();
 								for (var i = 0; i < response.length; i++) {

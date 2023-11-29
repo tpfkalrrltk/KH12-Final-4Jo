@@ -114,11 +114,11 @@
   function confirmCancellation(periodPaymentNo, moimTitle, moimEndTime) {
     var confirmMessage = "[" + moimTitle + "] 프리미엄 카드 구독을 \n취소하시겠습니까?\n\n";
     confirmMessage += "정기결제 취소를 하시더라도 " + "\"" + moimEndTime + "\" 까지 프리미엄 유지됩니다.";
-console.log(confirmMessage);
+
     var confirmCancel = confirm(confirmMessage);
     if (confirmCancel) {
       // If user clicks OK, navigate to the cancellation URL
-      window.location.href = window.contextPath + "/pay/periodCancel?periodPaymentNo=" + periodPaymentNo;
+      window.location.href = "${pageContext.request.contextPath}/pay/periodCancel?periodPaymentNo=" + periodPaymentNo;
     }
     // If user clicks Cancel, do nothing
   }

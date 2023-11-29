@@ -99,7 +99,7 @@
 							certNumber : number
 						},
 						success : function(response) {
-							// console.log(response);
+			
 							if (response == 'Y') {//인증성공 
 								$(".cert-input").removeClass("success fail")
 										.addClass("success");

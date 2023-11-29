@@ -233,7 +233,7 @@ span {
 							certNumber : number
 						},
 						success : function(response) {
-							// console.log(response);
+				
 							if (response == 'Y') {//인증성공 
 								$(".cert-input").removeClass("success fail")
 										.addClass("success");
@@ -328,16 +328,16 @@ span {
      
      /* 비밀번호 보기  */
  	$(document).ready(function() {
- 		console.log("Script is running!");
+ 	
 
  		$("#showPassword").change(function() {
- 			console.log("Checkbox changed!"); // 추가
+ 		
  			var passwordInput = $("#passwordInput");
  			if (this.checked) {
- 				console.log("Checkbox is checked!"); // 추가
+ 			
  				passwordInput.attr("type", "text");
  			} else {
- 				console.log("Checkbox is unchecked!"); // 추가
+ 
  				passwordInput.attr("type", "password");
  			}
  		});

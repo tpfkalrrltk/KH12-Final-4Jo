@@ -74,9 +74,7 @@ MoimMemberInterceptor moimMemberInterceptor;
 			"/rest/moimBoardReply/**",
 			"/pay/**",
 			"/report/**",	
-			"/moim/**",
-			"/league/**"
-			
+			"/moim/**"	
 			)
 	.excludePathPatterns(
 			"/freeBoard/list",

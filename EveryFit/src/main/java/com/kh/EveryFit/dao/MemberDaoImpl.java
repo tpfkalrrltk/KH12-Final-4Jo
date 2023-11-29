@@ -16,7 +16,6 @@ import com.kh.EveryFit.dto.MoimMemberDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Repository
 public class MemberDaoImpl implements MemberDao {
 

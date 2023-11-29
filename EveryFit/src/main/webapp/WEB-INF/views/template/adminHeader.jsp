@@ -330,10 +330,7 @@ body.dark-mode {
 								class="fa-solid fa-lock mt-2"></i> (관리자)회원 관리</a> <a
 								class="dropdown-item"
 								href="${pageContext.request.contextPath}/admin/moim"><i
-								class="fa-solid fa-lock mt-2"></i> (관리자)모임 관리</a><a
-								class="dropdown-item"
-								href="${pageContext.request.contextPath}/admin/jungmo"><i
-								class="fa-solid fa-lock mt-2"></i> (관리자)정모 관리</a> <a
+								class="fa-solid fa-lock mt-2"></i> (관리자)모임 관리</a> <a
 								class="dropdown-item"
 								href="${pageContext.request.contextPath}/league/leagueList"><i
 								class="fa-solid fa-lock mt-2"></i> (관리자)리그 관리</a> <a

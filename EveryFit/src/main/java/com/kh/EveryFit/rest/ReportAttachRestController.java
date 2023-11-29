@@ -30,7 +30,7 @@ import com.kh.EveryFit.dto.AttachDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @CrossOrigin
 @RestController
 @RequestMapping("/rest/report/attach")

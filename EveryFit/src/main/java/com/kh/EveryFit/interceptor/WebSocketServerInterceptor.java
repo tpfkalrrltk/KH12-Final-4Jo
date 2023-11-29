@@ -13,7 +13,6 @@ import com.kh.EveryFit.dto.ChatEntryDto;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
 public class WebSocketServerInterceptor implements HandlerInterceptor {
 	
@@ -40,7 +39,6 @@ public class WebSocketServerInterceptor implements HandlerInterceptor {
 	        System.out.println("채팅방 번호: {} " + chatRoomNo);
 	        
 	        ChatEntryDto chatEntryDto = chatDao.checkChatEntry(chatRoomNo, memberEmail);
-	        log.debug("chatEntryDto = {}", chatEntryDto);
 	        if(chatEntryDto != null) {
 	        	return true;
 	        }

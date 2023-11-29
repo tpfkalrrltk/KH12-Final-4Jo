@@ -22,7 +22,6 @@ import com.kh.EveryFit.vo.LeagueScoreCalculateVO;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/leagueMatch")

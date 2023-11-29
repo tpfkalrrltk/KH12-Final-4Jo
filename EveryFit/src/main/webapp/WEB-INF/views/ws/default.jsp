@@ -109,8 +109,7 @@
 	// 마지막 부분을 출력
 	
 	socket.onopen = function(event) {
-        console.log('WebSocket 연결이 열렸습니다.');
-
+     
         // 서버에게 초기 메시지 전송
         var obj = {
         	type : 'join',
@@ -135,7 +134,7 @@
 			var ul = $("<ul>").addClass("list-group");
 			for(var i = 0; i < data.clients.length; i++) {
 		        var memberImage = $("<img>")
-				        .addClass("profile-image rounded-circle bg-primary")
+				        .addClass("profile-image rounded-circle")
 				        .attr("src", data.clients[i].attachNo != null ?
 				                "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.clients[i].attachNo :
 				                "${pageContext.request.contextPath}/images/user.png");
@@ -173,7 +172,7 @@
 			if(data.dm == true) {
 				if(myId == data.memberEmail){
 					memberEmail = $("<label>").text(data.target + "님에게 DM");
-					console.log(data);
+			
 				}
 	        	else{
 					memberEmail = $("<label>").text(data.memberEmail+ " 님으로부터의 DM");                        
@@ -188,7 +187,7 @@
 			}
 		
 		
-		console.log(data);
+
 		if (data.attachNo != null) {
 		    var imgSrc = "${pageContext.request.contextPath}/rest/attach/download?attachNo=" + data.attachNo;
 		} else {
@@ -204,7 +203,7 @@
 		if (myId !== data.memberEmail) {
 		    memberNick.prepend(memberImage);
 		}
-		console.log(memberNick);
+
 		var content = $("<div>").text(data.content);
 		var chatTime = new Date(data.chatTime);
 		
@@ -243,7 +242,7 @@
     var memberEmail = $(this).find("label").data("member-email");
     var messageInput = $(".message-input");
     var currentMessage = messageInput.val();
-    console.log("Clicked memberEmail:", memberEmail);
+
 
     // 현재 입력값이 비어 있지 않다면, 공백과 함께 memberEmail를 추가합니다.
     if (currentMessage.length > 0) {

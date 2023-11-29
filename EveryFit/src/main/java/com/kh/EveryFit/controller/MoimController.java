@@ -45,7 +45,7 @@ import com.kh.EveryFit.vo.MoimMemberStatusVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Controller
 @RequestMapping("/moim")
 public class MoimController {
@@ -95,7 +95,6 @@ public class MoimController {
 
 		//채팅방번호를 시퀀스로 만들어서 일단 채팅방 하나 만들고(chat 테이블에 insert!) 그 번호를 
 		int chatRoomNo = chatDao.sequence();
-		log.debug("chatRoomNo");
 		
 		chatDao.insertChatRoom(chatRoomNo);
 		//moimDto.setChatRoomNo에 넣기

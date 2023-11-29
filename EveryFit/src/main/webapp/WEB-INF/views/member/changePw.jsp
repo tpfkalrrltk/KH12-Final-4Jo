@@ -52,28 +52,28 @@
 <script>
 /* 비밀번호 보기  */
 $(document).ready(function() {
-	console.log("Script is running!");
+	
 
 	$("#showPassword1").change(function() {
-		console.log("Checkbox 1 changed!"); // 추가
+
 		var passwordInput = $("#passwordInput");
 		if (this.checked) {
-			console.log("Checkbox 1 is checked!"); // 추가
+	
 			passwordInput.attr("type", "text");
 		} else {
-			console.log("Checkbox 1 is unchecked!"); // 추가
+		
 			passwordInput.attr("type", "password");
 		}
 	});
 
 	$("#showPassword2").change(function() {
-		console.log("Checkbox 2 changed!"); // 추가
+
 		var passwordInputCheck = $("#passwordInputCheck");
 		if (this.checked) {
-			console.log("Checkbox 2 is checked!"); // 추가
+
 			passwordInputCheck.attr("type", "text");
 		} else {
-			console.log("Checkbox 2 is unchecked!"); // 추가
+
 			passwordInputCheck.attr("type", "password");
 		}
 	});
